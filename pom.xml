@@ -28,6 +28,11 @@
         <!-- Module specific -->
         <dependency>
             <groupId>org.webjars</groupId>
+            <artifactId>vue</artifactId>
+            <version>2.5.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
             <artifactId>angularjs</artifactId>
             <version>1.6.9</version>
         </dependency>

@@ -9,6 +9,7 @@
     <body>
         <div ng-view></div>
 
+        <script type="text/javascript" src="./webjars/vue/2.5.13/vue.js"></script>
         <script src="./webjars/angularjs/1.6.9/angular.js"></script>
         <script src="./webjars/angularjs/1.6.9/angular-resource.js"></script>
         <script src="./webjars/angularjs/1.6.9/angular-route.js"></script>
