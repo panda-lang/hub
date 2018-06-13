@@ -9,13 +9,13 @@
 	<packaging>jar</packaging>
 
 	<name>Reposilite</name>
-	<description>Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts </description>
+	<description>Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.9.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+        <version>2.0.2.RELEASE</version>
+		<relativePath/>
 	</parent>
 
 	<properties>
@@ -56,12 +56,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
-        <!--
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		-->
         <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
