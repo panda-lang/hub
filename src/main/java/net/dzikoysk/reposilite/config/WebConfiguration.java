@@ -9,16 +9,16 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/static/js/**")
-                .addResourceLocations("/resources/static/js/");
+        registry.addResourceHandler("/static/script/**")
+                .addResourceLocations("/resources/static/script/");
 
-        registry.addResourceHandler("/assets/static/css/**")
-                .addResourceLocations("/resources/static/css/");
+        registry.addResourceHandler("/static/style/**")
+                .addResourceLocations("/resources/static/style/");
 
-        registry.addResourceHandler("/assets/static/views/**")
+        registry.addResourceHandler("/static/views/**")
                 .addResourceLocations("/resources/static/views/");
 
-        registry.addResourceHandler("/assets/static/**")
+        registry.addResourceHandler("/static/**")
                 .addResourceLocations("/resources/static/");
 
         registry.addResourceHandler("/webjars/**")
