@@ -1,2 +1,2 @@
-# Reposilite
+# Reposilite [![Build Status](https://travis-ci.org/dzikoysk/Reposilite.svg?branch=master)](https://travis-ci.org/dzikoysk/Reposilite)
 Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts
