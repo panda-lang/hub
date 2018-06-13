@@ -1,13 +1,11 @@
 package net.dzikoysk.reposilite.config;
 
-import net.dzikoysk.reposilite.*;
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.*;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackageClasses = ReposiliteApplication.class)
-public class WebConfiguration extends WebMvcConfigurerAdapter {
+public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
