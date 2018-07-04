@@ -6,3 +6,6 @@ html
     body
         p #{message}
         span #{time}
+
+        each element, i in time
+            p(value=i) #{element}
