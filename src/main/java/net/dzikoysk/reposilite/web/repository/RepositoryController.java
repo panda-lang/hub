@@ -1,6 +1,9 @@
 package net.dzikoysk.reposilite.web.repository;
 
+import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.service.depository.ArtifactService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +15,12 @@ import org.springframework.web.servlet.HandlerMapping;
 @Controller
 public class RepositoryController {
 
+    private final ArtifactService artifactService;
     private final AntPathMatcher apm = new AntPathMatcher();
+
+    public RepositoryController(@Autowired ArtifactService artifactService) {
+        this.artifactService = artifactService;
+    }
 
     @RequestMapping({ "", "/" })
     @ResponseBody
@@ -33,7 +41,8 @@ public class RepositoryController {
         String bestMatchingPattern = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE).toString();
         String finalPath = apm.extractPathWithinPattern(bestMatchingPattern, path);
 
-        return "Artifact: " + finalPath.replace("/", ".");
+        DepositoryEntity entity = artifactService.getDepositoryEntity(finalPath);
+        return "Artifact: " + entity;
     }
 
 }

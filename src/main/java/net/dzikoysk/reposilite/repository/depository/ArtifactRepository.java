@@ -5,4 +5,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ArtifactRepository {
 
+    public void findArtifactByPath(String path) {
+
+    }
+
 }

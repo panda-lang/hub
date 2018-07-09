@@ -1,9 +1,9 @@
 package net.dzikoysk.reposilite.domain.depository;
 
-public class Artifact {
+public class Artifact implements DepositoryEntity {
 
     private String name;
-    private String group;
+    private Group group;
 
     public synchronized void updateLocalMetadata() {
 
