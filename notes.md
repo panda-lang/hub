@@ -40,6 +40,32 @@ Reposilite Interface:
 Common:
 * Accounts
   
+#### Routing
+```
+{root}:
++-/                        # home
++-/search                  # browsing results
+
++-/login                   # login
++-/register                # register
++-/settings
+
++-/{user/organization}
+  +---/                     # user/organization profile, project list
+  +---/{project}           
+      +---/                 # project profile, github, markdown description
+      +---/versions         # list of all artifact versions
+
++-/repository
+  +---/                     # list of repositories
+  +---/{repository}         
+      +---/                 # hidden 
+      +---/{artifact-path}  # artifact
+
++-/create                   # Create project
++-/upload                   # Upload artifact
+```
+  
 #### Code style
 Consistent with the Java Coding Convention
 * K&R
