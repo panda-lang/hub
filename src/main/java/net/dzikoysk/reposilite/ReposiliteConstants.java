@@ -1,7 +1,7 @@
 package net.dzikoysk.reposilite;
 
-import org.springframework.boot.*;
-import org.springframework.core.*;
+import org.springframework.boot.SpringBootVersion;
+import org.springframework.core.SpringVersion;
 
 public class ReposiliteConstants {
 

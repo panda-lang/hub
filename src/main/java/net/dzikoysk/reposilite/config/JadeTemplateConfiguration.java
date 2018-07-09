@@ -1,11 +1,12 @@
 package net.dzikoysk.reposilite.config;
 
-import de.neuland.jade4j.*;
-import de.neuland.jade4j.spring.template.*;
-import de.neuland.jade4j.spring.view.*;
-import org.springframework.context.annotation.*;
-import org.springframework.web.servlet.*;
-import org.springframework.web.servlet.config.annotation.*;
+import de.neuland.jade4j.JadeConfiguration;
+import de.neuland.jade4j.spring.template.SpringTemplateLoader;
+import de.neuland.jade4j.spring.view.JadeViewResolver;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
