@@ -3,17 +3,22 @@ package net.dzikoysk.reposilite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class ReposiliteLogger {
+final class ReposiliteLogger {
 
     static final Logger REPOSILITE_LOGGER = LoggerFactory.getLogger("Reposilite");
 
     static final String ASCII_LOGO = "\n" +
-                                     " ____                      _ _ _ _        \n" +
-                                     " |  _ \\ ___ _ __   ___  ___(_) (_) |_ ___  \n" +
-                                     " | |_) / _ \\ '_ \\ / _ \\/ __| | | | __/ _ \\ \n" +
-                                     " |  _ <  __/ |_) | (_) \\__ \\ | | | ||  __/ \n" +
-                                     " |_| \\_\\___| .__/ \\___/|___/_|_|_|\\__\\___| \n" +
-                                     "           |_|                             \n";
+                                     "  _____                           _  _  _  _        \n" +
+                                     " |  __ \\                         (_)| |(_)| |       \n" +
+                                     " | |__) | ___  _ __    ___   ___  _ | | _ | |_  ___ \n" +
+                                     " |  _  / / _ \\| '_ \\  / _ \\ / __|| || || || __|/ _ \\\n" +
+                                     " | | \\ \\|  __/| |_) || (_) |\\__ \\| || || || |_|  __/\n" +
+                                     " |_|  \\_\\\\___|| .__/  \\___/ |___/|_||_||_| \\__|\\___|\n" +
+                                     "              | |                                   \n" +
+                                     "              |_|                                   \n";
+
+    private ReposiliteLogger() {
+    }
 
     static void initMessage() {
         if (Thread.currentThread().getName().contains("restarted")) {
