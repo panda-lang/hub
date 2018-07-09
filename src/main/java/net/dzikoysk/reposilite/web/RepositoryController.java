@@ -1,4 +1,4 @@
-package net.dzikoysk.reposilite.web.repository;
+package net.dzikoysk.reposilite.web;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.service.depository.ArtifactService;
@@ -22,13 +22,13 @@ public class RepositoryController {
         this.artifactService = artifactService;
     }
 
-    @RequestMapping({ "", "/" })
+    @RequestMapping("")
     @ResponseBody
     public String repositories() {
         return "Repository list";
     }
 
-    @RequestMapping({ "/{repository}", "/{repository}/" })
+    @RequestMapping("/{repository}")
     @ResponseBody
     public String repository(@PathVariable("repository") String repository) {
         return "Repository name: " + repository;
