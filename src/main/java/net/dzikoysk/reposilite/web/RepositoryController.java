@@ -1,5 +1,6 @@
 package net.dzikoysk.reposilite.web;
 
+import net.dzikoysk.reposilite.domain.depository.Artifact;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.service.depository.ArtifactService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class RepositoryController {
         this.artifactService = artifactService;
     }
 
-    @RequestMapping("")
+    @RequestMapping
     @ResponseBody
     public String repositories() {
         return "Repository list";
@@ -34,14 +35,24 @@ public class RepositoryController {
         return "Repository name: " + repository;
     }
 
-    @RequestMapping(value = "/{repository}/**")
+    @RequestMapping("/{repository}/**")
     @ResponseBody
     public String repository(@PathVariable("repository") String repository, HttpServletRequest request) {
         String path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
         String bestMatchingPattern = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE).toString();
-        String finalPath = apm.extractPathWithinPattern(bestMatchingPattern, path);
+        String finalPath = this.apm.extractPathWithinPattern(bestMatchingPattern, path);
 
-        DepositoryEntity entity = artifactService.getDepositoryEntity(finalPath);
+        DepositoryEntity entity = this.artifactService.getDepositoryEntity(finalPath);
+        if (entity == null) {
+            //TODO: Entity (artifact) not found, perhaps display some 404 page?
+            return "Artifact: 404";
+        }
+
+        if (!(entity instanceof Artifact)) {
+            //TODO: Repository should have artifacts only?
+            return "Artifact: not artifact";
+        }
+
         return "Artifact: " + entity;
     }
 
