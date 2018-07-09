@@ -48,7 +48,7 @@ Common:
 
 +-/login                   # login
 +-/register                # register
-+-/settings
++-/settings                # settings
 
 +-/{user/organization}
   +---/                     # user/organization profile, project list
