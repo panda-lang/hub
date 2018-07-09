@@ -1,4 +1,4 @@
-package net.dzikoysk.reposilite.service.auth;
+package net.dzikoysk.reposilite.service.common;
 
 import net.dzikoysk.reposilite.ReposiliteApplication;
 import org.springframework.stereotype.Service;

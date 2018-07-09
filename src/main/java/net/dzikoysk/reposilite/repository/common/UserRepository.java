@@ -1,4 +1,4 @@
-package net.dzikoysk.reposilite.repository.auth;
+package net.dzikoysk.reposilite.repository.common;
 
 import org.springframework.stereotype.Repository;
 

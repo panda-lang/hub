@@ -1,4 +1,4 @@
-package net.dzikoysk.reposilite.service.project;
+package net.dzikoysk.reposilite.service.depository;
 
 import org.springframework.stereotype.Service;
 
