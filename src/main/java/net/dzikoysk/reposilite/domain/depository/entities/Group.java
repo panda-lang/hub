@@ -1,4 +1,6 @@
-package net.dzikoysk.reposilite.domain.depository;
+package net.dzikoysk.reposilite.domain.depository.entities;
+
+import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 
 import java.util.Collection;
 

@@ -1,9 +1,10 @@
 package net.dzikoysk.reposilite.web;
 
-import net.dzikoysk.reposilite.domain.depository.Artifact;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.Artifact;
 import net.dzikoysk.reposilite.service.common.UserService;
-import net.dzikoysk.reposilite.service.depository.ArtifactService;
+import net.dzikoysk.reposilite.service.depository.DepositoryService;
+import net.dzikoysk.reposilite.utils.RequestUtils;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,18 +12,19 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.HandlerMapping;
 
 @RequestMapping("/repository")
 @Controller
 public class RepositoryController {
 
-    private final ArtifactService artifactService;
-    private final UserService userService;
-    private final AntPathMatcher apm = new AntPathMatcher();
+    private final AntPathMatcher antMatcher = new AntPathMatcher();
 
-    public RepositoryController(@Autowired ArtifactService artifactService, @Autowired UserService userService) {
-        this.artifactService = artifactService;
+    private final DepositoryService depositoryService;
+    private final UserService userService;
+
+    @Autowired
+    public RepositoryController(DepositoryService depositoryService, UserService userService) {
+        this.depositoryService = depositoryService;
         this.userService = userService;
     }
 
@@ -47,14 +49,12 @@ public class RepositoryController {
     public String repository(@PathVariable("repository") String repository, HttpServletRequest request) {
         //TODO: Make sure repository exists.
 
-        String path = request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
-        String bestMatchingPattern = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE).toString();
-        String finalPath = apm.extractPathWithinPattern(bestMatchingPattern, path);
+        String entityQualifier = RequestUtils.extractWildcard(antMatcher, request);
+        DepositoryEntity entity = depositoryService.getDepositoryEntity(entityQualifier);
 
-        DepositoryEntity entity = artifactService.getDepositoryEntity(finalPath);
         if (entity == null) {
             //TODO: Entity (artifact) not found, perhaps display some 404 page?
-            return "Artifact: 404";
+            return "Artifact '" + entityQualifier + "' not found";
         }
 
         if (!(entity instanceof Artifact)) {

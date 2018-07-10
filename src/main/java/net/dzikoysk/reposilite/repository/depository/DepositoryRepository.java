@@ -3,9 +3,9 @@ package net.dzikoysk.reposilite.repository.depository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ArtifactRepository {
+public class DepositoryRepository {
 
-    public void findArtifactByPath(String path) {
+    public void findEntityByPath(String path) {
 
     }
 

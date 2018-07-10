@@ -1,18 +1,18 @@
 package net.dzikoysk.reposilite.service.depository;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
-import net.dzikoysk.reposilite.repository.depository.ArtifactRepository;
+import net.dzikoysk.reposilite.repository.depository.DepositoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ArtifactService {
+public class DepositoryService {
 
-    private final ArtifactRepository artifactRepository;
+    private final DepositoryRepository depositoryRepository;
 
-    public ArtifactService(@Autowired ArtifactRepository artifactRepository) {
-        this.artifactRepository = artifactRepository;
+    public DepositoryService(@Autowired DepositoryRepository depositoryRepository) {
+        this.depositoryRepository = depositoryRepository;
     }
 
     public @Nullable DepositoryEntity getDepositoryEntity(String entityQualifier) {
