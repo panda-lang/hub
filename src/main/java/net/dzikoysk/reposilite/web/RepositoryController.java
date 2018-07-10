@@ -29,7 +29,7 @@ public class RepositoryController {
     @RequestMapping
     @ResponseBody
     public String repositories() {
-        //TODO: Return only public repositories and hidden ones as well if user is logged and have permission to them.
+        //TODO: Return only public repositories and hidden ones as well if user is logged in and have permission to them.
 
         return "Repository list";
     }
