@@ -1,5 +1,6 @@
 package net.dzikoysk.reposilite.web;
 
+import net.dzikoysk.reposilite.domain.depository.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.domain.depository.entities.Artifact;
 import net.dzikoysk.reposilite.service.common.UserService;
@@ -39,7 +40,11 @@ public class RepositoryController {
     @RequestMapping("/{repository}")
     @ResponseBody
     public String repository(@PathVariable("repository") String repository) {
-        //TODO: Make sure repository exists.
+        Depository depository = depositoryService.getDepository(repository);
+
+        if (depository == null) {
+            return "Repository '" + repository + "' not found";
+        }
 
         return "Repository name: " + repository;
     }
