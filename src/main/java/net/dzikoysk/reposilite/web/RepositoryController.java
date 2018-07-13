@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class RepositoryController {
 
-    private final AntPathMatcher antMatcher = new AntPathMatcher();
+    private static final AntPathMatcher ANT_MATCHER = new AntPathMatcher();
 
     private final DepositoryService depositoryService;
     private final UserService userService;
@@ -54,7 +54,7 @@ public class RepositoryController {
     public String repository(@PathVariable("repository") String repository, HttpServletRequest request) {
         //TODO: Make sure repository exists.
 
-        String entityQualifier = RequestUtils.extractWildcard(antMatcher, request);
+        String entityQualifier = RequestUtils.extractWildcard(ANT_MATCHER, request);
         DepositoryEntity entity = depositoryService.getDepositoryEntity(entityQualifier);
 
         if (entity == null) {
