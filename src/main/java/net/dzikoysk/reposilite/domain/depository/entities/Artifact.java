@@ -35,6 +35,10 @@ public class Artifact implements DepositoryEntity {
     }
 
     public void clearBuilds() {
+        //TODO: Probably uncomment if builds content are gonna be deleted.
+        //for (Build build : builds) {
+        //    removeBuild(build);
+        //}
         builds.clear();
     }
 

@@ -16,7 +16,7 @@ public class Build implements DepositoryEntity {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(@NonNull String version) {
         this.version = version;
     }
 
