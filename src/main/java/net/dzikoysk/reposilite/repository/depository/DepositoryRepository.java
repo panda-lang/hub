@@ -11,6 +11,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +46,10 @@ public class DepositoryRepository {
 
     public @Nullable DepositoryEntity findEntityByPath(String path) {
         return null;
+    }
+
+    public Collection<Depository> findAll() {
+        return depositories.values();
     }
 
 }

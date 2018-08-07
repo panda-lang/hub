@@ -7,6 +7,7 @@ import net.dzikoysk.reposilite.service.common.UserService;
 import net.dzikoysk.reposilite.service.depository.DepositoryService;
 import net.dzikoysk.reposilite.utils.RequestUtils;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.AntPathMatcher;
@@ -33,8 +34,7 @@ public class RepositoryController {
     @ResponseBody
     public String repositories() {
         //TODO: Return only public repositories and hidden ones as well if user is logged in and have permission to them.
-
-        return "Repository list";
+        return "Repositories: <br>" + new ContentJoiner("<br>").join(depositoryService.getNames()).toString();
     }
 
     @RequestMapping("/{repository}")

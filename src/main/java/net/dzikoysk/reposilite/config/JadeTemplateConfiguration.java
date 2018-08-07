@@ -15,7 +15,7 @@ public class JadeTemplateConfiguration {
     @Bean
     public SpringTemplateLoader templateLoader() {
         SpringTemplateLoader templateLoader = new SpringTemplateLoader();
-        templateLoader.setBasePath("/WEB-INF/templates/");
+        templateLoader.setBasePath("classpath:/WEB-INF/templates/");
         templateLoader.setSuffix(".jade");
         return templateLoader;
     }

@@ -13,4 +13,12 @@ public class Depository {
         this.name = name;
     }
 
+    public Map<? extends String, ? extends Group> getGroups() {
+        return groups;
+    }
+
+    public String getName() {
+        return name;
+    }
+
 }
