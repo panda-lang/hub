@@ -1,7 +1,6 @@
 package net.dzikoysk.reposilite.domain.depository.entities;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.io.File;
@@ -17,7 +16,7 @@ public class Artifact implements DepositoryEntity {
         return name;
     }
 
-    public void setName(@NonNull String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -25,11 +24,11 @@ public class Artifact implements DepositoryEntity {
         return Collections.unmodifiableCollection(builds);
     }
 
-    public void addBuild(@NonNull Build build) {
+    public void addBuild(Build build) {
         builds.add(build);
     }
 
-    public void removeBuild(@NonNull Build build) {
+    public void removeBuild(Build build) {
         //TODO: Delete build content?
         builds.remove(build);
     }
@@ -42,14 +41,14 @@ public class Artifact implements DepositoryEntity {
         builds.clear();
     }
 
-    public @Nullable Build findBuildByVersion(@NonNull String version) {
+    public @Nullable Build findBuildByVersion(String version) {
         return builds.stream()
                 .filter(build -> build.getVersion().equals(version))
                 .findFirst()
                 .orElse(null);
     }
 
-    public @Nullable Build findBuildByContent(@NonNull File file) {
+    public @Nullable Build findBuildByContent(File file) {
         return null;
     }
 

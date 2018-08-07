@@ -23,6 +23,19 @@
     </properties>
 
     <dependencies>
+        <!-- Panda -->
+        <dependency>
+            <groupId>org.panda-lang</groupId>
+            <artifactId>panda</artifactId>
+            <version>indev-0.8.87</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j-impl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- Module specific -->
         <dependency>
             <groupId>org.webjars</groupId>
@@ -99,6 +112,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>panda-repository</id>
+            <name>Panda Repository</name>
+            <url>https://repo.panda-lang.org/</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>

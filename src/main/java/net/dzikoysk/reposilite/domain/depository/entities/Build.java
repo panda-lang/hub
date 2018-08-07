@@ -1,7 +1,6 @@
 package net.dzikoysk.reposilite.domain.depository.entities;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
-import org.springframework.lang.NonNull;
 
 import java.io.File;
 import java.util.Collection;
@@ -16,7 +15,7 @@ public class Build implements DepositoryEntity {
         return version;
     }
 
-    public void setVersion(@NonNull String version) {
+    public void setVersion(String version) {
         this.version = version;
     }
 
@@ -24,11 +23,11 @@ public class Build implements DepositoryEntity {
         return Collections.unmodifiableCollection(content);
     }
 
-    public void addContent(@NonNull File file) {
+    public void addContent(File file) {
         content.add(file);
     }
 
-    public void removeContent(@NonNull File file) {
+    public void removeContent(File file) {
         //TODO: Delete file?
         content.remove(file);
     }

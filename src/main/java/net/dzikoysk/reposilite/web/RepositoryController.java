@@ -52,7 +52,11 @@ public class RepositoryController {
     @RequestMapping("/{repository}/**")
     @ResponseBody
     public String repository(@PathVariable("repository") String repository, HttpServletRequest request) {
-        //TODO: Make sure repository exists.
+        Depository depository = depositoryService.getDepository(repository);
+
+        if (depository == null) {
+            return "Repository '" + repository + "' not found";
+        }
 
         String entityQualifier = RequestUtils.extractWildcard(ANT_MATCHER, request);
         DepositoryEntity entity = depositoryService.getDepositoryEntity(entityQualifier);

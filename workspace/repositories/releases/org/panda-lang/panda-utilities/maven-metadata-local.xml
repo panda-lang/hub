@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.panda-lang</groupId>
+  <artifactId>panda-utilities</artifactId>
+  <versioning>
+    <release>indev-0.8.87</release>
+    <versions>
+      <version>indev-0.8.0</version>
+      <version>indev-0.8.1</version>
+      <version>indev-0.8.87</version>
+    </versions>
+    <lastUpdated>20180807170652</lastUpdated>
+  </versioning>
+</metadata>
