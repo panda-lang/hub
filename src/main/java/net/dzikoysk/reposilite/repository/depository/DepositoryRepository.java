@@ -2,6 +2,7 @@ package net.dzikoysk.reposilite.repository.depository;
 
 import net.dzikoysk.reposilite.domain.depository.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.DepositoryFactory;
 import net.dzikoysk.reposilite.utils.FilesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,8 +36,10 @@ public class DepositoryRepository {
             return;
         }
 
+        DepositoryFactory factory = new DepositoryFactory();
+
         for (File repository : repositories) {
-            depositories.put(repository.getName(), new Depository(repository.getName()));
+            depositories.put(repository.getName(), factory.loadDepository(repository));
         }
     }
 

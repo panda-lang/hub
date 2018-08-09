@@ -1,6 +1,8 @@
 package net.dzikoysk.reposilite.utils;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FilesUtils {
 
@@ -16,6 +18,16 @@ public class FilesUtils {
         }
 
         return files.length;
+    }
+
+    public static Map<String, File> mapDirectory(File directory) {
+        Map<String, File> map = new HashMap<>();
+
+        if (!directory.isDirectory()) {
+            return map;
+        }
+
+        return map;
     }
 
 }

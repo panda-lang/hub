@@ -6,6 +6,15 @@ import java.util.Collection;
 
 public class Group implements DepositoryEntity {
 
+    private final String name;
     private Collection<Artifact> artifacts;
+
+    public Group(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
 }
