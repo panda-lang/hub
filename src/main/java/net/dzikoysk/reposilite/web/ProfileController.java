@@ -6,12 +6,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/{account}")
 public class ProfileController {
 
-    @RequestMapping("/{account}")
     @ResponseBody
     public String profile(@PathVariable("account") String account) {
         return "Profile: " + account;
+    }
+
+    @RequestMapping("/{project}")
+    @ResponseBody
+    public String profile(@PathVariable("account") String account, @PathVariable("project") String project) {
+        return "Profile: " + account + " - Project: " + project;
     }
 
 }

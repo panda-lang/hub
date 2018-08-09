@@ -10,7 +10,6 @@ import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/repository")
 @Controller
 public class RepositoryController {
-
-    private static final AntPathMatcher ANT_MATCHER = new AntPathMatcher();
 
     private final DepositoryService depositoryService;
     private final UserService userService;
@@ -58,7 +55,7 @@ public class RepositoryController {
             return "Repository '" + repository + "' not found";
         }
 
-        String entityQualifier = RequestUtils.extractWildcard(ANT_MATCHER, request);
+        String entityQualifier = RequestUtils.extractWildcard(request);
         DepositoryEntity entity = depositoryService.getDepositoryEntity(entityQualifier);
 
         if (entity == null) {
