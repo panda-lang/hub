@@ -1,30 +1,24 @@
 package net.dzikoysk.reposilite.web;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.method.support.HandlerMethodArgumentResolverComposite;
-import org.springframework.web.method.support.InvocableHandlerMethod;
-import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
-
-public class ProfileController extends AbstractHandlerMapping {
-
-    private final HandlerMethodArgumentResolverComposite argumentResolvers;
-
-    public ProfileController(HandlerMethodArgumentResolverComposite argumentResolvers) {
-        this.argumentResolvers = argumentResolvers;
-    }
-
-    @Override
-    protected Object getHandlerInternal(HttpServletRequest request) throws Exception {
-        InvocableHandlerMethod handlerMethod = new InvocableHandlerMethod(this, getClass().getMethod("profile", HttpServletRequest.class));
-        handlerMethod.setHandlerMethodArgumentResolvers(argumentResolvers);
-        return handlerMethod;
-    }
+@Controller
+@RequestMapping("/{account}")
+public class ProfileController {
 
     @ResponseBody
-    public String profile(HttpServletRequest request) {
-        return "Profile: " + request.getRequestURI();
+    @RequestMapping
+    public String profile(@PathVariable("account") String account) {
+        return "Profile: " + account;
+    }
+
+    @RequestMapping("/{project}")
+    @ResponseBody
+    public String project(@PathVariable("account") String account, @PathVariable("project") String project) {
+        return "Profile: " + account + " - Project: " + project;
     }
 
 }

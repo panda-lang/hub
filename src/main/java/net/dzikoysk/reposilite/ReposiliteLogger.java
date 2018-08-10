@@ -17,9 +17,6 @@ final class ReposiliteLogger {
                                      "              | |                                   \n" +
                                      "              |_|                                   \n";
 
-    private ReposiliteLogger() {
-    }
-
     static void initMessage() {
         if (Thread.currentThread().getName().contains("restarted")) {
             return;
@@ -31,5 +28,7 @@ final class ReposiliteLogger {
         System.out.println(" Spring Boot: " + ReposiliteConstants.SPRING_BOOT_VERSION);
         System.out.println();
     }
+
+    private ReposiliteLogger() { }
 
 }

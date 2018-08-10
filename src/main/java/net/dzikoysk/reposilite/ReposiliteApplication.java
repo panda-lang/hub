@@ -10,7 +10,9 @@ public class ReposiliteApplication {
 
     public static void main(String[] args) {
         ReposiliteLogger.initMessage();
-        SpringApplication.run(ReposiliteApplication.class, args);
+
+        new SpringApplication(ReposiliteApplication.class)
+                .run(args);
     }
 
     @Contract(pure = true)

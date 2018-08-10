@@ -1,5 +1,6 @@
 package net.dzikoysk.reposilite.repository.depository;
 
+import net.dzikoysk.reposilite.ReposiliteApplication;
 import net.dzikoysk.reposilite.domain.depository.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.domain.depository.DepositoryFactory;
@@ -30,17 +31,28 @@ public class DepositoryRepository {
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        File[] repositories = repositoriesRoot.listFiles();
+        ReposiliteApplication.getLogger().info("Loading repositories...");
+        File[] depositoryDirectories = repositoriesRoot.listFiles();
 
-        if (repositories == null) {
+        if (depositoryDirectories == null) {
+            ReposiliteApplication.getLogger().warn("Repositories not found!");
             return;
         }
 
         DepositoryFactory factory = new DepositoryFactory();
 
-        for (File repository : repositories) {
-            depositories.put(repository.getName(), factory.loadDepository(repository));
+        for (File depositoryDirectory : depositoryDirectories) {
+            if (!depositoryDirectory.isDirectory()) {
+                ReposiliteApplication.getLogger().info("  Skipping " + depositoryDirectory.getName());
+            }
+
+            Depository depository = factory.loadDepository(depositoryDirectory);
+            ReposiliteApplication.getLogger().info("  - " + depository.getName());
+
+            depositories.put(depository.getName(), depository);
         }
+
+        ReposiliteApplication.getLogger().info("Result: " + depositories.size() + " repositories have been found");
     }
 
     public @Nullable Depository findDepositoryByName(String name) {
