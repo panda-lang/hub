@@ -1,8 +1,8 @@
 package net.dzikoysk.reposilite.utils;
 
+import net.dzikoysk.reposilite.utils.collection.TreeNode;
+
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FilesUtils {
 
@@ -20,14 +20,24 @@ public class FilesUtils {
         return files.length;
     }
 
-    public static Map<String, File> mapDirectory(File directory) {
-        Map<String, File> map = new HashMap<>();
+    public static TreeNode<File> collectFiles(File directory) {
+        TreeNode<File> tree = new TreeNode<>(directory);
 
         if (!directory.isDirectory()) {
-            return map;
+            return tree;
         }
 
-        return map;
+        File[] files = directory.listFiles();
+
+        if (files == null) {
+            return tree;
+        }
+
+        for (File file : files) {
+            tree.add(file.isDirectory() ? collectFiles(file) : new TreeNode<>(file));
+        }
+
+        return tree;
     }
 
 }

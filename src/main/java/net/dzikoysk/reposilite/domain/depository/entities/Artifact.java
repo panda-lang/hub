@@ -6,22 +6,16 @@ import org.springframework.lang.Nullable;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class Artifact implements DepositoryEntity {
 
-    private String name;
-    private Collection<Build> builds;
+    private final String name;
+    private final Collection<Build> builds;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Artifact(String name) {
         this.name = name;
-    }
-
-    public Collection<Build> getBuilds() {
-        return Collections.unmodifiableCollection(builds);
+        this.builds = new HashSet<>();
     }
 
     public void addBuild(Build build) {
@@ -50,6 +44,15 @@ public class Artifact implements DepositoryEntity {
 
     public @Nullable Build findBuildByContent(File file) {
         return null;
+    }
+
+
+    public Collection<Build> getBuilds() {
+        return Collections.unmodifiableCollection(builds);
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

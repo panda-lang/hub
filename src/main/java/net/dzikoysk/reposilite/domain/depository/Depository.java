@@ -1,6 +1,6 @@
 package net.dzikoysk.reposilite.domain.depository;
 
-import net.dzikoysk.reposilite.domain.depository.entities.Group;
+import net.dzikoysk.reposilite.domain.depository.entities.Artifact;
 
 import java.io.File;
 import java.util.Map;
@@ -8,26 +8,26 @@ import java.util.Map;
 public class Depository {
 
     private final File root;
-    private Map<String, Group> groups;
+    private Map<String, Artifact> projects;
 
     Depository(File root) {
         this.root = root;
     }
 
-    public void addGroup(Group group) {
-        groups.put(group.getName(), group);
+    public void addProject(Artifact artifact) {
+        projects.put(artifact.getName(), artifact);
     }
 
-    public Map<? extends String, ? extends Group> getGroups() {
-        return groups;
-    }
-
-    public File getRootFile() {
-        return root;
+    public Map<? extends String, ? extends Artifact> getProjects() {
+        return projects;
     }
 
     public String getName() {
         return root.getName();
+    }
+
+    public File getRootFile() {
+        return root;
     }
 
 }
