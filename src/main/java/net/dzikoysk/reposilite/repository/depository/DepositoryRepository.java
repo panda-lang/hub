@@ -32,38 +32,35 @@ public class DepositoryRepository {
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         ReposiliteApplication.getLogger().info("Loading repositories...");
-        File[] depositoryDirectories = repositoriesRoot.listFiles();
-
-        if (depositoryDirectories == null) {
-            ReposiliteApplication.getLogger().warn("Repositories not found!");
-            return;
-        }
 
         DepositoryFactory factory = new DepositoryFactory();
+        Collection<Depository> loadedDepositories = factory.loadDepositories(repositoriesRoot);
 
-        for (File depositoryDirectory : depositoryDirectories) {
-            if (!depositoryDirectory.isDirectory()) {
-                ReposiliteApplication.getLogger().info("  Skipping " + depositoryDirectory.getName());
-            }
+        for (Depository loadedDepository : loadedDepositories) {
+            addDepository(loadedDepository);
+        }
 
-            Depository depository = factory.loadDepository(depositoryDirectory);
-            ReposiliteApplication.getLogger().info("  - " + depository.getName());
-
-            depositories.put(depository.getName(), depository);
+        if (depositories.isEmpty()) {
+            ReposiliteApplication.getLogger().warn("Repositories not found!");
+            return;
         }
 
         ReposiliteApplication.getLogger().info("Result: " + depositories.size() + " repositories have been found");
     }
 
-    public @Nullable Depository findDepositoryByName(String name) {
-        return depositories.get(name);
+    public void addDepository(Depository depository) {
+        depositories.put(depository.getName(), depository);
     }
 
     public @Nullable DepositoryEntity findEntityByPath(String path) {
         return null;
     }
 
-    public Collection<Depository> findAll() {
+    public @Nullable Depository findDepositoryByName(String name) {
+        return depositories.get(name);
+    }
+
+    public Collection<? extends Depository> findAll() {
         return depositories.values();
     }
 

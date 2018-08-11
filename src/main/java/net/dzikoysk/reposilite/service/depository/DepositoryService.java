@@ -3,7 +3,6 @@ package net.dzikoysk.reposilite.service.depository;
 import net.dzikoysk.reposilite.domain.depository.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.repository.depository.DepositoryRepository;
-import net.dzikoysk.reposilite.repository.depository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -15,12 +14,10 @@ import java.util.stream.Collectors;
 public class DepositoryService {
 
     private final DepositoryRepository depositoryRepository;
-    private final GroupRepository groupRepository;
 
     @Autowired
-    public DepositoryService(DepositoryRepository depositoryRepository, GroupRepository groupRepository) {
+    public DepositoryService(DepositoryRepository depositoryRepository) {
         this.depositoryRepository = depositoryRepository;
-        this.groupRepository = groupRepository;
     }
 
     public @Nullable Depository getDepository(String name) {

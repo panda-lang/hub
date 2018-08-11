@@ -5,18 +5,20 @@ import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class Build implements DepositoryEntity {
 
-    private String version;
-    private Collection<File> content;
+    private final String version;
+    private final Collection<File> content;
+
+    public Build(String version) {
+        this.version = version;
+        this.content = new HashSet<>();
+    }
 
     public String getVersion() {
         return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public Collection<File> getContent() {

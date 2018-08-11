@@ -1,25 +1,32 @@
 package net.dzikoysk.reposilite.domain.depository;
 
-import net.dzikoysk.reposilite.domain.depository.entities.Artifact;
+import net.dzikoysk.reposilite.domain.depository.entities.Group;
+import org.springframework.lang.Nullable;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Depository {
 
     private final File root;
-    private Map<String, Artifact> projects;
+    private final Map<String, Group> groups;
 
     Depository(File root) {
         this.root = root;
+        this.groups = new HashMap<>();
     }
 
-    public void addProject(Artifact artifact) {
-        projects.put(artifact.getName(), artifact);
+    public void addGroup(Group group) {
+        groups.put(group.getName(), group);
     }
 
-    public Map<? extends String, ? extends Artifact> getProjects() {
-        return projects;
+    public @Nullable Group getGroup(String groupName) {
+        return groups.get(groupName);
+    }
+
+    public Map<? extends String, ? extends Group> getGroups() {
+        return groups;
     }
 
     public String getName() {

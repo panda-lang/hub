@@ -3,28 +3,28 @@ package net.dzikoysk.reposilite.domain.depository.entities;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import org.springframework.lang.Nullable;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Artifact implements DepositoryEntity {
 
     private final String name;
-    private final Collection<Build> builds;
+    private final Map<String, Build> builds;
 
-    public Artifact(String name) {
+    Artifact(String name) {
         this.name = name;
-        this.builds = new HashSet<>();
+        this.builds = new HashMap<>();
     }
 
     public void addBuild(Build build) {
-        builds.add(build);
+        builds.put(build.getVersion(), build);
     }
 
     public void removeBuild(Build build) {
         //TODO: Delete build content?
-        builds.remove(build);
+        builds.remove(build.getVersion());
     }
 
     public void clearBuilds() {
@@ -35,20 +35,19 @@ public class Artifact implements DepositoryEntity {
         builds.clear();
     }
 
-    public @Nullable Build findBuildByVersion(String version) {
-        return builds.stream()
+    public @Nullable Build getBuildByVersion(String version) {
+        return builds.values().stream()
                 .filter(build -> build.getVersion().equals(version))
                 .findFirst()
                 .orElse(null);
     }
 
-    public @Nullable Build findBuildByContent(File file) {
-        return null;
+    public @Nullable Build getBuild(String version) {
+        return builds.get(version);
     }
 
-
-    public Collection<Build> getBuilds() {
-        return Collections.unmodifiableCollection(builds);
+    public Collection<? extends Build> getBuilds() {
+        return Collections.unmodifiableCollection(builds.values());
     }
 
     public String getName() {

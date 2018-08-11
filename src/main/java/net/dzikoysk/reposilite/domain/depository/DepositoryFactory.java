@@ -1,15 +1,43 @@
 package net.dzikoysk.reposilite.domain.depository;
 
+import net.dzikoysk.reposilite.ReposiliteApplication;
+import net.dzikoysk.reposilite.domain.depository.entities.*;
 import net.dzikoysk.reposilite.utils.FilesUtils;
-import net.dzikoysk.reposilite.utils.StringsUtils;
 import net.dzikoysk.reposilite.utils.collection.TreeNode;
 import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 public class DepositoryFactory {
+
+    public Set<Depository> loadDepositories(File root) {
+        Set<Depository> depositories = new HashSet<>();
+        File[] depositoryDirectories = root.listFiles();
+
+        if (depositoryDirectories == null) {
+            return depositories;
+        }
+
+        for (File depositoryDirectory : depositoryDirectories) {
+            if (!depositoryDirectory.isDirectory()) {
+                ReposiliteApplication.getLogger().info("  Skipping " + depositoryDirectory.getName());
+            }
+
+            try {
+                Depository depository = loadDepository(depositoryDirectory);
+                depositories.add(depository);
+
+                ReposiliteApplication.getLogger().info("  - " + depository.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return depositories;
+    }
 
     public Depository loadDepository(File depositoryDirectory) {
         if (!depositoryDirectory.isDirectory()) {
@@ -23,31 +51,31 @@ public class DepositoryFactory {
     }
 
     private void load(Depository depository) {
+        GroupFactory groupFactory = new GroupFactory(depository);
+
         TreeNode<File> tree = FilesUtils.collectFiles(depository.getRootFile());
-        Set<File> leafFiles = tree.collectLeafs(file -> file.getName().endsWith(".jar"));
+        Set<File> leafFiles = tree.collectLeafs(file -> file.getName().endsWith(".jar") || file.getName().endsWith(".pom"));
 
         for (File leafFile : leafFiles) {
-            try {
-                load(depository, leafFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            load(depository, groupFactory, leafFile);
         }
     }
 
-    private void load(Depository depository, File file) {
+    private void load(Depository depository, GroupFactory groupFactory, File file) {
         String path = file.toString().replace(depository.getRootFile().toString(), "");
+        DepositoryPath depositoryPath = DepositoryPath.ofSystemPath(path);
 
-        int buildNameIndex = path.lastIndexOf(File.separator);
-        int buildVersionIndex = StringsUtils.lastIndexOf(path, File.separator, buildNameIndex);
-        int artifactNameIndex = StringsUtils.lastIndexOf(path, File.separator, buildVersionIndex);
+        System.out.println(new ContentJoiner(" | ").join(Arrays.asList(depositoryPath.toArray())));
 
-        String groupName = path.substring(1, artifactNameIndex);
-        String artifactName = path.substring(artifactNameIndex + 1, buildVersionIndex);
-        String buildVersion = path.substring(buildVersionIndex + 1, buildNameIndex);
-        String buildName = path.substring(buildNameIndex + 1);
+        Group group = groupFactory.obtainGroup(depositoryPath.getGroupName());
+        ArtifactFactory artifactFactory = new ArtifactFactory(group);
+        Artifact artifact = artifactFactory.obtainArtifact(depositoryPath.getArtifactName());
+        Build build = artifactFactory.obtainBuild(artifact, depositoryPath.getBuildVersion());
 
-        System.out.println(new ContentJoiner(" | ").join(Arrays.asList(groupName.replace(File.separator, "."), artifactName, buildVersion, buildName)));
+        build.addContent(file);
+        artifact.addBuild(build);
+        group.addArtifact(artifact);
+        depository.addGroup(group);
     }
 
 }
