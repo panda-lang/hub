@@ -1,6 +1,5 @@
 package net.dzikoysk.reposilite.domain.depository.entities.artifact;
 
-import net.dzikoysk.reposilite.domain.depository.entities.build.Build;
 import net.dzikoysk.reposilite.domain.depository.entities.group.Group;
 
 public class ArtifactFactory {
@@ -12,17 +11,14 @@ public class ArtifactFactory {
     }
 
     public Artifact obtainArtifact(String artifactName) {
-        return group.getArtifact(artifactName) != null ? group.getArtifact(artifactName) : new Artifact(artifactName);
-    }
+        Artifact artifact = group.getArtifact(artifactName);
 
-    public Build obtainBuild(Artifact artifact, String buildVersion) {
-        Build build = artifact.getBuild(buildVersion);
-
-        if (build == null) {
-            build = new Build(buildVersion);
+        if (artifact == null) {
+            artifact = new Artifact(artifactName);
+            group.addArtifact(artifact);
         }
 
-        return build;
+        return artifact;
     }
 
 }

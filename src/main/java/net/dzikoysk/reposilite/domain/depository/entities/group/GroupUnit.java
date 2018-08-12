@@ -1,18 +1,11 @@
 package net.dzikoysk.reposilite.domain.depository.entities.group;
 
-import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEntity;
 
-public class GroupUnit implements DepositoryEntity {
-
-    private final String name;
+public class GroupUnit extends AbstractDepositoryEntity {
 
     public GroupUnit(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
+        super(name);
     }
 
 }

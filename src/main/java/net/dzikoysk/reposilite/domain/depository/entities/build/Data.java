@@ -1,19 +1,16 @@
 package net.dzikoysk.reposilite.domain.depository.entities.build;
 
-import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEntity;
 
 import java.io.File;
 
-public class Data implements DepositoryEntity {
+public class Data extends AbstractDepositoryEntity {
 
     private final File file;
 
-    public Data(File file) {
+    Data(File file) {
+        super(file.getName());
         this.file = file;
-    }
-
-    public String getName() {
-        return file.getName();
     }
 
     public File getFile() {

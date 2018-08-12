@@ -39,7 +39,7 @@ public class DepositoryRepository {
         Collection<Depository> loadedDepositories = factory.loadDepositories(repositoriesRoot);
 
         for (Depository loadedDepository : loadedDepositories) {
-            depositories.put(loadedDepository.getName(), loadedDepository.toTreeMapNode());
+            depositories.put(loadedDepository.getName(), loadedDepository.getNodes());
         }
 
         if (depositories.isEmpty()) {
@@ -60,13 +60,13 @@ public class DepositoryRepository {
         return depositoryNode.find(url.split("/"));
     }
 
-    public Depository findDepositoryByName(String name) {
-        return (Depository) depositories.get(name).getElement();
-    }
-
     private @Nullable TreeMapNode<DepositoryEntity> findDepositoryNodeByName(String name) {
         TreeMapNode<DepositoryEntity> node = depositories.get(name);
         return node != null && node.getElement() instanceof Depository ? node : null;
+    }
+
+    public Depository findDepositoryByName(String name) {
+        return (Depository) depositories.get(name).getElement();
     }
 
     public Set<Depository> findAll() {

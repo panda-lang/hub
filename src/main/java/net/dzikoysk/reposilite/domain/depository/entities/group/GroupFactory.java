@@ -1,6 +1,7 @@
 package net.dzikoysk.reposilite.domain.depository.entities.group;
 
 import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 public class GroupFactory {
 
@@ -11,10 +12,15 @@ public class GroupFactory {
     }
 
     public Group obtainGroup(String groupName) {
+        if (StringUtils.isEmpty(groupName)) {
+            return null;
+        }
+
         Group group = depository.getGroup(groupName);
 
         if (group == null) {
             group = new Group(createGroupUnits(groupName));
+            depository.addGroup(group);
         }
 
         return group;

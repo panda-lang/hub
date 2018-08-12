@@ -19,4 +19,6 @@ public class DepositoryUtils {
         }
     }
 
+    private DepositoryUtils() { }
+
 }

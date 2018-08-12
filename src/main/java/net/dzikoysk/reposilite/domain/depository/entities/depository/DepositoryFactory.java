@@ -5,10 +5,12 @@ import net.dzikoysk.reposilite.domain.depository.DepositoryPath;
 import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
 import net.dzikoysk.reposilite.domain.depository.entities.artifact.ArtifactFactory;
 import net.dzikoysk.reposilite.domain.depository.entities.build.Build;
+import net.dzikoysk.reposilite.domain.depository.entities.build.BuildFactory;
 import net.dzikoysk.reposilite.domain.depository.entities.group.Group;
 import net.dzikoysk.reposilite.domain.depository.entities.group.GroupFactory;
 import net.dzikoysk.reposilite.utils.FilesUtils;
 import net.dzikoysk.reposilite.utils.collection.TreeNode;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 import java.io.File;
 import java.util.HashSet;
@@ -69,15 +71,31 @@ public class DepositoryFactory {
         String path = file.toString().replace(depository.getRootFile().toString(), "");
         DepositoryPath depositoryPath = DepositoryPath.ofSystemPath(path);
 
+        if (StringUtils.isEmpty(depositoryPath.getGroupName())) {
+            return;
+        }
+
         Group group = groupFactory.obtainGroup(depositoryPath.getGroupName());
+
+        if (group == null) {
+            return;
+        }
+
         ArtifactFactory artifactFactory = new ArtifactFactory(group);
         Artifact artifact = artifactFactory.obtainArtifact(depositoryPath.getArtifactName());
-        Build build = artifactFactory.obtainBuild(artifact, depositoryPath.getBuildVersion());
+
+        if (artifact == null) {
+            return;
+        }
+
+        BuildFactory buildFactory = new BuildFactory(artifact);
+        Build build = buildFactory.obtainBuild(depositoryPath.getBuildVersion());
+
+        if (build == null || StringUtils.isEmpty(depositoryPath.getBuildFile())) {
+            return;
+        }
 
         build.addContent(file);
-        artifact.addBuild(build);
-        group.addArtifact(artifact);
-        depository.addGroup(group);
     }
 
 }

@@ -1,42 +1,27 @@
 package net.dzikoysk.reposilite.domain.depository.entities.build;
 
 import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEntity;
+import org.springframework.lang.Nullable;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Build extends AbstractDepositoryEntity {
 
-    private final String version;
-    private final Map<String, Data> content;
-
-    public Build(String version) {
-        this.version = version;
-        this.content = new HashMap<>();
+    Build(String version) {
+        super(version);
     }
 
     public void addContent(File file) {
-        content.put(file.getName(), new Data(file));
+        super.addElement(new Data(file));
     }
 
-    public Data getData(String dataName) {
-        return content.get(dataName);
+    public @Nullable Data getData(String dataName) {
+        return super.getMappedChildrenOfType(Data.class).get(dataName);
     }
 
     public Collection<? extends Data> getContent() {
-        return Collections.unmodifiableCollection(content.values());
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    @Override
-    public String getName() {
-        return getVersion();
+        return super.getChildrenOfType(Data.class);
     }
 
 }
