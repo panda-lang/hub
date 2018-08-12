@@ -1,17 +1,22 @@
 package net.dzikoysk.reposilite.web;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.build.Data;
 import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
 import net.dzikoysk.reposilite.service.common.UserService;
 import net.dzikoysk.reposilite.service.depository.DepositoryService;
 import net.dzikoysk.reposilite.utils.RequestUtils;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.panda_lang.panda.utilities.commons.io.IOUtils;
 import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/repository")
 @Controller
@@ -47,7 +52,7 @@ public class DepositoryController {
 
     @RequestMapping("/{repository}/**")
     @ResponseBody
-    public String repository(@PathVariable("repository") String repository, HttpServletRequest request) {
+    public String repository(@PathVariable("repository") String repository, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Depository depository = depositoryService.getDepository(repository);
 
         if (depository == null) {
@@ -62,9 +67,15 @@ public class DepositoryController {
             return "Entity '" + entityQualifier + "' not found";
         }
 
-        // TODO: Visitor
+        System.out.println("Entity: " + entity.getName() + " of " + entity.getClass());
 
-        return "Entity: " + entity.getName() + " of " + entity.getClass();
+        if (entity instanceof Data) {
+            response.setContentType("application/java");
+            response.addHeader("Content-Disposition", "attachment; filename=\"" + entity.getName() + "\"");
+            return IOUtils.convertStreamToString(new FileSystemResource(((Data) entity).getFile()).getInputStream());
+        }
+
+        return "";
     }
 
 }
