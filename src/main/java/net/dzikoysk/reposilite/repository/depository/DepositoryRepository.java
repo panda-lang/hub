@@ -2,8 +2,8 @@ package net.dzikoysk.reposilite.repository.depository;
 
 import net.dzikoysk.reposilite.ReposiliteApplication;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
-import net.dzikoysk.reposilite.domain.depository.entities.Depository;
-import net.dzikoysk.reposilite.domain.depository.entities.DepositoryFactory;
+import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
+import net.dzikoysk.reposilite.domain.depository.entities.depository.DepositoryFactory;
 import net.dzikoysk.reposilite.utils.collection.TreeMapNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,9 +53,11 @@ public class DepositoryRepository {
     public @Nullable DepositoryEntity findEntityByURLPath(Depository depository, String url) {
         TreeMapNode<DepositoryEntity> depositoryNode = findDepositoryNodeByName(depository.getName());
 
-        DepositoryEntity entity = null;
+        if (depositoryNode == null) {
+            return null;
+        }
 
-        return entity;
+        return depositoryNode.find(url.split("/"));
     }
 
     public Depository findDepositoryByName(String name) {

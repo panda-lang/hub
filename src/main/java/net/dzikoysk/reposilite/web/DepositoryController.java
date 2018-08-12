@@ -1,6 +1,6 @@
 package net.dzikoysk.reposilite.web;
 
-import net.dzikoysk.reposilite.domain.depository.entities.Depository;
+import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
 import net.dzikoysk.reposilite.service.common.UserService;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/repository")
 @Controller
-public class RepositoryController {
+public class DepositoryController {
 
     private final DepositoryService depositoryService;
     private final UserService userService;
 
     @Autowired
-    public RepositoryController(DepositoryService depositoryService, UserService userService) {
+    public DepositoryController(DepositoryService depositoryService, UserService userService) {
         this.depositoryService = depositoryService;
         this.userService = userService;
     }
@@ -31,7 +31,7 @@ public class RepositoryController {
     @ResponseBody
     public String repositories() {
         //TODO: Return only public repositories and hidden ones as well if user is logged in and have permission to them.
-        return "Repositories: <br>" + new ContentJoiner("<br>").join(depositoryService.getNames()).toString();
+        return "Repositories: <br>" + ContentJoiner.on("<br>").join(depositoryService.getNames());
     }
 
     @RequestMapping("/{repository}")
@@ -59,12 +59,13 @@ public class RepositoryController {
         DepositoryEntity entity = depositoryService.getDepositoryEntity(depository, entityQualifier);
 
         if (entity == null) {
-            //TODO: Entity (artifact) not found, perhaps display some 404 page?
-            return "Artifact '" + entityQualifier + "' not found";
+            // TODO: Entity (artifact) not found, perhaps display some 404 page?
+            return "Entity '" + entityQualifier + "' not found";
         }
 
+        // TODO: Visitor
         if (!(entity instanceof Artifact)) {
-            //TODO: Repository should have artifacts only?
+            // TODO: Repository should have artifacts only?
             return "Artifact: not artifact";
         }
 

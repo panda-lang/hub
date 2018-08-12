@@ -1,4 +1,4 @@
-package net.dzikoysk.reposilite.domain.depository.entities;
+package net.dzikoysk.reposilite.domain.depository.entities.depository;
 
 import net.dzikoysk.reposilite.ReposiliteApplication;
 import net.dzikoysk.reposilite.domain.depository.DepositoryPath;

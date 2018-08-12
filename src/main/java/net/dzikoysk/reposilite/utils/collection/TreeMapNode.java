@@ -13,6 +13,10 @@ public class TreeMapNode<T> {
         this.children = new HashMap<>();
     }
 
+    public T find(String... paths) {
+        return null;
+    }
+
     public Set<T> collectLeafs(Predicate<T> filter) {
         Set<T> leafs = new HashSet<>();
 

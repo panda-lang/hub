@@ -1,6 +1,6 @@
 package net.dzikoysk.reposilite.service.depository;
 
-import net.dzikoysk.reposilite.domain.depository.entities.Depository;
+import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.repository.depository.DepositoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

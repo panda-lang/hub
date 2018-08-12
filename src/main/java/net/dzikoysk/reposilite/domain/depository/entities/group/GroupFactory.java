@@ -1,6 +1,6 @@
 package net.dzikoysk.reposilite.domain.depository.entities.group;
 
-import net.dzikoysk.reposilite.domain.depository.entities.Depository;
+import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
 
 public class GroupFactory {
 
@@ -11,7 +11,24 @@ public class GroupFactory {
     }
 
     public Group obtainGroup(String groupName) {
-        return depository.getGroup(groupName) != null?  depository.getGroup(groupName) : new Group(groupName);
+        Group group = depository.getGroup(groupName);
+
+        if (group == null) {
+            group = new Group(createGroupUnits(groupName));
+        }
+
+        return group;
+    }
+
+    private GroupUnit[] createGroupUnits(String groupName) {
+        String[] elements = groupName.split("\\.");
+        GroupUnit[] units = new GroupUnit[elements.length];
+
+        for (int i = 0; i < elements.length; i++) {
+            units[i] = new GroupUnit(elements[i]);
+        }
+
+        return units;
     }
 
 }

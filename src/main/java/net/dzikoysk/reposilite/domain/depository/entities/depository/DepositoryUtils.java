@@ -1,4 +1,4 @@
-package net.dzikoysk.reposilite.domain.depository.entities;
+package net.dzikoysk.reposilite.domain.depository.entities.depository;
 
 import net.dzikoysk.reposilite.ReposiliteApplication;
 import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
@@ -14,7 +14,7 @@ public class DepositoryUtils {
             ReposiliteApplication.getLogger().info("   ├── " + group.getName());
 
             for (Artifact artifact : group.getArtifacts()) {
-                ReposiliteApplication.getLogger().info("   │  ├── " + artifact.getName() + " { " + new ContentJoiner(", ").join(artifact.getVersions()) + " }");
+                ReposiliteApplication.getLogger().info("   │  ├── " + artifact.getName() + " { " + ContentJoiner.on(", ").join(artifact.getVersions()) + " }");
             }
         }
     }
