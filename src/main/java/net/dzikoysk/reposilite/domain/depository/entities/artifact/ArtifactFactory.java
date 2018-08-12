@@ -1,4 +1,7 @@
-package net.dzikoysk.reposilite.domain.depository.entities;
+package net.dzikoysk.reposilite.domain.depository.entities.artifact;
+
+import net.dzikoysk.reposilite.domain.depository.entities.build.Build;
+import net.dzikoysk.reposilite.domain.depository.entities.group.Group;
 
 public class ArtifactFactory {
 

@@ -1,6 +1,6 @@
 package net.dzikoysk.reposilite.service.depository;
 
-import net.dzikoysk.reposilite.domain.depository.Depository;
+import net.dzikoysk.reposilite.domain.depository.entities.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.repository.depository.DepositoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,8 @@ public class DepositoryService {
         return depositoryRepository.findDepositoryByName(name);
     }
 
-    public @Nullable DepositoryEntity getDepositoryEntity(String entityQualifier) {
-        return depositoryRepository.findEntityByPath(entityQualifier);
+    public @Nullable DepositoryEntity getDepositoryEntity(Depository depository, String entityQualifier) {
+        return depositoryRepository.findEntityByURLPath(depository, entityQualifier);
     }
 
     public Set<String> getNames() {

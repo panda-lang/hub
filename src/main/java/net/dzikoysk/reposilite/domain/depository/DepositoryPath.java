@@ -11,11 +11,27 @@ public class DepositoryPath {
     private final String buildVersion;
     private final String buildFile;
 
-    public DepositoryPath(String groupName, String artifactName, String buildVersion, String buildFile) {
+    DepositoryPath(String groupName, String artifactName, String buildVersion, String buildFile) {
         this.groupName = groupName;
         this.artifactName = artifactName;
         this.buildVersion = buildVersion;
         this.buildFile = buildFile;
+    }
+
+    DepositoryPath(String groupName, String artifactName, String buildVersion) {
+        this(groupName, artifactName, buildVersion, null);
+    }
+
+    DepositoryPath(String groupName, String artifactName) {
+        this(groupName, artifactName, null, null);
+    }
+
+    DepositoryPath(String groupName) {
+        this(groupName, null, null, null);
+    }
+
+    public DepositoryPath() {
+        this(null, null, null, null);
     }
 
     public String[] toArray() {

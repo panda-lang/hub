@@ -1,13 +1,16 @@
-package net.dzikoysk.reposilite.domain.depository;
+package net.dzikoysk.reposilite.domain.depository.entities;
 
 import net.dzikoysk.reposilite.ReposiliteApplication;
-import net.dzikoysk.reposilite.domain.depository.entities.*;
+import net.dzikoysk.reposilite.domain.depository.DepositoryPath;
+import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
+import net.dzikoysk.reposilite.domain.depository.entities.artifact.ArtifactFactory;
+import net.dzikoysk.reposilite.domain.depository.entities.build.Build;
+import net.dzikoysk.reposilite.domain.depository.entities.group.Group;
+import net.dzikoysk.reposilite.domain.depository.entities.group.GroupFactory;
 import net.dzikoysk.reposilite.utils.FilesUtils;
 import net.dzikoysk.reposilite.utils.collection.TreeNode;
-import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,14 +29,8 @@ public class DepositoryFactory {
                 ReposiliteApplication.getLogger().info("  Skipping " + depositoryDirectory.getName());
             }
 
-            try {
-                Depository depository = loadDepository(depositoryDirectory);
-                depositories.add(depository);
-
-                ReposiliteApplication.getLogger().info("  - " + depository.getName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Depository depository = loadDepository(depositoryDirectory);
+            depositories.add(depository);
         }
 
         return depositories;
@@ -45,7 +42,12 @@ public class DepositoryFactory {
         }
 
         Depository depository = new Depository(depositoryDirectory);
-        load(depository);
+
+        try {
+            load(depository);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return depository;
     }
@@ -59,13 +61,13 @@ public class DepositoryFactory {
         for (File leafFile : leafFiles) {
             load(depository, groupFactory, leafFile);
         }
+
+        DepositoryUtils.print(depository);
     }
 
     private void load(Depository depository, GroupFactory groupFactory, File file) {
         String path = file.toString().replace(depository.getRootFile().toString(), "");
         DepositoryPath depositoryPath = DepositoryPath.ofSystemPath(path);
-
-        System.out.println(new ContentJoiner(" | ").join(Arrays.asList(depositoryPath.toArray())));
 
         Group group = groupFactory.obtainGroup(depositoryPath.getGroupName());
         ArtifactFactory artifactFactory = new ArtifactFactory(group);

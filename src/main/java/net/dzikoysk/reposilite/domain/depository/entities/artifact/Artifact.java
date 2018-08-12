@@ -1,12 +1,11 @@
-package net.dzikoysk.reposilite.domain.depository.entities;
+package net.dzikoysk.reposilite.domain.depository.entities.artifact;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.build.Build;
 import org.springframework.lang.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Artifact implements DepositoryEntity {
 
@@ -44,6 +43,13 @@ public class Artifact implements DepositoryEntity {
 
     public @Nullable Build getBuild(String version) {
         return builds.get(version);
+    }
+
+    public List<? extends String> getVersions() {
+        return builds.values().stream()
+                .map(Build::getVersion)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     public Collection<? extends Build> getBuilds() {

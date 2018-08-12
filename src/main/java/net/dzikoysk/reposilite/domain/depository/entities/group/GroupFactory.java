@@ -1,6 +1,6 @@
-package net.dzikoysk.reposilite.domain.depository.entities;
+package net.dzikoysk.reposilite.domain.depository.entities.group;
 
-import net.dzikoysk.reposilite.domain.depository.Depository;
+import net.dzikoysk.reposilite.domain.depository.entities.Depository;
 
 public class GroupFactory {
 

@@ -1,8 +1,8 @@
 package net.dzikoysk.reposilite.web;
 
-import net.dzikoysk.reposilite.domain.depository.Depository;
+import net.dzikoysk.reposilite.domain.depository.entities.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
-import net.dzikoysk.reposilite.domain.depository.entities.Artifact;
+import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
 import net.dzikoysk.reposilite.service.common.UserService;
 import net.dzikoysk.reposilite.service.depository.DepositoryService;
 import net.dzikoysk.reposilite.utils.RequestUtils;
@@ -56,7 +56,7 @@ public class RepositoryController {
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        DepositoryEntity entity = depositoryService.getDepositoryEntity(entityQualifier);
+        DepositoryEntity entity = depositoryService.getDepositoryEntity(depository, entityQualifier);
 
         if (entity == null) {
             //TODO: Entity (artifact) not found, perhaps display some 404 page?
