@@ -4,7 +4,7 @@
 
     <groupId>net.dzikoysk</groupId>
     <artifactId>reposilite</artifactId>
-    <version>indev-0.0.2</version>
+    <version>indev-2018.8.12</version>
 
     <name>Reposilite</name>
     <description>Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts</description>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.3.RELEASE</version>
+        <version>2.0.4.RELEASE</version>
         <relativePath/>
     </parent>
 
