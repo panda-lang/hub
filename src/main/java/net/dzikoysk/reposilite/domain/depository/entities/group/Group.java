@@ -1,6 +1,6 @@
 package net.dzikoysk.reposilite.domain.depository.entities.group;
 
-import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEntity;
 import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
 import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
 import org.springframework.lang.Nullable;
@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Group implements DepositoryEntity {
+public class Group extends AbstractDepositoryEntity {
 
     private final GroupUnit[] units;
     private final Map<String, Artifact> artifacts;

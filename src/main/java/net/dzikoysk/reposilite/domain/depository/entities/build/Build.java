@@ -1,11 +1,14 @@
 package net.dzikoysk.reposilite.domain.depository.entities.build;
 
-import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEntity;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Build implements DepositoryEntity {
+public class Build extends AbstractDepositoryEntity {
 
     private final String version;
     private final Map<String, Data> content;

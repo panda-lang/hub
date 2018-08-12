@@ -1,13 +1,13 @@
 package net.dzikoysk.reposilite.domain.depository.entities.artifact;
 
-import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
+import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEntity;
 import net.dzikoysk.reposilite.domain.depository.entities.build.Build;
 import org.springframework.lang.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Artifact implements DepositoryEntity {
+public class Artifact extends AbstractDepositoryEntity {
 
     private final String name;
     private final Map<String, Build> builds;
@@ -56,6 +56,7 @@ public class Artifact implements DepositoryEntity {
         return Collections.unmodifiableCollection(builds.values());
     }
 
+    @Override
     public String getName() {
         return name;
     }
