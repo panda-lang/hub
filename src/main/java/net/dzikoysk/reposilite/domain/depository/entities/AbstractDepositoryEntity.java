@@ -2,6 +2,7 @@ package net.dzikoysk.reposilite.domain.depository.entities;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.utils.collection.TreeMapNode;
+import org.springframework.lang.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
@@ -10,21 +11,26 @@ import java.util.stream.Stream;
 
 public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
-    protected final String name;
-    protected final TreeMapNode<DepositoryEntity> nodes;
+    private final String name;
+    private final AbstractDepositoryEntityMapNode node;
 
     protected AbstractDepositoryEntity(String name) {
         this.name = name;
-        this.nodes = new TreeMapNode<>(this, DepositoryEntity::getName);
+        this.node = new AbstractDepositoryEntityMapNode(this, DepositoryEntity::getName);
     }
 
-    protected void addElement(DepositoryEntity entity) {
-        nodes.add(entity);
+    @Override
+    public @Nullable DepositoryEntity find(String... paths) {
+        return node.find(paths);
+    }
+
+    protected void addElement(AbstractDepositoryEntity entity) {
+        node.add(entity.getNode());
     }
 
     @SuppressWarnings("unchecked")
     protected <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type) {
-        return nodes.getChildren().stream()
+        return node.getChildren().stream()
                 .filter(node -> type.isAssignableFrom(node.getElement().getClass()))
                 .map(node -> (T) node.getElement());
     }
@@ -38,8 +44,8 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
     }
 
     @Override
-    public TreeMapNode<DepositoryEntity> getNodes() {
-        return nodes;
+    public TreeMapNode<AbstractDepositoryEntity> getNode() {
+        return node;
     }
 
     @Override

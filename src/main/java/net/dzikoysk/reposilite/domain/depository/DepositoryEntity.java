@@ -1,10 +1,13 @@
 package net.dzikoysk.reposilite.domain.depository;
 
 import net.dzikoysk.reposilite.utils.collection.TreeMapNode;
+import org.springframework.lang.Nullable;
 
 public interface DepositoryEntity {
 
-    TreeMapNode<? extends DepositoryEntity> getNodes();
+    @Nullable DepositoryEntity find(String... paths);
+
+    TreeMapNode<? extends DepositoryEntity> getNode();
 
     String getName();
 

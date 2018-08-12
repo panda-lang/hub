@@ -4,7 +4,8 @@ import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEnti
 import net.dzikoysk.reposilite.domain.depository.entities.build.Build;
 import org.springframework.lang.Nullable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Artifact extends AbstractDepositoryEntity {
@@ -17,10 +18,6 @@ public class Artifact extends AbstractDepositoryEntity {
         super.addElement(build);
     }
 
-    public @Nullable Build getBuild(String version) {
-        return super.getMappedChildrenOfType(Build.class).get(version);
-    }
-
     public List<? extends String> getVersions() {
         return super.streamOfType(Build.class)
                 .map(Build::getName)
@@ -28,13 +25,12 @@ public class Artifact extends AbstractDepositoryEntity {
                 .collect(Collectors.toList());
     }
 
-    public Collection<? extends Build> getBuilds() {
-        return super.getChildrenOfType(Build.class);
+    public @Nullable Build getBuild(String version) {
+        return super.getMappedChildrenOfType(Build.class).get(version);
     }
 
-    @Override
-    public String getName() {
-        return name;
+    public Collection<? extends Build> getBuilds() {
+        return super.getChildrenOfType(Build.class);
     }
 
 }

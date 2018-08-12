@@ -1,8 +1,7 @@
 package net.dzikoysk.reposilite.web;
 
-import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
-import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
+import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
 import net.dzikoysk.reposilite.service.common.UserService;
 import net.dzikoysk.reposilite.service.depository.DepositoryService;
 import net.dzikoysk.reposilite.utils.RequestUtils;
@@ -64,12 +63,8 @@ public class DepositoryController {
         }
 
         // TODO: Visitor
-        if (!(entity instanceof Artifact)) {
-            // TODO: Repository should have artifacts only?
-            return "Artifact: not artifact";
-        }
 
-        return "Artifact: " + entity;
+        return "Entity: " + entity.getName() + " of " + entity.getClass();
     }
 
 }

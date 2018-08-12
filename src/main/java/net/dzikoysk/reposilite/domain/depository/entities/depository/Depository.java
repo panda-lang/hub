@@ -2,6 +2,7 @@ package net.dzikoysk.reposilite.domain.depository.entities.depository;
 
 import net.dzikoysk.reposilite.domain.depository.entities.AbstractDepositoryEntity;
 import net.dzikoysk.reposilite.domain.depository.entities.group.Group;
+import net.dzikoysk.reposilite.domain.depository.entities.group.GroupUnit;
 import org.springframework.lang.Nullable;
 
 import java.io.File;
@@ -14,6 +15,18 @@ public class Depository extends AbstractDepositoryEntity {
     Depository(File root) {
         super(root.getName());
         this.root = root;
+    }
+
+    public @Nullable GroupUnit findGroupUnit(String partOfGroupName) {
+        for (Group group : getGroups()) {
+            GroupUnit unit = group.matchGroupUnit(partOfGroupName);
+
+            if (unit != null) {
+                return unit;
+            }
+        }
+
+        return null;
     }
 
     public void addGroup(Group group) {

@@ -32,14 +32,6 @@ public class TreeMapNode<T> {
         return leafs;
     }
 
-    public @Nullable T find(String... paths) {
-        return null;
-    }
-
-    public void add(T element) {
-        add(new TreeMapNode<>(element, mapper));
-    }
-
     public void add(Collection<TreeMapNode<T>> nodes) {
         nodes.forEach(this::add);
     }
@@ -50,6 +42,18 @@ public class TreeMapNode<T> {
 
     public boolean isEmpty() {
         return children.isEmpty();
+    }
+
+    public Collection<TreeMapNode<? extends T>> getNodesStartingWith(String str) {
+        Collection<TreeMapNode<? extends T>> nodes = new ArrayList<>();
+
+        for (Map.Entry<String, TreeMapNode<T>> entry : children.entrySet()) {
+            if (entry.getKey().startsWith(str)) {
+                nodes.add(entry.getValue());
+            }
+        }
+
+        return nodes;
     }
 
     public @Nullable TreeMapNode<? extends T> getNode(String nodeName) {
@@ -63,6 +67,10 @@ public class TreeMapNode<T> {
 
     public Collection<TreeMapNode<T>> getChildren() {
         return children.values();
+    }
+
+    public String getName() {
+        return mapper.apply(element);
     }
 
     public T getElement() {

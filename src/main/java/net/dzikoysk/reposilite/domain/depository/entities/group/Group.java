@@ -20,8 +20,30 @@ public class Group extends AbstractDepositoryEntity {
         this.units = units;
     }
 
+    public @Nullable GroupUnit matchGroupUnit(String partOfGroupName) {
+        String[] elements = partOfGroupName.split("\\.");
+
+        if (elements.length > units.length) {
+            return null;
+        }
+
+        GroupUnit lastUnit = null;
+
+        for (int i = 0; i < elements.length; i++) {
+            GroupUnit currentUnit = units[i];
+
+            if (!currentUnit.getName().equals(elements[i])) {
+                return null;
+            }
+
+            lastUnit = currentUnit;
+        }
+
+        return lastUnit;
+    }
+
     public void addArtifact(Artifact artifact) {
-        addElement(artifact);
+        super.addElement(artifact);
     }
 
     public @Nullable Artifact getArtifact(String artifactName) {
@@ -30,10 +52,6 @@ public class Group extends AbstractDepositoryEntity {
 
     public Collection<? extends Artifact> getArtifacts() {
         return super.getChildrenOfType(Artifact.class);
-    }
-
-    public GroupUnit[] getUnits() {
-        return units;
     }
 
 }
