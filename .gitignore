@@ -8,7 +8,6 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-reposilite.iml
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
@@ -20,6 +19,7 @@ reposilite.iml
 ## File-based project format:
 *.ipr
 *.iws
+*.iml
 
 ## Plugin-specific files:
 
