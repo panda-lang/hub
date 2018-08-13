@@ -11,13 +11,13 @@ public class ProfileController {
 
     @ResponseBody
     @RequestMapping
-    public String profile(@PathVariable("account") String account) {
+    public String profile(@PathVariable String account) {
         return "Profile: " + account;
     }
 
     @RequestMapping("/{project}")
     @ResponseBody
-    public String project(@PathVariable("account") String account, @PathVariable("project") String project) {
+    public String project(@PathVariable String account, @PathVariable String project) {
         return "Profile: " + account + " - Project: " + project;
     }
 

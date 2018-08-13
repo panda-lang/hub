@@ -40,7 +40,7 @@ public class DepositoryController {
 
     @RequestMapping("/{repository}")
     @ResponseBody
-    public String repository(@PathVariable("repository") String repository) {
+    public String repository(@PathVariable String repository) {
         Depository depository = depositoryService.getDepository(repository);
 
         if (depository == null) {
@@ -52,7 +52,7 @@ public class DepositoryController {
 
     @RequestMapping("/{repository}/**")
     @ResponseBody
-    public String repository(@PathVariable("repository") String repository, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String repository(@PathVariable String repository, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Depository depository = depositoryService.getDepository(repository);
 
         if (depository == null) {
