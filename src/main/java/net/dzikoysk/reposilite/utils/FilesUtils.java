@@ -8,14 +8,9 @@ public class FilesUtils {
 
     public static TreeNode<File> collectFiles(File directory) {
         TreeNode<File> tree = new TreeNode<>(directory);
-
-        if (!directory.isDirectory()) {
-            return tree;
-        }
-
         File[] files = directory.listFiles();
 
-        if (files == null) {
+        if (files == null || files.length == 0) {
             return tree;
         }
 
