@@ -69,6 +69,7 @@ public class DepositoryController {
 
         System.out.println("Entity: " + entity.getName() + " of " + entity.getClass());
 
+        // TODO: Resource handler
         if (entity instanceof Data) {
             response.setContentType("application/java");
             response.addHeader("Content-Disposition", "attachment; filename=\"" + entity.getName() + "\"");
