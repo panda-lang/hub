@@ -6,16 +6,6 @@ import java.io.File;
 
 public class FilesUtils {
 
-    public static int getAmountOfFiles(File directory) {
-        File[] files = directory.listFiles();
-
-        if (files == null || files.length == 0) {
-            return 0;
-        }
-
-        return files.length;
-    }
-
     public static TreeNode<File> collectFiles(File directory) {
         TreeNode<File> tree = new TreeNode<>(directory);
         File[] files = directory.listFiles();

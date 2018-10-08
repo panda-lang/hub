@@ -49,8 +49,12 @@ public class AbstractDepositoryEntityMapNode extends TreeMapNode<AbstractDeposit
             return null;
         }
 
-        while (distributor.hasNext() && lastPossibleNodes.size() > 0) {
+        while (distributor.hasNext()) {
             String part = distributor.next();
+
+            if (part == null) {
+                return null;
+            }
 
             Collection<? extends TreeMapNode<? extends AbstractDepositoryEntity>> possibleNodes = map.getNodesStartingWith(path
                     .append(".").append(part).toString()
