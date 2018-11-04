@@ -6,7 +6,6 @@
     <groupId>net.dzikoysk</groupId>
     <artifactId>reposilite</artifactId>
     <version>indev-2018.8.12</version>
-    <packaging>jar</packaging>
 
     <name>Reposilite</name>
     <description>Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts</description>
