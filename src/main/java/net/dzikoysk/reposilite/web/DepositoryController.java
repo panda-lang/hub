@@ -6,7 +6,6 @@ import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
 import net.dzikoysk.reposilite.service.common.UserService;
 import net.dzikoysk.reposilite.service.depository.DepositoryService;
 import net.dzikoysk.reposilite.utils.RequestUtils;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.panda_lang.panda.utilities.commons.IOUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/repository")

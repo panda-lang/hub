@@ -1,9 +1,10 @@
 package net.dzikoysk.reposilite.utils;
 
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.servlet.HandlerMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 public final class RequestUtils {
 
