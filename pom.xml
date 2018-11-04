@@ -27,7 +27,7 @@
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda</artifactId>
-            <version>indev-0.8.87</version>
+            <version>indev-18.10.17</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
