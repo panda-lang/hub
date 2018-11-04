@@ -1,7 +1,7 @@
 package net.dzikoysk.reposilite.domain.depository.entities.group;
 
 import net.dzikoysk.reposilite.domain.depository.entities.depository.Depository;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class GroupFactory {
 

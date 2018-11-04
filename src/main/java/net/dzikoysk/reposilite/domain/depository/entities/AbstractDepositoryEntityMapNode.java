@@ -2,7 +2,7 @@ package net.dzikoysk.reposilite.domain.depository.entities;
 
 import net.dzikoysk.reposilite.domain.depository.DepositoryEntity;
 import net.dzikoysk.reposilite.utils.collection.TreeMapNode;
-import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
+import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;

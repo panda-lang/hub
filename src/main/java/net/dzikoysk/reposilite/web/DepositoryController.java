@@ -7,8 +7,9 @@ import net.dzikoysk.reposilite.service.common.UserService;
 import net.dzikoysk.reposilite.service.depository.DepositoryService;
 import net.dzikoysk.reposilite.utils.RequestUtils;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.panda_lang.panda.utilities.commons.io.IOUtils;
-import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
+import org.panda_lang.panda.utilities.commons.IOUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -76,7 +77,7 @@ public class DepositoryController {
             return IOUtils.convertStreamToString(new FileSystemResource(((Data) entity).getFile()).getInputStream());
         }
 
-        return "";
+        return StringUtils.EMPTY;
     }
 
 }

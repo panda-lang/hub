@@ -10,7 +10,7 @@ import net.dzikoysk.reposilite.domain.depository.entities.group.Group;
 import net.dzikoysk.reposilite.domain.depository.entities.group.GroupFactory;
 import net.dzikoysk.reposilite.utils.FilesUtils;
 import net.dzikoysk.reposilite.utils.collection.TreeNode;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.io.File;
 import java.util.HashSet;

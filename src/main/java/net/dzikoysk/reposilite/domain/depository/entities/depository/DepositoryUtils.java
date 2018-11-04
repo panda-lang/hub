@@ -3,7 +3,7 @@ package net.dzikoysk.reposilite.domain.depository.entities.depository;
 import net.dzikoysk.reposilite.ReposiliteApplication;
 import net.dzikoysk.reposilite.domain.depository.entities.artifact.Artifact;
 import net.dzikoysk.reposilite.domain.depository.entities.group.Group;
-import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 public class DepositoryUtils {
 
