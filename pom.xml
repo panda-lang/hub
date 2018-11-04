@@ -152,8 +152,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <inputPath>${project.basedir}/src/main/webapp/resources/static/style/</inputPath>
-                    <outputPath>${project.basedir}/src/main/webapp/resources/static/style/</outputPath>
+                    <inputPath>src/main/webapp/resources/static/style/</inputPath>
+                    <outputPath>src/main/resources/static/style/</outputPath>
                 </configuration>
             </plugin>
         </plugins>
