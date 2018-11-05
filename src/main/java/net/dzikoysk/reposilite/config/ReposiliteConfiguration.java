@@ -15,11 +15,12 @@ public class ReposiliteConfiguration {
 
     @Bean
     public File getRepositoriesDirectory() {
-        return new File("repositories");
+        return new File("./workspace/repositories");
     }
 
     @Bean
     public PromptProvider shellPrompt() {
         return () -> new AttributedString("reposilite:> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN));
     }
+    
 }
