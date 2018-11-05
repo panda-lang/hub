@@ -1,9 +1,6 @@
 package net.dzikoysk.reposilite.depository;
 
 import net.dzikoysk.reposilite.ReposiliteApplication;
-import net.dzikoysk.reposilite.depository.DepositoryEntity;
-import net.dzikoysk.reposilite.depository.Depository;
-import net.dzikoysk.reposilite.depository.DepositoryFactory;
 import net.dzikoysk.reposilite.utils.collection.TreeMapNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,7 +47,7 @@ public class DepositoryRepository {
         ReposiliteApplication.getLogger().info("Result: " + depositories.size() + " repositories have been found");
     }
 
-    public @Nullable DepositoryEntity findEntityByURLPath(Depository depository, String url) {
+    public DepositoryEntity findEntityByURLPath(Depository depository, String url) {
         DepositoryEntity entity = depository.find(url.split("/"));
 
         if (entity == null) {
@@ -65,8 +62,12 @@ public class DepositoryRepository {
         return node != null && node.getElement() instanceof Depository ? node : null;
     }
 
-    public Depository findDepositoryByName(String name) {
-        return (Depository) depositories.get(name).getElement();
+    public @Nullable Depository findDepositoryByName(String name) {
+        if (this.depositories.get(name) == null) {
+            throw new DepositoryNotFoundException();
+        }
+
+        return (Depository) this.depositories.get(name).getElement();
     }
 
     public Set<Depository> findAll() {
