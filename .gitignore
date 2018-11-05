@@ -20,6 +20,7 @@ buildNumber.properties
 *.ipr
 *.iws
 *.iml
+*.log
 
 ## Plugin-specific files:
 
