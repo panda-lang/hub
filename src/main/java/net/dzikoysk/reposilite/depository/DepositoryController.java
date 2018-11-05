@@ -39,23 +39,13 @@ public class DepositoryController {
     @RequestMapping("/{repository}")
     @ResponseBody
     public String repository(@PathVariable String repository) {
-        Depository depository = depositoryService.getDepository(repository);
-
-        if (depository == null) {
-            return "Repository '" + repository + "' not found";
-        }
-
         return "Repository name: " + repository;
     }
 
     @RequestMapping("/{repository}/**")
     @ResponseBody
     public String repository(@PathVariable String repository, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Depository depository = depositoryService.getDepository(repository);
-
-        if (depository == null) {
-            return "Repository '" + repository + "' not found";
-        }
+        Depository depository = this.depositoryService.getDepository(repository);
 
         String entityQualifier = RequestUtils.extractWildcard(request);
         DepositoryEntity entity = depositoryService.getDepositoryEntity(depository, entityQualifier);
