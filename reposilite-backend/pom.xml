@@ -153,7 +153,7 @@
                 </executions>
                 <configuration>
                     <inputPath>src/main/webapp/resources/static/style/</inputPath>
-                    <outputPath>src/main/resources/static/style/</outputPath>
+                    <outputPath>../src/main/resources/static/style</outputPath>
                 </configuration>
             </plugin>
         </plugins>

@@ -22,4 +22,5 @@ public class ReposiliteConfiguration {
     public PromptProvider shellPrompt() {
         return () -> new AttributedString("reposilite:> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN));
     }
+
 }
