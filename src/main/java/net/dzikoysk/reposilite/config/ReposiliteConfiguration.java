@@ -14,7 +14,7 @@ import java.io.File;
 public class ReposiliteConfiguration {
 
     @Bean
-    public File getRepositoriesDirectory() {
+    public File repositoryDirectory() {
         return new File("repositories");
     }
 

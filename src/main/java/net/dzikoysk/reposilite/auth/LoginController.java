@@ -3,6 +3,7 @@ package net.dzikoysk.reposilite.auth;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+// TODO
 @Controller
 public class LoginController {
 

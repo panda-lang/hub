@@ -23,7 +23,7 @@ public class DepositoryRepository {
     private final Map<String, TreeMapNode<? extends DepositoryEntity>> depositories;
 
     @Autowired
-    public DepositoryRepository(@Qualifier("getRepositoriesDirectory") File repositoriesRoot) {
+    public DepositoryRepository(@Qualifier("repositoryDirectory") File repositoriesRoot) {
         this.repositoriesRoot = repositoriesRoot;
         this.depositories = new HashMap<>();
     }
