@@ -1,24 +1,27 @@
 package net.dzikoysk.reposilite.profile;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/{account}")
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("api/{account}")
 public class ProfileController {
 
-    @ResponseBody
-    @RequestMapping
-    public String profile(@PathVariable String account) {
-        return "Profile: " + account;
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> profile(@PathVariable String account) {
+        return ResponseEntity.ok(Collections.singletonMap("account", account));
     }
 
-    @RequestMapping("/{project}")
-    @ResponseBody
-    public String project(@PathVariable String account, @PathVariable String project) {
-        return "Profile: " + account + " - Project: " + project;
+    @GetMapping("/{project}")
+    public ResponseEntity<Map<String, Object>> project(@PathVariable String account, @PathVariable String project) {
+        return ResponseEntity.ok(new LinkedHashMap<String, Object>() {{
+            put("account", account);
+            put("project", project);
+        }});
     }
 
 }
