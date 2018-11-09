@@ -6,12 +6,17 @@ import org.panda_lang.panda.utilities.commons.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.Set;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RequestMapping("api/repository")
 @RestController
@@ -25,9 +30,20 @@ public class DepositoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Set<String>> repositories() {
+    public ResponseEntity<Map<String, Object>> repositories() {
         //TODO: Return only public repositories and hidden ones as well if user is logged in and have permission to them.
-        return ResponseEntity.ok(this.depositoryService.getNames());
+        return ResponseEntity.ok(new LinkedHashMap<String, Object>() {{
+            depositoryService.getNames().forEach(name -> put("name", name));
+        }});
+    }
+
+    @GetMapping("/{repository}")
+    public ResponseEntity<Map<String, Object>> repository(@PathVariable String repository) {
+        if (this.depositoryService.getDepository(repository) == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(Collections.singletonMap("name", repository));
     }
 
     @GetMapping("/{repository}/**")
