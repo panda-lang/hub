@@ -60,10 +60,10 @@
             <artifactId>spring-shell-starter</artifactId>
             <version>2.0.1.RELEASE</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
 
         <!-- Included -->
         <dependency>
