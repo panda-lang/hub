@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
         User user = new UserBuilder()
                 .withUsername(form.getUsername())
                 .withDisplayName(form.getDisplayName())
-                .withPassword(form.getPassword())
+                .withPassword(this.passwordEncoder.encode(form.getPassword()))
                 .withEmail(form.getEmail())
                 .withRoles(Collections.singletonList(new Role("ROLE_USER")))
                 .build();
