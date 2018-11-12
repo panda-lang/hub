@@ -29,14 +29,14 @@ public class ProfileControllerTest {
 
     @Test
     public void profileTest() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/jkowalski/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/account/jkowalski/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.account", Matchers.is("jkowalski")));
     }
 
     @Test
     public void profileWithProjectTest() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/jkowalski/panda/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/account/jkowalski/panda/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.account", Matchers.is("jkowalski")))
                 .andExpect(jsonPath("$.project", Matchers.is("panda")));
