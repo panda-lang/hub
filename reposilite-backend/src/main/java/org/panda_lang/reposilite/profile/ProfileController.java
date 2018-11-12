@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/{account}")
+@RequestMapping("api/account/{account}")
 public class ProfileController {
 
     @GetMapping
