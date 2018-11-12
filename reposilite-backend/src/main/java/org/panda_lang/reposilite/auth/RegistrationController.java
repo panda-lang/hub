@@ -1,5 +1,8 @@
 package org.panda_lang.reposilite.auth;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.panda_lang.reposilite.user.User;
 import org.panda_lang.reposilite.user.UserRegistrationForm;
 import org.panda_lang.reposilite.user.UserService;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@ApiOperation("Operations pertaining to registration")
 @RestController
 @RequestMapping("api/registration")
 public class RegistrationController {
@@ -25,6 +29,12 @@ public class RegistrationController {
         this.userService = userService;
     }
 
+    @ApiOperation(value = "Register a user account")
+    @ApiResponses({
+            @ApiResponse(code = 409, message = "User with that username already exists"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 201, message = "Successfully created user", response = User.class)
+    })
     @PostMapping
     public ResponseEntity<User> register(@Valid UserRegistrationForm form, BindingResult result) {
         Optional<User> user = this.userService.findByUsername(form.getUsername());
