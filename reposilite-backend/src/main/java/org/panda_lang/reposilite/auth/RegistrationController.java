@@ -3,6 +3,7 @@ package org.panda_lang.reposilite.auth;
 import org.panda_lang.reposilite.user.User;
 import org.panda_lang.reposilite.user.UserRegistrationForm;
 import org.panda_lang.reposilite.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -10,21 +11,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/register")
+@RequestMapping("api/registration")
 public class RegistrationController {
 
     private final UserService userService;
 
+    @Autowired
     public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<User> register(UserRegistrationForm form, BindingResult result) {
+    public ResponseEntity<User> register(@Valid UserRegistrationForm form, BindingResult result) {
         Optional<User> user = this.userService.findByUsername(form.getUsername());
 
         if (user.isPresent()) {
@@ -35,7 +37,8 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.ok(this.userService.save(form));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(form));
+
     }
 
 }
