@@ -47,7 +47,7 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.save(form));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.saveByForm(form));
 
     }
 
