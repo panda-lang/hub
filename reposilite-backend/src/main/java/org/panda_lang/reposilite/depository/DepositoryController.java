@@ -27,10 +27,10 @@ import java.util.Map;
 @RestController
 public class DepositoryController {
 
-    private final DepositoryService depositoryService;
+    private final DepositoryServiceImpl depositoryService;
 
     @Autowired
-    DepositoryController(DepositoryService depositoryService) {
+    DepositoryController(DepositoryServiceImpl depositoryService) {
         this.depositoryService = depositoryService;
     }
 

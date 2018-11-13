@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class DepositoryServiceTest {
 
     @Autowired
-    private DepositoryService depositoryService;
+    private DepositoryServiceImpl depositoryService;
 
     @Test
     public void getDepositoryTest() {

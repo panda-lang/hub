@@ -1,34 +1,17 @@
 package org.panda_lang.reposilite.depository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
-@Service
-public class DepositoryService {
+public interface DepositoryService {
 
-    private final DepositoryRepository depositoryRepository;
+    @Nullable
+    Depository getDepository(String name);
 
-    @Autowired
-    public DepositoryService(DepositoryRepository depositoryRepository) {
-        this.depositoryRepository = depositoryRepository;
-    }
+    @Nullable
+    DepositoryEntity getDepositoryEntity(Depository depository, String entityQualifier);
 
-    public @Nullable Depository getDepository(String name) {
-        return depositoryRepository.findDepositoryByName(name);
-    }
-
-    public @Nullable DepositoryEntity getDepositoryEntity(Depository depository, String entityQualifier) {
-        return depositoryRepository.findEntityByURLPath(depository, entityQualifier);
-    }
-
-    public Set<String> getNames() {
-        return depositoryRepository.findAll().stream()
-                .map(Depository::getName)
-                .collect(Collectors.toSet());
-    }
+    Set<String> getNames();
 
 }
