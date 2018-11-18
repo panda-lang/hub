@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.user;
 
+import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,6 +12,7 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
+    private ObjectId identifier;
     private String username;
     private String displayName;
     private String password;
@@ -23,6 +25,10 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.roles = roles;
+    }
+
+    public ObjectId getIdentifier() {
+        return identifier;
     }
 
     public String getUsername() {
