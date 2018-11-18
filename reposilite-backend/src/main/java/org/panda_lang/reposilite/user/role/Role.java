@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.user.role;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,19 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Role {
 
     @Id
-    private long identifier;
+    private ObjectId identifier;
     private String name;
 
     public Role(String name) {
         this.name = name;
     }
 
-    public long getIdentifier() {
+    public ObjectId getIdentifier() {
         return identifier;
-    }
-
-    public void setIdentifier(long identifier) {
-        this.identifier = identifier;
     }
 
     public String getName() {
