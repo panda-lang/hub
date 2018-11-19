@@ -29,13 +29,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = this.userRepository.findByUsername(username);
 
         if (!user.isPresent()) {
             throw new UsernameNotFoundException("No user found with that username.");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), this.getAuthoritiesByRoles(user.get().getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), this.getAuthoritiesByRoles(user.get().getRoles()));
     }
 
     @Override
