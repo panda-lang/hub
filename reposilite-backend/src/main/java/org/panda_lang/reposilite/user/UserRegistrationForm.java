@@ -1,9 +1,11 @@
 package org.panda_lang.reposilite.user;
 
 import org.panda_lang.reposilite.auth.FieldMatch;
-import org.panda_lang.reposilite.auth.FieldNotNullAndEmpty;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @FieldMatch.AsList({
         @FieldMatch(first = "password", second = "confirmPassword", message = "The confirmation password must match password"),
@@ -11,12 +13,17 @@ import javax.validation.constraints.Email;
 })
 public class UserRegistrationForm {
 
-    @FieldNotNullAndEmpty private String username;
-    @FieldNotNullAndEmpty private String displayName;
-    @FieldNotNullAndEmpty private String password;
-    @FieldNotNullAndEmpty private String confirmPassword;
-    @FieldNotNullAndEmpty @Email private String email;
-    @FieldNotNullAndEmpty private String confirmEmail;
+    @NotNull @Min(3)
+    private String username;
+    @NotNull @Min(3)
+    private String displayName;
+    @NotNull @Min(6)
+    private String password;
+    private String confirmPassword;
+    @Email
+    private String email;
+    @Email
+    private String confirmEmail;
 
     public String getUsername() {
         return username;
