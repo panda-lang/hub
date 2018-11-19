@@ -48,7 +48,6 @@ public class RegistrationController {
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.saveByForm(form));
-
     }
 
 }
