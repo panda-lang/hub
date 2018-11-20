@@ -16,6 +16,10 @@ public class Role implements IdentifiableEntity<ObjectId> {
         this.name = name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public ObjectId getIdentifier() {
         return identifier;
@@ -23,10 +27,6 @@ public class Role implements IdentifiableEntity<ObjectId> {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

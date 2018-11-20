@@ -28,6 +28,35 @@ public class Organization implements DepositoryOwner {
     }
 
     @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    @Override
     public ObjectId getIdentifier() {
         return this.identifier;
     }
@@ -38,18 +67,8 @@ public class Organization implements DepositoryOwner {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
     public String getDisplayName() {
         return this.displayName;
-    }
-
-    @Override
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
 
     @Override
@@ -58,18 +77,8 @@ public class Organization implements DepositoryOwner {
     }
 
     @Override
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
     public String getEmail() {
         return this.email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override
@@ -77,17 +86,8 @@ public class Organization implements DepositoryOwner {
         return this.site;
     }
 
-    @Override
-    public void setSite(String site) {
-        this.site = site;
-    }
-
     public User getOwner() {
         return this.owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
     }
 
 }
