@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.user;
 
+import org.panda_lang.reposilite.auth.RegistrationForm;
 import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("No user found with that username.");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.get().getName(), user.get().getPassword(), this.getAuthoritiesByRoles(user.get().getRoles()));
+        return new org.panda_lang.reposilite.user.UserDetails(user.get(), user.get().getName(), user.get().getPassword(), this.getAuthoritiesByRoles(user.get().getRoles()));
     }
 
     @Override
@@ -44,13 +45,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveByForm(UserRegistrationForm form) {
+    public User saveByForm(RegistrationForm form) {
         User user = new UserBuilder()
                 .withName(form.getUsername())
                 .withDisplayName(form.getDisplayName())
                 .withPassword(this.passwordEncoder.encode(form.getPassword()))
                 .withEmail(form.getEmail())
-                .withRoles(Collections.singletonList(new Role("ROLE_USER")))
+                .withRoles(Collections.singletonList(new Role("USER")))
                 .build();
 
         return this.userRepository.save(user);
