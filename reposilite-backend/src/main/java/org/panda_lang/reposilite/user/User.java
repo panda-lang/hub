@@ -32,6 +32,39 @@ public class User implements DepositoryOwner {
     }
 
     @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
     public ObjectId getIdentifier() {
         return this.identifier;
     }
@@ -42,26 +75,12 @@ public class User implements DepositoryOwner {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
     public String getDisplayName() {
         return this.displayName;
     }
 
-    @Override
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
     public String getPassword() {
         return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -70,18 +89,8 @@ public class User implements DepositoryOwner {
     }
 
     @Override
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
     public String getEmail() {
         return this.email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override
@@ -89,17 +98,8 @@ public class User implements DepositoryOwner {
         return this.site;
     }
 
-    @Override
-    public void setSite(String site) {
-        this.site = site;
-    }
-
     public List<Role> getRoles() {
         return this.roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 
     @Override
