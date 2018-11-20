@@ -28,25 +28,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = this.userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        Optional<User> user = this.userRepository.findByName(name);
 
         if (!user.isPresent()) {
             throw new UsernameNotFoundException("No user found with that username.");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), this.getAuthoritiesByRoles(user.get().getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.get().getName(), user.get().getPassword(), this.getAuthoritiesByRoles(user.get().getRoles()));
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return this.userRepository.findByUsername(username);
+    public Optional<User> findByUsername(String name) {
+        return this.userRepository.findByName(name);
     }
 
     @Override
     public User saveByForm(UserRegistrationForm form) {
         User user = new UserBuilder()
-                .withUsername(form.getUsername())
+                .withName(form.getUsername())
                 .withDisplayName(form.getDisplayName())
                 .withPassword(this.passwordEncoder.encode(form.getPassword()))
                 .withEmail(form.getEmail())

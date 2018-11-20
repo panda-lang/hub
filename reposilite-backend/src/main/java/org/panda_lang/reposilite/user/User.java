@@ -1,70 +1,101 @@
 package org.panda_lang.reposilite.user;
 
 import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.depository.DepositoryOwner;
 import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Document
-public class User implements Serializable {
+public class User implements DepositoryOwner {
 
     @Id
     private ObjectId identifier;
-    private String username;
+    private String name;
     private String displayName;
     private String password;
+    private String description;
     private String email;
+    private String site;
     private List<Role> roles;
 
-    User(String username, String displayName, String password, String email, List<Role> roles) {
-        this.username = username;
+    User(String name, String displayName, String password, String description, String email, String site, List<Role> roles) {
+        this.name = name;
         this.displayName = displayName;
         this.password = password;
+        this.description = description;
         this.email = email;
+        this.site = site;
         this.roles = roles;
     }
 
+    @Override
     public ObjectId getIdentifier() {
-        return identifier;
+        return this.identifier;
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public String getName() {
+        return this.name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
+    @Override
     public String getDisplayName() {
-        return displayName;
+        return this.displayName;
     }
 
+    @Override
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public String getDescription() {
+        return this.description;
     }
 
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
+    }
+
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
+    public String getSite() {
+        return this.site;
+    }
+
+    @Override
+    public void setSite(String site) {
+        this.site = site;
+    }
+
     public List<Role> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(List<Role> roles) {
@@ -74,7 +105,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "name='" + name + '\'' +
                 ", displayName='" + displayName + '\'' +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +

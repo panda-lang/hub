@@ -1,11 +1,12 @@
 package org.panda_lang.reposilite.user.role;
 
 import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.utils.IdentifiableEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Role {
+public class Role implements IdentifiableEntity<ObjectId> {
 
     @Id
     private ObjectId identifier;
@@ -15,6 +16,7 @@ public class Role {
         this.name = name;
     }
 
+    @Override
     public ObjectId getIdentifier() {
         return identifier;
     }
