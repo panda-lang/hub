@@ -1,19 +1,18 @@
 package org.panda_lang.reposilite.organization;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
-import org.panda_lang.reposilite.user.User;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class OrganizationCreationForm {
 
-    @NotNull @Min(3)
+    @NotNull @Length(min = 3)
     private String name;
-    @NotNull @Min(3)
+    @NotNull @Length(min = 3)
     private String displayName;
-    @NotNull @Min(5)
+    @NotNull @Length(min = 5)
     private String description;
     @NotNull @Email
     private String email;
