@@ -12,4 +12,6 @@ public interface OrganizationRepository extends MongoRepository<Organization, Ob
 
     Optional<Organization> findByOwner(User owner);
 
+    Optional<Organization> findByName(String name);
+
 }
