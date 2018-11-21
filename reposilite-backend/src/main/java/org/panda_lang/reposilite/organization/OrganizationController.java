@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.panda_lang.reposilite.user.AuthenticatedUser;
 import org.panda_lang.reposilite.user.User;
+import org.panda_lang.reposilite.utils.security.IsUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class OrganizationController {
         this.organizationService = organizationService;
     }
 
+    @IsUser
     @ApiOperation(value = "Create an organization")
     @ApiResponses({
             @ApiResponse(code = 409, message = "Organization with that name already exists"),
