@@ -12,7 +12,8 @@ public class Role implements IdentifiableEntity<ObjectId> {
     private ObjectId identifier;
     private String name;
 
-    public Role(String name) {
+    public Role(ObjectId identifier, String name) {
+        this.identifier = identifier;
         this.name = name;
     }
 
