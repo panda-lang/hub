@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.user;
 
+import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.auth.RegistrationForm;
 import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
                 .withDisplayName(form.getDisplayName())
                 .withPassword(this.passwordEncoder.encode(form.getPassword()))
                 .withEmail(form.getEmail())
-                .withRoles(Collections.singletonList(new Role("USER")))
+                .withRoles(Collections.singletonList(new Role(ObjectId.get(), "USER")))
                 .build();
 
         return this.userRepository.save(user);

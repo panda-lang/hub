@@ -50,5 +50,4 @@ public class OrganizationController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.organizationService.saveByForm(form, owner));
     }
-
 }
