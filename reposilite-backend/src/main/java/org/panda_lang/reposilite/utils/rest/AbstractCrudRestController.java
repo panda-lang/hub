@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.utils.rest;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.utils.IdentifiableEntity;
 import org.panda_lang.reposilite.utils.NullAwareBeanUtilsBean;
@@ -22,6 +23,11 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
 
     private static final String NAME_PATH = "/by-name/";
     private static final String ID_PATH = "/by-id/";
+    private static final BeanUtilsBean BEAN_UTILS_BEAN;
+
+    static {
+        BEAN_UTILS_BEAN = new NullAwareBeanUtilsBean();
+    }
 
     private final NameableMongoRepository<T, ObjectId> repository;
 
@@ -73,12 +79,12 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
     @IsAdmin
     @DeleteMapping(NAME_PATH + "{name}")
     public ResponseEntity<T> removeByName(@PathVariable String name) {
-        if (this.repository.existsByName(name)) {
-            this.repository.deleteByName(name);
-            return ResponseEntity.noContent().build();
+        if (!this.repository.existsByName(name)) {
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.notFound().build();
+        this.repository.deleteByName(name);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(ID_PATH + "{identifier}")
@@ -113,12 +119,12 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
     @DeleteMapping(ID_PATH + "{identifier}")
     public ResponseEntity<T> removeByIdentifier(@PathVariable String identifier) {
         ObjectId id = new ObjectId(identifier);
-        if (this.repository.existsById(id)) {
-            this.repository.deleteById(id);
-            return ResponseEntity.noContent().build();
+        if (!this.repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.notFound().build();
+        this.repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     private ResponseEntity<T> partialUpdateEntity(@RequestBody T entity, Optional<T> optionalEntity) throws IllegalAccessException, InvocationTargetException {
@@ -126,7 +132,7 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
             return ResponseEntity.notFound().build();
         }
 
-        new NullAwareBeanUtilsBean().copyProperties(optionalEntity.get(), entity);
+        BEAN_UTILS_BEAN.copyProperties(optionalEntity.get(), entity);
         this.repository.save(optionalEntity.get());
         return ResponseEntity.noContent().build();
     }
