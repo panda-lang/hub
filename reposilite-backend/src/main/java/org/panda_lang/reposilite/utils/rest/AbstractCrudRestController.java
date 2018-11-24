@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
@@ -31,15 +32,8 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
         this.repository = repository;
     }
 
-    @GetMapping(NAME_PATH + "{name}")
-    public ResponseEntity<T> getByName(@PathVariable String name) {
-        return this.repository.findByName(name)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping
-    public ResponseEntity<T> create(@RequestBody T entity, BindingResult result) {
+    public ResponseEntity<T> create(@RequestBody @Valid T entity, BindingResult result) {
         if (this.repository.findById(entity.getIdentifier()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -49,6 +43,13 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.repository.save(entity));
+    }
+
+    @GetMapping(NAME_PATH + "{name}")
+    public ResponseEntity<T> getByName(@PathVariable String name) {
+        return this.repository.findByName(name)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @IsAdmin

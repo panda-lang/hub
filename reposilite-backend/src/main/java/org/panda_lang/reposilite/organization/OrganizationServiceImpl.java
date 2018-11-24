@@ -1,6 +1,5 @@
 package org.panda_lang.reposilite.organization;
 
-import org.panda_lang.reposilite.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,20 +18,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Optional<Organization> findByName(String name) {
         return this.organizationRepository.findByName(name);
-    }
-
-    @Override
-    public Organization saveByForm(OrganizationCreationForm form, User owner) {
-        Organization organization = new OrganizationBuilder()
-                .withName(form.getName())
-                .withDescription(form.getDescription())
-                .withDisplayName(form.getDisplayName())
-                .withEmail(form.getEmail())
-                .withSite(form.getSite())
-                .withOwner(owner)
-                .build();
-
-        return this.organizationRepository.save(organization);
     }
 
 }
