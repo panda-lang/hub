@@ -1,20 +1,30 @@
 package org.panda_lang.reposilite.organization;
 
 import org.bson.types.ObjectId;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 import org.panda_lang.reposilite.depository.DepositoryOwner;
 import org.panda_lang.reposilite.user.User;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Document
 public class Organization implements DepositoryOwner {
 
     @Id
     private ObjectId identifier;
+    @NotEmpty @Length(min = 3)
     private String name;
+    @NotEmpty @Length(min = 3)
     private String displayName;
+    @NotEmpty @Length(min = 5)
     private String description;
+    @NotEmpty @Email
     private String email;
+    @NotEmpty @URL
     private String site;
     private User owner;
 
