@@ -23,11 +23,7 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
 
     private static final String NAME_PATH = "/by-name/";
     private static final String ID_PATH = "/by-id/";
-    private static final BeanUtilsBean BEAN_UTILS_BEAN;
-
-    static {
-        BEAN_UTILS_BEAN = new NullAwareBeanUtilsBean();
-    }
+    private static final BeanUtilsBean BEAN_UTILS_BEAN = new NullAwareBeanUtilsBean();
 
     private final NameableMongoRepository<T, ObjectId> repository;
 
