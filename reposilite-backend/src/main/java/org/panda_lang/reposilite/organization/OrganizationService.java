@@ -8,8 +8,6 @@ public interface OrganizationService {
 
     Optional<Organization> findByName(String name);
 
-    Optional<Organization> findByOwner(User owner);
-
     Organization saveByForm(OrganizationCreationForm form, User owner);
 
 }

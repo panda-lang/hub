@@ -18,6 +18,8 @@ public class Organization implements DepositoryOwner {
     private String site;
     private User owner;
 
+    Organization() {}
+
     Organization(String name, String displayName, String description, String email, String site, User owner) {
         this.name = name;
         this.displayName = displayName;

@@ -22,11 +22,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public Optional<Organization> findByOwner(User owner) {
-        return this.organizationRepository.findByOwner(owner);
-    }
-
-    @Override
     public Organization saveByForm(OrganizationCreationForm form, User owner) {
         Organization organization = new OrganizationBuilder()
                 .withName(form.getName())
