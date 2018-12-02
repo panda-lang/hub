@@ -12,6 +12,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,11 +50,15 @@ public class DepositoryServiceImpl implements DepositoryService {
                 .build();
 
         try {
+            String metadataFilePath = buildDirectoryPath.toString() + File.separator + "maven-metadata.xml";
+
             JAXBContext jaxbContext = JAXBContext.newInstance(MavenMetadataFile.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(metadata, new File(buildDirectoryPath.toString() + File.separator + "maven-metadata.xml"));
+            jaxbMarshaller.marshal(metadata, new File(metadataFilePath));
+
+            FilesUtils.writeFileChecksums(Paths.get(metadataFilePath).toAbsolutePath());
         } catch (JAXBException e) {
             e.printStackTrace();
         }
