@@ -107,7 +107,7 @@ public class DepositoryController {
     })
     @PutMapping("/{repository}/**")
     public ResponseEntity<Object> addArtifact(@PathVariable String repository, @RequestBody MultipartFile file, HttpServletRequest request) throws IOException {
-        if (!Arrays.asList("jar", "pom").contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
+        if (!Arrays.asList("jar", "pom", "xml").contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -126,7 +126,7 @@ public class DepositoryController {
             Build build = new BuildFactory(artifact).obtainBuild(project.getBuildVersion());
 
             Files.createDirectories(buildDirectoryPath);
-            FilesUtils.storeFile(buildDirectoryPath, file);
+            FilesUtils.storeFile(buildDirectoryPath, file, false);
             FilesUtils.writeFileChecksums(buildFilePath.toAbsolutePath());
 
             this.depositoryService.generateMetaDataFile(depository, group, artifact, buildDirectoryPath.getParent());
@@ -134,7 +134,7 @@ public class DepositoryController {
         }
 
         if (entity instanceof Build) {
-            FilesUtils.storeFile(buildDirectoryPath, file);
+            FilesUtils.storeFile(buildDirectoryPath, file, false);
             FilesUtils.writeFileChecksums(buildFilePath.toAbsolutePath());
             Group group = depository.getGroup(project.getGroupName());
 
