@@ -55,7 +55,7 @@ public class DepositoryController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> repositories() {
         return ResponseEntity.ok(new LinkedHashMap<String, Object>() {{
-            depositoryService.getNames().forEach(name -> put("name", name));
+            depositoryService.getNames().forEach(name -> this.put("name", name));
         }});
     }
 
@@ -82,7 +82,7 @@ public class DepositoryController {
     public ResponseEntity<Object> repository(@PathVariable @ApiParam("Repository name") String repository, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Depository depository = this.depositoryService.getDepository(repository);
         String entityQualifier = RequestUtils.extractWildcard(request);
-        DepositoryEntity entity = depositoryService.getDepositoryEntity(depository, entityQualifier);
+        DepositoryEntity entity = this.depositoryService.getDepositoryEntity(depository, entityQualifier);
 
         if (entity == null) {
             return ResponseEntity.notFound().build();
@@ -107,7 +107,7 @@ public class DepositoryController {
     })
     @PutMapping("/{repository}/**")
     public ResponseEntity<Object> addArtifact(@PathVariable String repository, @RequestBody MultipartFile file, HttpServletRequest request) throws IOException {
-        if (!Arrays.asList("jar", "xml", "pom").contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
+        if (!Arrays.asList("jar", "pom").contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -115,9 +115,10 @@ public class DepositoryController {
         String entityQualifier = RequestUtils.extractWildcard(request);
 
         DepositoryEntity entity = this.depositoryService.getDepositoryEntity(depository, entityQualifier);
-        DepositoryPath project = DepositoryPath.ofSystemPath(Paths.get("\\" + entityQualifier).toString());
+        DepositoryPath project = DepositoryPath.ofSystemPath(Paths.get("\\" + entityQualifier + File.separator + file.getOriginalFilename()).toString());
 
         Path buildDirectoryPath = Paths.get(depository.getRootFile().getPath() + File.separator + entityQualifier);
+        Path buildFilePath = Paths.get(buildDirectoryPath + File.separator + file.getOriginalFilename());
 
         if (entity == null && !StringUtils.isBlank(project.getBuildVersion())) {
             Group group = new GroupFactory(depository).obtainGroup(project.getGroupName());
@@ -126,12 +127,18 @@ public class DepositoryController {
 
             Files.createDirectories(buildDirectoryPath);
             FilesUtils.storeFile(buildDirectoryPath, file);
+            FilesUtils.writeFileChecksums(buildFilePath.toAbsolutePath());
 
+            this.depositoryService.generateMetaDataFile(depository, group, artifact, buildDirectoryPath.getParent());
             return ResponseEntity.noContent().build();
         }
 
         if (entity instanceof Build) {
             FilesUtils.storeFile(buildDirectoryPath, file);
+            FilesUtils.writeFileChecksums(buildFilePath.toAbsolutePath());
+            Group group = depository.getGroup(project.getGroupName());
+
+            this.depositoryService.generateMetaDataFile(depository, group, group.getArtifact(project.getArtifactName()), buildDirectoryPath.getParent());
             return ResponseEntity.noContent().build();
         }
 
