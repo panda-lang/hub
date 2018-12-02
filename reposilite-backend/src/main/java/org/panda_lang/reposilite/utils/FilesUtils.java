@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class FilesUtils {
 
@@ -36,6 +38,13 @@ public class FilesUtils {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static File getMostRecentDirectory(Path directoryPath) {
+        return Arrays.stream(directoryPath.toFile().listFiles())
+                .filter(File::isDirectory)
+                .max(Comparator.comparingLong(File::lastModified))
+                .orElseGet(null);
     }
 
 }
