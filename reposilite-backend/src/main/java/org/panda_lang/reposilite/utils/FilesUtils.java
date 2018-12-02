@@ -3,6 +3,7 @@ package org.panda_lang.reposilite.utils;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.panda_lang.reposilite.utils.collection.TreeNode;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +34,16 @@ public class FilesUtils {
     }
 
     public static void storeFile(Path path, MultipartFile file) {
+        storeFile(path, file, true);
+    }
+
+    public static void storeFile(Path path, MultipartFile file, boolean xmlAllowed) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Path directoryPath = path.resolve(fileName);
+
+        if (!xmlAllowed && FilenameUtils.getExtension(file.getOriginalFilename()).contains("xml")) {
+            return;
+        }
 
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(), directoryPath.toFile());
