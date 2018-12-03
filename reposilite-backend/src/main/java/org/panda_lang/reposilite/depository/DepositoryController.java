@@ -16,6 +16,7 @@ import org.panda_lang.reposilite.depository.group.GroupFactory;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.reposilite.utils.RequestUtils;
 import org.panda_lang.panda.utilities.commons.IOUtils;
+import org.panda_lang.reposilite.utils.security.IsAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
@@ -99,6 +100,7 @@ public class DepositoryController {
         return ResponseEntity.ok(new DepositoryResponse(currentFile.getPath(), currentFile.list()));
     }
 
+    @IsAdmin
     @ApiOperation("Adds artifact")
     @ApiResponses({
             @ApiResponse(code = 403, message = "File extensions not allowed"),
