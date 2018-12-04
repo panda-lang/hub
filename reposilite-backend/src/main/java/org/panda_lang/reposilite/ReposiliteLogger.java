@@ -8,14 +8,14 @@ final class ReposiliteLogger {
     static final Logger REPOSILITE_LOGGER = LoggerFactory.getLogger("Reposilite");
 
     static final String ASCII_LOGO = "\n" +
-                                     "  _____                           _  _  _  _        \n" +
-                                     " |  __ \\                         (_)| |(_)| |       \n" +
-                                     " | |__) | ___  _ __    ___   ___  _ | | _ | |_  ___ \n" +
-                                     " |  _  / / _ \\| '_ \\  / _ \\ / __|| || || || __|/ _ \\\n" +
-                                     " | | \\ \\|  __/| |_) || (_) |\\__ \\| || || || |_|  __/\n" +
-                                     " |_|  \\_\\\\___|| .__/  \\___/ |___/|_||_||_| \\__|\\___|\n" +
-                                     "              | |                                   \n" +
-                                     "              |_|                                   \n";
+            "  _____                           _  _  _  _        \n" +
+            " |  __ \\                         (_)| |(_)| |       \n" +
+            " | |__) | ___  _ __    ___   ___  _ | | _ | |_  ___ \n" +
+            " |  _  / / _ \\| '_ \\  / _ \\ / __|| || || || __|/ _ \\\n" +
+            " | | \\ \\|  __/| |_) || (_) |\\__ \\| || || || |_|  __/\n" +
+            " |_|  \\_\\\\___|| .__/  \\___/ |___/|_||_||_| \\__|\\___|\n" +
+            "              | |                                   \n" +
+            "              |_|                                   \n";
 
     static void initMessage() {
         if (Thread.currentThread().getName().contains("restarted")) {
@@ -29,6 +29,7 @@ final class ReposiliteLogger {
         System.out.println();
     }
 
-    private ReposiliteLogger() { }
+    private ReposiliteLogger() {
+    }
 
 }

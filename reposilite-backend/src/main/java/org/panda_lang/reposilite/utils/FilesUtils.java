@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class FilesUtils {
+public final class FilesUtils {
 
     public static TreeNode<File> collectFiles(File directory) {
         TreeNode<File> tree = new TreeNode<>(directory);
@@ -72,6 +72,9 @@ public class FilesUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private FilesUtils() {
     }
 
 }

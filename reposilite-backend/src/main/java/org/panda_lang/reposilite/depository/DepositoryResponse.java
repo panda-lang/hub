@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class DepositoryResponse implements Serializable {
 
     private String path;
-    private String[] filesList;
+    private String[] files;
 
-    public DepositoryResponse(String path, String[] filesList) {
+    public DepositoryResponse(String path, String[] files) {
         this.path = path;
-        this.filesList = filesList;
+        this.files = files;
     }
 
     public String getPath() {
@@ -20,12 +20,12 @@ public class DepositoryResponse implements Serializable {
         this.path = path;
     }
 
-    public String[] getFilesList() {
-        return this.filesList;
+    public String[] getFiles() {
+        return this.files;
     }
 
-    public void setFilesList(String[] filesList) {
-        this.filesList = filesList;
+    public void setFiles(String[] files) {
+        this.files = files;
     }
 
 }

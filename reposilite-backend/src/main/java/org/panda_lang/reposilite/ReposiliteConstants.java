@@ -11,6 +11,7 @@ public final class ReposiliteConstants {
 
     public static final String SPRING_VERSION = SpringVersion.getVersion();
 
-    private ReposiliteConstants() { }
+    private ReposiliteConstants() {
+    }
 
 }

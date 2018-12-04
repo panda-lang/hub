@@ -21,6 +21,7 @@ public final class RequestUtils {
         return matcher.extractPathWithinPattern(bestMatchingPattern, path);
     }
 
-    private RequestUtils() {  }
+    private RequestUtils() {
+    }
 
 }

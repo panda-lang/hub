@@ -13,8 +13,7 @@ public class AbstractDepositoryEntityMapNode extends TreeMapNode<AbstractDeposit
         super(element, mapper);
     }
 
-    public @Nullable
-    DepositoryEntity find(String... paths) {
+    public @Nullable DepositoryEntity find(String... paths) {
         ArrayDistributor<String> distributor = new ArrayDistributor<>(paths);
         return distributor.hasNext() ? find(this, distributor) : null;
     }
