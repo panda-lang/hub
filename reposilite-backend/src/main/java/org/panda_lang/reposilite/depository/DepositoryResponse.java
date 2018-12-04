@@ -2,12 +2,12 @@ package org.panda_lang.reposilite.depository;
 
 import java.io.Serializable;
 
-class DepositoryResponse implements Serializable {
+public class DepositoryResponse implements Serializable {
 
     private String path;
     private String[] filesList;
 
-    DepositoryResponse(String path, String[] filesList) {
+    public DepositoryResponse(String path, String[] filesList) {
         this.path = path;
         this.filesList = filesList;
     }
