@@ -1,6 +1,6 @@
 package org.panda_lang.reposilite.utils;
 
-public class StringsUtils {
+public final class StringsUtils {
 
     public static int lastIndexOf(String text, String element, int toIndex) {
         if (toIndex < 0) {
@@ -10,6 +10,7 @@ public class StringsUtils {
         return text.substring(0, toIndex).lastIndexOf(element);
     }
 
-    private StringsUtils() { }
+    private StringsUtils() {
+    }
 
 }
