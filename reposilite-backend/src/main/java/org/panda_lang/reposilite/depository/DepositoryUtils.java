@@ -1,16 +1,17 @@
 package org.panda_lang.reposilite.depository;
 
 import org.panda_lang.reposilite.ReposiliteApplication;
-import org.panda_lang.reposilite.depository.artifact.Artifact;
-import org.panda_lang.reposilite.depository.group.Group;
+import org.panda_lang.reposilite.depository.maven.MavenDepository;
+import org.panda_lang.reposilite.depository.maven.artifact.Artifact;
+import org.panda_lang.reposilite.depository.maven.group.Group;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 public class DepositoryUtils {
 
-    public static void print(Depository depository) {
-        ReposiliteApplication.getLogger().info("└── " + depository.getName());
+    public static void print(MavenDepository mavenDepository) {
+        ReposiliteApplication.getLogger().info("└── " + mavenDepository.getName());
 
-        for (Group group : depository.getGroups()) {
+        for (Group group : mavenDepository.getGroups()) {
             ReposiliteApplication.getLogger().info("   ├── " + group.getName());
 
             for (Artifact artifact : group.getArtifacts()) {
