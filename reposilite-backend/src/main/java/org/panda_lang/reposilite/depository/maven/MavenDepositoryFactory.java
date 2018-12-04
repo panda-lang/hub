@@ -29,6 +29,7 @@ public class MavenDepositoryFactory {
         for (File depositoryDirectory : depositoryDirectories) {
             if (!depositoryDirectory.isDirectory()) {
                 ReposiliteApplication.getLogger().info("  Skipping " + depositoryDirectory.getName());
+                continue;
             }
 
             MavenDepository mavenDepository = loadDepository(depositoryDirectory);

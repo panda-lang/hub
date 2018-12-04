@@ -64,8 +64,7 @@ public class MavenDepositoryRepository {
         return node != null && node.getElement() instanceof MavenDepository ? node : null;
     }
 
-    public @Nullable
-    MavenDepository findDepositoryByName(String name) {
+    public @Nullable MavenDepository findDepositoryByName(String name) {
         if (this.depositories.get(name) == null) {
             throw new DepositoryNotFoundException();
         }
