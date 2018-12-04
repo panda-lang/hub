@@ -31,18 +31,18 @@ public class BuildControllerTest {
 
     @Test
     public void shouldReturn404WhenBuildIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/releases/org/panda-lang/panda-utilities/indev-333.8.0"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-333.8.0"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void shouldReturn200WhenBuildPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/releases/org/panda-lang/panda-utilities/indev-0.8.0"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-0.8.0"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is("repositories\\releases\\org\\panda-lang\\panda-utilities\\indev-0.8.0")))
-                .andExpect(jsonPath("$.filesList[0]", Matchers.is("panda-utilities-indev-0.8.0.jar")))
-                .andExpect(jsonPath("$.filesList[1]", Matchers.is("panda-utilities-indev-0.8.0.pom")))
-                .andExpect(jsonPath("$.filesList[2]", Matchers.is("_remote.repositories")));
+                .andExpect(jsonPath("$.path", Matchers.is("repositories\\maven\\releases\\org\\panda-lang\\panda-utilities\\indev-0.8.0")))
+                .andExpect(jsonPath("$.files[0]", Matchers.is("panda-utilities-indev-0.8.0.jar")))
+                .andExpect(jsonPath("$.files[1]", Matchers.is("panda-utilities-indev-0.8.0.pom")))
+                .andExpect(jsonPath("$.files[2]", Matchers.is("_remote.repositories")));
     }
 
 }
