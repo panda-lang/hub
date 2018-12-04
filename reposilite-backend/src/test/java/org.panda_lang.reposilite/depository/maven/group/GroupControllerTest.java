@@ -31,16 +31,16 @@ public class GroupControllerTest {
 
     @Test
     public void shouldReturn404WhenGroupIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/releases/pl/panda-lang/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/pl/panda-lang/"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void shouldReturn200WhenGroupPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/releases/org/panda-lang/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is("repositories\\releases\\org\\panda-lang")))
-                .andExpect(jsonPath("$.filesList[0]", Matchers.is("panda-utilities")));
+                .andExpect(jsonPath("$.path", Matchers.is("repositories\\maven\\releases\\org\\panda-lang")))
+                .andExpect(jsonPath("$.files[0]", Matchers.is("panda-utilities")));
     }
 
 }

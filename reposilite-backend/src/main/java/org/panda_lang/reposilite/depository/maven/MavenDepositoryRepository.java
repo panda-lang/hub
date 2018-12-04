@@ -25,28 +25,28 @@ public class MavenDepositoryRepository {
     private final Map<String, TreeMapNode<? extends DepositoryEntity>> depositories;
 
     @Autowired
-    public MavenDepositoryRepository(@Qualifier("repositoryDirectory") File repositoriesRoot) {
+    public MavenDepositoryRepository(@Qualifier("mavenRepositoryDirectory") File repositoriesRoot) {
         this.repositoriesRoot = repositoriesRoot;
         this.depositories = new HashMap<>();
     }
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        ReposiliteApplication.getLogger().info("Loading repositories...");
+        ReposiliteApplication.getLogger().info("Loading maven repositories...");
 
         MavenDepositoryFactory factory = new MavenDepositoryFactory();
-        Collection<MavenDepository> loadedDepositories = factory.loadDepositories(repositoriesRoot);
+        Collection<MavenDepository> loadedDepositories = factory.loadDepositories(this.repositoriesRoot);
 
         for (MavenDepository loadedMavenDepository : loadedDepositories) {
-            depositories.put(loadedMavenDepository.getName(), loadedMavenDepository.getNode());
+            this.depositories.put(loadedMavenDepository.getName(), loadedMavenDepository.getNode());
         }
 
-        if (depositories.isEmpty()) {
+        if (this.depositories.isEmpty()) {
             ReposiliteApplication.getLogger().warn("Repositories not found!");
             return;
         }
 
-        ReposiliteApplication.getLogger().info("Result: " + depositories.size() + " repositories have been found");
+        ReposiliteApplication.getLogger().info("Result: " + this.depositories.size() + " repositories have been found");
     }
 
     public DepositoryEntity findEntityByURLPath(MavenDepository mavenDepository, String url) {
@@ -60,7 +60,7 @@ public class MavenDepositoryRepository {
     }
 
     private @Nullable TreeMapNode<? extends DepositoryEntity> findDepositoryNodeByName(String name) {
-        TreeMapNode<? extends DepositoryEntity> node = depositories.get(name);
+        TreeMapNode<? extends DepositoryEntity> node = this.depositories.get(name);
         return node != null && node.getElement() instanceof MavenDepository ? node : null;
     }
 
@@ -74,7 +74,7 @@ public class MavenDepositoryRepository {
     }
 
     public Set<MavenDepository> findAll() {
-        return depositories.values().stream()
+        return this.depositories.values().stream()
                 .filter(node -> node.getElement() instanceof MavenDepository)
                 .map(node -> (MavenDepository) node.getElement())
                 .collect(Collectors.toSet());

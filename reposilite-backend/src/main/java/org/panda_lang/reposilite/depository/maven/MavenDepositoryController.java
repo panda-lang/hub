@@ -43,7 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @ApiOperation("Operations pertaining to repository")
-@RequestMapping("api/repository")
+@RequestMapping("api/repository/maven")
 @RestController
 public class MavenDepositoryController {
 

@@ -18,8 +18,8 @@ import java.io.File;
 public class ReposiliteConfiguration implements WebMvcConfigurer {
 
     @Bean
-    public File repositoryDirectory() {
-        return new File("repositories");
+    public File mavenRepositoryDirectory() {
+        return new File("repositories" + File.separator + "maven");
     }
 
     @Bean

@@ -29,13 +29,13 @@ public class MavenMavenDepositoryControllerTest {
 
     @Test
     public void shouldReturn404WhenDepositoryIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/{repository}", "failableRepository"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/{repository}", "failableRepository"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void shouldReturn200WhenDepositoryPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/releases/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", Matchers.is("releases")));
     }
