@@ -10,11 +10,9 @@ import java.util.Set;
 
 public interface MavenDepositoryService {
 
-    @Nullable
-    MavenDepository getDepository(String name);
+    @Nullable MavenDepository getDepository(String name);
 
-    @Nullable
-    DepositoryEntity getDepositoryEntity(MavenDepository mavenDepository, String entityQualifier);
+    @Nullable DepositoryEntity getDepositoryEntity(MavenDepository mavenDepository, String entityQualifier);
 
     void generateMetaDataFile(MavenDepository mavenDepository, Group group, Artifact artifact, Path buildDirectoryPath);
 
