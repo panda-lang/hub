@@ -10,9 +10,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     let requiresAuth = to.matched.some(value => value.meta.requiresAuth);
+    let user = localStorage.getItem("current_user");
 
-    // TODO user auth status lookup
-    if (requiresAuth) {
+    if (requiresAuth && !user) {
         next("/login");
     } else {
         next();
