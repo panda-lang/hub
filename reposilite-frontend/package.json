@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "nodemon": "^1.18.6",
+    "toastr": "^2.1.4",
     "vue": "^2.5.17",
     "vue-router": "^3.0.2"
   },
