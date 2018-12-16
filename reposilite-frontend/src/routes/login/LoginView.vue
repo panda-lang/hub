@@ -16,13 +16,13 @@
 
     export default {
         name: "LoginView",
-        data() {
+        data: () => {
             return {
                 username: "",
                 password: "",
             }
         },
-        created() {
+        created: () => {
             userService.logout();
         },
         methods: {
