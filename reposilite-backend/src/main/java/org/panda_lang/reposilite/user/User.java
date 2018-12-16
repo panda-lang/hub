@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.depository.DepositoryOwner;
 import org.panda_lang.reposilite.user.role.Role;
@@ -15,6 +16,7 @@ public class User implements DepositoryOwner {
     private ObjectId identifier;
     private String name;
     private String displayName;
+    @JsonIgnore
     private String password;
     private String description;
     private String email;
