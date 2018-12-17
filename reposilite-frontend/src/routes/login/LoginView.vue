@@ -19,7 +19,7 @@
         data: () => {
             return {
                 username: "",
-                password: "",
+                password: ""
             }
         },
         created: () => {
