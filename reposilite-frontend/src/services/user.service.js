@@ -2,7 +2,8 @@ import router from "../router";
 
 export const userService = {
     login,
-    logout
+    logout,
+    register
 };
 
 function login(username, password) {
@@ -27,6 +28,29 @@ function login(username, password) {
 
 function logout() {
     localStorage.removeItem("current_user");
+}
+
+function register(username, displayName, password, confirmPassword, email, confirmEmail) {
+    let options = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, displayName, password, confirmPassword, email, confirmEmail})
+    };
+
+    return fetch("http://localhost:3000/api/registration", options)
+        .then(response => {
+            return response.text()
+                .then(text => {
+                    let data = text && JSON.parse(text);
+
+                    if (response.status !== 201) {
+                        return Promise.reject((data && data.error) || response.statusText || response.status);
+                    }
+
+                    login(username, password);
+                    return data;
+                })
+        });
 }
 
 function handleResponse(response) {
