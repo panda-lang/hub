@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class RegistrationController {
             @ApiResponse(code = 201, message = "Successfully created user", response = User.class)
     })
     @PostMapping
-    public ResponseEntity<User> register(@Valid RegistrationForm form, BindingResult result) {
+    public ResponseEntity<User> register(@Valid @RequestBody RegistrationForm form, BindingResult result) {
         Optional<User> user = this.userService.findByUsername(form.getUsername());
 
         if (user.isPresent()) {
