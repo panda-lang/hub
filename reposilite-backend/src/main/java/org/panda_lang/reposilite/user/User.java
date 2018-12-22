@@ -7,7 +7,7 @@ import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Set;
 
 @Document
 public class User implements DepositoryOwner {
@@ -21,9 +21,9 @@ public class User implements DepositoryOwner {
     private String description;
     private String email;
     private String site;
-    private List<Role> roles;
+    private Set<Role> roles;
 
-    User(String name, String displayName, String password, String description, String email, String site, List<Role> roles) {
+    User(String name, String displayName, String password, String description, String email, String site, Set<Role> roles) {
         this.name = name;
         this.displayName = displayName;
         this.password = password;
@@ -62,7 +62,7 @@ public class User implements DepositoryOwner {
         this.site = site;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -100,17 +100,8 @@ public class User implements DepositoryOwner {
         return this.site;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return this.roles;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", email='" + email + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
 }
