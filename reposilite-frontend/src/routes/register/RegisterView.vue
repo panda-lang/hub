@@ -49,9 +49,9 @@
 </template>
 
 <script>
-    import {userService} from "../../services/user.service";
-    import {notification} from "../../utils/toastr.utils";
-    import {required, minLength, sameAs, email} from "vuelidate/lib/validators/index";
+    import { userService } from "../../services/user.service";
+    import { notification } from "../../utils/toastr.utils";
+    import { required, minLength, sameAs, email } from "vuelidate/lib/validators/index";
 
     export default {
         name: "RegisterView",
@@ -66,12 +66,12 @@
             }
         },
         validations: {
-            username: {required, minLength: minLength(3)},
-            displayName: {required, minLength: minLength(3)},
-            password: {required, minLength: minLength(6)},
-            confirmPassword: {sameAsPassword: sameAs("password")},
-            email: {required, email},
-            confirmEmail: {sameAsEmail: sameAs("email")}
+            username: { required, minLength: minLength(3) },
+            displayName: { required, minLength: minLength(3) },
+            password: { required, minLength: minLength(6) },
+            confirmPassword: { sameAsPassword: sameAs("password") },
+            email: { required, email},
+            confirmEmail: { sameAsEmail: sameAs("email") }
         },
         methods: {
             performRegister() {

@@ -6,14 +6,14 @@
                     <a class="uk-navbar-item uk-logo">Reposilite</a>
                 </router-link>
             </div>
-            <div class="uk-navbar-right uk-margin-right">
+            <div class="uk-navbar-center uk-margin-right">
                 <ul class="uk-navbar-nav uk-visible@m">
-                    <router-link to="/about" tag="li"><a>About</a></router-link>
-                    <router-link to="/contact" tag="li"><a>Contact</a></router-link>
+                    <router-link class="uk-navbar-item" to="/about" tag="li"><a>About</a></router-link>
+                    <router-link class="uk-navbar-item" to="/contact" tag="li"><a>Contact</a></router-link>
                 </ul>
-                <a class="uk-navbar-toggle" href="#modal-full" uk-search-icon uk-toggle></a>
             </div>
         </nav>
+
         <div id="modal-full" class="uk-modal-full uk-modal" uk-modal>
             <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
                 <button class="uk-modal-close-full" type="button" uk-close></button>
@@ -31,8 +31,14 @@
     }
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+
     .uk-modal-dialog {
         opacity: 0.8;
+    }
+
+    .uk-navbar-item {
+        font-family: 'Titillium Web', sans-serif;
     }
 </style>

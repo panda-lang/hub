@@ -20,9 +20,9 @@
 </template>
 
 <script>
-    import {userService} from "../../services/user.service.js";
-    import {notification} from "../../utils/toastr.utils";
-    import {required} from "vuelidate/lib/validators/index";
+    import { userService } from "../../services/user.service.js";
+    import { notification } from "../../utils/toastr.utils";
+    import { required } from "vuelidate/lib/validators/index";
 
     export default {
         name: "LoginView",
@@ -36,8 +36,8 @@
             userService.logout();
         },
         validations: {
-            username: {required},
-            password: {required}
+            username: { required },
+            password: { required }
         },
         methods: {
             performLogin() {

@@ -2,7 +2,11 @@
     <router-view></router-view>
 </template>
 
-<style>
+<style lang="scss">
+    html, body {
+        background-color: #282633;
+    }
+
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
