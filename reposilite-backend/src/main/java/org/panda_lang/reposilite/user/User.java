@@ -104,4 +104,8 @@ public class User implements DepositoryOwner {
         return this.roles;
     }
 
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
 }
