@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-@AuthenticationPrincipal(expression = "user")
+@AuthenticationPrincipal(expression = "#this instanceof T(String) ? null : user")
 @Documented
 public @interface AuthenticatedUser {
 
