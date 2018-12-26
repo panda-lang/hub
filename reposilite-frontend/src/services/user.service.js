@@ -1,4 +1,4 @@
-import router from "../router";
+import router from '../router';
 
 export const userService = {
     login,
@@ -8,17 +8,17 @@ export const userService = {
 
 function login(username, password) {
     let options = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({username, password})
     };
 
-    return fetch("http://localhost:3000/api/authenticate", options)
+    return fetch('http://localhost:3000/api/authenticate', options)
         .then(handleResponse)
         .then(data => {
             if (data) {
-                data.token = window.btoa(username + ":" + password);
-                localStorage.setItem("current_user", JSON.stringify(data));
+                data.token = window.btoa(username + ':' + password);
+                localStorage.setItem('current_user', JSON.stringify(data));
             }
 
             return data;
@@ -27,17 +27,17 @@ function login(username, password) {
 }
 
 function logout() {
-    localStorage.removeItem("current_user");
+    localStorage.removeItem('current_user');
 }
 
 function register(username, displayName, password, confirmPassword, email, confirmEmail) {
     let options = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({username, displayName, password, confirmPassword, email, confirmEmail})
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ username, displayName, password, confirmPassword, email, confirmEmail })
     };
 
-    return fetch("http://localhost:3000/api/registration", options)
+    return fetch('http://localhost:3000/api/registration', options)
         .then(response => {
             return response.text()
                 .then(text => {
@@ -61,7 +61,7 @@ function handleResponse(response) {
             if (!response.ok) {
                 if (response.status === 401) {
                     logout();
-                    router.push("/login");
+                    router.push('/login');
                 }
 
                 return Promise.reject((data && data.error) || response.statusText);

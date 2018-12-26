@@ -1,25 +1,21 @@
 <template>
     <div id="search-wrapper">
         <div class="uk-position-center-right search-overlay">
-            <div class="uk-position-center uk-search uk-search-default">
-                <span uk-search-icon></span>
-                <input class="uk-search-input" type="search" placeholder="Search" v-model="input" @input="searchInput">
+            <div class="uk-position-center search">
+                <span class="uk-margin-left uk-margin-right" uk-icon="icon: search; ratio: 0.7" />
+                <input type="search" placeholder="Search" v-model="input" @input="searchInput">
             </div>
-
         </div>
     </div>
 </template>
 
 <script>
-    //eslint-disable-next-line
-    import axios from 'axios';
-
     export default {
         name: 'Search',
         data() {
             return {
                 input: '',
-                results: [],
+                results: []
             }
         },
         methods: {
@@ -39,18 +35,8 @@
                         id: 2,
                         name: 'Reposilite',
                         description: 'Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts'
-                    },
-                    {
-                        id: 3,
-                        name: 'dzikoysk',
-                        description: ''
-                    },
-                    {
-                        id: 4,
-                        name: 'netsu',
-                        description: ''
                     }
-                ]
+                ];
 
                 this.results = mocks;
             }
@@ -71,19 +57,27 @@
         }
     }
 
-    .uk-search {
+    .search {
         background-color: white;
         width: 400px;
         border-radius: 25px;
-    }
 
-    .uk-search-input {
-        border-radius: 25px;
-        border-color: #666666;
+        input {
+            height: 40px;
+            width: 320px;
+            font-family: 'Titillium Web', sans-serif;
+            font-size: 14px;
+            color: black;
+            border: none;
+            background: none;
+        }
+
+        input:focus {
+            outline: none;
+        }
     }
 
     .search-overlay {
-        position: relative;
         background-size: cover;
         background-image: url("../../../assets/bg.jpg");
         height: 100%;
@@ -94,12 +88,5 @@
 
     .search-overlay:after {
         background-color: rgba(black, 0.5);
-    }
-
-    .search-input {
-        font-family: 'Titillium Web', sans-serif;
-        font-size: 12px;
-        color: black;
-        background-color: white;
     }
 </style>
