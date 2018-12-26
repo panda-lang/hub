@@ -1,26 +1,23 @@
 <template>
     <div id="search-wrapper">
         <div class="uk-position-center-right search-overlay">
-            <div class="uk-position-center search">
-                <span class="uk-margin-left uk-margin-right" uk-icon="icon: search; ratio: 0.7" />
-                <input type="search" placeholder="Search" v-model="input" @input="searchInput">
-            </div>
+            <autocomplete class="uk-position-center autocomplete__box" input-class="autocomplete__inputs" :source="mocks"></autocomplete>
         </div>
     </div>
 </template>
 
 <script>
+    import Autocomplete from 'vuejs-auto-complete';
+
     export default {
         name: 'Search',
+        components: {
+            Autocomplete
+        },
         data() {
             return {
                 input: '',
-                results: []
-            }
-        },
-        methods: {
-            searchInput() {
-                var mocks = [
+                mocks: [
                     {
                         id: 0,
                         name: 'Panda',
@@ -29,18 +26,20 @@
                     {
                         id: 1,
                         name: 'Light',
-                        description: 'Light is English-like programming language built on the core of the Panda Programming Language'
+                        description: 'Light is English-like programming language built on the core of the Panda Programming Language.'
                     },
                     {
                         id: 2,
                         name: 'Reposilite',
-                        description: 'Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts'
+                        description: 'Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts.'
+                    },
+                    {
+                        id: 3,
+                        name: 'test 🌈',
                     }
-                ];
-
-                this.results = mocks;
+                ]
             }
-        }
+        },
     }
 </script>
 
@@ -57,24 +56,22 @@
         }
     }
 
-    .search {
+    .autocomplete__box {
         background-color: white;
-        width: 400px;
         border-radius: 25px;
+        width: 320px;
+        border: 0px;
+        outline: none;
 
-        input {
-            height: 40px;
-            width: 320px;
-            font-family: 'Titillium Web', sans-serif;
-            font-size: 14px;
-            color: black;
-            border: none;
-            background: none;
-        }
+    }
 
-        input:focus {
-            outline: none;
-        }
+    .autocomplete__inputs {
+        height: 40px;
+        font-family: 'Titillium Web', sans-serif;
+        font-size: 14px;
+        color: black;
+        border: none;
+        outline: none;
     }
 
     .search-overlay {
