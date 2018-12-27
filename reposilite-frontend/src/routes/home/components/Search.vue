@@ -1,7 +1,7 @@
 <template>
-    <div id="search-wrapper">
+    <div id="search-wrapper uk-position-center-right search-overlay">
         <div class="uk-position-center-right search-overlay">
-            <autocomplete class="uk-position-center autocomplete__box" input-class="autocomplete__inputs" :source="mocks"></autocomplete>
+            <autocomplete class="uk-position-center" input-class="autocomplete__inputs" :source="mocks"></autocomplete>
         </div>
     </div>
 </template>
@@ -43,7 +43,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
 
     @mixin dark-overlay {
@@ -56,13 +56,13 @@
         }
     }
 
-    .autocomplete__box {
-        background-color: white;
-        border-radius: 25px;
-        width: 320px;
-        border: 0px;
+    .autocomplete {
+        width: 320px !important;
         outline: none;
+    }
 
+    .autocomplete__box {
+        border-radius: 15px !important;
     }
 
     .autocomplete__inputs {
@@ -84,6 +84,6 @@
     }
 
     .search-overlay:after {
-        background-color: rgba(black, 0.5);
+        background-color: rgba(black, 0.7);
     }
 </style>

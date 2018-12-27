@@ -4,7 +4,7 @@
 
 <style lang="scss">
     html, body {
-        background-color: #282633;
+        background-color: #1b1b21;
     }
 
     #app {
