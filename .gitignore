@@ -104,3 +104,6 @@ yarn-error.log*
 /test/e2e/reports
 selenium-debug.log
 package-lock.json
+
+### Custom
+reposilite-backend/workspace/application.yml
