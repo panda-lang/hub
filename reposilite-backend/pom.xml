@@ -13,7 +13,7 @@
 
     <groupId>org.panda-lang</groupId>
     <artifactId>reposilite</artifactId>
-    <version>indev-2018.8.12</version>
+    <version>indev-2018.12.30</version>
 
     <properties>
         <java.version>1.8</java.version>
