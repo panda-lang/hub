@@ -9,7 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ReposiliteApplication {
 
     public static void main(String[] args) {
-        ReposiliteLogger.initMessage();
+        ReposiliteLogger.initializeMessage();
+        ReposiliteExternalConfiguration.initialize();
         SpringApplication.run(ReposiliteApplication.class, args);
     }
 

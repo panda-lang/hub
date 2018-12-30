@@ -7,7 +7,7 @@ final class ReposiliteLogger {
 
     static final Logger REPOSILITE_LOGGER = LoggerFactory.getLogger("Reposilite");
 
-    static final String ASCII_LOGO = "\n" +
+    private static final String ASCII_LOGO = "\n" +
             "  _____                           _  _  _  _        \n" +
             " |  __ \\                         (_)| |(_)| |       \n" +
             " | |__) | ___  _ __    ___   ___  _ | | _ | |_  ___ \n" +
@@ -17,7 +17,7 @@ final class ReposiliteLogger {
             "              | |                                   \n" +
             "              |_|                                   \n";
 
-    static void initMessage() {
+    static void initializeMessage() {
         if (Thread.currentThread().getName().contains("restarted")) {
             return;
         }
