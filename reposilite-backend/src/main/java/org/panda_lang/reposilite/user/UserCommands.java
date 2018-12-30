@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @ShellComponent
@@ -22,7 +23,7 @@ public class UserCommands {
     @ShellMethod(value = "Adds user", key = "useradd")
     public String addUserCommand(String name) {
         if (!this.userRepository.existsByName(name)) {
-            User user = new UserBuilder().withName(name).build();
+            User user = new UserBuilder().withName(name).withRoles(Collections.emptySet()).build();
             this.userRepository.save(user);
 
             return "Created user: " + user.getName();

@@ -1,0 +1,9 @@
+# Server configuration
+server:
+  port: 3000
+
+# Spring configuration
+spring:
+  data:
+    mongodb:
+      uri: mongodb://username:password@host:port/database
