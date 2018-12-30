@@ -20,7 +20,11 @@ class ReposiliteExternalConfiguration {
             throw new RuntimeException("Cannot get content of external configuration file");
         }
 
+        ReposiliteApplication.getLogger().info("Generating configuration file...");
         FileUtils.overrideFile(userConfiguration, content);
+
+        ReposiliteApplication.getLogger().info("Complete the configuration and run Reposilite again");
+        System.exit(0);
     }
 
 }
