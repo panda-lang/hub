@@ -1,7 +1,7 @@
 package org.panda_lang.reposilite.organization;
 
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.rest.NameableMongoRepository;
+import org.panda_lang.reposilite.utils.NameableMongoRepository;
 import org.springframework.stereotype.Repository;
 
 

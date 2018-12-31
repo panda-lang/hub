@@ -1,0 +1,12 @@
+logging:
+  level:
+    org:
+      springframework: WARN
+      apache: WARN
+      jline: ERROR
+      panda_lang: WARN
+      mongodb: WARN
+    springfox: WARN
+spring:
+  main:
+    banner-mode: "off" # prevent YAML cast to bool

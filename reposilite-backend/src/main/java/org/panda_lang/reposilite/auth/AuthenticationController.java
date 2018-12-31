@@ -1,6 +1,7 @@
 package org.panda_lang.reposilite.auth;
 
 import org.panda_lang.reposilite.user.User;
+import org.panda_lang.reposilite.user.UserAuthenticationDto;
 import org.panda_lang.reposilite.user.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 @RestController
 public class AuthenticationController {
@@ -25,15 +26,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/api/authenticate")
-    public ResponseEntity<?> login(@RequestBody Map<Object, String> parameters) {
-        String username = parameters.get("username");
-        String password = parameters.get("password");
-
-        if (parameters.size() != 2 || username == null || password == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+    public ResponseEntity<?> login(@RequestBody @Valid UserAuthenticationDto dto) { // TODO DTO
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
 
         if (authentication == null) {

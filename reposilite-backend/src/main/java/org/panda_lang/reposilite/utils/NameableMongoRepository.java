@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.utils.rest;
+package org.panda_lang.reposilite.utils;
 
 import org.panda_lang.reposilite.utils.IdentifiableEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;

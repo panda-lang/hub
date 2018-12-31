@@ -1,0 +1,6 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+  profiles:
+    active: test
