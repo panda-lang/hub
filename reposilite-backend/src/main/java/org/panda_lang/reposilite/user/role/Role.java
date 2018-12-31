@@ -3,7 +3,7 @@ package org.panda_lang.reposilite.user.role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document("roles")
 public class Role {
 
     @Id

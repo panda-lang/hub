@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.utils.rest;
+package org.panda_lang.reposilite.utils;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.IdentifiableEntity;
-import org.panda_lang.reposilite.utils.NullAwareBeanUtilsBean;
 import org.panda_lang.reposilite.utils.security.IsAdmin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
