@@ -24,8 +24,8 @@ public class ProfileController {
     @GetMapping("/{project}")
     public ResponseEntity<Map<String, Object>> project(@PathVariable @ApiParam("Account name") String account, @PathVariable @ApiParam("Project name") String project) {
         return ResponseEntity.ok(new LinkedHashMap<String, Object>() {{
-            put("account", account);
-            put("project", project);
+            this.put("account", account);
+            this.put("project", project);
         }});
     }
 

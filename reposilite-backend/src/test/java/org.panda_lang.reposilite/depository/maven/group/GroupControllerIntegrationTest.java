@@ -1,9 +1,10 @@
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.depository.maven.group;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.panda_lang.reposilite.depository.maven.MavenDepositoryController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,11 +12,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MavenMavenDepositoryControllerTest {
+public class GroupControllerIntegrationTest {
 
     @Autowired
     private MavenDepositoryController mavenDepositoryController;
@@ -28,16 +30,17 @@ public class MavenMavenDepositoryControllerTest {
     }
 
     @Test
-    public void shouldReturn404WhenDepositoryIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/{repository}", "failableRepository"))
+    public void shouldReturn404WhenGroupIsNotPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/pl/panda-lang/"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void shouldReturn200WhenDepositoryPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/"))
+    public void shouldReturn200WhenGroupPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", Matchers.is("releases")));
+                .andExpect(jsonPath("$.path", Matchers.is("repositories\\maven\\releases\\org\\panda-lang")))
+                .andExpect(jsonPath("$.files[0]", Matchers.is("panda-utilities")));
     }
 
 }
