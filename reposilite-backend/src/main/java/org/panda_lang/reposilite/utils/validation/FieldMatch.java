@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.auth;
+package org.panda_lang.reposilite.utils.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,7 +1,7 @@
 package org.panda_lang.reposilite.user;
 
 import org.hibernate.validator.constraints.Length;
-import org.panda_lang.reposilite.auth.FieldMatch;
+import org.panda_lang.reposilite.utils.validation.FieldMatch;
 import org.panda_lang.reposilite.utils.AbstractDto;
 
 import javax.validation.constraints.Email;
