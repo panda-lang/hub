@@ -11,7 +11,7 @@ public abstract class AbstractDto<T extends IdentifiableEntity<?>> {
 
     public String toJson() {
         try {
-            return new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(this);
+            return new ObjectMapper().writer().writeValueAsString(this);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
