@@ -4,7 +4,6 @@ import org.panda_lang.reposilite.utils.AbstractDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
 
 public class UserAuthenticationDto extends AbstractDto<User> {
 
@@ -35,7 +34,6 @@ public class UserAuthenticationDto extends AbstractDto<User> {
         return new UserBuilder()
                 .withName(this.username)
                 .withPassword(this.password)
-                .withRoles(Collections.emptySet())
                 .build();
     }
 }

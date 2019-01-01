@@ -5,7 +5,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.panda_lang.reposilite.user.User;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
-import org.panda_lang.reposilite.user.UserService;
+import org.panda_lang.reposilite.user.UserRegistrationService;
+import org.panda_lang.reposilite.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,14 @@ import java.util.Optional;
 
 @ApiOperation("Operations pertaining to registration")
 @RestController
-@RequestMapping("api/registration")
+@RequestMapping("api/register")
 public class RegistrationController {
 
-    private final UserService userService;
+    private final UserRegistrationService service;
 
     @Autowired
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
+    public RegistrationController(UserRegistrationService service) {
+        this.service = service;
     }
 
     @ApiOperation(value = "Register a user account")
@@ -37,18 +38,18 @@ public class RegistrationController {
             @ApiResponse(code = 201, message = "Successfully created user", response = User.class)
     })
     @PostMapping
-    public ResponseEntity<User> register(@Valid @RequestBody UserRegistrationDto form, BindingResult result) {
-        Optional<User> user = this.userService.findByUsername(form.getUsername());
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationDto dto, BindingResult result) {
+        Optional<User> user = this.service.findByUsername(dto.getUsername());
 
         if (user.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return RequestUtils.validationError(result);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.saveByForm(form));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(dto.toEntity()));
     }
 
 }
