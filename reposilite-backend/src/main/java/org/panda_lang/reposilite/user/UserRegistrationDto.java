@@ -25,6 +25,19 @@ public class UserRegistrationDto extends AbstractDto<User> {
     @Email
     private String confirmEmail;
 
+    public UserRegistrationDto(String username, String displayName, String password, String confirmPassword, String email, String confirmEmail) {
+        this.username = username;
+        this.displayName = displayName;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.email = email;
+        this.confirmEmail = confirmEmail;
+    }
+
+    public UserRegistrationDto() { // JACKSON
+
+    }
+
     public String getUsername() {
         return this.username;
     }
