@@ -54,11 +54,12 @@ public class AuthenticationControllerIntegrationTest {
             this.put("password", AuthenticationControllerIntegrationTest.this.passwordEncoder.encode("test123"));
             this.put("roles", Sets.newHashSet(
                     AuthenticationControllerIntegrationTest.this.roleFactory.obtainRole("USER"),
-                    AuthenticationControllerIntegrationTest.this.roleFactory.obtainRole("ADMIN"))
-            );
+                    AuthenticationControllerIntegrationTest.this.roleFactory.obtainRole("ADMIN")
+            ));
         }};
 
         this.user = new BasicDBObject(userDetails);
+        this.mongoTemplate.insert(this.user, "users");
     }
 
     @After
@@ -69,14 +70,24 @@ public class AuthenticationControllerIntegrationTest {
     }
 
     @Test
-    public void authenticationTest() throws Exception {
+    public void successAuthenticationTest() throws Exception {
         UserAuthenticationDto dto = new UserAuthenticationDto("#s;7>.r{SQp;7>.r{SQp-]M)s~_S", "test123");
 
-        this.mongoTemplate.insert(this.user, "users");
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/authenticate")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(dto.toJson().getBytes()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", Matchers.is("#s;7>.r{SQp;7>.r{SQp-]M)s~_S")));
     }
+
+    @Test
+    public void failureAuthenticationTest() throws Exception {
+        UserAuthenticationDto dto = new UserAuthenticationDto("#s;7>.r{SQp;7>.r{SQp-]M)s~_S", "test1234");
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/authenticate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(dto.toJson().getBytes()))
+                .andExpect(status().isUnauthorized());
+    }
+
 }
