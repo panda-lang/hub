@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
@@ -34,14 +35,24 @@ public class AuthenticationController {
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
-        Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+
+        Authentication authentication;
+        try {
+            authentication = this.authenticationManager.authenticate(authenticationToken);
+        } catch (BadCredentialsException ex) {
+            return this.unauthorized();
+        }
 
         if (authentication == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return this.unauthorized();
         }
 
         User user = ((UserDetails) authentication.getPrincipal()).getUser();
         return ResponseEntity.ok(user);
+    }
+
+    private ResponseEntity<?> unauthorized() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
 }
