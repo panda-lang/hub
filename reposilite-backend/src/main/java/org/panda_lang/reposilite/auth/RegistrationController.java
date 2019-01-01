@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.panda_lang.reposilite.user.User;
+import org.panda_lang.reposilite.user.UserRegistrationDto;
 import org.panda_lang.reposilite.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class RegistrationController {
             @ApiResponse(code = 201, message = "Successfully created user", response = User.class)
     })
     @PostMapping
-    public ResponseEntity<User> register(@Valid @RequestBody RegistrationForm form, BindingResult result) {
+    public ResponseEntity<User> register(@Valid @RequestBody UserRegistrationDto form, BindingResult result) {
         Optional<User> user = this.userService.findByUsername(form.getUsername());
 
         if (user.isPresent()) {

@@ -1,7 +1,6 @@
 package org.panda_lang.reposilite.user;
 
 import org.panda_lang.panda.utilities.commons.collection.Sets;
-import org.panda_lang.reposilite.auth.RegistrationForm;
 import org.panda_lang.reposilite.user.role.Role;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveByForm(RegistrationForm form) {
+    public User saveByForm(UserRegistrationDto form) {
         User user = new UserBuilder()
                 .withName(form.getUsername())
                 .withDisplayName(form.getDisplayName())
