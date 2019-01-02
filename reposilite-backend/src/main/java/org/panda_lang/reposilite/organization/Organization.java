@@ -102,4 +102,17 @@ public class Organization implements DepositoryOwner {
         return this.owner;
     }
 
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "identifier=" + this.identifier +
+                ", name='" + this.name + '\'' +
+                ", displayName='" + this.displayName + '\'' +
+                ", description='" + this.description + '\'' +
+                ", email='" + this.email + '\'' +
+                ", site='" + this.site + '\'' +
+                ", owner=" + this.owner +
+                '}';
+    }
+
 }
