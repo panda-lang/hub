@@ -35,23 +35,23 @@ public class MavenDepositoryPath {
     }
 
     public String[] toArray() {
-        return new String[] { groupName, artifactName, buildVersion, buildFile };
+        return new String[] { this.groupName, this.artifactName, this.buildVersion, this.buildFile };
     }
 
     public String getBuildFile() {
-        return buildFile;
+        return this.buildFile;
     }
 
     public String getBuildVersion() {
-        return buildVersion;
+        return this.buildVersion;
     }
 
     public String getArtifactName() {
-        return artifactName;
+        return this.artifactName;
     }
 
     public String getGroupName() {
-        return groupName;
+        return this.groupName;
     }
 
     public static MavenDepositoryPath ofSystemPath(String path) {

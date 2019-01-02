@@ -98,6 +98,15 @@ class MavenMetadataFile implements Serializable {
             return this.lastUpdated;
         }
 
+        @Override
+        public String toString() {
+            return "Versioning{" +
+                    "release='" + this.release + '\'' +
+                    ", latest='" + this.latest + '\'' +
+                    ", versions=" + this.versions +
+                    ", lastUpdated=" + this.lastUpdated +
+                    '}';
+        }
     }
 
     @XmlRootElement
@@ -121,6 +130,21 @@ class MavenMetadataFile implements Serializable {
             this.version = version;
         }
 
+        @Override
+        public String toString() {
+            return "Versions{" +
+                    "version=" + this.version +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "MavenMetadataFile{" +
+                "groupId='" + this.groupId + '\'' +
+                ", artifactId='" + this.artifactId + '\'' +
+                ", versioning=" + this.versioning +
+                '}';
     }
 
 }
