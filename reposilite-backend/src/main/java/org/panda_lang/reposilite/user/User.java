@@ -108,4 +108,18 @@ public class User implements DepositoryOwner {
         this.roles.add(role);
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "identifier=" + this.identifier +
+                ", name='" + this.name + '\'' +
+                ", displayName='" + this.displayName + '\'' +
+                ", password='" + this.password + '\'' +
+                ", description='" + this.description + '\'' +
+                ", email='" + this.email + '\'' +
+                ", site='" + this.site + '\'' +
+                ", roles=" + this.roles +
+                '}';
+    }
+
 }
