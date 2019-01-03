@@ -57,13 +57,13 @@ public class AbstractDepositoryOwnerBuilderTest {
 
     private static class TestDepositoryOwner implements DepositoryOwner {
 
-        private String name;
-        private String displayName;
-        private String description;
-        private String email;
-        private String site;
+        private final String name;
+        private final String displayName;
+        private final String description;
+        private final String email;
+        private final String site;
 
-        public TestDepositoryOwner(TestDepositoryOwnerBuilder builder) {
+        TestDepositoryOwner(TestDepositoryOwnerBuilder builder) {
             this.name = builder.name;
             this.displayName = builder.displayName;
             this.description = builder.description;
