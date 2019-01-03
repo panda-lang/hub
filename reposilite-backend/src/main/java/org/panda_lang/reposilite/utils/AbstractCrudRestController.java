@@ -40,13 +40,13 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
             @ApiResponse(code = 201, message = "Successfully created entity")
     })
     @PostMapping
-    public ResponseEntity<T> create(@RequestBody @Valid T entity, BindingResult result) {
+    public ResponseEntity<?> create(@RequestBody @Valid T entity, BindingResult result) {
         if (this.repository.findById(entity.getIdentifier()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().build();
+            return RequestUtils.validationError(result);
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.repository.save(entity));
