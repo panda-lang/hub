@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @ApiOperation("Operations pertaining to user")
 @RestController
 @RequestMapping("api/user/")
-public class UserController extends AbstractCrudRestController<User> {
+public class AbstractCrudRestControllerIntegrationTest extends AbstractCrudRestController<User> {
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public AbstractCrudRestControllerIntegrationTest(UserRepository userRepository) {
         super(userRepository);
     }
 
