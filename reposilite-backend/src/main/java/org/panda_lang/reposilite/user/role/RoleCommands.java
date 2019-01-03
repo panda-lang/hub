@@ -1,6 +1,5 @@
 package org.panda_lang.reposilite.user.role;
 
-import org.panda_lang.panda.utilities.commons.collection.Sets;
 import org.panda_lang.reposilite.user.User;
 import org.panda_lang.reposilite.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
