@@ -31,14 +31,10 @@
     }
 </script>
 
-<style lang="scss" scoped>
-    @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+<style lang="stylus" scoped>
+    .uk-modal-dialog 
+        opacity 0.8
 
-    .uk-modal-dialog {
-        opacity: 0.8;
-    }
-
-    .uk-navbar-item {
-        font-family: 'Titillium Web', sans-serif;
-    }
+    .uk-navbar-item 
+        font-family 'Titillium Web', sans-serif
 </style>

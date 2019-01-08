@@ -1,9 +1,8 @@
-<template>
-    <div id="search-wrapper uk-position-center-right search-overlay">
-        <div class="uk-position-center-right search-overlay">
-            <autocomplete class="uk-position-center" input-class="autocomplete__inputs" :source="mocks"></autocomplete>
-        </div>
-    </div>
+<template lang="pug">
+    #search-wrapper
+        .uk-position-center-right.search-overlay
+            .uk-position-center
+                autocomplete(input-class='autocomplete__inputs' :source='mocks')
 </template>
 
 <script>
@@ -43,47 +42,40 @@
     }
 </script>
 
-<style lang="scss">
-    @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+<style lang="stylus">
+    @font-face {
+        font-family: 'Titillium Web';
+        url('https://fonts.googleapis.com/css?family=Titillium+Web');
+    }
 
-    @mixin dark-overlay {
+    border-radius()
+        -webkit-border-radius arguments
+        -moz-border-radius arguments
+        border-radius arguments
+
+    .autocomplete__box
+        width 380px
+        height 50px
+        border-radius(25px)
+
+    .autocomplete__inputs
+        height 40px
+        font 14px 'Titillium Web', sans-serif
+        color black
+        border none
+        vertical-align middle
+        border-radius 25px
+
+    .search-overlay
+        background-size cover
+        background-image url("../../../assets/bg.jpg")
+        height 100%
+        width 40%
+        z-index 1
+        @include dark-overlay
         &:after {
-            content: "";
-            height: 100%;
-            width: 100%;
-            position: fixed;
-            z-index: -1;
+            background-color rgba(black, 0.5)
         }
-    }
 
-    .autocomplete {
-        width: 320px !important;
-        outline: none;
-    }
 
-    .autocomplete__box {
-        border-radius: 15px !important;
-    }
-
-    .autocomplete__inputs {
-        height: 40px;
-        font-family: 'Titillium Web', sans-serif;
-        font-size: 14px;
-        color: black;
-        border: none;
-        outline: none;
-    }
-
-    .search-overlay {
-        background-size: cover;
-        background-image: url("../../../assets/bg.jpg");
-        height: 100%;
-        width: 40%;
-        z-index: 1;
-        @include dark-overlay;
-    }
-
-    .search-overlay:after {
-        background-color: rgba(black, 0.7);
-    }
 </style>

@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "node-sass": "^4.11.0",
     "nodemon": "^1.18.6",
-    "sass-loader": "^7.1.0",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
     "toastr": "^2.1.4",
     "vue": "^2.5.17",
     "vue-router": "^3.0.2",
