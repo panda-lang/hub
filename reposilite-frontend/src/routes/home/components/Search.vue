@@ -2,69 +2,161 @@
     #search-wrapper
         .uk-position-center-right.search-overlay
             .uk-position-center
-                autocomplete(input-class='autocomplete__inputs' :source='mocks')
+                vue-autosuggest(:suggestions="filteredOptions" :render-suggestion="renderSuggestion" :get-suggestion-value="getSuggestionValue" :input-props="inputProps")
 </template>
 
 <script>
-    import Autocomplete from 'vuejs-auto-complete';
+    import { VueAutosuggest } from 'vue-autosuggest';
 
     export default {
         name: 'Search',
         components: {
-            Autocomplete
+            VueAutosuggest
         },
         data() {
             return {
-                input: '',
-                mocks: [
+                selected: '',
+                filteredOptions: [],
+                inputProps: {
+                    id: 'autosuggest__input',
+                    onInputChange: this.onInputChange,
+                    placeholder:'Search'
+                },
+                suggestions: [
                     {
-                        id: 0,
-                        name: 'Panda',
-                        description: 'Panda is a lightweight and powerful programming language written in Java.'
-                    },
-                    {
-                        id: 1,
-                        name: 'Light',
-                        description: 'Light is English-like programming language built on the core of the Panda Programming Language.'
-                    },
-                    {
-                        id: 2,
-                        name: 'Reposilite',
-                        description: 'Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts.'
-                    },
-                    {
-                        id: 3,
-                        name: 'test 🌈',
+                        data: [
+                            { id: 1, name: 'Reposilite', avatar: 'https://www.mymiraclebaby.com.sg/wp-content/uploads/2016/02/Janod-%E2%80%93-Clown-Letter-Rrrr.jpg' },
+                            { id: 2, name: 'Panda', avatar: 'https://s3.eu-central-1.amazonaws.com/zooparc/assets/pandas/panda_huan_huan_400x400_002.jpg' },
+                            { id: 3, name: 'Light', avatar: 'https://elektro-hurt.com/img/products/12/21/6/1.jpg' },
+                            { id: 4, name: 'test', avatar: 'https://5.allegroimg.com/s400/033dee/178c624243209e8aba52e1963745' }
+                        ]
                     }
                 ]
             }
         },
+        methods: {
+            onInputChange(text) {
+                if (text === null) {
+                    return;
+                }
+
+                const filteredData = this.suggestions[0].data.filter(option => {
+                    return option.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
+                });
+
+                this.filteredOptions = [{ data: filteredData }];
+            },
+            renderSuggestion(suggestion) {
+                const character = suggestion.item;
+                return (
+                    <div
+                        style={{
+                        display: "flex",
+                        alignItems: "center"
+                    }}>
+                        <img
+                            style={{
+                                width: "25px",
+                                height: "25px",
+                                borderRadius: "15px",
+                                marginRight: "10px"
+                            }}
+                            src={ character.avatar }
+                        />
+                        <span style={{ color: "navyblue" }}>{character.name}</span>
+                    </div>
+                );
+            },
+            getSuggestionValue(suggestion) {
+                return suggestion.item.name;
+            }
+        }
     }
 </script>
 
 <style lang="stylus">
-    @font-face {
-        font-family: 'Titillium Web';
-        url('https://fonts.googleapis.com/css?family=Titillium+Web');
-    }
+    @import url('https://fonts.googleapis.com/css?family=Titillium+Web')
 
     border-radius()
         -webkit-border-radius arguments
         -moz-border-radius arguments
         border-radius arguments
 
-    .autocomplete__box
-        width 380px
-        height 50px
-        border-radius(25px)
+    dark-overlay()
+        &:after
+            content ""
+            width 100%
+            height auto
+            position absolute
+            z-index -1
+            top 0
+            right 0
+            left 0
+            bottom 0
 
-    .autocomplete__inputs
-        height 40px
-        font 14px 'Titillium Web', sans-serif
-        color black
+    #autosuggest
+        position relative
+        filter drop-shadow(0 0 10px black)
+
+    #autosuggest__input
+        outline none
         border none
-        vertical-align middle
-        border-radius 25px
+        border-radius(0px)
+        position relative
+        display block
+        padding 10px
+        width 380px
+        font-size 14px
+        font-family 'Titillium Web', sans-serif
+        &.autosuggest__input-open
+            border-bottom-left-radius 0
+            border-bottom-right-radius 0
+
+    .autosuggest__results-container
+        font-size 14px
+        font-family'Titillium Web', sans-serif
+        position absolute
+        top 100%
+        width 100%
+        overflow hidden
+        ::-webkit-scrollbar
+            display none
+        ::-webkit-scrollbar-track-piece
+            background-color: transparent
+            -webkit-border-radius: 6px
+
+    .autosuggest__results
+        margin 0
+        z-index 10000001
+        width 100%
+        border 1px solid #e0e0e0
+        border-radius 0 0 4px 4px
+        background white
+        padding 0px
+        max-height 400px
+        overflow-y scroll
+        ul
+            list-style none
+            padding-left 0
+            margin 0
+
+	.autosuggest__results_item
+        cursor pointer
+        padding 15px
+
+    .autosuggest__results_title
+        color gray
+        font-size 11px
+        margin-left 0
+        padding 15px 13px 5px
+        border-top 1px solid lightgray
+
+
+    .autosuggest__results_item:active,
+    .autosuggest__results_item:hover,
+    .autosuggest__results_item:focus,
+    .autosuggest__results_item.autosuggest__results_item-highlighted
+        background-color #f7f7f7
 
     .search-overlay
         background-size cover
@@ -72,10 +164,7 @@
         height 100%
         width 40%
         z-index 1
-        @include dark-overlay
-        &:after {
-            background-color rgba(black, 0.5)
-        }
-
-
+        dark-overlay()
+        &:after
+            background-color rgba(0, 0, 0, 0.5)
 </style>
