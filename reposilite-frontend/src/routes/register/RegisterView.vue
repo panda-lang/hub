@@ -49,36 +49,36 @@
 </template>
 
 <script>
-    import {userService} from "../../services/user.service";
-    import {notification} from "../../utils/toastr.utils";
-    import {required, minLength, sameAs, email} from "vuelidate/lib/validators/index";
+    import { userService } from '../../services/user.service';
+    import { notification } from '../../utils/toastr.utils';
+    import { required, minLength, sameAs, email } from 'vuelidate/lib/validators/index';
 
     export default {
-        name: "RegisterView",
+        name: 'RegisterView',
         data: () => {
             return {
-                username: "",
-                displayName: "",
-                password: "",
-                confirmPassword: "",
-                email: "",
-                confirmEmail: ""
+                username: '',
+                displayName: '',
+                password: '',
+                confirmPassword: '',
+                email: '',
+                confirmEmail: ''
             }
         },
         validations: {
-            username: {required, minLength: minLength(3)},
-            displayName: {required, minLength: minLength(3)},
-            password: {required, minLength: minLength(6)},
-            confirmPassword: {sameAsPassword: sameAs("password")},
-            email: {required, email},
-            confirmEmail: {sameAsEmail: sameAs("email")}
+            username: { required, minLength: minLength(3) },
+            displayName: { required, minLength: minLength(3) },
+            password: { required, minLength: minLength(6) },
+            confirmPassword: { sameAsPassword: sameAs("password") },
+            email: { required, email },
+            confirmEmail: { sameAsEmail: sameAs("email") }
         },
         methods: {
             performRegister() {
                 userService.register(this.username, this.displayName, this.password, this.confirmPassword, this.email, this.confirmEmail)
                     .then(() => {
-                        notification.success("Successfully registered!");
-                        this.$router.push("/")
+                        notification.success('Successfully registered!');
+                        this.$router.push('/');
                     })
                     .catch(reason => notification.error(reason));
             }

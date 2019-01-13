@@ -20,31 +20,31 @@
 </template>
 
 <script>
-    import {userService} from "../../services/user.service.js";
-    import {notification} from "../../utils/toastr.utils";
-    import {required} from "vuelidate/lib/validators/index";
+    import { userService } from '../../services/user.service.js';
+    import { notification } from '../../utils/toastr.utils';
+    import { required } from 'vuelidate/lib/validators/index';
 
     export default {
-        name: "LoginView",
+        name: 'LoginView',
         data: () => {
             return {
-                username: "",
-                password: ""
+                username: '',
+                password: ''
             }
         },
         created: () => {
             userService.logout();
         },
         validations: {
-            username: {required},
-            password: {required}
+            username: { required },
+            password: { required }
         },
         methods: {
             performLogin() {
                 userService.login(this.username, this.password)
                     .then(() => {
-                        notification.success("Successfully logged in!");
-                        this.$router.push("/")
+                        notification.success('Successfully logged in!');
+                        this.$router.push('/');
                     })
                     .catch(reason => notification.error(reason));
             }

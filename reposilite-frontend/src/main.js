@@ -1,7 +1,7 @@
-import Vue from "vue";
-import App from "./App";
-import router from "./router";
-import Vuelidate from 'vuelidate'
+import Vue from 'vue';
+import App from './App';
+import router from './router';
+import Vuelidate from 'vuelidate';
 
 Vue.use(Vuelidate);
 

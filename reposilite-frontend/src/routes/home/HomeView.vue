@@ -1,57 +1,55 @@
-<template>
-    <div class="hello">
-        <p>
-            For a guide and recipes on how to configure / customize this project,<br>
-            check out the
-            <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-        </p>
-        <h3>Installed CLI Plugins</h3>
-        <ul>
-            <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-            <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-        </ul>
-        <h3>Essential Links</h3>
-        <ul>
-            <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-            <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-            <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-            <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-            <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-        </ul>
-        <h3>Ecosystem</h3>
-        <ul>
-            <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-            <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-            <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-            <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-            <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-        </ul>
-    </div>
+<template lang="pug">
+    #home-wrapper
+        // Description
+        .uk-position-large.uk-position-center-left.uk-padding-large
+            h1 Reposilite
+            h2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            br
+            button(href="#" class="github-button uk-box-shadow-large") Sign in using Github
+
+        // Search
+        Search
 </template>
 
 <script>
+    import Search from './components/Search.vue';
+
     export default {
-        name: 'HomeView'
+        name: 'HomeView',
+        components: {
+            Search
+        }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    h3 {
-        margin: 40px 0 0;
-    }
+<style lang="stylus" scoped>
+    @import url('https://fonts.googleapis.com/css?family=Titillium+Web')
+    @import url('https://fonts.googleapis.com/css?family=Raleway')
+    @import url('https://fonts.googleapis.com/css?family=Rubik')
 
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
+    h1
+        color #e6e6e6;
+        font-size 14
+        font-family 'Titillium Web', sans-serif
+        font-weight bold
 
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
+    h2
+        color #999999
+        font-size 14px
+        font-family 'Raleway', sans-serif
+        font-weight medium
+        max-width 500px
 
-    a {
-        color: #42b983;
-    }
+    .github-button
+        width 320px
+        height 45px
+        color white
+        font-size 12px
+        font-family 'Rubik', sans-serif
+        text-transform uppercase
+        letter-spacing 2px
+        background linear-gradient(135deg, #e91653 0%, #1c7586 100%)
+        border none
+        border-radius 25px
+        cursor pointer
 </style>
