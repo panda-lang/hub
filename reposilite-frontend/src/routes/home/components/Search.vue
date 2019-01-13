@@ -108,9 +108,10 @@
         width 380px
         font-size 14px
         font-family 'Titillium Web', sans-serif
+        border-radius 4px
+
         &.autosuggest__input-open
-            border-bottom-left-radius 0
-            border-bottom-right-radius 0
+            border-radius 4px 4px 0 0
 
     .autosuggest__results-container
         font-size 14px
@@ -119,6 +120,8 @@
         top 100%
         width 100%
         overflow hidden
+        border-radius 0 0 4px 4px
+
         ::-webkit-scrollbar
             display none
         ::-webkit-scrollbar-track-piece
@@ -130,17 +133,16 @@
         z-index 10000001
         width 100%
         border 1px solid #e0e0e0
-        border-radius 0 0 4px 4px
         background white
         padding 0px
         max-height 400px
-        overflow-y scroll
+
         ul
             list-style none
             padding-left 0
             margin 0
 
-	.autosuggest__results_item
+    .autosuggest__results_item
         cursor pointer
         padding 15px
 
