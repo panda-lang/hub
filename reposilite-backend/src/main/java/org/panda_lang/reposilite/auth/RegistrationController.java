@@ -46,7 +46,7 @@ public class RegistrationController {
         }
 
         if (result.hasErrors()) {
-            return RequestUtils.validationError(result);
+            return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(dto.toEntity()));
