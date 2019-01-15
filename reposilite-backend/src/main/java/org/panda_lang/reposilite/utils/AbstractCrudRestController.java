@@ -46,7 +46,7 @@ public abstract class AbstractCrudRestController<T extends IdentifiableEntity<Ob
         }
 
         if (result.hasErrors()) {
-            return RequestUtils.validationError(result);
+            return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.repository.save(entity));

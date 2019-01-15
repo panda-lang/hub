@@ -31,7 +31,7 @@ public class AuthenticationController {
     @PostMapping("/api/authenticate")
     public ResponseEntity<?> login(@RequestBody @Valid UserAuthenticationDto dto, BindingResult result) {
         if (result.hasErrors()) {
-            return RequestUtils.validationError(result);
+            return ResponseEntity.badRequest().build();
         }
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword());
