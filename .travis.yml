@@ -1,9 +1,15 @@
 language: java
+
 notifications:
   email: false
+  
 jdk:
 - oraclejdk8
 
 before_script: cd reposilite-backend
+
 script:
 - mvn install
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
