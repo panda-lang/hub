@@ -5,24 +5,24 @@ import org.panda_lang.reposilite.utils.validation.FieldMatch;
 import org.panda_lang.reposilite.utils.AbstractDto;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @FieldMatch.AsList({
-        @FieldMatch(first = "password", second = "confirmPassword", message = "The confirmation password must match password"),
-        @FieldMatch(first = "email", second = "confirmEmail", message = "The confirmation email must match email address")
+        @FieldMatch(first = "password", second = "confirmPassword", message = "{match.password}"),
+        @FieldMatch(first = "email", second = "confirmEmail", message = "{match.email}")
 })
 public class UserRegistrationDto extends AbstractDto<User> {
 
-    @NotNull @Length(min = 3)
+    @NotEmpty(message = "{username.notEmpty}") @NotNull(message = "{username.notNull}") @Length(min = 3, max = 32, message = "{username.length}")
     private String username;
-    @NotNull @Length(min = 3)
+    @NotEmpty(message = "{displayName.notEmpty}") @NotNull(message = "{displayName.notNull}") @Length(min = 3, max = 32, message = "{displayName.length}")
     private String displayName;
-    @NotNull @Length(min = 6)
+    @NotEmpty(message = "{password.notEmpty}") @NotNull(message = "{password.notNull}") @Length(min = 6, message = "{password.length}")
     private String password;
     private String confirmPassword;
-    @Email
+    @NotEmpty(message = "{email.notEmpty}") @NotNull(message = "{email.notNull}") @Email(message = "{email.format}")
     private String email;
-    @Email
     private String confirmEmail;
 
     public UserRegistrationDto(String username, String displayName, String password, String confirmPassword, String email, String confirmEmail) {
