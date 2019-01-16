@@ -80,8 +80,7 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("length must be between 3 and 2147483647")));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -98,8 +97,7 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("length must be between 6 and 2147483647")));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -116,8 +114,7 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("The confirmation password must match password")));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -134,8 +131,7 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("must be a well-formed email address")));
+                .andExpect(status().isBadRequest());
     }
 
 }

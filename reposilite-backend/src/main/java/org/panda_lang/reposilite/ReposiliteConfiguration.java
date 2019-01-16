@@ -5,6 +5,7 @@ import org.jline.utils.AttributedStyle;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.shell.jline.PromptProvider;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -45,6 +46,7 @@ public class ReposiliteConfiguration implements WebMvcConfigurer {
         return messageSource;
     }
 
+    @Primary
     @Bean
     public LocalValidatorFactoryBean localValidatorFactoryBean() {
         LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
