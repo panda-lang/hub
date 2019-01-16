@@ -6,18 +6,19 @@ import org.panda_lang.reposilite.utils.AbstractDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class OrganizationUpdateDto extends AbstractDto<Organization> {
 
-    @NotEmpty @Length(min = 3)
+    @NotNull(message = "{name.notNull}") @NotEmpty(message = "{name.notEmpty}") @Length(min = 3, max = 32, message = "{name.length}")
     private String name;
-    @NotEmpty @Length(min = 3)
+    @NotNull(message = "{displayName.notNull}") @NotEmpty(message = "{displayName.notEmpty}") @Length(min = 3, max = 32, message = "{displayName.length}")
     private String displayName;
-    @NotEmpty @Length(min = 5)
+    @NotEmpty(message = "{description.notEmpty}") @NotNull(message = "{description.notNull}") @Length(max = 200, message = "{description.length}")
     private String description;
-    @NotEmpty @Email
+    @NotEmpty(message = "{email.notEmpty}") @NotNull(message = "{email.notNull}") @Email(message = "{email.format}")
     private String email;
-    @NotEmpty @URL
+    @URL(message = "{site.format}") @NotEmpty(message = "{site.notEmpty}") @NotNull(message = "{site.notNull}")
     private String site;
 
     public OrganizationUpdateDto(String name, String displayName, String description, String email, String site) {
