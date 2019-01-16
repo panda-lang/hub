@@ -1,13 +1,12 @@
 package org.panda_lang.reposilite.auth;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
-import org.panda_lang.reposilite.user.UserRegistrationService;
+import org.panda_lang.reposilite.user.UserCrudService;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +22,7 @@ public class RegistrationControllerTest {
     private RegistrationController registrationController;
 
     @Mock
-    private UserRegistrationService userRegistrationService;
+    private UserCrudService userCrudService;
 
     private MockMvc mockMvc;
 
