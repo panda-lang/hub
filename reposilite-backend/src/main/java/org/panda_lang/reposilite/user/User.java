@@ -1,6 +1,8 @@
 package org.panda_lang.reposilite.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.depository.DepositoryOwner;
 import org.panda_lang.reposilite.user.role.Role;
@@ -13,6 +15,7 @@ import java.util.Set;
 public class User implements DepositoryOwner {
 
     @Id
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId identifier;
     private String name;
     private String displayName;
