@@ -1,5 +1,7 @@
 package org.panda_lang.reposilite.organization;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.depository.DepositoryOwner;
 import org.panda_lang.reposilite.user.User;
@@ -10,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Organization implements DepositoryOwner {
 
     @Id
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId identifier;
     private String name;
     private String displayName;
