@@ -1,7 +1,7 @@
 package org.panda_lang.reposilite.depository.maven;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -9,12 +9,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-public class MavenMetadataFileBuilderTest {
+class MavenMetadataFileBuilderTest {
 
     private MavenMetadataFile file;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         this.file = new MavenMetadataFileBuilder()
                 .withGroupId("test1")
                 .withArtifactId("test2")
@@ -26,7 +26,7 @@ public class MavenMetadataFileBuilderTest {
     }
 
     @Test
-    public void shouldNotBeNull() {
+    void shouldNotBeNull() {
         assertAll(
                 () -> assertNotNull(this.file.getGroupId()),
                 () -> assertNotNull(this.file.getArtifactId()),
@@ -37,7 +37,7 @@ public class MavenMetadataFileBuilderTest {
     }
 
     @Test
-    public void toStringTest() {
+    void toStringTest() {
         assertEquals("MavenMetadataFile{" +
                 "groupId='test1', " +
                 "artifactId='test2', " +
