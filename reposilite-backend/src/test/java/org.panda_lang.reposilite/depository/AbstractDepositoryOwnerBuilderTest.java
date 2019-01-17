@@ -1,8 +1,8 @@
 package org.panda_lang.reposilite.depository;
 
 import org.bson.types.ObjectId;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.utils.Buildable;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -10,12 +10,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-public class AbstractDepositoryOwnerBuilderTest {
+class AbstractDepositoryOwnerBuilderTest {
 
     private TestDepositoryOwner depositoryOwner;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         this.depositoryOwner = new TestDepositoryOwnerBuilder()
                 .withName("test")
                 .withDescription("test description")
@@ -26,7 +26,7 @@ public class AbstractDepositoryOwnerBuilderTest {
     }
 
     @Test
-    public void shouldNotBeNull() {
+    void shouldNotBeNull() {
         assertAll(
                 () -> assertNotNull(this.depositoryOwner.getName()),
                 () -> assertNotNull(this.depositoryOwner.getDescription()),
@@ -37,7 +37,7 @@ public class AbstractDepositoryOwnerBuilderTest {
     }
 
     @Test
-    public void toStringTest() {
+    void toStringTest() {
         assertEquals("TestDepositoryOwner{" +
                 "name='test', " +
                 "displayName='test displayName', " +

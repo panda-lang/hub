@@ -1,8 +1,8 @@
 package org.panda_lang.reposilite.depository.maven.artifact;
 
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.depository.maven.MavenDepositoryController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +17,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ArtifactControllerIntegrationTest {
+class ArtifactControllerIntegrationTest {
 
     @Autowired
     private MavenDepositoryController mavenDepositoryController;
 
     private MockMvc mockMvc;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.mavenDepositoryController).build();
     }
 
     @Test
-    public void shouldReturn404WhenArtifactIsNotPresent() throws Exception {
+    void shouldReturn404WhenArtifactIsNotPresent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/p4nd4-utilities/"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void shouldReturn200WhenArtifactPresent() throws Exception {
+    void shouldReturn200WhenArtifactPresent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.path", Matchers.is("repositories\\maven\\releases\\org\\panda-lang\\panda-utilities")))

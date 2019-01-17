@@ -1,6 +1,6 @@
 package org.panda_lang.reposilite.depository.maven;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.depository.DepositoryNotFoundException;
@@ -12,23 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class MavenMavenDepositoryRepositoryIntegrationTest {
+class MavenMavenDepositoryRepositoryIntegrationTest {
 
     @Autowired
     private MavenDepositoryRepository mavenDepositoryRepository;
 
     @Test
-    public void findRepositoryByNameShouldReturnExceptionWhenNotFoundTest() {
+    void findRepositoryByNameShouldReturnExceptionWhenNotFoundTest() {
         assertThrows(DepositoryNotFoundException.class, () -> this.mavenDepositoryRepository.findDepositoryByName("FailReleases"));
     }
 
     @Test
-    public void findRepositoryByNameTest() {
+    void findRepositoryByNameTest() {
         assertNotNull(this.mavenDepositoryRepository.findDepositoryByName("releases"));
     }
 
     @Test
-    public void findRepositoryNodeByNameTest() {
+    void findRepositoryNodeByNameTest() {
         MavenDepository mavenDepository = this.mavenDepositoryRepository.findDepositoryByName("releases");
         DepositoryEntity depositoryEntity = this.mavenDepositoryRepository.findEntityByURLPath(mavenDepository, "org/panda-lang/panda-utilities");
 

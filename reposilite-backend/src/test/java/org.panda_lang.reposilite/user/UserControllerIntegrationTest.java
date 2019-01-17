@@ -2,9 +2,9 @@ package org.panda_lang.reposilite.user;
 
 import com.google.common.collect.Sets;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserControllerIntegrationTest {
+class UserControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext applicationContext;
@@ -40,15 +40,15 @@ public class UserControllerIntegrationTest {
 
     private MockMvc mockMvc;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.applicationContext)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .build();
     }
 
     @Test
-    public void authenticationTest() throws Exception {
+    void authenticationTest() throws Exception {
         User user = new UserBuilder()
                 .withName("test12312313")
                 .withPassword("test123")
@@ -63,7 +63,7 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void authenticationShouldReturn401WhenBadCredentials() throws Exception {
+    void authenticationShouldReturn401WhenBadCredentials() throws Exception {
         User user = new UserBuilder()
                 .withName("test12312313")
                 .withPassword("test123")
@@ -75,8 +75,8 @@ public class UserControllerIntegrationTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         this.mongoTemplate.dropCollection("users");
     }
 

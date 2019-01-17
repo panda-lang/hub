@@ -1,7 +1,7 @@
 package org.panda_lang.reposilite.utils;
 
 import org.bson.types.ObjectId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.utils.crud.TestEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
-public class BeanUtilTest {
+class BeanUtilTest {
 
   @Test
-  public void copyNonNullProperties() {
+  void copyNonNullProperties() {
     ObjectId id = ObjectId.get();
 
     TestEntity testEntity = new TestEntity(id, "testUsername", "something fucked up");

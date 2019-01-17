@@ -1,7 +1,7 @@
 package org.panda_lang.reposilite.user;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
 import org.panda_lang.reposilite.user.role.Role;
@@ -10,12 +10,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-public class UserBuilderTest {
+class UserBuilderTest {
 
     private User user;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         this.user = new UserBuilder()
                 .withPassword("test123")
                 .withRoles(Sets.newHashSet(new Role("USER")))
@@ -23,7 +23,7 @@ public class UserBuilderTest {
     }
 
     @Test
-    public void shouldNotBeNull() {
+    void shouldNotBeNull() {
         assertAll(
                 () -> assertNotNull(this.user.getPassword()),
                 () -> assertNotNull(this.user.getRoles())
@@ -31,7 +31,7 @@ public class UserBuilderTest {
     }
 
     @Test
-    public void toStringTest() {
+    void toStringTest() {
         assertEquals("User{" +
                 "identifier=null, " +
                 "name='null', " +
