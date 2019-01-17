@@ -44,10 +44,7 @@ class BuildControllerIntegrationTest {
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-0.8.0"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is(path)))
-                .andExpect(jsonPath("$.files[0]", Matchers.is("panda-utilities-indev-0.8.0.jar")))
-                .andExpect(jsonPath("$.files[1]", Matchers.is("panda-utilities-indev-0.8.0.pom")))
-                .andExpect(jsonPath("$.files[2]", Matchers.is("_remote.repositories")));
+                .andExpect(jsonPath("$.path", Matchers.is(path)));
     }
 
 }

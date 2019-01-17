@@ -44,8 +44,7 @@ class GroupControllerIntegrationTest {
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is(path)))
-                .andExpect(jsonPath("$.files[0]", Matchers.is("panda-utilities")));
+                .andExpect(jsonPath("$.path", Matchers.is(path)));
     }
 
 }
