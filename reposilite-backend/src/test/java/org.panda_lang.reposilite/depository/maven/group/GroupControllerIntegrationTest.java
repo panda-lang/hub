@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.depository.maven.group;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.io.File;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,9 +40,11 @@ class GroupControllerIntegrationTest {
 
     @Test
     void shouldReturn200WhenGroupPresent() throws Exception {
+        String path = StringUtils.replace("repositories/maven/releases/org/panda-lang", "/", File.separator);
+
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is("repositories\\maven\\releases\\org\\panda-lang")))
+                .andExpect(jsonPath("$.path", Matchers.is(path)))
                 .andExpect(jsonPath("$.files[0]", Matchers.is("panda-utilities")));
     }
 

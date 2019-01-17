@@ -1,5 +1,6 @@
 package org.panda_lang.reposilite.depository.maven.artifact;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.io.File;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,15 +40,11 @@ class ArtifactControllerIntegrationTest {
 
     @Test
     void shouldReturn200WhenArtifactPresent() throws Exception {
+        String path = StringUtils.replace("repositories/maven/releases/org/panda-lang/panda-utilities", "/", File.separator);
+
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is("repositories\\maven\\releases\\org\\panda-lang\\panda-utilities")))
-                .andExpect(jsonPath("$.files[0]", Matchers.is("indev-0.8.0")))
-                .andExpect(jsonPath("$.files[1]", Matchers.is("indev-0.8.1")))
-                .andExpect(jsonPath("$.files[2]", Matchers.is("indev-0.8.731")))
-                .andExpect(jsonPath("$.files[3]", Matchers.is("indev-0.8.87")))
-                .andExpect(jsonPath("$.files[4]", Matchers.is("maven-metadata-local.xml")))
-                .andExpect(jsonPath("$.files[5]", Matchers.is("maven-metadata-panda-repository.xml")));
+                .andExpect(jsonPath("$.path", Matchers.is(path)));
     }
 
 }
