@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.bson.types.ObjectId;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.panda_lang.reposilite.utils.crud.TestDto;
@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ContextConfiguration
 @WebAppConfiguration
-public class AbstractCrudControllerIntegrationTest {
+class AbstractCrudControllerIntegrationTest {
 
   @Autowired
   private MongoTemplate mongoTemplate;
@@ -61,15 +61,15 @@ public class AbstractCrudControllerIntegrationTest {
 
   private MockMvc mockMvc;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
         .apply(SecurityMockMvcConfigurers.springSecurity())
         .build();
   }
 
   @Test
-  public void readAllEntitiesTest() throws Exception {
+  void readAllEntitiesTest() throws Exception {
     this.repository.save(new TestEntity(ObjectId.get(), "testEntity1125", "something"));
     this.repository.save(new TestEntity(ObjectId.get(), "testEntity1126", "something"));
 
@@ -80,13 +80,13 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void readShouldReturn404WhenDoesNotExists() throws Exception {
+  void readShouldReturn404WhenDoesNotExists() throws Exception {
     this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", ObjectId.get()))
         .andExpect(status().isNotFound());
   }
 
   @Test
-  public void readTest() throws Exception {
+  void readTest() throws Exception {
     ObjectId id = ObjectId.get();
     this.repository.save(new TestEntity(id, "testEntity1127", "something"));
     this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", id.toHexString()))
@@ -96,7 +96,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void createTest() throws Exception {
+  void createTest() throws Exception {
     TestDto testDto = new TestDto("testEntity1128", "something");
     this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
         .content(testDto.toJson().getBytes())
@@ -106,7 +106,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void createShouldReturn409WhenAlreadyExists() throws Exception {
+  void createShouldReturn409WhenAlreadyExists() throws Exception {
     TestDto testDto = new TestDto("testEntity1129", "something");
     this.repository.save(new TestEntity(ObjectId.get(), "testEntity1129", "something"));
 
@@ -117,7 +117,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void createShouldReturn400WhenValidationError() throws Exception {
+  void createShouldReturn400WhenValidationError() throws Exception {
     TestDto testDto = new TestDto(null, null);
 
     this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
@@ -127,7 +127,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void updateTest() throws Exception {
+  private void updateTest() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity123132";
     String password = "test123";
@@ -154,7 +154,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void updateShouldCreateNewEntityWhenEntityNotFound() throws Exception {
+  void updateShouldCreateNewEntityWhenEntityNotFound() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity3901028930";
     String password = "test123";
@@ -180,7 +180,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void updateShouldReturn403WhenDifferentUser() throws Exception {
+  void updateShouldReturn403WhenDifferentUser() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity30182u8038";
     String password = "test123";
@@ -198,7 +198,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void updateShouldReturn400WhenValidationError() throws Exception {
+  void updateShouldReturn400WhenValidationError() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity30182u8038";
     String password = "test123";
@@ -216,7 +216,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void partialUpdateTest() throws Exception {
+  void partialUpdateTest() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity123131";
     String password = "test123";
@@ -244,7 +244,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void partialUpdateShouldReturn404WhenEntityNotFound() throws Exception {
+  void partialUpdateShouldReturn404WhenEntityNotFound() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity3901903190";
     String password = "test123";
@@ -261,7 +261,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void partialUpdateShouldReturn403WhenDifferentUser() throws Exception {
+  void partialUpdateShouldReturn403WhenDifferentUser() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity3901903190";
     String password = "test123";
@@ -277,7 +277,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void deleteTest() throws Exception {
+  void deleteTest() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity12313";
     String password = "test123";
@@ -296,7 +296,7 @@ public class AbstractCrudControllerIntegrationTest {
   }
 
   @Test
-  public void deleteShouldReturn404WhenEntityNotFound() throws Exception {
+  void deleteShouldReturn404WhenEntityNotFound() throws Exception {
     ObjectId id = ObjectId.get();
     String username = "testEntity123812";
     String password = "test123";
@@ -318,8 +318,8 @@ public class AbstractCrudControllerIntegrationTest {
     this.mongoTemplate.insert(new BasicDBObject(userDetails), "users");
   }
 
-  @After
-  public void tearDown() throws Exception {
+  @AfterEach
+  void tearDown() throws Exception {
     this.mongoTemplate.dropCollection("tests");
     this.mongoTemplate.dropCollection("users");
   }

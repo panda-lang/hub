@@ -1,8 +1,8 @@
 package org.panda_lang.reposilite.user.role;
 
 import com.mongodb.BasicDBObject;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RoleCommandsIntegrationTest {
+class RoleCommandsIntegrationTest {
 
     @Autowired
     private Shell shell;
@@ -33,13 +33,13 @@ public class RoleCommandsIntegrationTest {
     private RoleFactory roleFactory;
 
     @Test
-    public void rolesCommandTest() {
+    void rolesCommandTest() {
         Object result = this.shell.evaluate(() -> "roles");
         assertEquals("", result);
     }
 
     @Test
-    public void setRoleCommandTest() {
+    void setRoleCommandTest() {
         Map<String, Object> userDetails = new HashMap<String, Object>() {{
             this.put("name", "testUser2115");
             this.put("roles", Collections.emptySet());
@@ -57,13 +57,13 @@ public class RoleCommandsIntegrationTest {
     }
 
     @Test
-    public void setRoleCommandWhenUserNotFound() {
+    void setRoleCommandWhenUserNotFound() {
         Object result = this.shell.evaluate(() -> "chrole testUser1337 ADMIN");
         assertEquals("User not found!", result);
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         this.mongoTemplate.dropCollection("users");
         this.mongoTemplate.dropCollection("roles");
     }

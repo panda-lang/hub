@@ -1,8 +1,8 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,26 +15,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MavenMavenDepositoryControllerIntegrationTest {
+class MavenMavenDepositoryControllerIntegrationTest {
 
     @Autowired
     private MavenDepositoryController mavenDepositoryController;
 
     private MockMvc mockMvc;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.mavenDepositoryController).build();
     }
 
     @Test
-    public void shouldReturn404WhenDepositoryIsNotPresent() throws Exception {
+    void shouldReturn404WhenDepositoryIsNotPresent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/{repository}", "failableRepository"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void shouldReturn200WhenDepositoryPresent() throws Exception {
+    void shouldReturn200WhenDepositoryPresent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", Matchers.is("releases")));

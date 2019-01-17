@@ -1,8 +1,8 @@
 package org.panda_lang.reposilite.user;
 
 import com.mongodb.BasicDBObject;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserCommandsIntegrationTest {
+class UserCommandsIntegrationTest {
 
     @Autowired
     private Shell shell;
@@ -28,7 +28,7 @@ public class UserCommandsIntegrationTest {
     private MongoTemplate mongoTemplate;
 
     @Test
-    public void userAddCommandTest() {
+    void userAddCommandTest() {
         Object result = this.shell.evaluate(() -> "useradd testUser123");
 
         Query query = new Query();
@@ -41,7 +41,7 @@ public class UserCommandsIntegrationTest {
     }
 
     @Test
-    public void userAddAlreadyExistsTest() {
+    void userAddAlreadyExistsTest() {
         Map<String, Object> userDetails = new HashMap<String, Object>() {{
             this.put("name", "testUser");
         }};
@@ -53,7 +53,7 @@ public class UserCommandsIntegrationTest {
     }
 
     @Test
-    public void passwdCommandTest() {
+    void passwdCommandTest() {
         Map<String, Object> userDetails = new HashMap<String, Object>() {{
             this.put("name", "testUser133");
         }};
@@ -72,13 +72,13 @@ public class UserCommandsIntegrationTest {
     }
 
     @Test
-    public void passwdUserNotFoundTest() {
+    void passwdUserNotFoundTest() {
         Object result = this.shell.evaluate(() -> "passwd testUser135 test");
         assertEquals("User not found!", result);
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         this.mongoTemplate.dropCollection("users");
     }
 
