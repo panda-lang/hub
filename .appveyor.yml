@@ -7,6 +7,9 @@ install:
   - java -version
   - mvn --version
 
+before_build:
+  - cd reposilite-backend
+
 build_script:
   - mvn clean install spring-boot:repackage
 
