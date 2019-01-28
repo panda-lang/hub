@@ -1,6 +1,7 @@
 import HomeView from '../routes/home/HomeView';
 import LoginView from '../routes/login/LoginView';
 import RegisterView from '../routes/register/RegisterView';
+import DashboardView from '../routes/dashboard/DashboardView'
 
 export const routes = [
     {
@@ -23,6 +24,14 @@ export const routes = [
         path: '/register',
         name: 'RegisterView',
         component: RegisterView,
+        meta: {
+            requiresAuth: false
+        }
+    },
+    {
+        path: '/dashboard',
+        name: 'DashboardView',
+        component: DashboardView,
         meta: {
             requiresAuth: false
         }
