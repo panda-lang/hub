@@ -1,6 +1,6 @@
 <template lang="pug">
     #navbar-wrapper
-        nav.uk-navbar.uk-navbar-container.uk-navbar-transparent.uk-margin
+        nav.uk-navbar.uk-navbar-container.uk-navbar-transparent.uk-margin-medium
             .uk-navbar-left
                 router-link.uk-navbar-item.uk-logo(to='/')
                     a.uk-navbar-item.uk-logo Reposilite
@@ -16,6 +16,7 @@
     @import url('https://fonts.googleapis.com/css?family=Titillium+Web')
 
     .uk-navbar
+        height 60px
         background-color white
         -webkit-box-shadow 0px 0px 71px -8px rgba(0,0,0,0.23)
         -moz-box-shadow 0px 0px 71px -8px rgba(0,0,0,0.23)

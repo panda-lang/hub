@@ -23,6 +23,7 @@
 
 <style lang="stylus" scoped>
     #dashboard-wrapper
+        height 100vh
         background-color #f7f7f7
 
     .uk-card
