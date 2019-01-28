@@ -1,7 +1,7 @@
 package org.panda_lang.reposilite.user.role;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RoleFactoryIntegrationTest {
+class RoleFactoryIntegrationTest {
 
     @Autowired
     private RoleFactory roleFactory;
@@ -21,7 +21,7 @@ public class RoleFactoryIntegrationTest {
     private MongoTemplate mongoTemplate;
 
     @Test
-    public void obtainNewRoleTest() {
+    void obtainNewRoleTest() {
         Role role = this.roleFactory.obtainRole("SUPER_VIP");
         assertAll(
                 () -> assertNotNull(role),
@@ -29,8 +29,8 @@ public class RoleFactoryIntegrationTest {
         );
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         this.mongoTemplate.dropCollection("roles");
     }
 

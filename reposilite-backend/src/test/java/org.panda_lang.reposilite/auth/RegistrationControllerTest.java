@@ -1,39 +1,41 @@
 package org.panda_lang.reposilite.auth;
 
-import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
-import org.panda_lang.reposilite.user.UserRegistrationService;
+import org.panda_lang.reposilite.user.UserCrudService;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-public class RegistrationControllerTest {
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
+class RegistrationControllerTest {
 
     @InjectMocks
     private RegistrationController registrationController;
 
     @Mock
-    private UserRegistrationService userRegistrationService;
+    private UserCrudService userCrudService;
 
     private MockMvc mockMvc;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.registrationController).build();
     }
 
     @Test
-    public void registrationTest() throws Exception {
+    void registrationTest() throws Exception {
         UserRegistrationDto dto = new UserRegistrationDto(
                 "test123",
                 "test123",
@@ -50,7 +52,7 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void shouldReturnBadRequestIfEmpty() throws Exception {
+    void shouldReturnBadRequestIfEmpty() throws Exception {
         UserRegistrationDto dto = new UserRegistrationDto(
                 "",
                 "",
@@ -67,7 +69,7 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void shouldReturnBadRequestIfUsernameLengthIsLessThan3() throws Exception {
+    void shouldReturnBadRequestIfUsernameLengthIsLessThan3() throws Exception {
         UserRegistrationDto dto = new UserRegistrationDto(
                 "12",
                 "test123",
@@ -80,12 +82,11 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("length must be between 3 and 2147483647")));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void shouldReturnBadRequestIfPasswordLengthIsLessThan6() throws Exception {
+    void shouldReturnBadRequestIfPasswordLengthIsLessThan6() throws Exception {
         UserRegistrationDto dto = new UserRegistrationDto(
                 "test123",
                 "test123",
@@ -98,12 +99,11 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("length must be between 6 and 2147483647")));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void shouldReturnBadRequestIfConfirmationDoesNotMatch() throws Exception {
+    void shouldReturnBadRequestIfConfirmationDoesNotMatch() throws Exception {
         UserRegistrationDto dto = new UserRegistrationDto(
                 "test123",
                 "test123",
@@ -116,12 +116,11 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("The confirmation password must match password")));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void shouldReturnBadRequestIfEmailDoesNotMatchPattern() throws Exception {
+    void shouldReturnBadRequestIfEmailDoesNotMatchPattern() throws Exception {
         UserRegistrationDto dto = new UserRegistrationDto(
                 "test123",
                 "test123",
@@ -134,8 +133,7 @@ public class RegistrationControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", Matchers.is("must be a well-formed email address")));
+                .andExpect(status().isBadRequest());
     }
 
 }

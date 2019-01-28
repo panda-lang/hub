@@ -5,8 +5,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.panda_lang.reposilite.user.User;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
-import org.panda_lang.reposilite.user.UserRegistrationService;
-import org.panda_lang.reposilite.utils.RequestUtils;
+import org.panda_lang.reposilite.user.UserCrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +23,10 @@ import java.util.Optional;
 @RequestMapping("api/register")
 public class RegistrationController {
 
-    private final UserRegistrationService service;
+    private final UserCrudService service;
 
     @Autowired
-    public RegistrationController(UserRegistrationService service) {
+    public RegistrationController(UserCrudService service) {
         this.service = service;
     }
 
@@ -39,14 +38,14 @@ public class RegistrationController {
     })
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationDto dto, BindingResult result) {
-        Optional<User> user = this.service.findByUsername(dto.getUsername());
+        Optional<User> user = this.service.findByName(dto.getUsername());
 
         if (user.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         if (result.hasErrors()) {
-            return RequestUtils.validationError(result);
+            return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(dto.toEntity()));

@@ -1,18 +1,14 @@
 package org.panda_lang.reposilite.user;
 
 import org.hibernate.validator.constraints.Length;
-import org.panda_lang.reposilite.utils.validation.FieldMatch;
+import org.hibernate.validator.constraints.URL;
 import org.panda_lang.reposilite.utils.AbstractDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@FieldMatch.AsList({
-        @FieldMatch(first = "password", second = "confirmPassword", message = "{match.password}"),
-        @FieldMatch(first = "email", second = "confirmEmail", message = "{match.email}")
-})
-public class UserRegistrationDto extends AbstractDto<User> {
+public class UserUpdateDto extends AbstractDto<User> {
 
     @NotEmpty(message = "{username.notEmpty}") @NotNull(message = "{username.notNull}") @Length(min = 3, max = 32, message = "{username.length}")
     private String username;
@@ -20,22 +16,23 @@ public class UserRegistrationDto extends AbstractDto<User> {
     private String displayName;
     @NotEmpty(message = "{password.notEmpty}") @NotNull(message = "{password.notNull}") @Length(min = 6, message = "{password.length}")
     private String password;
-    private String confirmPassword;
+    @NotEmpty(message = "{description.notEmpty}") @NotNull(message = "{description.notNull}") @Length(max = 200, message = "{description.length}")
+    private String description;
     @NotEmpty(message = "{email.notEmpty}") @NotNull(message = "{email.notNull}") @Email(message = "{email.format}")
     private String email;
-    private String confirmEmail;
+    @URL(message = "{site.format}") @NotEmpty(message = "{site.notEmpty}") @NotNull(message = "{site.notNull}")
+    private String site;
 
-    public UserRegistrationDto(String username, String displayName, String password, String confirmPassword, String email, String confirmEmail) {
-        this.username = username;
+    public UserUpdateDto(String name, String displayName, String password, String description, String email, String site) {
+        this.username = name;
         this.displayName = displayName;
         this.password = password;
-        this.confirmPassword = confirmPassword;
+        this.description = description;
         this.email = email;
-        this.confirmEmail = confirmEmail;
+        this.site = site;
     }
 
-    public UserRegistrationDto() { // JACKSON
-
+    public UserUpdateDto() { // JACKSON
     }
 
     public String getUsername() {
@@ -50,16 +47,16 @@ public class UserRegistrationDto extends AbstractDto<User> {
         return this.password;
     }
 
-    public String getConfirmPassword() {
-        return this.confirmPassword;
+    public String getDescription() {
+        return this.description;
     }
 
     public String getEmail() {
         return this.email;
     }
 
-    public String getConfirmEmail() {
-        return this.confirmEmail;
+    public String getSite() {
+        return this.site;
     }
 
     @Override
@@ -68,8 +65,15 @@ public class UserRegistrationDto extends AbstractDto<User> {
                 .withName(this.username)
                 .withDisplayName(this.displayName)
                 .withPassword(this.password)
+                .withDescription(this.description)
                 .withEmail(this.email)
+                .withSite(this.site)
                 .build();
+    }
+
+    @Override
+    public String getName() {
+        return this.username;
     }
 
 }
