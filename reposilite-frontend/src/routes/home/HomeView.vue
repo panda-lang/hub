@@ -27,6 +27,9 @@
     @import url('https://fonts.googleapis.com/css?family=Raleway')
     @import url('https://fonts.googleapis.com/css?family=Rubik')
 
+    #home-wrapper
+        background-color #2c3e50
+
     h1
         color #e6e6e6;
         font-size 14
