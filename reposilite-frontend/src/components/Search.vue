@@ -36,7 +36,8 @@
         },
         methods: {
             onInputChange(text) {
-                if (text === null) {
+                if (!text) {
+                    this.filteredOptions = []
                     return;
                 }
 
