@@ -1,7 +1,7 @@
-import LandingView from '../views/landing/home/HomeView';
-import LoginView from '../views/login/LoginView';
-import RegisterView from '../views/register/RegisterView';
-import DashboardView from '../views/dashboard/home/HomeView'
+import LandingView from '@/views/landing/home/HomeView';
+import LoginView from '@/views/login/LoginView';
+import RegisterView from '@/views/register/RegisterView';
+import DashboardView from '@/views/dashboard/DashboardLayout'
 
 export const routes = [
     {
