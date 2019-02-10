@@ -9,7 +9,7 @@
                 img.avatar(:src="userAvatar")
                 a.username {{ username }}
                 span.uk-margin-xlarge-right(uk-icon="icon: chevron-down")
-                div(uk-dropdown='animation: uk-animation-slide-top-small; duration: 500; pos: bottom-justify')
+                div(uk-dropdown='animation: uk-animation-slide-top-small; duration: 200; pos: bottom-justify')
                     ul.uk-nav.uk-dropdown-nav
                         li
                             a(href='#') Your profile
