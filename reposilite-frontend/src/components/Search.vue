@@ -162,7 +162,7 @@
 
     .search-overlay
         background-size cover
-        background-image url("../../../assets/bg.jpg")
+        background-image url("../assets/bg.jpg")
         height 100%
         width 40%
         z-index 1
