@@ -3,8 +3,8 @@ import LoginView from '../routes/login/LoginView';
 import RegisterView from '../routes/register/RegisterView';
 import DashboardView from '../routes/dashboard/DashboardView'
 
-const route = (path, component, meta = {}) => ({
-    path, component, name: component.name, meta
+const route = (path, component, data = {}, meta = {}) => ({
+    path, component, name: component.name, ...data, meta
 })
 
 export const routes = [
