@@ -1,13 +1,13 @@
-import HomeView from '../routes/home/HomeView';
-import LoginView from '../routes/login/LoginView';
-import RegisterView from '../routes/register/RegisterView';
-import DashboardView from '../routes/dashboard/DashboardView'
+import LandingView from '../views/landing/home/HomeView';
+import LoginView from '../views/login/LoginView';
+import RegisterView from '../views/register/RegisterView';
+import DashboardView from '../views/dashboard/home/HomeView'
 
 export const routes = [
     {
         path: '/',
-        name: 'HomeView',
-        component: HomeView,
+        name: 'LandingView',
+        component: LandingView,
         meta: {
             requiresAuth: false
         }
