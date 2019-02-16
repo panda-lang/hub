@@ -30,17 +30,17 @@ export default {
         onInputChange(text) {
             if (!text) {
                 this.filteredOptions = []
-                return;
+                return
             }
 
             const filteredData = this.suggestions[0].data.filter(option => {
                 return option.name.toLowerCase().indexOf(text.toLowerCase()) > -1
-            });
+            })
 
-            this.filteredOptions = [{ data: filteredData }];
+            this.filteredOptions = [{ data: filteredData }]
         },
         renderSuggestion(suggestion) {
-            const character = suggestion.item;
+            const character = suggestion.item
             return (
                 <div
                     style={{
@@ -58,7 +58,7 @@ export default {
                     />
                     <span style={{ color: "navyblue" }}>{character.name}</span>
                 </div>
-            );
+            )
         },
         getSuggestionValue(suggestion) {
             return suggestion.item.name
