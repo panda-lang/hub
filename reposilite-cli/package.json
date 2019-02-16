@@ -1,0 +1,12 @@
+{
+  "name": "reposilite-cli",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/reposilite-cli.js"
+  },
+  "dependencies": {
+    "debug": "~2.6.9",
+    "inquirer": "^6.2.2"
+  }
+}
