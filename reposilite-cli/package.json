@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/reposilite-cli.js"
+    "start": "node ./app/reposilite-cli.js"
   },
   "dependencies": {
     "debug": "~2.6.9",
-    "inquirer": "^6.2.2"
+    "figlet": "^1.2.1",
+    "prompts": "^2.0.3"
   }
 }
