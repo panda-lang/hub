@@ -4,8 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.depository.DepositoryResponse;
 import org.panda_lang.reposilite.depository.maven.artifact.Artifact;
@@ -15,6 +14,7 @@ import org.panda_lang.reposilite.depository.maven.build.BuildFactory;
 import org.panda_lang.reposilite.depository.maven.build.Data;
 import org.panda_lang.reposilite.depository.maven.group.Group;
 import org.panda_lang.reposilite.depository.maven.group.GroupFactory;
+import org.panda_lang.reposilite.utils.FilenameUtil;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.reposilite.utils.RequestUtils;
 import org.panda_lang.panda.utilities.commons.IOUtils;
@@ -111,7 +111,7 @@ public class MavenDepositoryController {
     })
     @PutMapping("/{repository}/**")
     public ResponseEntity<Object> addArtifact(@PathVariable String repository, @RequestBody MultipartFile file, HttpServletRequest request) throws IOException {
-        if (!Arrays.asList("jar", "pom", "xml").contains(FilenameUtils.getExtension(file.getOriginalFilename()))) {
+        if (!Arrays.asList("jar", "pom", "xml").contains(FilenameUtil.getExtension(file.getOriginalFilename()))) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -124,7 +124,7 @@ public class MavenDepositoryController {
         Path buildDirectoryPath = Paths.get(mavenDepository.getRootFile().getPath() + File.separator + entityQualifier);
         Path buildFilePath = Paths.get(buildDirectoryPath + File.separator + file.getOriginalFilename());
 
-        if (entity == null && !StringUtils.isBlank(project.getBuildVersion())) {
+        if (entity == null && !StringUtils.isEmpty(project.getBuildVersion())) {
             Group group = new GroupFactory(mavenDepository).obtainGroup(project.getGroupName());
             Artifact artifact = new ArtifactFactory(group).obtainArtifact(project.getArtifactName());
             Build build = new BuildFactory(artifact).obtainBuild(project.getBuildVersion());
