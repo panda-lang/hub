@@ -1,3 +1,4 @@
+
 springfox:
   documentation:
     swagger:
@@ -15,3 +16,21 @@ logging:
 spring:
   main:
     banner-mode: "off" # prevent YAML cast to bool
+security:
+  oauth2:
+#    sso:
+#      login-path: /sessions/github
+    client:
+      client-id: CLIENT_ID
+      client-secret: SECRET_ID
+      access-token-uri: https://github.com/login/oauth/access_token
+      user-authorization-uri: https://github.com/login/oauth/authorize
+      token-name: oauth_token
+      authentication-scheme: query
+      client-authentication-scheme: form
+      scope: user
+    resource:
+      prefer-token-info: false
+      user-info-uri: https://api.github.com/user
+server:
+  port: 3000
