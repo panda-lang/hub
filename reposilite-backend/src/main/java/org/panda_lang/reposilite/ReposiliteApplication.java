@@ -10,7 +10,6 @@ public class ReposiliteApplication {
 
     public static void main(String[] args) {
         ReposiliteLogger.initializeMessage();
-        ReposiliteExternalConfiguration.initialize();
         SpringApplication.run(ReposiliteApplication.class, args);
     }
 
