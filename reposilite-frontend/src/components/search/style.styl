@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web')
 
-border-radius()
-    -webkit-border-radius arguments
-    -moz-border-radius arguments
-    border-radius arguments
-
 dark-overlay()
     &:after
         content ""
@@ -19,12 +14,11 @@ dark-overlay()
 
 #autosuggest
     position relative
-    filter drop-shadow(0 0 10px black)
 
 #autosuggest__input
+    background-color #f2f2f2
     outline none
     border none
-    border-radius(0px)
     position relative
     display block
     padding 10px
@@ -38,7 +32,7 @@ dark-overlay()
 
 .autosuggest__results-container
     font-size 14px
-    font-family'Titillium Web', sans-serif
+    font-family 'Titillium Web', sans-serif
     position absolute
     top 100%
     width 100%
