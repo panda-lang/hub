@@ -1,4 +1,4 @@
-let figlet = require('figlet');
+const figlet = require('figlet');
 
 console.log(figlet.textSync('Reposilite  CLI'));
 console.log("")
