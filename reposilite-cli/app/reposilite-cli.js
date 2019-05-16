@@ -1,10 +1,16 @@
 const figlet = require('figlet');
+const moment = require('moment');
+const uptime = moment();
 
-console.log(figlet.textSync('Reposilite  CLI'));
-console.log("")
+async function launch() {
+    console.log(figlet.textSync('Reposilite  CLI'));
+    console.log()
 
-let configuration = require('./reposilite-config')
-configuration.initialize()
+    let configuration = require('./reposilite-config')
+    let config = await configuration.initialize()
 
-let launcher = require('./reposilite-launcher')
-launcher.launch()
+    let launcher = require('./reposilite-launcher')
+    await launcher.launch(config)
+}
+
+launch().then(() => console.log("Bye! Uptime: " + uptime.toNow(true)))
