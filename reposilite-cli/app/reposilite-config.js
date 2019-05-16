@@ -1,7 +1,6 @@
 const fs = require('fs')
 const prompts = require('prompts')
 const questions = require('./reposilite-questions')
-
 const configPath = 'config.yml'
 
 async function initialize() {
@@ -23,9 +22,8 @@ async function initialize() {
         })
     }
 
-    console.log("Results:")
-    console.log(init)
-    console.log(config)
+    console.log("Initialize: " + JSON.stringify(init))
+    return config
 }
 
 module.exports = { initialize }
