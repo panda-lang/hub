@@ -2,7 +2,7 @@ const fs = require('fs')
 const prompts = require('prompts')
 const questions = require('./reposilite-questions')
 
-const configPath = 'config.yml'
+const configPath = '../reposilite-workspace/config.yml'
 const configExists = fs.existsSync(configPath)
 
 async function initialize() {

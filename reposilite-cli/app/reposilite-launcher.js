@@ -11,12 +11,12 @@ let frontend
 async function launch (config) {
     if (config['variant'].includes('backend')) {
         backend = new ReposiliteBackend()
-        backend.launch()
+        backend.launch(config)
     }
 
     if (config['variant'].includes('frontend')) {
         frontend = new ReposiliteFrontend()
-        frontend.launch()
+        frontend.launch(config)
     }
 
     stdin.addListener('data', (value) => {
