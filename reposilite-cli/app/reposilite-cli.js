@@ -1,9 +1,9 @@
-const figlet = require('figlet');
-const moment = require('moment');
-const uptime = moment();
+const figlet = require('figlet')
+const moment = require('moment')
+const uptime = moment()
 
 async function launch() {
-    console.log(figlet.textSync('Reposilite  CLI'));
+    console.log(figlet.textSync('Reposilite  CLI'))
     console.log()
 
     let configuration = require('./reposilite-config')

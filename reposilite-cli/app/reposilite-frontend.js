@@ -9,7 +9,7 @@ class ReposiliteFrontend {
 
         this.frontend.stdout.on('data', (data) => {
             console.log(TextUtils.appendSuffix(TextUtils.trimNL(data.toString()), false, '[reposilite-frontend] ', '', content => TextUtils.trimNL(content)))
-        });
+        })
 
         const that = this
 
