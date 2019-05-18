@@ -9,8 +9,10 @@ async function launch() {
     let configuration = require('./reposilite-config')
     let config = await configuration.initialize()
 
+    console.log("Launching config: " + JSON.stringify(config));
+
     let launcher = require('./reposilite-launcher')
     await launcher.launch(config)
 }
 
-launch().then(() => console.log("Bye! Uptime: " + uptime.toNow(true)))
+launch().then(() => console.log("~ Bye! Uptime: " + uptime.toNow(true) + " ฅ^•ﻌ•^ฅ "))

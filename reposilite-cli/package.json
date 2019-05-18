@@ -6,6 +6,10 @@
     "start": "node ./app/reposilite-cli.js"
   },
   "dependencies": {
+    "bluebird": "^3.5.4",
+    "cli-color": "^1.4.0",
+    "cross-spawn": "^6.0.5",
+    "cross-spawn-with-kill": "^1.0.0",
     "debug": "~2.6.9",
     "figlet": "^1.2.1",
     "moment": "^2.24.0",
