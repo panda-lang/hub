@@ -1,4 +1,4 @@
-const trimNewlines = require('trim-newlines');
+const trimNewlines = require('trim-newlines')
 const NL = /\r\n|\r|\n/
 
 class TextUtils {

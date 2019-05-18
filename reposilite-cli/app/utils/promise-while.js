@@ -1,20 +1,20 @@
 const Promise = require('bluebird')
 
 function promiseWhile(condition, action) {
-    const resolver = Promise.defer();
+    const resolver = Promise.defer()
 
     const loop = function () {
         if (!condition()) {
-            return resolver.resolve();
+            return resolver.resolve()
         }
 
         return Promise.cast(action())
             .then(loop)
-            .catch(resolver.reject);
-    };
+            .catch(resolver.reject)
+    }
 
-    process.nextTick(loop);
-    return resolver.promise;
+    process.nextTick(loop)
+    return resolver.promise
 }
 
 async function promiseWhileDelayed(condition, delay) {
