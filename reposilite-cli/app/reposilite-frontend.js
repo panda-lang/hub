@@ -8,7 +8,7 @@ class ReposiliteFrontend {
         console.log("Launching frontend...")
 
         this.frontend.stdout.on('data', (data) => {
-            console.log(TextUtils.appendSuffix(data.toString().trim(), '[reposilite-frontend] ', '', (content) => content.trim()))
+            console.log(TextUtils.appendSuffix(data.toString().trim(), false, '[reposilite-frontend] ', '', (content) => content.trim()))
         });
 
         const that = this

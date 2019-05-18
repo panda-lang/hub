@@ -13,6 +13,7 @@
     "debug": "~2.6.9",
     "figlet": "^1.2.1",
     "moment": "^2.24.0",
-    "prompts": "^2.0.3"
+    "prompts": "^2.0.3",
+    "trim-newlines": "^3.0.0"
   }
 }
