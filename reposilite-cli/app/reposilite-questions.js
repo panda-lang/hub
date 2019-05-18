@@ -1,5 +1,6 @@
 const init = [
-    require('./questions/init-variant-question')
+    require('./questions/init-variant-question'),
+    require('./questions/init-reinitialize-config-question')
 ];
 
 const config = [
