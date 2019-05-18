@@ -1,3 +1,4 @@
+const ReposiliteBackend = require('./reposilite-backend')
 const ReposiliteFrontend = require('./reposilite-frontend')
 const { _, promiseWhileDelayed } = require('./utils/promise-while')
 
@@ -8,9 +9,12 @@ let backend
 let frontend
 
 async function launch (config) {
-    //launchBackend()
+    if (config['variant'].includes('backend')) {
+        backend = new ReposiliteBackend()
+        backend.launch()
+    }
 
-    if (config['variant'] === 'full') {
+    if (config['variant'].includes('frontend')) {
         frontend = new ReposiliteFrontend()
         frontend.launch()
     }
@@ -26,11 +30,14 @@ function executeCommand(command) {
     switch (command) {
         case 'stop':
             frontend.shutdown()
+            backend.shutdown()
             stdin.pause()
             break
         case 'status':
             console.log("• Reposilite Frontend: " + (frontend ? color.green("Active") : color.red("Inactive")))
             console.log("• Reposilite Backend: " + (backend ? color.green("Active") : color.red("Inactive")))
+            break
+        case '':
             break
         default:
             console.warn("Unknown command: " + command)
