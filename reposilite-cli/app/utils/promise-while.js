@@ -3,7 +3,7 @@ const Promise = require('bluebird')
 function promiseWhile(condition, action) {
     const resolver = Promise.defer()
 
-    const loop = function () {
+    const loop = () => {
         if (!condition()) {
             return resolver.resolve()
         }
