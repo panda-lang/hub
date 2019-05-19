@@ -23,7 +23,7 @@ async function loadConfigurationFile(init) {
 
     let config = await prompts(questions.config)
 
-    fs.writeFileSync(configPath, JSON.stringify(config), function (err) {
+    fs.writeFileSync(configPath, JSON.stringify(config), (err) => {
         if (err) {
             console.log('Cannot save file! Caused by: ' + err)
             process.exit()

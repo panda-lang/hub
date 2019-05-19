@@ -15,7 +15,7 @@ class ReposiliteBackend {
             env: env
         })
 
-        this.backend.on('error', error => {
+        this.backend.on('error', (error) => {
             console.error(error)
         })
 
