@@ -6,8 +6,6 @@ notifications:
 jdk:
 - oraclejdk8
 
-before_script: cd reposilite-backend
-
 script:
 - mvn install
 
