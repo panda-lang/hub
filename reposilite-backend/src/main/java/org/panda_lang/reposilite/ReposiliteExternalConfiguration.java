@@ -4,10 +4,11 @@ import org.panda_lang.panda.utilities.commons.FileUtils;
 import org.panda_lang.panda.utilities.commons.IOUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 class ReposiliteExternalConfiguration {
 
-    static void initialize() {
+    static void initialize() throws IOException {
         File userConfiguration = new File("application.yml");
 
         if (userConfiguration.exists()) {
