@@ -7,6 +7,7 @@
     <groupId>org.panda-lang</groupId>
     <artifactId>reposilite-parent</artifactId>
     <version>indev-2018.12.30</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>reposilite-backend</module>
