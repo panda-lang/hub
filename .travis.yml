@@ -4,10 +4,10 @@ notifications:
   email: false
   
 jdk:
-- oraclejdk8
+  - openjdk8
 
 script:
-- mvn install
+  - mvn install
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
