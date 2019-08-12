@@ -1,16 +1,15 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { Typography } from 'antd';
-
-const { Title } = Typography;
+import HomeView from './home/home.view';
 
 const App: React.FC = () => {
     return (
-        <div className="App">
-            <header className="App-header">
-                <Title level={2}>Reposilite</Title>
-            </header>
-        </div>
+        <Router>
+            <Switch>
+                <Route exact path='/' component={HomeView} />
+            </Switch>
+        </Router>
     );
 }
 
