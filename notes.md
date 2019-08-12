@@ -5,9 +5,10 @@ Backend:
 * MongoDB / Local json
 
 Frontend:
-* Vue.js
-* Jade
-* Sass
+* TypeScript
+* React
+* MobX
+* Ant Design
 
 #### Concept
 * Plain maven repository without indexing
@@ -33,13 +34,13 @@ Reposilite Interface:
 * Project profiles
 * Users/Organizations
 * Artifact uploader
-* Registration 
+* Registration
 * Stats
 * Permissions
 
 Common:
 * Accounts
-  
+
 #### Routing
 ```
 {root}:
@@ -52,20 +53,20 @@ Common:
 
 +-/{user/organization}
   +---/                     # user/organization profile, project list
-  +---/{project}           
+  +---/{project}
       +---/                 # project profile, github, markdown description
       +---/versions         # list of all artifact versions
 
 +-/repository
   +---/                     # list of repositories
-  +---/{repository}         
-      +---/                 # hidden 
+  +---/{repository}
+      +---/                 # hidden
       +---/{artifact-path}  # artifact
 
 +-/create                   # Create project
 +-/upload                   # Upload artifact
 ```
-  
+
 #### Code style
 Consistent with the Java Coding Convention
 * K&R
