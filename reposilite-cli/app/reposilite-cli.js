@@ -6,8 +6,8 @@ async function launch() {
     console.log(figlet.textSync('Reposilite  CLI'))
     console.log()
 
-    let configuration = require('./reposilite-config')
-    let config = await configuration.initialize()
+    const configuration = require('./reposilite-config')
+    const config = await configuration.initialize()
 
     let launcher = require('./reposilite-launcher')
     await launcher.launch(config)

@@ -7,7 +7,7 @@ class ReposiliteBackend {
     launch(config) {
         console.log("Launching backend...")
 
-        let env = Object.create(process.env)
+        const env = Object.create(process.env)
         env.MAVEN_OPTS = java.optionsToParameters(config)
 
         this.backend = spawn('../reposilite-backend/mvnw', [ 'spring-boot:run', '-f', '../reposilite-backend/pom.xml' ], {

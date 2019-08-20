@@ -21,7 +21,7 @@ async function loadConfigurationFile(init) {
         return JSON.parse(fs.readFileSync(configPath).toString())
     }
 
-    let config = await prompts(questions.config)
+    const config = await prompts(questions.config)
 
     fs.writeFileSync(configPath, JSON.stringify(config), (err) => {
         if (err) {
