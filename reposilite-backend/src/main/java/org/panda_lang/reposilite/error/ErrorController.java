@@ -31,6 +31,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(webRequest, false);
 
         if (httpServletResponse.getStatus() == 400 && errorAttributes.get("errors") != null) {
+            //noinspection unchecked
             Collection<FieldError> errors = (Collection<FieldError>) errorAttributes.get("errors");
 
             return new ErrorDto(400, errors.stream()

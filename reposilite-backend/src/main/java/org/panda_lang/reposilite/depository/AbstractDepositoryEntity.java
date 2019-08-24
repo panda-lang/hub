@@ -1,6 +1,6 @@
 package org.panda_lang.reposilite.depository;
 
-import org.panda_lang.reposilite.utils.collection.TreeMapNode;
+import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
@@ -43,7 +43,7 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
     }
 
     @Override
-    public TreeMapNode<AbstractDepositoryEntity> getNode() {
+    public TreemapNode<AbstractDepositoryEntity> getNode() {
         return node;
     }
 

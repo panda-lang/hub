@@ -1,9 +1,9 @@
 package org.panda_lang.reposilite.depository.maven;
 
+import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
 import org.panda_lang.reposilite.ReposiliteApplication;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.depository.DepositoryNotFoundException;
-import org.panda_lang.reposilite.utils.collection.TreeMapNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class MavenDepositoryRepository {
 
     private final File repositoriesRoot;
-    private final Map<String, TreeMapNode<? extends DepositoryEntity>> depositories;
+    private final Map<String, TreemapNode<? extends DepositoryEntity>> depositories;
 
     @Autowired
     public MavenDepositoryRepository(@Qualifier("mavenRepositoryDirectory") File repositoriesRoot) {
@@ -59,8 +59,8 @@ public class MavenDepositoryRepository {
         return entity;
     }
 
-    private @Nullable TreeMapNode<? extends DepositoryEntity> findDepositoryNodeByName(String name) {
-        TreeMapNode<? extends DepositoryEntity> node = this.depositories.get(name);
+    private @Nullable TreemapNode<? extends DepositoryEntity> findDepositoryNodeByName(String name) {
+        TreemapNode<? extends DepositoryEntity> node = this.depositories.get(name);
         return node != null && node.getElement() instanceof MavenDepository ? node : null;
     }
 

@@ -4,7 +4,7 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.panda_lang.reposilite.utils.collection.TreeNode;
+import org.panda_lang.panda.utilities.commons.collection.map.TreeNode;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,8 +67,8 @@ public final class FilesUtils {
             Path md5FileFile = Paths.get(path + ".md5");
             Path sha1FileFile = Paths.get(path + ".sha1");
 
-            FileUtils.writeStringToFile(md5FileFile.toFile(), com.google.common.io.Files.hash(md5FileFile.toFile(), Hashing.md5()).toString(), StandardCharsets.UTF_8);
-            FileUtils.writeStringToFile(sha1FileFile.toFile(), com.google.common.io.Files.hash(sha1FileFile.toFile(), Hashing.sha1()).toString(), StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(md5FileFile.toFile(), Files.hash(md5FileFile.toFile(), Hashing.md5()).toString(), StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(sha1FileFile.toFile(), Files.hash(sha1FileFile.toFile(), Hashing.sha1()).toString(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -23,6 +23,7 @@ import java.util.Optional;
 public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, ID, U extends AbstractDto<T>, C extends AbstractDto<T>> {
 
     private static final String SPEL_EXPRESSION = "(isAuthenticated() && principal.user.identifier.equals(#id)) || hasAuthority('ADMIN')";
+
     private final CrudOperationsService<T, ID> service;
 
     protected AbstractCrudController(CrudOperationsService<T, ID> service) {

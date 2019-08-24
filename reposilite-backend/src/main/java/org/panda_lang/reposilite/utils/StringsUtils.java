@@ -10,7 +10,6 @@ public final class StringsUtils {
         return text.substring(0, toIndex).lastIndexOf(element);
     }
 
-    private StringsUtils() {
-    }
+    private StringsUtils() { }
 
 }

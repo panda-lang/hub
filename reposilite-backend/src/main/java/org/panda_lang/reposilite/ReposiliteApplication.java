@@ -1,6 +1,5 @@
 package org.panda_lang.reposilite;
 
-import org.jetbrains.annotations.Contract;
 import org.slf4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +13,6 @@ public class ReposiliteApplication {
         SpringApplication.run(ReposiliteApplication.class, args);
     }
 
-    @Contract(pure = true)
     public static Logger getLogger() {
         return ReposiliteLogger.REPOSILITE_LOGGER;
     }

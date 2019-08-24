@@ -86,12 +86,17 @@
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>2.1.7.RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.1.7.RELEASE</version>
+        </dependency>
+        
         <!-- Panda -->
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda</artifactId>
-            <version>indev-19.6.28</version>
+            <version>indev-19.8.24</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.tinylog</groupId>

@@ -63,4 +63,5 @@ public class OrganizationUpdateDto extends AbstractDto<Organization> {
                 .withSite(this.site)
                 .build();
     }
+
 }

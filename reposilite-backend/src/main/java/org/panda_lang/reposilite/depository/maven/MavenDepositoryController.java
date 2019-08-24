@@ -18,7 +18,7 @@ import org.panda_lang.reposilite.depository.maven.group.GroupFactory;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.reposilite.utils.RequestUtils;
 import org.panda_lang.panda.utilities.commons.IOUtils;
-import org.panda_lang.reposilite.utils.security.IsAdmin;
+import org.panda_lang.reposilite.user.security.IsAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;

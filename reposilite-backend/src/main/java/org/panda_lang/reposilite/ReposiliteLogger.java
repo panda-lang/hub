@@ -29,7 +29,6 @@ final class ReposiliteLogger {
         System.out.println();
     }
 
-    private ReposiliteLogger() {
-    }
+    private ReposiliteLogger() { }
 
 }
