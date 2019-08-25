@@ -241,7 +241,7 @@
     </repositories>
 
     <build>
-        <defaultGoal>clean package</defaultGoal>
+        <defaultGoal>clean install -e -X</defaultGoal>
 
         <plugins>
             <plugin>
