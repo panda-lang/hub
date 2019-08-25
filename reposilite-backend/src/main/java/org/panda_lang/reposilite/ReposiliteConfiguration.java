@@ -10,12 +10,10 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.shell.jline.PromptProvider;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
 
-@EnableWebMvc
 @Configuration
 public class ReposiliteConfiguration implements WebMvcConfigurer {
 
