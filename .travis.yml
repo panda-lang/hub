@@ -8,7 +8,7 @@ jdk:
   - openjdk12
 
 script:
-  - mvn install
+  - mvn install -e -X
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
