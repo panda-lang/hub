@@ -5,6 +5,7 @@ notifications:
   
 jdk:
   - openjdk8
+  - openjdk10
 
 script:
   - mvn install
