@@ -18,7 +18,6 @@ final class ReposiliteLogger {
             "              |_|                                   \n";
 
     static void initializeMessage() {
-
         if (Thread.currentThread().getName().contains("restarted")) {
             return;
         }

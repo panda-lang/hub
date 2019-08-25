@@ -51,6 +51,7 @@ class RoleCommandsIntegrationTest {
 
         assertAll(
                 () -> assertNotNull(this.mongoTemplate.findById("ADMIN", Role.class)),
+                () -> assertNotNull(user),
                 () -> assertTrue(user.getRoles().toString().contains("ADMIN")),
                 () -> assertEquals("Set role `ADMIN` for user: testUser2115", result)
         );

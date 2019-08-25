@@ -14,7 +14,7 @@ class OrganizationBuilderTest {
     private Organization organization;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.organization = new OrganizationBuilder()
                 .withOwner(new UserBuilder()
                         .withPassword("test123")

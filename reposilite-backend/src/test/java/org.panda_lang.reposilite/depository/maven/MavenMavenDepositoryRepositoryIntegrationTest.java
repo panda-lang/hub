@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -30,12 +32,11 @@ class MavenMavenDepositoryRepositoryIntegrationTest {
     @Test
     void findRepositoryNodeByNameTest() {
         MavenDepository mavenDepository = this.mavenDepositoryRepository.findDepositoryByName("releases");
-        DepositoryEntity depositoryEntity = this.mavenDepositoryRepository.findEntityByURLPath(mavenDepository, "org/panda-lang/panda-utilities");
+        assertNotNull(mavenDepository);
 
-        assertAll(
-                () -> assertNotNull(mavenDepository),
-                () -> assertEquals(depositoryEntity.getName(), "panda-utilities")
-        );
+        DepositoryEntity depositoryEntity = this.mavenDepositoryRepository.findEntityByURLPath(mavenDepository, "org/panda-lang/panda-utilities");
+        assertNotNull(depositoryEntity);
+        assertEquals(depositoryEntity.getName(), "panda-utilities");
     }
 
 }

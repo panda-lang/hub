@@ -23,6 +23,7 @@ class RoleFactoryIntegrationTest {
     @Test
     void obtainNewRoleTest() {
         Role role = this.roleFactory.obtainRole("SUPER_VIP");
+
         assertAll(
                 () -> assertNotNull(role),
                 () -> assertNotNull(this.mongoTemplate.findById("SUPER_VIP", Role.class))
@@ -30,7 +31,7 @@ class RoleFactoryIntegrationTest {
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() {
         this.mongoTemplate.dropCollection("roles");
     }
 

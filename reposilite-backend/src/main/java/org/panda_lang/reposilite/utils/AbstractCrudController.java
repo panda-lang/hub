@@ -58,14 +58,15 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
     @PostMapping
     protected ResponseEntity<?> create(
             @RequestBody @Valid @ApiParam("Entity data transfer object") C dto,
-            BindingResult result) {
+            BindingResult result
+    ) {
         return this.createEntity(dto, result);
     }
 
     @ApiOperation("Updates entity")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Entity created"),
-            @ApiResponse(code = 400, message = "Validation error occured"),
+            @ApiResponse(code = 400, message = "Validation error occurred"),
             @ApiResponse(code = 204, message = "Entity updated")
     })
     @PreAuthorize(SPEL_EXPRESSION)
@@ -73,7 +74,8 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
     protected ResponseEntity<?> update(
             @RequestBody @Valid @ApiParam("Entity data transfer object") U dto,
             @PathVariable @ApiParam("Entity identifier") ID id,
-            BindingResult result) {
+            BindingResult result
+    ) {
         Optional<T> entity = this.service.findById(id);
 
         if (!entity.isPresent()) {
@@ -98,7 +100,8 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
     @PatchMapping("/{id}")
     protected ResponseEntity<C> partialUpdate(
             @RequestBody @ApiParam("Entity data transfer object") U dto,
-            @PathVariable @ApiParam("Entity identifier") ID id) {
+            @PathVariable @ApiParam("Entity identifier") ID id
+    ) {
         Optional<T> optionalEntity = this.service.findById(id);
 
         if (!optionalEntity.isPresent()) {

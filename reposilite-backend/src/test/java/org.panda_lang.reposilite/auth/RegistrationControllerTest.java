@@ -8,14 +8,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.panda_lang.reposilite.user.UserRegistrationDto;
 import org.panda_lang.reposilite.user.UserCrudService;
-import org.springframework.http.MediaType;
+import org.panda_lang.reposilite.user.UserRegistrationDto;
+import org.panda_lang.reposilite.utils.AbstractDto;
+import org.panda_lang.reposilite.utils.AbstractDtoUtils;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(JUnitPlatform.class)
@@ -30,25 +31,22 @@ class RegistrationControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.registrationController).build();
     }
 
     @Test
     void registrationTest() throws Exception {
         UserRegistrationDto dto = new UserRegistrationDto(
-                "test123",
-                "test123",
-                "test123",
-                "test123",
+                "username-123",
+                "display-name-123",
+                "password-123",
+                "password-123",
                 "test123@test",
                 "test123@test"
         );
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+        perform(dto, status().isCreated());
     }
 
     @Test
@@ -62,10 +60,7 @@ class RegistrationControllerTest {
                 ""
         );
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+        perform(dto, status().isBadRequest());
     }
 
     @Test
@@ -79,10 +74,7 @@ class RegistrationControllerTest {
                 "test123@test"
         );
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+        perform(dto, status().isBadRequest());
     }
 
     @Test
@@ -96,10 +88,7 @@ class RegistrationControllerTest {
                 "test123@test"
         );
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+        perform(dto, status().isBadRequest());
     }
 
     @Test
@@ -113,10 +102,7 @@ class RegistrationControllerTest {
                 "test123@test"
         );
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+        perform(dto, status().isBadRequest());
     }
 
     @Test
@@ -130,10 +116,11 @@ class RegistrationControllerTest {
                 "test123"
         );
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+        perform(dto, status().isBadRequest());
+    }
+
+    private void perform(AbstractDto<?> dto, ResultMatcher resultMatcher) throws Exception {
+        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, resultMatcher);
     }
 
 }

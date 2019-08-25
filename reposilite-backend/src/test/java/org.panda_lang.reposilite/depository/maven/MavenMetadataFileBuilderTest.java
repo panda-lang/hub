@@ -14,7 +14,7 @@ class MavenMetadataFileBuilderTest {
     private MavenMetadataFile file;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.file = new MavenMetadataFileBuilder()
                 .withGroupId("test1")
                 .withArtifactId("test2")

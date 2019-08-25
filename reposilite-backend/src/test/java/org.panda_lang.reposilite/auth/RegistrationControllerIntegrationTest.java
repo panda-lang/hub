@@ -6,16 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
+import org.panda_lang.reposilite.utils.AbstractDtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(JUnitPlatform.class)
 @EnableAutoConfiguration
@@ -31,7 +30,7 @@ class RegistrationControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.registrationController).build();
     }
 
@@ -46,19 +45,12 @@ class RegistrationControllerIntegrationTest {
                 "test123@test"
         );
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
-                .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isConflict());
+        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isCreated());
+        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isConflict());
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() {
         this.mongoTemplate.dropCollection("users");
     }
 

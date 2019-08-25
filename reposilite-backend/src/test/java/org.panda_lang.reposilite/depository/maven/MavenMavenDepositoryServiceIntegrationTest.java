@@ -25,8 +25,9 @@ class MavenMavenDepositoryServiceIntegrationTest {
     @Test
     void getDepositoryEntityTest() {
         MavenDepository mavenDepository = this.depositoryService.getDepository("releases");
-        DepositoryEntity depositoryEntity = this.depositoryService.getDepositoryEntity(mavenDepository, "org/panda-lang/panda-utilities");
+        assertNotNull(mavenDepository);
 
+        DepositoryEntity depositoryEntity = this.depositoryService.getDepositoryEntity(mavenDepository, "org/panda-lang/panda-utilities");
         assertNotNull(depositoryEntity);
     }
 }
