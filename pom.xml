@@ -37,7 +37,7 @@
     </properties>
 
     <build>
-        <defaultGoal>clean install</defaultGoal>
+        <defaultGoal>clean install -e -X</defaultGoal>
 
         <plugins>
             <plugin>
