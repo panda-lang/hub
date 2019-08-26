@@ -8,7 +8,7 @@ jdk:
   - openjdk10
 
 script:
-  - mvn install -e -X
+  - mvn install
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

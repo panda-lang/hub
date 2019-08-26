@@ -9,6 +9,9 @@
     <version>indev-2018.12.30</version>
     <packaging>pom</packaging>
 
+    <name>Reposilite</name>
+    <description>Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts</description>
+
     <modules>
         <module>reposilite-backend</module>
         <module>reposilite-frontend</module>
@@ -31,7 +34,6 @@
 
     <properties>
         <java.version>1.8</java.version>
-
         <project.encoding>UTF-8</project.encoding>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
     </properties>
@@ -40,6 +42,7 @@
         <defaultGoal>clean install</defaultGoal>
 
         <plugins>
+            <!-- Statistics -->
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
@@ -48,28 +51,16 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
         </plugins>
 
         <pluginManagement>
             <plugins>
+                <!-- Statistics -->
                 <plugin>
                     <groupId>org.eluder.coveralls</groupId>
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.3.0</version>
                 </plugin>
-
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
@@ -90,6 +81,14 @@
                     </executions>
                 </plugin>
 
+                <!-- Spring -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>2.1.7.RELEASE</version>
+                </plugin>
+
+                <!-- General -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
@@ -105,7 +104,6 @@
                         </links>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -116,7 +114,6 @@
                         <compilerArgument>-parameters</compilerArgument>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>

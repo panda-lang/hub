@@ -9,5 +9,10 @@
       "name": "reposilite.built-in-frontend",
       "type": "java.lang.String",
       "description": "Description for reposilite.built-in-frontend."
+    },
+    {
+      "name": "reposilite.workspace",
+      "type": "java.lang.String",
+      "description": "Description for reposilite.workspace."
     }
   ] }

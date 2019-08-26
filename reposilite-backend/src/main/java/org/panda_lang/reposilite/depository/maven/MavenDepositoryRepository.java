@@ -31,7 +31,7 @@ class MavenDepositoryRepository {
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        ReposiliteApplication.getLogger().info("Loading maven repositories...");
+        ReposiliteApplication.getLogger().info("Loading maven repositories from " + repositoriesRoot + "...");
 
         MavenDepositoryFactory factory = new MavenDepositoryFactory();
         Collection<MavenDepository> loadedDepositories = factory.loadDepositories(this.repositoriesRoot);

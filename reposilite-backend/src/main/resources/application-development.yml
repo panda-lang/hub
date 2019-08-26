@@ -1,3 +1,6 @@
+reposilite:
+  workspace: "reposilite-backend/src/test/workspace"
+
 spring:
   data:
     mongodb:
