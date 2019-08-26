@@ -34,7 +34,7 @@ class MavenMavenDepositoryRepositoryIntegrationTest {
         MavenDepository mavenDepository = this.mavenDepositoryRepository.findDepositoryByName("releases");
         assertNotNull(mavenDepository);
 
-        DepositoryEntity depositoryEntity = this.mavenDepositoryRepository.findEntityByURLPath(mavenDepository, "org/panda-lang/panda-utilities");
+        DepositoryEntity depositoryEntity = mavenDepository.find("org/panda-lang/panda-utilities");
         assertNotNull(depositoryEntity);
         assertEquals(depositoryEntity.getName(), "panda-utilities");
     }

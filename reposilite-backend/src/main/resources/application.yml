@@ -1,8 +1,6 @@
-springfox:
-  documentation:
-    swagger:
-      v2:
-        path: "/api/docs"
+reposilite:
+  built-in-frontend: "on"
+
 logging:
   level:
     org:
@@ -12,6 +10,13 @@ logging:
       panda_lang: WARN
       mongodb: WARN
     springfox: WARN
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: "/api/docs"
+
 spring:
   main:
     banner-mode: "off" # prevent YAML cast to bool

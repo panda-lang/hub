@@ -4,7 +4,7 @@ import org.panda_lang.reposilite.utils.Buildable;
 
 import java.util.Set;
 
-public class MavenMetadataFileBuilder implements Buildable<MavenMetadataFile> {
+final class MavenMetadataFileBuilder implements Buildable<MavenMetadataFile> {
 
     private String groupId;
     private String artifactId;

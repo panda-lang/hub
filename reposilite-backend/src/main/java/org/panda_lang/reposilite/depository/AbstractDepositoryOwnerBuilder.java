@@ -12,26 +12,31 @@ public abstract class AbstractDepositoryOwnerBuilder<T extends Buildable<? exten
 
     public T withName(String name) {
         this.name = name;
-        return (T) this;
+        return returnThis();
     }
 
     public T withDisplayName(String displayName) {
         this.displayName = displayName;
-        return (T) this;
+        return returnThis();
     }
 
     public T withDescription(String description) {
         this.description = description;
-        return (T) this;
+        return returnThis();
     }
 
     public T withEmail(String email) {
         this.email = email;
-        return (T) this;
+        return returnThis();
     }
 
     public T withSite(String site) {
         this.site = site;
+        return returnThis();
+    }
+
+    @SuppressWarnings("unchecked")
+    private T returnThis() {
         return (T) this;
     }
 

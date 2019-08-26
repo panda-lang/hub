@@ -8,7 +8,7 @@ import org.springframework.lang.Nullable;
 import java.io.File;
 import java.util.Collection;
 
-public class MavenDepository extends AbstractDepositoryEntity {
+public final class MavenDepository extends AbstractDepositoryEntity {
 
     private final File root;
 
@@ -17,8 +17,7 @@ public class MavenDepository extends AbstractDepositoryEntity {
         this.root = root;
     }
 
-    public @Nullable
-    GroupUnit findGroupUnit(String partOfGroupName) {
+    public @Nullable GroupUnit findGroupUnit(String partOfGroupName) {
         for (Group group : getGroups()) {
             GroupUnit unit = group.matchGroupUnit(partOfGroupName);
 

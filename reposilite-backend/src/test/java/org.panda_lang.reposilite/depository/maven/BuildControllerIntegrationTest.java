@@ -1,11 +1,10 @@
-package org.panda_lang.reposilite.depository.maven.artifact;
+package org.panda_lang.reposilite.depository.maven;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.panda_lang.reposilite.depository.maven.MavenDepositoryController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class ArtifactControllerIntegrationTest {
+class BuildControllerIntegrationTest {
 
     @Autowired
     private MavenDepositoryController mavenDepositoryController;
@@ -33,16 +32,16 @@ class ArtifactControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn404WhenArtifactIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/p4nd4-utilities/"))
+    void shouldReturn404WhenBuildIsNotPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-333.8.0"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void shouldReturn200WhenArtifactPresent() throws Exception {
-        String path = StringUtils.replace("repositories/maven/releases/org/panda-lang/panda-utilities", "/", File.separator);
+    void shouldReturn200WhenBuildPresent() throws Exception {
+        String path = StringUtils.replace("repositories/maven/releases/org/panda-lang/panda-utilities/indev-0.8.0", "/", File.separator);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-0.8.0"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.path", Matchers.is(path)));
     }

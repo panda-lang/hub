@@ -120,6 +120,11 @@
 
         <!-- Default -->
         <dependency>
+            <groupId>com.j2html</groupId>
+            <artifactId>j2html</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>de.neuland-bfi</groupId>
             <artifactId>spring-jade4j</artifactId>
             <version>1.2.7</version>
@@ -139,6 +144,7 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
+
 
         <!-- Validation -->
         <dependency>

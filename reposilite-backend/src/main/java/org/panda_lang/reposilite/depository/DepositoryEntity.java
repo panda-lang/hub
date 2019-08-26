@@ -5,6 +5,10 @@ import org.springframework.lang.Nullable;
 
 public interface DepositoryEntity {
 
+    default @Nullable DepositoryEntity find(String path) {
+        return find(path.split("/"));
+    }
+
     @Nullable DepositoryEntity find(String... paths);
 
     TreemapNode<? extends DepositoryEntity> getNode();
