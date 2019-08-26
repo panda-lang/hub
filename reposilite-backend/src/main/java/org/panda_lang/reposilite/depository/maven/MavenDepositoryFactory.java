@@ -3,7 +3,6 @@ package org.panda_lang.reposilite.depository.maven;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.collection.map.TreeNode;
 import org.panda_lang.reposilite.ReposiliteApplication;
-import org.panda_lang.reposilite.depository.DepositoryUtils;
 import org.panda_lang.reposilite.depository.maven.artifact.Artifact;
 import org.panda_lang.reposilite.depository.maven.artifact.ArtifactFactory;
 import org.panda_lang.reposilite.depository.maven.build.Build;
@@ -16,7 +15,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MavenDepositoryFactory {
+final class MavenDepositoryFactory {
 
     public Set<MavenDepository> loadDepositories(File root) {
         Set<MavenDepository> depositories = new HashSet<>();
@@ -65,7 +64,7 @@ public class MavenDepositoryFactory {
             load(mavenDepository, groupFactory, leafFile);
         }
 
-        DepositoryUtils.print(mavenDepository);
+        MavenDepositoryUtils.print(mavenDepository);
     }
 
     private void load(MavenDepository mavenDepository, GroupFactory groupFactory, File file) {

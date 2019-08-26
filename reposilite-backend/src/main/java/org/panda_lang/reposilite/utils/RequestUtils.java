@@ -10,6 +10,8 @@ public final class RequestUtils {
 
     private static final AntPathMatcher ANT_MATCHER = new AntPathMatcher();
 
+    private RequestUtils() { }
+
     public static String extractWildcard(HttpServletRequest request) {
         return extractWildcard(ANT_MATCHER, request);
     }
@@ -20,7 +22,5 @@ public final class RequestUtils {
 
         return matcher.extractPathWithinPattern(bestMatchingPattern, path);
     }
-
-    private RequestUtils() { }
 
 }

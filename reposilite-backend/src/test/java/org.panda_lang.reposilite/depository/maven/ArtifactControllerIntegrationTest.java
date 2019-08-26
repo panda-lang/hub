@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.depository.maven.group;
+package org.panda_lang.reposilite.depository.maven;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matchers;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class GroupControllerIntegrationTest {
+class ArtifactControllerIntegrationTest {
 
     @Autowired
     private MavenDepositoryController mavenDepositoryController;
@@ -33,16 +33,16 @@ class GroupControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn404WhenGroupIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/pl/panda-lang/"))
+    void shouldReturn404WhenArtifactIsNotPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/p4nd4-utilities/"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void shouldReturn200WhenGroupPresent() throws Exception {
-        String path = StringUtils.replace("repositories/maven/releases/org/panda-lang", "/", File.separator);
+    void shouldReturn200WhenArtifactPresent() throws Exception {
+        String path = StringUtils.replace("repositories/maven/releases/org/panda-lang/panda-utilities", "/", File.separator);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.path", Matchers.is(path)));
     }

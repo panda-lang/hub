@@ -4,7 +4,7 @@ import org.panda_lang.reposilite.utils.StringsUtils;
 
 import java.io.File;
 
-public class MavenDepositoryPath {
+final class MavenDepositoryPath {
 
     private final String groupName;
     private final String artifactName;

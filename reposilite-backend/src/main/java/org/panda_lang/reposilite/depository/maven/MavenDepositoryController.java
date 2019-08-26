@@ -45,7 +45,7 @@ import java.util.Map;
 @ApiOperation("Operations pertaining to repository")
 @RequestMapping("api/repository/maven")
 @RestController
-public class MavenDepositoryController {
+class MavenDepositoryController {
 
     private final MavenDepositoryService mavenDepositoryService;
 
@@ -84,8 +84,13 @@ public class MavenDepositoryController {
     @GetMapping("/{repository}/**")
     public ResponseEntity<Object> repository(@PathVariable @ApiParam("Repository name") String repository, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MavenDepository mavenDepository = this.mavenDepositoryService.getDepository(repository);
+
+        if (mavenDepository == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         String entityQualifier = RequestUtils.extractWildcard(request);
-        DepositoryEntity entity = this.mavenDepositoryService.getDepositoryEntity(mavenDepository, entityQualifier);
+        DepositoryEntity entity = mavenDepository.find(entityQualifier);
 
         if (entity == null) {
             return ResponseEntity.notFound().build();
@@ -116,9 +121,13 @@ public class MavenDepositoryController {
         }
 
         MavenDepository mavenDepository = this.mavenDepositoryService.getDepository(repository);
-        String entityQualifier = RequestUtils.extractWildcard(request);
 
-        DepositoryEntity entity = this.mavenDepositoryService.getDepositoryEntity(mavenDepository, entityQualifier);
+        if (mavenDepository == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String entityQualifier = RequestUtils.extractWildcard(request);
+        DepositoryEntity entity = mavenDepository.find(entityQualifier);
         MavenDepositoryPath project = MavenDepositoryPath.ofSystemPath(Paths.get("\\" + entityQualifier + File.separator + file.getOriginalFilename()).toString());
 
         Path buildDirectoryPath = Paths.get(mavenDepository.getRootFile().getPath() + File.separator + entityQualifier);
@@ -141,6 +150,10 @@ public class MavenDepositoryController {
             FilesUtils.storeFile(buildDirectoryPath, file, false);
             FilesUtils.writeFileChecksums(buildFilePath.toAbsolutePath());
             Group group = mavenDepository.getGroup(project.getGroupName());
+
+            if (group == null) {
+                return ResponseEntity.notFound().build();
+            }
 
             this.mavenDepositoryService.generateMetaDataFile(mavenDepository, group, group.getArtifact(project.getArtifactName()), buildDirectoryPath.getParent());
             return ResponseEntity.noContent().build();

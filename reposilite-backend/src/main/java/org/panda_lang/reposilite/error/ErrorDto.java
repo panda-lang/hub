@@ -1,6 +1,6 @@
 package org.panda_lang.reposilite.error;
 
-public class ErrorDto {
+class ErrorDto {
 
     private int code;
     private String message;

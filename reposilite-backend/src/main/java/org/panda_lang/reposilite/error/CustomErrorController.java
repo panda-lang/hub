@@ -2,6 +2,7 @@ package org.panda_lang.reposilite.error;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +15,14 @@ import java.util.Locale;
 import java.util.Map;
 
 @RestController
-public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
+class CustomErrorController implements ErrorController {
 
     private final static String ERROR_PATH = "/error";
     private final ErrorAttributes errorAttributes;
     private final MessageSource messageSource;
 
     @Autowired
-    public ErrorController(ErrorAttributes errorAttributes, MessageSource messageSource) {
+    public CustomErrorController(ErrorAttributes errorAttributes, MessageSource messageSource) {
         this.errorAttributes = errorAttributes;
         this.messageSource = messageSource;
     }

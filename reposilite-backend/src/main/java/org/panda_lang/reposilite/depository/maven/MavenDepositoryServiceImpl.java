@@ -15,11 +15,13 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class MavenDepositoryServiceImpl implements MavenDepositoryService {
+class MavenDepositoryServiceImpl implements MavenDepositoryService {
 
     private final MavenDepositoryRepository mavenDepositoryRepository;
 
@@ -29,18 +31,9 @@ public class MavenDepositoryServiceImpl implements MavenDepositoryService {
     }
 
     @Override
-    public @Nullable MavenDepository getDepository(String name) {
-        return this.mavenDepositoryRepository.findDepositoryByName(name);
-    }
-
-    @Override
-    public @Nullable DepositoryEntity getDepositoryEntity(MavenDepository mavenDepository, String entityQualifier) {
-        return this.mavenDepositoryRepository.findEntityByURLPath(mavenDepository, entityQualifier);
-    }
-
-    @Override
     public void generateMetaDataFile(MavenDepository mavenDepository, Group group, Artifact artifact, Path buildDirectoryPath) {
         File mostRecentDirectory = FilesUtils.getMostRecentDirectory(buildDirectoryPath.toAbsolutePath());
+
         MavenMetadataFile metadata = new MavenMetadataFileBuilder()
                 .withGroupId(group.getName())
                 .withArtifactId(artifact.getName())
@@ -66,10 +59,35 @@ public class MavenDepositoryServiceImpl implements MavenDepositoryService {
     }
 
     @Override
+    public @Nullable MavenDepository getDepository(String name) {
+        return this.mavenDepositoryRepository.findDepositoryByName(name);
+    }
+
+    @Override
+    public @Nullable DepositoryEntity getDepositoryEntity(String entityQualifier) {
+        return this.mavenDepositoryRepository.findEntityByURLPath(entityQualifier);
+    }
+
+    @Override
     public Set<String> getNames() {
         return this.mavenDepositoryRepository.findAll().stream()
                 .map(MavenDepository::getName)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Optional<DepositoryEntity> getEntity(String entityQualifier) {
+        return Optional.ofNullable(getDepositoryEntity(entityQualifier));
+    }
+
+    @Override
+    public Set<? extends DepositoryEntity> getEntities() {
+        return mavenDepositoryRepository.findAll();
+    }
+
+    @Override
+    public String getName() {
+        return "Maven";
     }
 
 }

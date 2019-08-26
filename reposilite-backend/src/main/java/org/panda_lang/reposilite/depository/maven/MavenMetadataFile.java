@@ -8,16 +8,15 @@ import java.util.Collection;
 
 @XmlRootElement(name = "metadata")
 @XmlAccessorType(XmlAccessType.FIELD)
-class MavenMetadataFile implements Serializable {
+final class MavenMetadataFile implements Serializable {
 
     private String groupId;
     private String artifactId;
     private Versioning versioning;
 
-    MavenMetadataFile() {
-    }
+    protected MavenMetadataFile() { }
 
-    MavenMetadataFile(String groupId, String artifactId, Versioning versioning) {
+    protected MavenMetadataFile(String groupId, String artifactId, Versioning versioning) {
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.versioning = versioning;

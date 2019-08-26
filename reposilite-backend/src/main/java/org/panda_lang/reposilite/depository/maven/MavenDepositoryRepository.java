@@ -3,7 +3,6 @@ package org.panda_lang.reposilite.depository.maven;
 import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
 import org.panda_lang.reposilite.ReposiliteApplication;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
-import org.panda_lang.reposilite.depository.DepositoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,10 +18,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class MavenDepositoryRepository {
+class MavenDepositoryRepository {
 
     private final File repositoriesRoot;
-    private final Map<String, TreemapNode<? extends DepositoryEntity>> depositories;
+    private final Map<String, TreemapNode<? extends MavenDepository>> depositories;
 
     @Autowired
     public MavenDepositoryRepository(@Qualifier("mavenRepositoryDirectory") File repositoriesRoot) {
@@ -38,7 +37,9 @@ public class MavenDepositoryRepository {
         Collection<MavenDepository> loadedDepositories = factory.loadDepositories(this.repositoriesRoot);
 
         for (MavenDepository loadedMavenDepository : loadedDepositories) {
-            this.depositories.put(loadedMavenDepository.getName(), loadedMavenDepository.getNode());
+            TreemapNode node = loadedMavenDepository.getNode();
+            //noinspection unchecked
+            this.depositories.put(loadedMavenDepository.getName(), (TreemapNode<? extends MavenDepository>) node);
         }
 
         if (this.depositories.isEmpty()) {
@@ -49,33 +50,40 @@ public class MavenDepositoryRepository {
         ReposiliteApplication.getLogger().info("Result: " + this.depositories.size() + " repositories have been found");
     }
 
-    public DepositoryEntity findEntityByURLPath(MavenDepository mavenDepository, String url) {
-        DepositoryEntity entity = mavenDepository.find(url.split("/"));
+    public DepositoryEntity findEntityByURLPath(String uri) {
+        int index = uri.indexOf('/');
+        MavenDepository depository = findDepositoryByName(index == -1 ? uri : uri.substring(0, index));
+
+        if (index == -1 || depository == null) {
+            return depository;
+        }
+
+        DepositoryEntity entity = depository.find(uri.substring(index + 1).split("/"));
 
         if (entity == null) {
-            entity = mavenDepository.findGroupUnit(url.replace("/", "."));
+            entity = depository.findGroupUnit(uri.replace("/", "."));
         }
 
         return entity;
     }
 
     private @Nullable TreemapNode<? extends DepositoryEntity> findDepositoryNodeByName(String name) {
-        TreemapNode<? extends DepositoryEntity> node = this.depositories.get(name);
-        return node != null && node.getElement() instanceof MavenDepository ? node : null;
+        return this.depositories.get(name);
     }
 
     public @Nullable MavenDepository findDepositoryByName(String name) {
-        if (this.depositories.get(name) == null) {
-            throw new DepositoryNotFoundException();
+        TreemapNode<? extends MavenDepository> node = depositories.get(name);
+
+        if (node == null) {
+            return null;
         }
 
-        return (MavenDepository) this.depositories.get(name).getElement();
+        return node.getElement();
     }
 
     public Set<MavenDepository> findAll() {
         return this.depositories.values().stream()
-                .filter(node -> node.getElement() instanceof MavenDepository)
-                .map(node -> (MavenDepository) node.getElement())
+                .map(TreemapNode::getElement)
                 .collect(Collectors.toSet());
     }
 
