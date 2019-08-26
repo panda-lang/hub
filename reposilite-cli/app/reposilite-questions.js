@@ -4,7 +4,8 @@ const init = [
 ]
 
 const config = [
-    require('./questions/config-port-questions')
+    require('./questions/config-port-questions'),
+    require('./questions/config-mongodb-uri-question')
 ]
 
 module.exports = { init, config }

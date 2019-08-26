@@ -2,6 +2,9 @@ package org.panda_lang.reposilite;
 
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
+import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +21,18 @@ import java.io.File;
 public class ReposiliteConfiguration implements WebMvcConfigurer {
 
     @Bean
-    public File mavenRepositoryDirectory() {
-        return new File("repositories" + File.separator + "maven");
+    public File workspaceDirectory(@Value("${reposilite.workspace}") String workspace) {
+        return new File(StringUtils.replace(workspace, "/", File.separator));
+    }
+
+    @Bean
+    public File repositoriesDirectory(@Qualifier("workspaceDirectory") File workspace) {
+        return new File(workspace, "repositories");
+    }
+
+    @Bean
+    public File mavenRepositoryDirectory(@Qualifier("repositoriesDirectory") File repositories) {
+        return new File(repositories, "maven");
     }
 
     @Bean

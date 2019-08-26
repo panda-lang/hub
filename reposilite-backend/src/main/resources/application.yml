@@ -1,5 +1,6 @@
 reposilite:
   built-in-frontend: "on"
+  workspace: ""
 
 logging:
   level:
@@ -18,5 +19,8 @@ springfox:
         path: "/api/docs"
 
 spring:
+  data:
+    mongodb:
+      uri: mongodb://username:password@host:port/database
   main:
-    banner-mode: "off" # prevent YAML cast to bool
+    banner-mode: "off"

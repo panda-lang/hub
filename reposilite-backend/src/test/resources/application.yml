@@ -1,3 +1,6 @@
+reposilite:
+  workspace: "src/test/workspace"
+
 spring:
   shell:
     interactive:
