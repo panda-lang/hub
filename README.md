@@ -13,7 +13,14 @@
   <hr>
 </p>
 
-#### 🛠 Installation
+#### 📋 Requirements:
+- Java 8+
+- Node.js
+- MongoDB
+
+#### 💊 Installation
+Building from source
+
 ```bash
 git clone https://github.com/panda-lang/reposilite.git
 cd reposilite
