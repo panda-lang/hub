@@ -13,7 +13,7 @@
   <hr>
 </p>
 
-#### 📋 Requirements:
+#### 📋 Requirements
 - Java 8+
 - Node.js
 - MongoDB
