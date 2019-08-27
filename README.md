@@ -12,7 +12,6 @@
   
   <hr>
 </p>
-<br>
 
 #### 🛠 Installation
 ```bash
