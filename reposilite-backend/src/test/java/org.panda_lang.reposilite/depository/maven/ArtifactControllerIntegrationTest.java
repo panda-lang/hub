@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class ArtifactControllerIntegrationTest {
+
+    @Autowired
+    @Qualifier("workspaceDirectory")
+    private File workspace;
 
     @Autowired
     private MavenDepositoryController mavenDepositoryController;
@@ -43,7 +48,7 @@ class ArtifactControllerIntegrationTest {
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is(path)));
+                .andExpect(jsonPath("$.path", Matchers.is(workspace + File.separator + path)));
     }
 
 }
