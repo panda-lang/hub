@@ -1,21 +1,16 @@
-package org.panda_lang.reposilite.depository.maven.artifact;
+package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.panda_lang.reposilite.depository.maven.build.Build;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Artifact extends AbstractDepositoryEntity {
+public final class Artifact extends AbstractDepositoryEntity {
 
     Artifact(String name) {
         super(name);
-    }
-
-    public void addBuild(Build build) {
-        super.addElement(build);
     }
 
     public List<? extends String> getVersions() {

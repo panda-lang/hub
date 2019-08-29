@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ class MavenDepositoryRepository {
         ReposiliteApplication.getLogger().info("Result: " + this.depositories.size() + " repositories have been found");
     }
 
-    public DepositoryEntity findEntityByURLPath(String uri) {
+    public @Nullable DepositoryEntity findEntityByURLPath(String uri) {
         int index = uri.indexOf('/');
         MavenDepository depository = findDepositoryByName(index == -1 ? uri : uri.substring(0, index));
 
@@ -58,13 +59,13 @@ class MavenDepositoryRepository {
             return depository;
         }
 
-        DepositoryEntity entity = depository.find(uri.substring(index + 1).split("/"));
+        Optional<DepositoryEntity> entity = depository.find(uri.substring(index + 1));
 
-        if (entity == null) {
-            entity = depository.findGroupUnit(uri.replace("/", "."));
+        if (!entity.isPresent()) {
+            entity = depository.find(uri);
         }
 
-        return entity;
+        return entity.orElse(null);
     }
 
     private @Nullable TreemapNode<? extends DepositoryEntity> findDepositoryNodeByName(String name) {

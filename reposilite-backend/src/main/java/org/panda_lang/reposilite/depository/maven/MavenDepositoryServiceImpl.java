@@ -1,8 +1,6 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.DepositoryEntity;
-import org.panda_lang.reposilite.depository.maven.artifact.Artifact;
-import org.panda_lang.reposilite.depository.maven.group.Group;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -15,7 +13,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;

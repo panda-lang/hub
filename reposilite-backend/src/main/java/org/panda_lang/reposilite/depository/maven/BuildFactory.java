@@ -1,8 +1,6 @@
-package org.panda_lang.reposilite.depository.maven.build;
+package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.reposilite.depository.maven.artifact.Artifact;
-
-public class BuildFactory {
+public final class BuildFactory {
 
     private final Artifact artifact;
 
@@ -15,7 +13,7 @@ public class BuildFactory {
 
         if (build == null) {
             build = new Build(buildVersion);
-            artifact.addBuild(build);
+            artifact.addEntity(build);
         }
 
         return build;

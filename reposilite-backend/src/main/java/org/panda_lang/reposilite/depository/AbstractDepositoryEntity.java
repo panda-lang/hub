@@ -1,12 +1,12 @@
 package org.panda_lang.reposilite.depository;
 
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
-import org.springframework.lang.Nullable;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
@@ -19,32 +19,33 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
     }
 
     @Override
-    public @Nullable DepositoryEntity find(String... paths) {
-        return node.find(paths);
+    public Optional<DepositoryEntity> find(String path) {
+        return Optional.ofNullable(node.find(StringUtils.split(path, "/")));
     }
 
-    protected void addElement(AbstractDepositoryEntity entity) {
+    @Override
+    public void addEntity(DepositoryEntity entity) {
         node.add(entity.getNode());
-    }
-
-    @SuppressWarnings("unchecked")
-    protected <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type) {
-        return node.getChildren().stream()
-                .filter(node -> type.isAssignableFrom(node.getElement().getClass()))
-                .map(node -> (T) node.getElement());
-    }
-
-    protected <T extends DepositoryEntity> Collection<? extends T> getChildrenOfType(Class<T> type) {
-        return streamOfType(type).collect(Collectors.toList());
     }
 
     protected <T extends DepositoryEntity> Map<String, ? extends T> getMappedChildrenOfType(Class<T> type) {
         return streamOfType(type).collect(Collectors.toMap(DepositoryEntity::getName, element -> element));
     }
 
-    @Override
-    public TreemapNode<AbstractDepositoryEntity> getNode() {
+    public TreemapNode<DepositoryEntity> getNode() {
         return node;
+    }
+
+    @Override
+    public Collection<? extends DepositoryEntity> getChildren() {
+        return node.getChildren().stream()
+                .map(TreemapNode::getElement)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getURIName() {
+        return StringUtils.replaceFirst(getName(), ".", "/");
     }
 
     @Override

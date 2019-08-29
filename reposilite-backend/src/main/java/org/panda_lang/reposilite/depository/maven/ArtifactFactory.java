@@ -1,8 +1,6 @@
-package org.panda_lang.reposilite.depository.maven.artifact;
+package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.reposilite.depository.maven.group.Group;
-
-public class ArtifactFactory {
+public final class ArtifactFactory {
 
     private final Group group;
 
@@ -15,7 +13,7 @@ public class ArtifactFactory {
 
         if (artifact == null) {
             artifact = new Artifact(artifactName);
-            group.addArtifact(artifact);
+            group.addEntity(artifact);
         }
 
         return artifact;
