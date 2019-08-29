@@ -1,9 +1,9 @@
 package org.panda_lang.reposilite.depository.maven;
 
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import org.panda_lang.reposilite.ReposiliteApplication;
-import org.panda_lang.reposilite.depository.maven.artifact.Artifact;
-import org.panda_lang.reposilite.depository.maven.group.Group;
+import org.panda_lang.reposilite.depository.DepositoryEntity;
 
 final class MavenDepositoryUtils {
 
@@ -13,10 +13,21 @@ final class MavenDepositoryUtils {
         ReposiliteApplication.getLogger().info("└── " + mavenDepository.getName());
 
         for (Group group : mavenDepository.getGroups()) {
-            ReposiliteApplication.getLogger().info("   ├── " + group.getName());
+            printEntity(1, group);
+        }
+    }
 
-            for (Artifact artifact : group.getArtifacts()) {
-                ReposiliteApplication.getLogger().info("   │  ├── " + artifact.getName() + " { " + ContentJoiner.on(", ").join(artifact.getVersions()) + " }");
+    private static void printEntity(int level, DepositoryEntity entity) {
+        if (entity instanceof Artifact) {
+            Artifact artifact = (Artifact) entity;
+            ReposiliteApplication.getLogger().info(StringUtils.buildSpace((level - 1) * 3) + "│  ├── " + artifact.getName() + " { " + ContentJoiner.on(", ").join(artifact.getVersions()) + " }");
+        }
+        else if (entity instanceof Group) {
+            ReposiliteApplication.getLogger().info(StringUtils.buildSpace(level * 3) + "├── " + entity.getName());
+            Group group = (Group) entity;
+
+            for (DepositoryEntity child : group.getChildren()) {
+                printEntity(level + 1, child);
             }
         }
     }

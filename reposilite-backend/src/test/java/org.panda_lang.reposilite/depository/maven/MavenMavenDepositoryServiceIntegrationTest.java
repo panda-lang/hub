@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -27,8 +29,8 @@ class MavenMavenDepositoryServiceIntegrationTest {
         MavenDepository mavenDepository = this.depositoryService.getDepository("releases");
         assertNotNull(mavenDepository);
 
-        DepositoryEntity depositoryEntity = mavenDepository.find("org/panda-lang/panda-utilities");
-        assertNotNull(depositoryEntity);
+        Optional<DepositoryEntity> depositoryEntity = mavenDepository.find("org/panda-lang/panda-utilities");
+        assertTrue(depositoryEntity.isPresent());
     }
 
 }

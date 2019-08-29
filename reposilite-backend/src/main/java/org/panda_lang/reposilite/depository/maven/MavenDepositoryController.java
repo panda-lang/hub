@@ -8,19 +8,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.depository.DepositoryResponse;
-import org.panda_lang.reposilite.depository.maven.artifact.Artifact;
-import org.panda_lang.reposilite.depository.maven.artifact.ArtifactFactory;
-import org.panda_lang.reposilite.depository.maven.build.Build;
-import org.panda_lang.reposilite.depository.maven.build.BuildFactory;
-import org.panda_lang.reposilite.depository.maven.build.Data;
-import org.panda_lang.reposilite.depository.maven.group.Group;
-import org.panda_lang.reposilite.depository.maven.group.GroupFactory;
+import org.panda_lang.reposilite.user.security.IsAdmin;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.reposilite.utils.RequestUtils;
-import org.panda_lang.panda.utilities.commons.IOUtils;
-import org.panda_lang.reposilite.user.security.IsAdmin;
+import org.panda_lang.reposilite.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @ApiOperation("Operations pertaining to repository")
 @RequestMapping("api/repository/maven")
@@ -90,17 +83,17 @@ class MavenDepositoryController {
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        DepositoryEntity entity = mavenDepository.find(entityQualifier);
+        Optional<DepositoryEntity> entityValue = mavenDepository.find(entityQualifier);
 
-        if (entity == null) {
+        if (!entityValue.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
+        DepositoryEntity entity = entityValue.get();
+
         // TODO: Resource handler
         if (entity instanceof Data) {
-            response.setContentType("application/java");
-            response.addHeader("Content-Disposition", "attachment; filename=\"" + entity.getName() + "\"");
-            return ResponseEntity.ok(IOUtils.convertStreamToString(new FileSystemResource(((Data) entity).getFile()).getInputStream()));
+            return ResponseUtils.returnFile(response, "application/java", ((Data) entity).getFile());
         }
 
         File currentFile = new File(mavenDepository.getRootFile() + "/" + entityQualifier);
@@ -127,13 +120,13 @@ class MavenDepositoryController {
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        DepositoryEntity entity = mavenDepository.find(entityQualifier);
+        Optional<DepositoryEntity> entityValue = mavenDepository.find(entityQualifier);
         MavenDepositoryPath project = MavenDepositoryPath.ofSystemPath(Paths.get("\\" + entityQualifier + File.separator + file.getOriginalFilename()).toString());
 
         Path buildDirectoryPath = Paths.get(mavenDepository.getRootFile().getPath() + File.separator + entityQualifier);
         Path buildFilePath = Paths.get(buildDirectoryPath + File.separator + file.getOriginalFilename());
 
-        if (entity == null && !StringUtils.isBlank(project.getBuildVersion())) {
+        if (!entityValue.isPresent() && !StringUtils.isBlank(project.getBuildVersion())) {
             Group group = new GroupFactory(mavenDepository).obtainGroup(project.getGroupName());
             Artifact artifact = new ArtifactFactory(group).obtainArtifact(project.getArtifactName());
             Build build = new BuildFactory(artifact).obtainBuild(project.getBuildVersion());
@@ -145,6 +138,8 @@ class MavenDepositoryController {
             this.mavenDepositoryService.generateMetaDataFile(mavenDepository, group, artifact, buildDirectoryPath.getParent());
             return ResponseEntity.noContent().build();
         }
+
+        DepositoryEntity entity = entityValue.get();
 
         if (entity instanceof Build) {
             FilesUtils.storeFile(buildDirectoryPath, file, false);

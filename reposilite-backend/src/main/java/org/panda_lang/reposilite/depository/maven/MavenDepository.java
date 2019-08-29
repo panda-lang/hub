@@ -1,8 +1,6 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.panda_lang.reposilite.depository.maven.group.Group;
-import org.panda_lang.reposilite.depository.maven.group.GroupUnit;
 import org.springframework.lang.Nullable;
 
 import java.io.File;
@@ -15,22 +13,6 @@ public final class MavenDepository extends AbstractDepositoryEntity {
     MavenDepository(File root) {
         super(root.getName());
         this.root = root;
-    }
-
-    public @Nullable GroupUnit findGroupUnit(String partOfGroupName) {
-        for (Group group : getGroups()) {
-            GroupUnit unit = group.matchGroupUnit(partOfGroupName);
-
-            if (unit != null) {
-                return unit;
-            }
-        }
-
-        return null;
-    }
-
-    public void addGroup(Group group) {
-        super.addElement(group);
     }
 
     public @Nullable Group getGroup(String groupName) {

@@ -1,11 +1,12 @@
 package org.panda_lang.reposilite.builtin;
 
-import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.depository.DepositoryNotFoundException;
 import org.panda_lang.reposilite.depository.DepositoryService;
 import org.panda_lang.reposilite.depository.DepositorySubService;
+import org.panda_lang.reposilite.depository.maven.Data;
 import org.panda_lang.reposilite.utils.RequestUtils;
+import org.panda_lang.reposilite.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 
@@ -73,7 +76,7 @@ class BuiltInDepositoryController {
     }
 
     @RequestMapping("/repository/{name}/**")
-    protected ResponseEntity<String> repository(@PathVariable("name") String name, HttpServletRequest request) {
+    protected ResponseEntity<Object> repository(@PathVariable("name") String name, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Optional<DepositorySubService> service = depositoryService.getSubService(name);
 
         if (!service.isPresent()) {
@@ -81,10 +84,17 @@ class BuiltInDepositoryController {
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        Optional<DepositoryEntity> entity = service.get().getEntity(entityQualifier);
+        Optional<DepositoryEntity> entityValue = service.get().getEntity(entityQualifier);
 
-        if (!entity.isPresent()) {
+        if (!entityValue.isPresent()) {
             throw new DepositoryNotFoundException();
+        }
+
+        DepositoryEntity entity = entityValue.get();
+        String url = "";
+
+        if (entity instanceof Data) {
+            return ResponseUtils.returnFile(response, "application/java", ((Data) entity).getFile());
         }
 
         String title = service.get().getName() + " Repository";
@@ -92,8 +102,8 @@ class BuiltInDepositoryController {
         return ResponseEntity.ok(BuiltInLayout.content(title, body(
                 h2(title + " :: " + entityQualifier),
                 ul(
-                        each(entity.get().getNode().getChildren().stream()
-                                .sorted(Comparator.comparing(TreemapNode::getName))
+                        each(entity.getChildren().stream()
+                                .sorted(Comparator.comparing(DepositoryEntity::getURIName))
                                 .map(element -> p(a(element.getName()).withHref("/repository/" + name + "/" + entityQualifier + "/" + element.getName())))
                         )
                 )

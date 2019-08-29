@@ -7,9 +7,9 @@ import org.springframework.lang.Nullable;
 import java.util.Collection;
 import java.util.function.Function;
 
-public class AbstractDepositoryEntityMapNode extends TreemapNode<AbstractDepositoryEntity> {
+public class AbstractDepositoryEntityMapNode extends TreemapNode<DepositoryEntity> {
 
-    public AbstractDepositoryEntityMapNode(AbstractDepositoryEntity element, Function<AbstractDepositoryEntity, String> mapper) {
+    public AbstractDepositoryEntityMapNode(DepositoryEntity element, Function<DepositoryEntity, String> mapper) {
         super(element, mapper);
     }
 
@@ -18,9 +18,9 @@ public class AbstractDepositoryEntityMapNode extends TreemapNode<AbstractDeposit
         return distributor.hasNext() ? find(this, distributor) : null;
     }
 
-    private @Nullable DepositoryEntity find(TreemapNode<? extends AbstractDepositoryEntity> map, ArrayDistributor<String> distributor) {
+    private @Nullable DepositoryEntity find(TreemapNode<? extends DepositoryEntity> map, ArrayDistributor<String> distributor) {
         String path = distributor.next();
-        TreemapNode<? extends AbstractDepositoryEntity> elementNode = map.getNode(path);
+        TreemapNode<? extends DepositoryEntity> elementNode = map.getNode(path);
 
         if (elementNode == null && distributor.hasNext()) {
             elementNode = match(map, path, distributor);
@@ -37,12 +37,12 @@ public class AbstractDepositoryEntityMapNode extends TreemapNode<AbstractDeposit
         return elementNode.getElement();
     }
 
-    private @Nullable TreemapNode<? extends AbstractDepositoryEntity> match(TreemapNode<? extends AbstractDepositoryEntity> map, String previousPath, ArrayDistributor<String> distributor) {
+    private @Nullable TreemapNode<? extends DepositoryEntity> match(TreemapNode<? extends DepositoryEntity> map, String previousPath, ArrayDistributor<String> distributor) {
         StringBuilder path = new StringBuilder(previousPath)
                 .append(".")
                 .append(distributor.next());
 
-        Collection<? extends TreemapNode<? extends AbstractDepositoryEntity>> lastPossibleNodes = map.getNodesStartingWith(path.toString());
+        Collection<? extends TreemapNode<? extends DepositoryEntity>> lastPossibleNodes = map.getNodesStartingWith(path.toString());
 
         if (distributor.hasNext() && lastPossibleNodes.size() == 0) {
             return null;
@@ -55,7 +55,7 @@ public class AbstractDepositoryEntityMapNode extends TreemapNode<AbstractDeposit
                 return null;
             }
 
-            Collection<? extends TreemapNode<? extends AbstractDepositoryEntity>> possibleNodes = map.getNodesStartingWith(path
+            Collection<? extends TreemapNode<? extends DepositoryEntity>> possibleNodes = map.getNodesStartingWith(path
                     .append(".").append(part).toString()
             );
 
@@ -70,7 +70,7 @@ public class AbstractDepositoryEntityMapNode extends TreemapNode<AbstractDeposit
 
         String fullPath = path.toString();
 
-        for (TreemapNode<? extends AbstractDepositoryEntity> lastPossibleNode : lastPossibleNodes) {
+        for (TreemapNode<? extends DepositoryEntity> lastPossibleNode : lastPossibleNodes) {
             if (lastPossibleNode.getName().equals(fullPath)) {
                 return lastPossibleNode;
             }

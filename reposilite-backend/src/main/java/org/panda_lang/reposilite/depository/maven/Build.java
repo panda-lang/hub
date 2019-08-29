@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.depository.maven.build;
+package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
 import org.springframework.lang.Nullable;
@@ -6,14 +6,14 @@ import org.springframework.lang.Nullable;
 import java.io.File;
 import java.util.Collection;
 
-public class Build extends AbstractDepositoryEntity {
+public final class Build extends AbstractDepositoryEntity {
 
     Build(String version) {
         super(version);
     }
 
     public void addContent(File file) {
-        super.addElement(new Data(file));
+        super.addEntity(new Data(file));
     }
 
     public @Nullable Data getData(String dataName) {
