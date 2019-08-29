@@ -1,9 +1,9 @@
-package org.panda_lang.reposilite.utils.crud;
+package org.panda_lang.reposilite.utils.entity.crud;
 
 import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.CrudOperationsService;
+import org.panda_lang.reposilite.utils.entity.CrudOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

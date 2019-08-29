@@ -41,7 +41,7 @@ class UserControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.applicationContext)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
                 .build();
@@ -76,7 +76,7 @@ class UserControllerIntegrationTest {
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() {
         this.mongoTemplate.dropCollection("users");
     }
 

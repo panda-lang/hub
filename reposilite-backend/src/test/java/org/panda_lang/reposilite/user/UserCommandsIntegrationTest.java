@@ -78,7 +78,7 @@ class UserCommandsIntegrationTest {
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() {
         this.mongoTemplate.dropCollection("users");
     }
 

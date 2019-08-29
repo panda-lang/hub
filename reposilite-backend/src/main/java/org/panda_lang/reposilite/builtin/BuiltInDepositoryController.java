@@ -94,7 +94,7 @@ class BuiltInDepositoryController {
         String url = "";
 
         if (entity instanceof Data) {
-            return ResponseUtils.returnFile(response, "application/java", ((Data) entity).getFile());
+            return ResponseUtils.sendFile(response, "application/java", ((Data) entity).getFile());
         }
 
         String title = service.get().getName() + " Repository";

@@ -64,7 +64,7 @@ class RoleCommandsIntegrationTest {
     }
 
     @AfterEach
-    void tearDown() throws Exception {
+    void tearDown() {
         this.mongoTemplate.dropCollection("users");
         this.mongoTemplate.dropCollection("roles");
     }

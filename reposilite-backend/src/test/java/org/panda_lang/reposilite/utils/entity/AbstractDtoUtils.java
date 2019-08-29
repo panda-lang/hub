@@ -1,5 +1,6 @@
-package org.panda_lang.reposilite.utils;
+package org.panda_lang.reposilite.utils.entity;
 
+import org.panda_lang.reposilite.utils.entity.AbstractDto;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;

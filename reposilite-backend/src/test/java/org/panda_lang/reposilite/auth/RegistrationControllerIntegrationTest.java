@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
-import org.panda_lang.reposilite.utils.AbstractDtoUtils;
+import org.panda_lang.reposilite.utils.entity.AbstractDtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;

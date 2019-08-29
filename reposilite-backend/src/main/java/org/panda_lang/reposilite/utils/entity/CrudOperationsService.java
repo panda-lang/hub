@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.utils;
+package org.panda_lang.reposilite.utils.entity;
 
 import java.util.List;
 import java.util.Optional;

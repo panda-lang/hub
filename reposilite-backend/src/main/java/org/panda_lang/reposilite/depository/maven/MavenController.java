@@ -91,7 +91,7 @@ class MavenController {
         DepositoryEntity entity = entityValue.get();
 
         if (entity instanceof Data) {
-            return ResponseUtils.returnFile(response, "application/java", ((Data) entity).getFile());
+            return ResponseUtils.sendFile(response, "application/java", ((Data) entity).getFile());
         }
 
         File currentFile = new File(depository.get().getRootFile() + "/" + entityQualifier);

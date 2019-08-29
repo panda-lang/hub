@@ -4,7 +4,6 @@ import org.panda_lang.reposilite.depository.AbstractDepositoryOwnerBuilder;
 import org.panda_lang.reposilite.user.role.Role;
 import org.panda_lang.reposilite.utils.Buildable;
 
-import java.util.List;
 import java.util.Set;
 
 public class UserBuilder extends AbstractDepositoryOwnerBuilder<UserBuilder> implements Buildable<User> {

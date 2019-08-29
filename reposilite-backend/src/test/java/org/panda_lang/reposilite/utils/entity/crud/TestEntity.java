@@ -1,9 +1,9 @@
-package org.panda_lang.reposilite.utils.crud;
+package org.panda_lang.reposilite.utils.entity.crud;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.IdentifiableEntity;
+import org.panda_lang.reposilite.utils.entity.IdentifiableEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

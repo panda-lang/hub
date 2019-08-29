@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.utils.crud;
+package org.panda_lang.reposilite.utils.entity.crud;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
