@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.utils;
+package org.panda_lang.reposilite.utils.entity;
 
 import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
@@ -11,10 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.user.role.RoleFactory;
-import org.panda_lang.reposilite.utils.crud.TestDto;
-import org.panda_lang.reposilite.utils.crud.TestEntity;
-import org.panda_lang.reposilite.utils.crud.TestEntityController;
-import org.panda_lang.reposilite.utils.crud.TestRepository;
+import org.panda_lang.reposilite.utils.entity.crud.TestDto;
+import org.panda_lang.reposilite.utils.entity.crud.TestEntity;
+import org.panda_lang.reposilite.utils.entity.crud.TestEntityController;
+import org.panda_lang.reposilite.utils.entity.crud.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -319,7 +319,7 @@ class AbstractCrudControllerIntegrationTest {
   }
 
   @AfterEach
-  void tearDown() throws Exception {
+  void tearDown() {
     this.mongoTemplate.dropCollection("tests");
     this.mongoTemplate.dropCollection("users");
   }

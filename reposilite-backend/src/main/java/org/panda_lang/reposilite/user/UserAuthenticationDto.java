@@ -1,6 +1,6 @@
 package org.panda_lang.reposilite.user;
 
-import org.panda_lang.reposilite.utils.AbstractDto;
+import org.panda_lang.reposilite.utils.entity.AbstractDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

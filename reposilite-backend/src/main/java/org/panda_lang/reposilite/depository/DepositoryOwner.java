@@ -1,7 +1,7 @@
 package org.panda_lang.reposilite.depository;
 
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.IdentifiableEntity;
+import org.panda_lang.reposilite.utils.entity.IdentifiableEntity;
 
 import java.io.Serializable;
 

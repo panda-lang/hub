@@ -2,7 +2,6 @@ package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
-import org.panda_lang.reposilite.utils.StringsUtils;
 
 import java.io.File;
 
@@ -44,8 +43,8 @@ public final class MavenMetadata {
 
     static MavenMetadata ofSystemPath(String path) {
         int buildNameIndex = path.lastIndexOf(File.separator);
-        int buildVersionIndex = StringsUtils.lastIndexOf(path, File.separator, buildNameIndex);
-        int artifactNameIndex = StringsUtils.lastIndexOf(path, File.separator, buildVersionIndex);
+        int buildVersionIndex = MavenUtils.lastIndexOf(path, File.separator, buildNameIndex);
+        int artifactNameIndex = MavenUtils.lastIndexOf(path, File.separator, buildVersionIndex);
 
         String groupName = path.substring(1, artifactNameIndex).replace(File.separator, ".");
         String artifactName = path.substring(artifactNameIndex + 1, buildVersionIndex);

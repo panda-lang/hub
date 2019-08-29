@@ -1,9 +1,10 @@
-package org.panda_lang.reposilite.utils;
+package org.panda_lang.reposilite.utils.entity;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.panda_lang.reposilite.utils.BeanUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, ID, U extends AbstractDto<T>, C extends AbstractDto<T>> {
 
+    @SuppressWarnings({ "ELValidationInJSP", "SpringElInspection" })
     private static final String SPEL_EXPRESSION = "(isAuthenticated() && principal.user.identifier.equals(#id)) || hasAuthority('ADMIN')";
 
     private final CrudOperationsService<T, ID> service;

@@ -15,7 +15,7 @@ class AbstractDepositoryOwnerBuilderTest {
     private TestDepositoryOwner depositoryOwner;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.depositoryOwner = new TestDepositoryOwnerBuilder()
                 .withName("test")
                 .withDescription("test description")

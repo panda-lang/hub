@@ -2,7 +2,7 @@ package org.panda_lang.reposilite.user;
 
 import io.swagger.annotations.ApiOperation;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.AbstractCrudController;
+import org.panda_lang.reposilite.utils.entity.AbstractCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -2,7 +2,7 @@ package org.panda_lang.reposilite.organization;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
-import org.panda_lang.reposilite.utils.AbstractDto;
+import org.panda_lang.reposilite.utils.entity.AbstractDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

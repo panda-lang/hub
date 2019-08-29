@@ -15,7 +15,7 @@ class UserBuilderTest {
     private User user;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.user = new UserBuilder()
                 .withPassword("test123")
                 .withRoles(Sets.newHashSet(new Role("USER")))
