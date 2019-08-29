@@ -27,13 +27,13 @@ class ArtifactControllerIntegrationTest {
     private File workspace;
 
     @Autowired
-    private MavenDepositoryController mavenDepositoryController;
+    private MavenController mavenController;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.mavenDepositoryController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.mavenController).build();
     }
 
     @Test

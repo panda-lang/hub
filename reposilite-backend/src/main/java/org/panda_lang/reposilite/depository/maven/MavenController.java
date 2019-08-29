@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -35,23 +34,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@ApiOperation("Operations pertaining to repository")
+@ApiOperation("Operations pertaining to Maven repositories")
 @RequestMapping("api/repository/maven")
 @RestController
-class MavenDepositoryController {
+class MavenController {
 
-    private final MavenDepositoryService mavenDepositoryService;
+    private final MavenService mavenService;
 
     @Autowired
-    MavenDepositoryController(MavenDepositoryService mavenDepositoryService) {
-        this.mavenDepositoryService = mavenDepositoryService;
+    MavenController(MavenService mavenService) {
+        this.mavenService = mavenService;
     }
 
     @ApiOperation("Prints available repositories")
     @GetMapping
     public ResponseEntity<Map<String, Object>> repositories() {
         return ResponseEntity.ok(new LinkedHashMap<String, Object>() {{
-            mavenDepositoryService.getNames().forEach(name -> this.put("name", name));
+            mavenService.getNames().forEach(name -> this.put("name", name));
         }});
     }
 
@@ -62,7 +61,7 @@ class MavenDepositoryController {
     })
     @GetMapping("/{repository}")
     public ResponseEntity<Map<String, Object>> repository(@PathVariable @ApiParam("Repository name") String repository) {
-        if (this.mavenDepositoryService.getDepository(repository) == null) {
+        if (!this.mavenService.getDepository(repository).isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -76,14 +75,14 @@ class MavenDepositoryController {
     })
     @GetMapping("/{repository}/**")
     public ResponseEntity<Object> repository(@PathVariable @ApiParam("Repository name") String repository, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        MavenDepository mavenDepository = this.mavenDepositoryService.getDepository(repository);
+        Optional<Depository> depository = this.mavenService.getDepository(repository);
 
-        if (mavenDepository == null) {
+        if (!depository.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        Optional<DepositoryEntity> entityValue = mavenDepository.find(entityQualifier);
+        Optional<DepositoryEntity> entityValue = depository.get().find(entityQualifier);
 
         if (!entityValue.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -91,12 +90,11 @@ class MavenDepositoryController {
 
         DepositoryEntity entity = entityValue.get();
 
-        // TODO: Resource handler
         if (entity instanceof Data) {
             return ResponseUtils.returnFile(response, "application/java", ((Data) entity).getFile());
         }
 
-        File currentFile = new File(mavenDepository.getRootFile() + "/" + entityQualifier);
+        File currentFile = new File(depository.get().getRootFile() + "/" + entityQualifier);
         return ResponseEntity.ok(new DepositoryResponse(currentFile.getPath(), currentFile.list()));
     }
 
@@ -113,48 +111,46 @@ class MavenDepositoryController {
             return ResponseEntity.badRequest().build();
         }
 
-        MavenDepository mavenDepository = this.mavenDepositoryService.getDepository(repository);
+        Optional<Depository> depositoryValue = this.mavenService.getDepository(repository);
 
-        if (mavenDepository == null) {
+        if (!depositoryValue.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        Optional<DepositoryEntity> entityValue = mavenDepository.find(entityQualifier);
-        MavenDepositoryPath project = MavenDepositoryPath.ofSystemPath(Paths.get("\\" + entityQualifier + File.separator + file.getOriginalFilename()).toString());
+        Depository depository = depositoryValue.get();
+        MavenMetadata metadata = MavenMetadata.ofSystemPath(Paths.get("\\" + entityQualifier + File.separator + file.getOriginalFilename()).toString());
+        Optional<DepositoryEntity> entityValue = depository.find(entityQualifier);
 
-        Path buildDirectoryPath = Paths.get(mavenDepository.getRootFile().getPath() + File.separator + entityQualifier);
-        Path buildFilePath = Paths.get(buildDirectoryPath + File.separator + file.getOriginalFilename());
+        if (!entityValue.isPresent() && StringUtils.isBlank(metadata.getBuildVersion())) {
+            return ResponseEntity.badRequest().build();
+        }
 
-        if (!entityValue.isPresent() && !StringUtils.isBlank(project.getBuildVersion())) {
-            Group group = new GroupFactory(mavenDepository).obtainGroup(project.getGroupName());
-            Artifact artifact = new ArtifactFactory(group).obtainArtifact(project.getArtifactName());
-            Build build = new BuildFactory(artifact).obtainBuild(project.getBuildVersion());
+        Path buildDirectory = Paths.get(depository.getRootFile().getPath() + File.separator + entityQualifier);
+        Path buildFile = Paths.get(buildDirectory + File.separator + file.getOriginalFilename());
 
-            Files.createDirectories(buildDirectoryPath);
-            FilesUtils.storeFile(buildDirectoryPath, file, false);
-            FilesUtils.writeFileChecksums(buildFilePath.toAbsolutePath());
-
-            this.mavenDepositoryService.generateMetaDataFile(mavenDepository, group, artifact, buildDirectoryPath.getParent());
+        if (!entityValue.isPresent()) {
+            MetadataFileFactory metadataFileFactory = new MetadataFileFactory(mavenService);
+            metadataFileFactory.createMetadataFile(depository, metadata, new MavenMetadataPaths(buildDirectory, buildFile), file);
             return ResponseEntity.noContent().build();
         }
 
         DepositoryEntity entity = entityValue.get();
 
-        if (entity instanceof Build) {
-            FilesUtils.storeFile(buildDirectoryPath, file, false);
-            FilesUtils.writeFileChecksums(buildFilePath.toAbsolutePath());
-            Group group = mavenDepository.getGroup(project.getGroupName());
-
-            if (group == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            this.mavenDepositoryService.generateMetaDataFile(mavenDepository, group, group.getArtifact(project.getArtifactName()), buildDirectoryPath.getParent());
-            return ResponseEntity.noContent().build();
+        if (!(entity instanceof Build)) {
+            return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.badRequest().build();
+        FilesUtils.storeFile(buildDirectory, file, false);
+        FilesUtils.writeFileChecksums(buildFile.toAbsolutePath());
+        Group group = depository.getGroup(metadata.getGroupName());
+
+        if (group == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        this.mavenService.generateMetaDataFile(depository, group, group.getArtifact(metadata.getArtifactName()), buildDirectory.getParent());
+        return ResponseEntity.noContent().build();
     }
 
 }

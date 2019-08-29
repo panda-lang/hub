@@ -3,7 +3,6 @@ package org.panda_lang.reposilite.depository.maven;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
@@ -18,20 +17,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-class MavenDepositoryServiceImpl implements MavenDepositoryService {
+final class MavenServiceImpl implements MavenService {
 
-    private final MavenDepositoryRepository mavenDepositoryRepository;
+    private final MavenRepository mavenRepository;
 
     @Autowired
-    public MavenDepositoryServiceImpl(MavenDepositoryRepository mavenDepositoryRepository) {
-        this.mavenDepositoryRepository = mavenDepositoryRepository;
+    MavenServiceImpl(MavenRepository mavenRepository) {
+        this.mavenRepository = mavenRepository;
     }
 
     @Override
-    public void generateMetaDataFile(MavenDepository mavenDepository, Group group, Artifact artifact, Path buildDirectoryPath) {
+    public MetadataFile generateMetaDataFile(Depository depository, Group group, Artifact artifact, Path buildDirectoryPath) {
         File mostRecentDirectory = FilesUtils.getMostRecentDirectory(buildDirectoryPath.toAbsolutePath());
 
-        MavenMetadataFile metadata = new MavenMetadataFileBuilder()
+        MetadataFile metadata = new MetadataFileBuilder()
                 .withGroupId(group.getName())
                 .withArtifactId(artifact.getName())
                 .withLatest(mostRecentDirectory.getName())
@@ -43,7 +42,7 @@ class MavenDepositoryServiceImpl implements MavenDepositoryService {
         try {
             String metadataFilePath = buildDirectoryPath.toString() + File.separator + "maven-metadata.xml";
 
-            JAXBContext jaxbContext = JAXBContext.newInstance(MavenMetadataFile.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(MetadataFile.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -53,33 +52,30 @@ class MavenDepositoryServiceImpl implements MavenDepositoryService {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+
+        return metadata;
     }
 
     @Override
-    public @Nullable MavenDepository getDepository(String name) {
-        return this.mavenDepositoryRepository.findDepositoryByName(name);
+    public Optional<DepositoryEntity> findEntity(String entityQualifier) {
+        return Optional.ofNullable(this.mavenRepository.findEntityByURLPath(entityQualifier));
     }
 
     @Override
-    public @Nullable DepositoryEntity getDepositoryEntity(String entityQualifier) {
-        return this.mavenDepositoryRepository.findEntityByURLPath(entityQualifier);
+    public Optional<Depository> getDepository(String name) {
+        return Optional.ofNullable(this.mavenRepository.findDepositoryByName(name));
     }
 
     @Override
     public Set<String> getNames() {
-        return this.mavenDepositoryRepository.findAll().stream()
-                .map(MavenDepository::getName)
+        return this.mavenRepository.findAll().stream()
+                .map(Depository::getName)
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public Optional<DepositoryEntity> getEntity(String entityQualifier) {
-        return Optional.ofNullable(getDepositoryEntity(entityQualifier));
-    }
-
-    @Override
     public Set<? extends DepositoryEntity> getEntities() {
-        return mavenDepositoryRepository.findAll();
+        return mavenRepository.findAll();
     }
 
     @Override

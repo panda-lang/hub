@@ -6,17 +6,17 @@ import org.panda_lang.reposilite.depository.DepositoryEntity;
 
 import java.util.Optional;
 
-public class GroupFactory {
+class GroupFactory {
 
-    private final MavenDepository mavenDepository;
+    private final Depository depository;
 
-    public GroupFactory(MavenDepository mavenDepository) {
-        this.mavenDepository = mavenDepository;
+    GroupFactory(Depository depository) {
+        this.depository = depository;
     }
 
-    public Group obtainGroup(String groupName) {
+    protected Group obtainGroup(String groupName) {
         String[] units = StringUtils.split(groupName, ".");
-        Group previousGroup = obtainGroup(mavenDepository, units[0]);
+        Group previousGroup = obtainGroup(depository, units[0]);
 
         for (int index = 1; index < units.length && previousGroup != null; index++) {
             previousGroup = obtainGroup(previousGroup, units[index]);

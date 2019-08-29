@@ -69,7 +69,7 @@ class BuiltInDepositoryController {
                 ul(
                         each(subService.get().getEntities().stream()
                                 .sorted(Comparator.comparing(DepositoryEntity::getName))
-                                .map(entity -> li(a(entity.getName()).withHref("/repository/" + name + "/" + ((DepositoryEntity) entity).getName())))
+                                .map(entity -> li(a(entity.getName()).withHref("/repository/" + name + "/" + entity.getName())))
                         )
                 )
         )));
@@ -84,7 +84,7 @@ class BuiltInDepositoryController {
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        Optional<DepositoryEntity> entityValue = service.get().getEntity(entityQualifier);
+        Optional<DepositoryEntity> entityValue = service.get().findEntity(entityQualifier);
 
         if (!entityValue.isPresent()) {
             throw new DepositoryNotFoundException();

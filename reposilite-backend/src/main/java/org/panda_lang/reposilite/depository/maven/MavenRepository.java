@@ -19,13 +19,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-class MavenDepositoryRepository {
+class MavenRepository {
 
     private final File repositoriesRoot;
-    private final Map<String, TreemapNode<? extends MavenDepository>> depositories;
+    private final Map<String, TreemapNode<? extends Depository>> depositories;
 
     @Autowired
-    public MavenDepositoryRepository(@Qualifier("mavenRepositoryDirectory") File repositoriesRoot) {
+    public MavenRepository(@Qualifier("mavenRepositoryDirectory") File repositoriesRoot) {
         this.repositoriesRoot = repositoriesRoot;
         this.depositories = new HashMap<>();
     }
@@ -34,13 +34,13 @@ class MavenDepositoryRepository {
     public void seed(ContextRefreshedEvent event) {
         ReposiliteApplication.getLogger().info("Loading maven repositories from " + repositoriesRoot + "...");
 
-        MavenDepositoryFactory factory = new MavenDepositoryFactory();
-        Collection<MavenDepository> loadedDepositories = factory.loadDepositories(this.repositoriesRoot);
+        DepositoryFactory factory = new DepositoryFactory();
+        Collection<Depository> loadedDepositories = factory.loadDepositories(this.repositoriesRoot);
 
-        for (MavenDepository loadedMavenDepository : loadedDepositories) {
-            TreemapNode node = loadedMavenDepository.getNode();
+        for (Depository loadedDepository : loadedDepositories) {
+            TreemapNode node = loadedDepository.getNode();
             //noinspection unchecked
-            this.depositories.put(loadedMavenDepository.getName(), (TreemapNode<? extends MavenDepository>) node);
+            this.depositories.put(loadedDepository.getName(), (TreemapNode<? extends Depository>) node);
         }
 
         if (this.depositories.isEmpty()) {
@@ -53,7 +53,7 @@ class MavenDepositoryRepository {
 
     public @Nullable DepositoryEntity findEntityByURLPath(String uri) {
         int index = uri.indexOf('/');
-        MavenDepository depository = findDepositoryByName(index == -1 ? uri : uri.substring(0, index));
+        Depository depository = findDepositoryByName(index == -1 ? uri : uri.substring(0, index));
 
         if (index == -1 || depository == null) {
             return depository;
@@ -72,8 +72,8 @@ class MavenDepositoryRepository {
         return this.depositories.get(name);
     }
 
-    public @Nullable MavenDepository findDepositoryByName(String name) {
-        TreemapNode<? extends MavenDepository> node = depositories.get(name);
+    public @Nullable Depository findDepositoryByName(String name) {
+        TreemapNode<? extends Depository> node = depositories.get(name);
 
         if (node == null) {
             return null;
@@ -82,7 +82,7 @@ class MavenDepositoryRepository {
         return node.getElement();
     }
 
-    public Set<MavenDepository> findAll() {
+    public Set<Depository> findAll() {
         return this.depositories.values().stream()
                 .map(TreemapNode::getElement)
                 .collect(Collectors.toSet());

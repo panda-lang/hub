@@ -15,16 +15,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class MavenMavenDepositoryControllerIntegrationTest {
+class MavenControllerIntegrationTest {
 
     @Autowired
-    private MavenDepositoryController mavenDepositoryController;
+    private MavenController mavenController;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.mavenDepositoryController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.mavenController).build();
     }
 
     @Test

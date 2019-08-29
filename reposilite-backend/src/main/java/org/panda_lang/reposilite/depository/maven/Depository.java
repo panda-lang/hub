@@ -6,11 +6,11 @@ import org.springframework.lang.Nullable;
 import java.io.File;
 import java.util.Collection;
 
-public final class MavenDepository extends AbstractDepositoryEntity {
+public final class Depository extends AbstractDepositoryEntity {
 
     private final File root;
 
-    MavenDepository(File root) {
+    Depository(File root) {
         super(root.getName());
         this.root = root;
     }

@@ -1,41 +1,23 @@
 package org.panda_lang.reposilite.depository.maven;
 
+import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import org.panda_lang.reposilite.utils.StringsUtils;
 
 import java.io.File;
 
-final class MavenDepositoryPath {
+public final class MavenMetadata {
 
     private final String groupName;
     private final String artifactName;
     private final String buildVersion;
     private final String buildFile;
 
-    MavenDepositoryPath(String groupName, String artifactName, String buildVersion, String buildFile) {
+    MavenMetadata(String groupName, String artifactName, String buildVersion, String buildFile) {
         this.groupName = groupName;
         this.artifactName = artifactName;
         this.buildVersion = buildVersion;
         this.buildFile = buildFile;
-    }
-
-    MavenDepositoryPath(String groupName, String artifactName, String buildVersion) {
-        this(groupName, artifactName, buildVersion, null);
-    }
-
-    MavenDepositoryPath(String groupName, String artifactName) {
-        this(groupName, artifactName, null, null);
-    }
-
-    MavenDepositoryPath(String groupName) {
-        this(groupName, null, null, null);
-    }
-
-    public MavenDepositoryPath() {
-        this(null, null, null, null);
-    }
-
-    public String[] toArray() {
-        return new String[] { this.groupName, this.artifactName, this.buildVersion, this.buildFile };
     }
 
     public String getBuildFile() {
@@ -54,7 +36,13 @@ final class MavenDepositoryPath {
         return this.groupName;
     }
 
-    public static MavenDepositoryPath ofSystemPath(String path) {
+    public String getURI(String separator) {
+        return ContentJoiner.on(separator)
+                .join(StringUtils.replace(groupName, ".", separator), artifactName, buildVersion, buildFile)
+                .toString();
+    }
+
+    static MavenMetadata ofSystemPath(String path) {
         int buildNameIndex = path.lastIndexOf(File.separator);
         int buildVersionIndex = StringsUtils.lastIndexOf(path, File.separator, buildNameIndex);
         int artifactNameIndex = StringsUtils.lastIndexOf(path, File.separator, buildVersionIndex);
@@ -64,7 +52,7 @@ final class MavenDepositoryPath {
         String buildVersion = path.substring(buildVersionIndex + 1, buildNameIndex);
         String buildFile = path.substring(buildNameIndex + 1);
 
-        return new MavenDepositoryPath(groupName, artifactName, buildVersion, buildFile);
+        return new MavenMetadata(groupName, artifactName, buildVersion, buildFile);
     }
 
 }

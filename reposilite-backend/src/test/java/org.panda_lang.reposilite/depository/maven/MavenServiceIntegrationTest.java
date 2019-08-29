@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class MavenMavenDepositoryServiceIntegrationTest {
+class MavenServiceIntegrationTest {
 
     @Autowired
-    private MavenDepositoryServiceImpl depositoryService;
+    private MavenServiceImpl depositoryService;
 
     @Test
     void getDepositoryTest() {
@@ -26,10 +26,10 @@ class MavenMavenDepositoryServiceIntegrationTest {
 
     @Test
     void getDepositoryEntityTest() {
-        MavenDepository mavenDepository = this.depositoryService.getDepository("releases");
-        assertNotNull(mavenDepository);
+        Optional<Depository> depository = this.depositoryService.getDepository("releases");
+        assertTrue(depository.isPresent());
 
-        Optional<DepositoryEntity> depositoryEntity = mavenDepository.find("org/panda-lang/panda-utilities");
+        Optional<DepositoryEntity> depositoryEntity = depository.get().find("org/panda-lang/panda-utilities");
         assertTrue(depositoryEntity.isPresent());
     }
 

@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public final class ResponseUtils {
 
+    private ResponseUtils() { }
+
     public static ResponseEntity<Object> returnFile(HttpServletResponse response, String contentType, File file) throws IOException {
         response.addHeader("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"");
         response.addHeader("Content-Type", contentType);

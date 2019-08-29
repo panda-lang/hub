@@ -9,13 +9,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-class MavenMetadataFileBuilderTest {
+class MetadataFileBuilderTest {
 
-    private MavenMetadataFile file;
+    private MetadataFile file;
 
     @BeforeEach
     void setUp() {
-        this.file = new MavenMetadataFileBuilder()
+        this.file = new MetadataFileBuilder()
                 .withGroupId("test1")
                 .withArtifactId("test2")
                 .withLastUpdated(0)
