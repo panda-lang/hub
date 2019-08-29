@@ -4,7 +4,7 @@ import org.panda_lang.reposilite.utils.Buildable;
 
 import java.util.Set;
 
-final class MavenMetadataFileBuilder implements Buildable<MavenMetadataFile> {
+final class MetadataFileBuilder implements Buildable<MetadataFile> {
 
     private String groupId;
     private String artifactId;
@@ -13,45 +13,45 @@ final class MavenMetadataFileBuilder implements Buildable<MavenMetadataFile> {
     private long lastUpdated;
     private Set<String> versions;
 
-    public MavenMetadataFileBuilder withGroupId(String groupId) {
+    public MetadataFileBuilder withGroupId(String groupId) {
         this.groupId = groupId;
         return this;
     }
 
-    public MavenMetadataFileBuilder withArtifactId(String artifactId) {
+    public MetadataFileBuilder withArtifactId(String artifactId) {
         this.artifactId = artifactId;
         return this;
     }
 
-    public MavenMetadataFileBuilder withRelease(String release) {
+    public MetadataFileBuilder withRelease(String release) {
         this.release = release;
         return this;
     }
 
-    public MavenMetadataFileBuilder withLatest(String latest) {
+    public MetadataFileBuilder withLatest(String latest) {
         this.latest = latest;
         return this;
     }
 
-    public MavenMetadataFileBuilder withLastUpdated(long lastUpdated) {
+    public MetadataFileBuilder withLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
         return this;
     }
 
-    public MavenMetadataFileBuilder withVersions(Set<String> versions) {
+    public MetadataFileBuilder withVersions(Set<String> versions) {
         this.versions = versions;
         return this;
     }
 
     @Override
-    public MavenMetadataFile build() {
-        return new MavenMetadataFile(
+    public MetadataFile build() {
+        return new MetadataFile(
                 this.groupId,
                 this.artifactId,
-                new MavenMetadataFile.Versioning(
+                new MetadataFile.Versioning(
                         this.release,
                         this.latest,
-                        new MavenMetadataFile.Versions(this.versions),
+                        new MetadataFile.Versions(this.versions),
                         this.lastUpdated
                 )
         );

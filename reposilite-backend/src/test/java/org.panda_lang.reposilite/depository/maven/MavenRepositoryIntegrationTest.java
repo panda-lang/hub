@@ -16,27 +16,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class MavenMavenDepositoryRepositoryIntegrationTest {
+class MavenRepositoryIntegrationTest {
 
     @Autowired
-    private MavenDepositoryRepository mavenDepositoryRepository;
+    private MavenRepository mavenRepository;
 
     @Test
     void findRepositoryByNameShouldReturnNullWhenNotFoundTest() {
-        assertNull(mavenDepositoryRepository.findDepositoryByName("FailReleases"));
+        assertNull(mavenRepository.findDepositoryByName("FailReleases"));
     }
 
     @Test
     void findRepositoryByNameTest() {
-        assertNotNull(this.mavenDepositoryRepository.findDepositoryByName("releases"));
+        assertNotNull(this.mavenRepository.findDepositoryByName("releases"));
     }
 
     @Test
     void findRepositoryNodeByNameTest() {
-        MavenDepository mavenDepository = this.mavenDepositoryRepository.findDepositoryByName("releases");
-        assertNotNull(mavenDepository);
+        Depository depository = this.mavenRepository.findDepositoryByName("releases");
+        assertNotNull(depository);
 
-        Optional<DepositoryEntity> depositoryEntity = mavenDepository.find("org/panda-lang/panda-utilities");
+        Optional<DepositoryEntity> depositoryEntity = depository.find("org/panda-lang/panda-utilities");
         assertTrue(depositoryEntity.isPresent());
         assertEquals(depositoryEntity.get().getName(), "panda-utilities");
     }

@@ -5,14 +5,14 @@ import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import org.panda_lang.reposilite.ReposiliteApplication;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 
-final class MavenDepositoryUtils {
+final class MavenUtils {
 
-    private MavenDepositoryUtils() { }
+    private MavenUtils() { }
 
-    static void print(MavenDepository mavenDepository) {
-        ReposiliteApplication.getLogger().info("└── " + mavenDepository.getName());
+    static void print(Depository depository) {
+        ReposiliteApplication.getLogger().info("└── " + depository.getName());
 
-        for (Group group : mavenDepository.getGroups()) {
+        for (Group group : depository.getGroups()) {
             printEntity(1, group);
         }
     }
