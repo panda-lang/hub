@@ -107,6 +107,7 @@ selenium-debug.log
 # Lockfiles
 yarn.lock
 package-lock.json
+.nuxt/
 
 ### Custom
 reposilite-backend/workspace/application.yml

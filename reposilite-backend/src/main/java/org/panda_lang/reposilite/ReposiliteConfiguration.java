@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.List;
 
 @Configuration
-public class ReposiliteConfiguration extends WebMvcConfigurationSupport {
+class ReposiliteConfiguration extends WebMvcConfigurationSupport {
 
     private final ApplicationContext applicationContext;
 
