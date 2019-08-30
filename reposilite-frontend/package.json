@@ -1,40 +1,22 @@
 {
-  "name": "reposilite-frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@types/jest": "24.0.17",
-    "@types/node": "12.7.1",
-    "@types/react": "16.9.1",
-    "@types/react-dom": "16.8.5",
-    "@types/react-router-dom": "^4.3.4",
-    "antd": "^3.21.4",
-    "npm": "^6.11.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.0",
-    "typescript": "3.5.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "reposilite-frontend",
+    "version": "1.0.0",
+    "description": "Reposilite Frontend",
+    "author": "dzikoysk",
+    "private": true,
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+        "build": "nuxt build",
+        "start": "cross-env NODE_ENV=production node server/index.js",
+        "generate": "nuxt generate"
+    },
+    "dependencies": {
+        "nuxt": "^2.0.0",
+        "cross-env": "^5.2.0",
+        "fastify": "^1.13.3",
+        "nuxt-buefy": "^0.3.2"
+    },
+    "devDependencies": {
+        "nodemon": "^1.18.9"
+    }
 }
