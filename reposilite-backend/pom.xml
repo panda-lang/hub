@@ -89,6 +89,18 @@
             <version>2.1.7.RELEASE</version>
         </dependency>
 
+        <!-- Template -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>2.1.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <version>3.0.4.RELEASE</version>
+        </dependency>
+
         <!-- Panda -->
         <dependency>
             <groupId>org.panda-lang</groupId>
@@ -122,11 +134,6 @@
             <version>1.4.0</version>
         </dependency>
         <dependency>
-            <groupId>de.neuland-bfi</groupId>
-            <artifactId>spring-jade4j</artifactId>
-            <version>1.2.7</version>
-        </dependency>
-        <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
@@ -142,7 +149,6 @@
             <version>2.9.2</version>
         </dependency>
 
-
         <!-- Validation -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -155,11 +161,16 @@
             <version>6.0.17.Final</version>
         </dependency>
 
-        <!-- Module specific -->
+        <!-- Utilities -->
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>vue</artifactId>
-            <version>2.6.10</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
         </dependency>
 
         <!-- Annotations -->

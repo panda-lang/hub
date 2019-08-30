@@ -2,8 +2,6 @@ package org.panda_lang.reposilite.utils.entity;
 
 import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
-import java.util.HashMap;
-import java.util.Map;
 import org.bson.types.ObjectId;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -32,8 +30,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -234,9 +240,9 @@ class AbstractCrudControllerIntegrationTest {
 
     Query query = Query.query(Criteria.where("username").is(username));
     TestEntity databaseEntity = this.mongoTemplate.findOne(query, TestEntity.class);
+    assertNotNull(databaseEntity);
 
     assertAll(
-        () -> assertNotNull(databaseEntity),
         () -> assertNotNull(databaseEntity.getSomething()),
         () -> assertEquals(databaseEntity.getSomething(), "something_EDITED"),
         () -> assertEquals(databaseEntity.getUsername(), username)
