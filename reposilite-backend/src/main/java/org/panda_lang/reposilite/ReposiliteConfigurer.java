@@ -9,7 +9,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class ReposiliteConfigurer implements WebMvcConfigurer {
+class ReposiliteConfigurer implements WebMvcConfigurer {
 
     @Bean
     public MessageSource messageSource() {

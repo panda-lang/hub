@@ -28,11 +28,11 @@ import static j2html.TagCreator.li;
 import static j2html.TagCreator.p;
 import static j2html.TagCreator.ul;
 
-@RestController
 @ConditionalOnProperty(
         value = "reposilite.built-in-frontend",
         havingValue = "on"
 )
+@RestController
 class BuiltInDepositoryController {
 
     private final DepositoryService depositoryService;

@@ -21,7 +21,7 @@ import java.util.Optional;
 @ApiOperation("Operations pertaining to registration")
 @RestController
 @RequestMapping("api/register")
-public class RegistrationController {
+final class RegistrationController {
 
     private final UserCrudService service;
 
