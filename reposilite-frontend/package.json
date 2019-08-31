@@ -1,22 +1,18 @@
 {
-    "name": "reposilite-frontend",
-    "version": "1.0.0",
-    "description": "Reposilite Frontend",
-    "author": "dzikoysk",
-    "private": true,
-    "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
-        "build": "nuxt build",
-        "start": "cross-env NODE_ENV=production node server/index.js",
-        "generate": "nuxt generate"
-    },
-    "dependencies": {
-        "nuxt": "^2.0.0",
-        "cross-env": "^5.2.0",
-        "fastify": "^1.13.3",
-        "nuxt-buefy": "^0.3.2"
-    },
-    "devDependencies": {
-        "nodemon": "^1.18.9"
-    }
+  "name": "reposilite-frontend",
+  "version": "1.0.0",
+  "description": "Reposilite Frontend",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dzikoysk",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^2.8.0",
+    "fastify-pug": "^1.1.1",
+    "point-of-view": "^3.5.0",
+    "pug": "^2.0.4"
+  }
 }
