@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app/reposilite-cli.js"
+    "start": "nodemon ./app/reposilite-cli.js"
   },
   "dependencies": {
     "bluebird": "^3.5.4",
