@@ -1,18 +1,22 @@
 {
   "name": "reposilite-frontend",
-  "version": "1.0.0",
-  "description": "Reposilite Frontend",
-  "main": "main.js",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
   },
-  "author": "dzikoysk",
-  "license": "ISC",
   "dependencies": {
-    "fastify": "^2.8.0",
-    "fastify-pug": "^1.1.1",
-    "point-of-view": "^3.5.0",
-    "pug": "^2.0.4"
+    "buefy": "^0.8.2",
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-template-compiler": "^2.6.10"
   }
 }
