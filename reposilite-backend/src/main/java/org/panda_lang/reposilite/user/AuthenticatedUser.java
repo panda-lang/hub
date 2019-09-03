@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @AuthenticationPrincipal(expression = "#this instanceof T(String) ? null : user")
 @Documented
-public @interface AuthenticatedUser {
+@interface AuthenticatedUser {
 
 }

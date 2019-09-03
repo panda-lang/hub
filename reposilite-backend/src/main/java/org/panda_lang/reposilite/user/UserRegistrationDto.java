@@ -1,8 +1,8 @@
 package org.panda_lang.reposilite.user;
 
 import org.hibernate.validator.constraints.Length;
-import org.panda_lang.reposilite.utils.validation.FieldMatch;
 import org.panda_lang.reposilite.utils.entity.AbstractDto;
+import org.panda_lang.reposilite.utils.validation.FieldMatch;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
         @FieldMatch(first = "password", second = "confirmPassword", message = "{match.password}"),
         @FieldMatch(first = "email", second = "confirmEmail", message = "{match.email}")
 })
-public class UserRegistrationDto extends AbstractDto<User> {
+public final class UserRegistrationDto extends AbstractDto<User> {
 
     @NotEmpty(message = "{username.notEmpty}") @NotNull(message = "{username.notNull}") @Length(min = 3, max = 32, message = "{username.length}")
     private String username;

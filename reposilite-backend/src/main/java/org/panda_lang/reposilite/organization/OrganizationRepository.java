@@ -5,6 +5,6 @@ import org.panda_lang.reposilite.utils.entity.NameableMongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrganizationRepository extends NameableMongoRepository<Organization, ObjectId> {
+interface OrganizationRepository extends NameableMongoRepository<Organization, ObjectId> {
 
 }

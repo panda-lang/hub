@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.auth;
+package org.panda_lang.reposilite.authentication;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

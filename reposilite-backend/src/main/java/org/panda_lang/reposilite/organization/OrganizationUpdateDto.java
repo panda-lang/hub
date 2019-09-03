@@ -8,7 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class OrganizationUpdateDto extends AbstractDto<Organization> {
+final class OrganizationUpdateDto extends AbstractDto<Organization> {
 
     @NotNull(message = "{name.notNull}") @NotEmpty(message = "{name.notEmpty}") @Length(min = 3, max = 32, message = "{name.length}")
     private String name;

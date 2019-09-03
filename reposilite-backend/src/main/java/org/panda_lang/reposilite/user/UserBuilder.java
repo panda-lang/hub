@@ -6,13 +6,27 @@ import org.panda_lang.reposilite.utils.Buildable;
 
 import java.util.Set;
 
-public class UserBuilder extends AbstractDepositoryOwnerBuilder<UserBuilder> implements Buildable<User> {
+public final class UserBuilder extends AbstractDepositoryOwnerBuilder<UserBuilder> implements Buildable<User> {
 
     private String password;
+    private String provider;
+    private String providerId;
     private Set<Role> roles;
+
+    protected UserBuilder() { }
 
     public UserBuilder withPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public UserBuilder withProvider(String provider) {
+        this.provider = provider;
+        return this;
+    }
+
+    public UserBuilder withProviderId(String providerId) {
+        this.providerId = providerId;
         return this;
     }
 
@@ -23,7 +37,7 @@ public class UserBuilder extends AbstractDepositoryOwnerBuilder<UserBuilder> imp
 
     @Override
     public User build() {
-        return new User(this.name, this.displayName, this.password, this.description, this.email, this.site, this.roles);
+        return new User(this.name, this.displayName, this.password, this.description, this.email, this.provider, this.providerId, this.avatar, this.site, this.roles);
     }
 
 }

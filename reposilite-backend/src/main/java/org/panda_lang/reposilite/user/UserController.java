@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ApiOperation("Operations pertaining to user")
 @RestController
 @RequestMapping("/api/users")
-public class UserController extends AbstractCrudController<User, ObjectId, UserUpdateDto, UserRegistrationDto> {
+class UserController extends AbstractCrudController<User, ObjectId, UserUpdateDto, UserRegistrationDto> {
 
     protected UserController(@Autowired UserCrudService service) {
         super(service);

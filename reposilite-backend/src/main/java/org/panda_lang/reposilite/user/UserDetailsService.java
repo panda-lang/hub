@@ -1,5 +1,7 @@
 package org.panda_lang.reposilite.user;
 
+import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.authentication.AuthenticationUserDetailsService;
 import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public final class UserDetailsService implements AuthenticationUserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -29,13 +31,28 @@ public class UserDetailsService implements org.springframework.security.core.use
             throw new UsernameNotFoundException("No user found with that username.");
         }
 
-        return new UserDetails(user.get(), user.get().getName(), user.get().getPassword(), this.getAuthoritiesByRoles(user.get().getRoles()));
+        return toUserDetails(user.get());
+    }
+
+    @Override
+    public UserDetails loadUserById(ObjectId id) {
+        Optional<User> user = this.userRepository.findById(id);
+
+        if (!user.isPresent()) {
+            throw new UsernameNotFoundException("No user found with that id.");
+        }
+
+        return toUserDetails(user.get());
     }
 
     private Set<? extends GrantedAuthority> getAuthoritiesByRoles(Set<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toSet());
+    }
+
+    private UserDetails toUserDetails(User user) {
+        return new UserDetails(user, user.getName(), user.getPassword(), this.getAuthoritiesByRoles(user.getRoles()));
     }
 
 }

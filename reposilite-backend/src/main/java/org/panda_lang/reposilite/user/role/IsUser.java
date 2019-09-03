@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.user.security;
+package org.panda_lang.reposilite.user.role;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('ADMIN')")
-public @interface IsAdmin {
+@PreAuthorize("hasAuthority('USER')")
+public @interface IsUser {
 
 }

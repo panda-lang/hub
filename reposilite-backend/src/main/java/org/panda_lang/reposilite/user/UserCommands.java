@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @ShellComponent
-public class UserCommands {
+final class UserCommands {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

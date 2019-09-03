@@ -2,6 +2,9 @@ reposilite:
   built-in-frontend: "on"
   workspace: ""
 
+server:
+  port: 3000
+
 logging:
   level:
     org:
