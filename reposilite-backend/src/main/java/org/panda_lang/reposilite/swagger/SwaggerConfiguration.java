@@ -11,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfiguration {
+class SwaggerConfiguration {
 
     private static final String PATH_REGEX = "(?!.*error).*$";
 

@@ -5,7 +5,7 @@ import org.panda_lang.reposilite.utils.entity.AbstractDto;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class UserAuthenticationDto extends AbstractDto<User> {
+final class UserAuthenticationDto extends AbstractDto<User> {
 
     @NotNull @NotEmpty
     private String username;

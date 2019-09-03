@@ -3,10 +3,11 @@ package org.panda_lang.reposilite.organization;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.panda_lang.reposilite.user.UserBuilder;
+import org.panda_lang.reposilite.user.User;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 class OrganizationBuilderTest {
@@ -16,7 +17,7 @@ class OrganizationBuilderTest {
     @BeforeEach
     void setUp() {
         this.organization = new OrganizationBuilder()
-                .withOwner(new UserBuilder()
+                .withOwner(User.builder()
                         .withPassword("test123")
                         .build())
                 .build();

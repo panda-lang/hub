@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 @Document("users")
-public class User implements DepositoryOwner {
+public final class User implements DepositoryOwner {
 
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
@@ -23,15 +23,21 @@ public class User implements DepositoryOwner {
     private String password;
     private String description;
     private String email;
+    private String provider;
+    private String providerId;
+    private String avatar;
     private String site;
     private Set<Role> roles;
 
-    User(String name, String displayName, String password, String description, String email, String site, Set<Role> roles) {
+    User(String name, String displayName, String password, String description, String email, String provider, String providerId, String avatar, String site, Set<Role> roles) {
         this.name = name;
         this.displayName = displayName;
         this.password = password;
         this.description = description;
         this.email = email;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.avatar = avatar;
         this.site = site;
         this.roles = roles;
     }
@@ -58,6 +64,19 @@ public class User implements DepositoryOwner {
     @Override
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    @Override
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override
@@ -98,6 +117,19 @@ public class User implements DepositoryOwner {
         return this.email;
     }
 
+    public String getProvider() {
+        return provider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    @Override
+    public String getAvatar() {
+        return avatar;
+    }
+
     @Override
     public String getSite() {
         return this.site;
@@ -123,6 +155,10 @@ public class User implements DepositoryOwner {
                 ", site='" + this.site + '\'' +
                 ", roles=" + this.roles +
                 '}';
+    }
+
+    public static UserBuilder builder() {
+        return new UserBuilder();
     }
 
 }

@@ -1,11 +1,11 @@
-package org.panda_lang.reposilite.auth;
+package org.panda_lang.reposilite.authentication;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.panda_lang.reposilite.user.User;
-import org.panda_lang.reposilite.user.UserRegistrationDto;
 import org.panda_lang.reposilite.user.UserCrudService;
+import org.panda_lang.reposilite.user.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

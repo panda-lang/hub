@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserCrudServiceImpl implements UserCrudService {
+final class UserCrudServiceImpl implements UserCrudService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

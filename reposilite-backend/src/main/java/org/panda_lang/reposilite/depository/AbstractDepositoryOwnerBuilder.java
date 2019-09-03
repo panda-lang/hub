@@ -8,6 +8,7 @@ public abstract class AbstractDepositoryOwnerBuilder<T extends Buildable<? exten
     protected String displayName;
     protected String description;
     protected String email;
+    protected String avatar;
     protected String site;
 
     public T withName(String name) {
@@ -27,6 +28,11 @@ public abstract class AbstractDepositoryOwnerBuilder<T extends Buildable<? exten
 
     public T withEmail(String email) {
         this.email = email;
+        return returnThis();
+    }
+
+    public T withAvatar(String avatar) {
+        this.avatar = avatar;
         return returnThis();
     }
 

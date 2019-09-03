@@ -6,7 +6,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleInitializer implements ApplicationListener<ContextRefreshedEvent> {
+final class RoleInitializer implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RoleRepository roleRepository;
 

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoleFactory {
+public final class RoleFactory {
 
     private final RoleRepository roleRepository;
 

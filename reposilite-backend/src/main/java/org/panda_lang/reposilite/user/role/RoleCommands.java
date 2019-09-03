@@ -9,7 +9,7 @@ import org.springframework.shell.standard.ShellMethod;
 import java.util.stream.Collectors;
 
 @ShellComponent
-public class RoleCommands {
+final class RoleCommands {
 
     private final RoleFactory roleFactory;
     private final RoleRepository roleRepository;

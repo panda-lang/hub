@@ -1,4 +1,4 @@
-package org.panda_lang.reposilite.auth;
+package org.panda_lang.reposilite.authentication;
 
 import org.panda_lang.reposilite.user.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

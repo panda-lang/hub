@@ -61,6 +61,7 @@ class AbstractDepositoryOwnerBuilderTest {
         private final String displayName;
         private final String description;
         private final String email;
+        private final String avatar;
         private final String site;
 
         TestDepositoryOwner(TestDepositoryOwnerBuilder builder) {
@@ -68,6 +69,7 @@ class AbstractDepositoryOwnerBuilderTest {
             this.displayName = builder.displayName;
             this.description = builder.description;
             this.email = builder.email;
+            this.avatar = builder.avatar;
             this.site = builder.site;
         }
 
@@ -88,6 +90,11 @@ class AbstractDepositoryOwnerBuilderTest {
 
         @Override
         public void setEmail(String email) {
+
+        }
+
+        @Override
+        public void setAvatar(String avatar) {
 
         }
 
@@ -114,6 +121,11 @@ class AbstractDepositoryOwnerBuilderTest {
         @Override
         public String getEmail() {
             return this.email;
+        }
+
+        @Override
+        public String getAvatar() {
+            return avatar;
         }
 
         @Override

@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Organization implements DepositoryOwner {
+public final class Organization implements DepositoryOwner {
 
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
@@ -18,17 +18,19 @@ public class Organization implements DepositoryOwner {
     private String displayName;
     private String description;
     private String email;
+    private String avatar;
     private String site;
     private User owner;
 
     Organization() {}
 
-    Organization(String name, String displayName, String description, String email, String site, User owner) {
+    Organization(String name, String displayName, String description, String email, String avatar, String site, User owner) {
         this.name = name;
         this.displayName = displayName;
         this.description = description;
         this.email = email;
         this.site = site;
+        this.avatar = avatar;
         this.owner = owner;
     }
 
@@ -50,6 +52,11 @@ public class Organization implements DepositoryOwner {
     @Override
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override
@@ -79,6 +86,11 @@ public class Organization implements DepositoryOwner {
     @Override
     public String getDescription() {
         return this.description;
+    }
+
+    @Override
+    public String getAvatar() {
+        return avatar;
     }
 
     @Override

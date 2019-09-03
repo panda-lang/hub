@@ -15,6 +15,8 @@ public interface DepositoryOwner extends IdentifiableEntity<ObjectId>, Serializa
 
     void setEmail(String email);
 
+    void setAvatar(String avatar);
+
     void setSite(String site);
 
     String getName();
@@ -26,5 +28,7 @@ public interface DepositoryOwner extends IdentifiableEntity<ObjectId>, Serializa
     String getEmail();
 
     String getSite();
+
+    String getAvatar();
 
 }

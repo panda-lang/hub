@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends NameableMongoRepository<User, ObjectId> {
 
+    boolean existsByEmail(String email);
+
 }

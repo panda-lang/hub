@@ -8,7 +8,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.depository.DepositoryResponse;
-import org.panda_lang.reposilite.user.security.IsAdmin;
+import org.panda_lang.reposilite.user.role.IsAdmin;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.reposilite.utils.RequestUtils;
 import org.panda_lang.reposilite.utils.ResponseUtils;
