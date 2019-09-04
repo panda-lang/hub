@@ -16,16 +16,23 @@
 
 package org.panda_lang.reposilite.authentication.dto;
 
-public class SignUpDto {
+import org.panda_lang.reposilite.utils.entity.JsonDto;
+
+public class SignUpDto extends JsonDto {
 
     private String name;
-    private String password;
-    private String email;
     private String displayName;
+    private String email;
+    private String password;
 
-    public String getName() {
-        return this.name;
+    public SignUpDto(String name, String displayName, String email, String password) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.displayName = displayName;
     }
+
+    SignUpDto() { }
 
     public String getPassword() {
         return this.password;
@@ -37,6 +44,10 @@ public class SignUpDto {
 
     public String getDisplayName() {
         return this.displayName;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
 }

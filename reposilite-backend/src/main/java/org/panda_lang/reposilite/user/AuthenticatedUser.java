@@ -24,10 +24,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-@AuthenticationPrincipal(expression = "#this instanceof T(String) ? null : user")
+@Target(ElementType.PARAMETER)
+@AuthenticationPrincipal
 @Documented
-@interface AuthenticatedUser {
+public @interface AuthenticatedUser {
 
 }

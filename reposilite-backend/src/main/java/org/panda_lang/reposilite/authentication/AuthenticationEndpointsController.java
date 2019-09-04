@@ -48,17 +48,17 @@ class AuthenticationEndpointsController {
         this.userFacade = userFacade;
     }
 
+    @PostMapping("/signup")
+    ResponseEntity<?> registerUser(@RequestBody SignUpDto dto) {
+        return ResponseEntity.created(this.userFacade.register(dto)).build();
+    }
+
     @PostMapping("/signin")
     ResponseEntity<Map<String, Object>> authenticateUser(@RequestBody SignInDto dto) {
         Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getName(), dto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return ResponseEntity.ok(Collections.singletonMap("accessToken", this.authenticationTokenCreator.create(authentication)));
-    }
-
-    @PostMapping("/signup")
-    ResponseEntity<?> registerUser(@RequestBody SignUpDto dto) {
-        return ResponseEntity.created(this.userFacade.register(dto)).build();
     }
 
 }

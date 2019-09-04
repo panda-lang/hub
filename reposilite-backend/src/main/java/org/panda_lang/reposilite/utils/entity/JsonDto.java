@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.authentication.annotation;
+package org.panda_lang.reposilite.utils.entity;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class JsonDto {
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-@PreAuthorize("isAuthenticated()")
-public @interface RequiresAuthenticated {
+    public String toJson() {
+        try {
+            return new ObjectMapper().writer().writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 }

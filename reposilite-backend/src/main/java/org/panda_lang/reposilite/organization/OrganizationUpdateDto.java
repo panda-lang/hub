@@ -49,14 +49,6 @@ final class OrganizationUpdateDto extends AbstractDto<Organization> {
 
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public String getDisplayName() {
-        return this.displayName;
-    }
-
     public String getDescription() {
         return this.description;
     }
@@ -67,6 +59,15 @@ final class OrganizationUpdateDto extends AbstractDto<Organization> {
 
     public String getSite() {
         return this.site;
+    }
+
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @Override
