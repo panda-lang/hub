@@ -37,7 +37,7 @@ class UserController extends AbstractCrudController<User, ObjectId, UserUpdateDt
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
-    public ResponseEntity<User> me(@AuthenticatedUser User user) {
+    public ResponseEntity<User> me(User user) {
         return ResponseEntity.ok(user);
     }
 
