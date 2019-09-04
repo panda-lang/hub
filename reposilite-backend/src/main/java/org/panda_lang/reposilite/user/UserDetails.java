@@ -50,7 +50,7 @@ final class UserDetails extends org.springframework.security.core.userdetails.Us
 
     @Override
     public String getName() {
-        return getName();
+        return user.getIdentifier().toHexString();
     }
 
     public User getUser() {
@@ -64,7 +64,6 @@ final class UserDetails extends org.springframework.security.core.userdetails.Us
     static UserDetails of(User user, Map<String, Object> attributes) {
         UserDetails userDetails = of(user);
         userDetails.setAttributes(attributes);
-
         return userDetails;
     }
 
