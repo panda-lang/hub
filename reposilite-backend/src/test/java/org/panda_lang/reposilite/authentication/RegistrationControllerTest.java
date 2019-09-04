@@ -22,7 +22,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.panda_lang.reposilite.user.UserCrudService;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
 import org.panda_lang.reposilite.utils.entity.AbstractDto;
 import org.panda_lang.reposilite.utils.entity.AbstractDtoUtils;
@@ -38,6 +40,9 @@ class RegistrationControllerTest {
 
     @InjectMocks
     private RegistrationController registrationController;
+
+    @Mock
+    private UserCrudService userCrudService;
 
     private MockMvc mockMvc;
 
