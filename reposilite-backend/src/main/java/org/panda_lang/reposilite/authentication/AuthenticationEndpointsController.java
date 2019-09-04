@@ -19,6 +19,7 @@ package org.panda_lang.reposilite.authentication;
 import org.panda_lang.reposilite.authentication.dto.SignInDto;
 import org.panda_lang.reposilite.authentication.dto.SignUpDto;
 import org.panda_lang.reposilite.user.UserFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,13 +35,14 @@ import java.util.Map;
 
 @RequestMapping("/api/users")
 @RestController
-class AuthenticationEndpoints {
+class AuthenticationEndpointsController {
 
     private final AuthenticationManager authenticationManager;
     private final AuthenticationTokenCreator authenticationTokenCreator;
     private final UserFacade userFacade;
 
-    AuthenticationEndpoints(AuthenticationManager authenticationManager, AuthenticationTokenCreator authenticationTokenCreator, UserFacade userFacade) {
+    @Autowired
+    AuthenticationEndpointsController(AuthenticationManager authenticationManager, AuthenticationTokenCreator authenticationTokenCreator, UserFacade userFacade) {
         this.authenticationManager = authenticationManager;
         this.authenticationTokenCreator = authenticationTokenCreator;
         this.userFacade = userFacade;
