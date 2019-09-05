@@ -16,7 +16,6 @@
 
 package org.panda_lang.reposilite.user;
 
-import org.panda_lang.reposilite.authentication.AuthenticationUserDetailsService;
 import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class UserConfiguration {
 
     @Bean
-    AuthenticationUserDetailsService authenticationUserDetailsService(UserRepository userRepository) {
+    UserDetailsService authenticationUserDetailsService(UserRepository userRepository) {
         return new UserDetailsService(userRepository);
     }
 
