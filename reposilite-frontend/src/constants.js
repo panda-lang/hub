@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-module.exports = {
-    'port': 80,
-    'backend': 'http://localhost:3000'
-}
+const config = require('../config')
+
+const backend = config['backend']
+const port = config['port']
+
+export const USER_DETAILS = `${backend}/api/users/me`
+export const SIGNIN_ENDPOINT_URL = `${backend}/api/users/signin`
+export const SIGNUP_ENDPOINT_URL = `${backend}/api/users/signup`
+export const GITHUB_OAUTH_URL = `${backend}/oauth2/authorize/github?redirect_uri=http://localhost:${port}/oauth2/redirect`

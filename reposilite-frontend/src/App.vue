@@ -29,6 +29,9 @@
                 <b-navbar-item>
                     <router-link class="navbar-item" to="/login">Login</router-link>
                 </b-navbar-item>
+                <b-navbar-item>
+                    <router-link class="navbar-item" to="/register">Register</router-link>
+                </b-navbar-item>
             </template>
         </b-navbar>
         <router-view/>
