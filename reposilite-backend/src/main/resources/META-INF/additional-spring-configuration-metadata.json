@@ -14,5 +14,10 @@
       "name": "reposilite.workspace",
       "type": "java.lang.String",
       "description": "Description for reposilite.workspace."
+    },
+    {
+      "name": "reposilite.frontend",
+      "type": "java.lang.String",
+      "description": "Description for reposilite.frontend."
     }
   ] }

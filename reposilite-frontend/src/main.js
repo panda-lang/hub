@@ -16,12 +16,14 @@
 
 import Vue from 'vue'
 import Buefy from 'buefy'
+import Axios from 'axios'
 import App from './App.vue'
 import router from './router'
 import 'buefy/dist/buefy.css'
 
 Vue.config.productionTip = false
-Vue.use(Buefy);
+Vue.prototype.$http = Axios
+Vue.use(Buefy)
 
 new Vue({
     router,

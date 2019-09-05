@@ -16,6 +16,7 @@
 
 package org.panda_lang.reposilite.user;
 
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetails;
 import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetailsFactory;
 import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetailsService;
@@ -61,9 +62,11 @@ class UserOAuth2DetailsService extends OAuth2UserDetailsService {
 
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
+
             if (!providerName.equals(user.getProvider())) {
                 throw new RuntimeException("Looks like you're already signed up with " + user.getProvider() + " account.");
             }
+
             user = this.updateExistingUser(user, userDetails);
         }
         else {
@@ -77,6 +80,7 @@ class UserOAuth2DetailsService extends OAuth2UserDetailsService {
         User user = User.builder()
                 .withProvider(userRequest.getClientRegistration().getRegistrationId())
                 .withProviderId(userDetails.getProviderId())
+                .withPassword(StringUtils.EMPTY)
                 .withName(userDetails.getDisplayName())
                 .withDisplayName(userDetails.getDisplayName())
                 .withEmail(userDetails.getEmail())

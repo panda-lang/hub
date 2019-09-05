@@ -43,8 +43,7 @@ class AuthenticationConfiguration {
 
     @Bean
     OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler(AuthenticationProperties authenticationProperties) {
-        return new OAuth2AuthenticationSuccessHandler(this.authenticationTokenCreator(authenticationProperties), authenticationProperties,
-                this.authorizationRequestRepository());
+        return new OAuth2AuthenticationSuccessHandler(authenticationTokenCreator(authenticationProperties), authenticationProperties, authorizationRequestRepository());
     }
 
     @Bean

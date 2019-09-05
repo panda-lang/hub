@@ -16,28 +16,40 @@
 
 package org.panda_lang.reposilite.user;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(SpringRunner.class)
-class UserRegistrationDtoTest {
+class UserDetailsTest {
+
+    private static User user;
+    private static Map<String, Object> attributes;
+    private static UserDetails details;
+
+    @BeforeAll
+    static void prepare() {
+        user = User.builder()
+                .withName("username")
+                .build();
+        attributes = new HashMap<>();
+
+        details = UserDetails.of(user, attributes);
+        assertNotNull(details);
+    }
 
     @Test
-    void toEntityTest() {
-        User user = new UserRegistrationDto("test", "test displayName", "test", "test", "test@test", "test@test").toEntity();
+    void getAttributes() {
+        assertEquals(attributes, details.getAttributes());
+    }
 
-        assertEquals("User{" +
-                "identifier=null, " +
-                "name='test', " +
-                "displayName='test displayName', " +
-                "password='test', " +
-                "description='null', " +
-                "email='test@test', " +
-                "site='null', " +
-                "roles=null}", user.toString());
+    @Test
+    void getUser() {
+        assertEquals(user, details.getUser());
     }
 
 }

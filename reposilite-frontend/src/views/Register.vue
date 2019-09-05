@@ -18,19 +18,15 @@
     <div class="login">
         <div class="container">
             <div class="columns is-centered">
-                <form class="column is-centered" ref="form" @submit.prevent="handleSignin">
+                <form class="column is-centered" ref="form" @submit.prevent="handleSignup">
                     <h1 class="subtitle">Sign in</h1>
 
                     <b-field>
-                        <b-input v-model="username" placeholder="Username" minlength="3" maxlength="48" required></b-input>
+                        <b-input name="name" placeholder="Username" minlength="3" maxlength="48" required></b-input>
                     </b-field>
 
                     <b-field>
-                        <b-input v-model="password" placeholder="Password" type="password" minlength="3" maxlength="30" required></b-input>
-                    </b-field>
-
-                    <b-field>
-                        <a :href="signInWithGithubUrl">Sign in with GitHub</a>
+                        <b-input name="password" placeholder="Password" type="password" minlength="3" maxlength="30" required></b-input>
                     </b-field>
 
                     <b-button class="button is-link" type="submit">Login</b-button>
@@ -41,29 +37,25 @@
 </template>
 
 <script>
-import {GITHUB_OAUTH_URL, SIGNIN_ENDPOINT_URL} from "../constants";
+import {SIGNUP_ENDPOINT_URL} from "../constants"
 
 export default {
     data: () => ({
         username: '',
-        password: '',
-        signInWithGithubUrl: GITHUB_OAUTH_URL
+        name: '',
+        email: '',
+        password: ''
     }),
     methods: {
-        handleSignin() {
-            this.$http.post(`${SIGNIN_ENDPOINT_URL}`, {username: this.username, password: this.password}, {})
-                .then(response => {
-                    let token = response.data.accessToken
-                    localStorage.setItem('accessToken', token)
-                    this.$parent.fetchUser()
-                    this.$notify.success("Successfully logged in")
-                })
+        handleSignup() {
+            this.$http.post(SIGNUP_ENDPOINT_URL, {username: this.username, name: this.name, email: this.email, password: this.password}, {})
+                .then(() => this.$notify.success('Successfully singed up'))
                 .catch(error => {
-                    if (error.response.status === 401) {
-                        this.$notify.error('Bad credentials')
+                    if (error.response.status === 409) {
+                        this.$notify.error('User already exists')
                         return
                     }
-                    this.$notify.error('An error occurred while trying to signin')
+                    this.$notify.error('An error occurred while trying to signup')
                 })
         }
     }

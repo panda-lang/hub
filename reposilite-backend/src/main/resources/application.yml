@@ -1,6 +1,7 @@
 reposilite:
   built-in-frontend: "on"
-  workspace: ""
+  frontend: "http://localhost:80"
+  workspace: "./"
 
 server:
   port: 3000
