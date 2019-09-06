@@ -17,9 +17,9 @@
 package org.panda_lang.reposilite.user;
 
 import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetails;
-import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetailsFactory;
-import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetailsService;
+import org.panda_lang.reposilite.authentication.OAuth2UserDetails;
+import org.panda_lang.reposilite.authentication.OAuth2UserDetailsFactory;
+import org.panda_lang.reposilite.authentication.OAuth2UserDetailsService;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

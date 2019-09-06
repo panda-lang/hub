@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.authentication.userdetails;
+package org.panda_lang.reposilite.authentication;
 
 import java.util.Map;
 
@@ -49,11 +49,6 @@ class GithubOAuth2UserDetails implements OAuth2UserDetails {
     @Override
     public String getAvatar() {
         return (String) this.attributes.get("avatar_url");
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return this.attributes;
     }
 
 }
