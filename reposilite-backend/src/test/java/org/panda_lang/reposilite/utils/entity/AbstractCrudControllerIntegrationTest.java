@@ -63,287 +63,287 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 class AbstractCrudControllerIntegrationTest {
 
-  @Autowired
-  private MongoTemplate mongoTemplate;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-  @Autowired
-  private TestEntityController testEntityController;
+    @Autowired
+    private TestEntityController testEntityController;
 
-  @Autowired
-  private TestRepository repository;
+    @Autowired
+    private TestRepository repository;
 
-  @Autowired
-  private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-  @Autowired
-  private WebApplicationContext context;
+    @Autowired
+    private WebApplicationContext context;
 
-  @Autowired
-  private RoleFactory roleFactory;
+    @Autowired
+    private RoleFactory roleFactory;
 
-  private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-  @BeforeEach
-  void setUp() {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
-        .apply(SecurityMockMvcConfigurers.springSecurity())
-        .build();
-  }
+    @BeforeEach
+    void setUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
+                .apply(SecurityMockMvcConfigurers.springSecurity())
+                .build();
+    }
 
-  @Test
-  void readAllEntitiesTest() throws Exception {
-    this.repository.save(new TestEntity(ObjectId.get(), "testEntity1125", "something"));
-    this.repository.save(new TestEntity(ObjectId.get(), "testEntity1126", "something"));
+    @Test
+    void readAllEntitiesTest() throws Exception {
+        this.repository.save(new TestEntity(ObjectId.get(), "testEntity1125", "something"));
+        this.repository.save(new TestEntity(ObjectId.get(), "testEntity1126", "something"));
 
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests"))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].username", Matchers.is("testEntity1125")))
-        .andExpect(jsonPath("$[1].username", Matchers.is("testEntity1126")));
-  }
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].username", Matchers.is("testEntity1125")))
+                .andExpect(jsonPath("$[1].username", Matchers.is("testEntity1126")));
+    }
 
-  @Test
-  void readShouldReturn404WhenDoesNotExists() throws Exception {
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", ObjectId.get()))
-        .andExpect(status().isNotFound());
-  }
+    @Test
+    void readShouldReturn404WhenDoesNotExists() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", ObjectId.get()))
+                .andExpect(status().isNotFound());
+    }
 
-  @Test
-  void readTest() throws Exception {
-    ObjectId id = ObjectId.get();
-    this.repository.save(new TestEntity(id, "testEntity1127", "something"));
-    this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", id.toHexString()))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.username", Matchers.is("testEntity1127")))
-        .andExpect(jsonPath("$.identifier", Matchers.is(id.toHexString())));
-  }
+    @Test
+    void readTest() throws Exception {
+        ObjectId id = ObjectId.get();
+        this.repository.save(new TestEntity(id, "testEntity1127", "something"));
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", id.toHexString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", Matchers.is("testEntity1127")))
+                .andExpect(jsonPath("$.identifier", Matchers.is(id.toHexString())));
+    }
 
-  @Test
-  void createTest() throws Exception {
-    TestDto testDto = new TestDto("testEntity1128", "something");
-    this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
-        .content(testDto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.username", Matchers.is("testEntity1128")));
-  }
+    @Test
+    void createTest() throws Exception {
+        TestDto testDto = new TestDto("testEntity1128", "something");
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
+                .content(testDto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.username", Matchers.is("testEntity1128")));
+    }
 
-  @Test
-  void createShouldReturn409WhenAlreadyExists() throws Exception {
-    TestDto testDto = new TestDto("testEntity1129", "something");
-    this.repository.save(new TestEntity(ObjectId.get(), "testEntity1129", "something"));
+    @Test
+    void createShouldReturn409WhenAlreadyExists() throws Exception {
+        TestDto testDto = new TestDto("testEntity1129", "something");
+        this.repository.save(new TestEntity(ObjectId.get(), "testEntity1129", "something"));
 
-    this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
-        .content(testDto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isConflict());
-  }
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
+                .content(testDto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict());
+    }
 
-  @Test
-  void createShouldReturn400WhenValidationError() throws Exception {
-    TestDto testDto = new TestDto(null, null);
+    @Test
+    void createShouldReturn400WhenValidationError() throws Exception {
+        TestDto testDto = new TestDto(null, null);
 
-    this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
-        .content(testDto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest());
-  }
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
+                .content(testDto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 
-  @Test
-  private void updateTest() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity123132";
-    String password = "test123";
+    @Test
+    private void updateTest() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity123132";
+        String password = "test123";
 
-    TestDto testDto = new TestDto(username + "_EDITED", "something");
-    TestEntity testEntity = new TestEntity(id, username, "something");
-    this.repository.save(testEntity);
+        TestDto testDto = new TestDto(username + "_EDITED", "something");
+        TestEntity testEntity = new TestEntity(id, username, "something");
+        this.repository.save(testEntity);
 
-    this.setUpUser(id, username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
-        .content(testDto.toJson())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNoContent());
+        this.setUpUser(id, username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+                .content(testDto.toJson())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
 
-    Query query = Query.query(Criteria.where("username").is(testDto.getUsername()));
-    TestEntity databaseEntity = this.mongoTemplate.findOne(query, TestEntity.class);
+        Query query = Query.query(Criteria.where("username").is(testDto.getUsername()));
+        TestEntity databaseEntity = this.mongoTemplate.findOne(query, TestEntity.class);
 
-    assertAll(
-        () -> assertNotNull(databaseEntity),
-        () -> assertNotEquals(databaseEntity, testEntity),
-        () -> assertEquals(username + "_EDITED", databaseEntity.getUsername())
-    );
-  }
+        assertAll(
+                () -> assertNotNull(databaseEntity),
+                () -> assertNotEquals(databaseEntity, testEntity),
+                () -> assertEquals(username + "_EDITED", databaseEntity.getUsername())
+        );
+    }
 
-  @Test
-  void updateShouldCreateNewEntityWhenEntityNotFound() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity3901028930";
-    String password = "test123";
+    @Test
+    void updateShouldCreateNewEntityWhenEntityNotFound() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity3901028930";
+        String password = "test123";
 
-    TestDto testDto = new TestDto(username + "_EDITED", "something");
-    TestEntity testEntity = new TestEntity(id, username, "something");
+        TestDto testDto = new TestDto(username + "_EDITED", "something");
+        TestEntity testEntity = new TestEntity(id, username, "something");
 
-    this.setUpUser(id, username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
-        .content(testDto.toJson())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
+        this.setUpUser(id, username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+                .content(testDto.toJson())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
 
-    Query query = Query.query(Criteria.where("username").is(testDto.getUsername()));
-    TestEntity databaseEntity = this.mongoTemplate.findOne(query, TestEntity.class);
+        Query query = Query.query(Criteria.where("username").is(testDto.getUsername()));
+        TestEntity databaseEntity = this.mongoTemplate.findOne(query, TestEntity.class);
 
-    assertAll(
-        () -> assertNotNull(databaseEntity),
-        () -> assertNotEquals(databaseEntity, testEntity),
-        () -> assertEquals(testDto.getUsername(), databaseEntity.getUsername())
-    );
-  }
+        assertAll(
+                () -> assertNotNull(databaseEntity),
+                () -> assertNotEquals(databaseEntity, testEntity),
+                () -> assertEquals(testDto.getUsername(), databaseEntity.getUsername())
+        );
+    }
 
-  @Test
-  void updateShouldReturn403WhenDifferentUser() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity30182u8038";
-    String password = "test123";
+    @Test
+    void updateShouldReturn403WhenDifferentUser() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity30182u8038";
+        String password = "test123";
 
-    TestDto testDto = new TestDto(username + "_EDITED", "something");
-    TestEntity testEntity = new TestEntity(id, username, "something");
-    this.repository.save(testEntity);
+        TestDto testDto = new TestDto(username + "_EDITED", "something");
+        TestEntity testEntity = new TestEntity(id, username, "something");
+        this.repository.save(testEntity);
 
-    this.setUpUser(ObjectId.get(), username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
-        .content(testDto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isForbidden());
-  }
+        this.setUpUser(ObjectId.get(), username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+                .content(testDto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
 
-  @Test
-  void updateShouldReturn400WhenValidationError() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity30182u8038";
-    String password = "test123";
+    @Test
+    void updateShouldReturn400WhenValidationError() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity30182u8038";
+        String password = "test123";
 
-    TestDto testDto = new TestDto("", "");
-    TestEntity testEntity = new TestEntity(id, username, "something");
-    this.repository.save(testEntity);
+        TestDto testDto = new TestDto("", "");
+        TestEntity testEntity = new TestEntity(id, username, "something");
+        this.repository.save(testEntity);
 
-    this.setUpUser(id, username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
-        .content(testDto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isBadRequest());
-  }
+        this.setUpUser(id, username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+                .content(testDto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 
-  @Test
-  void partialUpdateTest() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity123131";
-    String password = "test123";
+    @Test
+    void partialUpdateTest() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity123131";
+        String password = "test123";
 
-    TestDto dto = new TestDto(null, "something_EDITED");
-    TestEntity testEntity = new TestEntity(id, username, "something");
-    this.repository.save(testEntity);
+        TestDto dto = new TestDto(null, "something_EDITED");
+        TestEntity testEntity = new TestEntity(id, username, "something");
+        this.repository.save(testEntity);
 
-    this.setUpUser(id, username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
-        .content(dto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNoContent());
+        this.setUpUser(id, username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+                .content(dto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
 
-    Query query = Query.query(Criteria.where("username").is(username));
-    TestEntity databaseEntity = this.mongoTemplate.findOne(query, TestEntity.class);
-    assertNotNull(databaseEntity);
+        Query query = Query.query(Criteria.where("username").is(username));
+        TestEntity databaseEntity = this.mongoTemplate.findOne(query, TestEntity.class);
+        assertNotNull(databaseEntity);
 
-    assertAll(
-        () -> assertNotNull(databaseEntity.getSomething()),
-        () -> assertEquals(databaseEntity.getSomething(), "something_EDITED"),
-        () -> assertEquals(databaseEntity.getUsername(), username)
-    );
-  }
+        assertAll(
+                () -> assertNotNull(databaseEntity.getSomething()),
+                () -> assertEquals(databaseEntity.getSomething(), "something_EDITED"),
+                () -> assertEquals(databaseEntity.getUsername(), username)
+        );
+    }
 
-  @Test
-  void partialUpdateShouldReturn404WhenEntityNotFound() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity3901903190";
-    String password = "test123";
+    @Test
+    void partialUpdateShouldReturn404WhenEntityNotFound() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity3901903190";
+        String password = "test123";
 
-    TestDto dto = new TestDto(null, "something_EDITED");
-    TestEntity testEntity = new TestEntity(id, username, "something");
+        TestDto dto = new TestDto(null, "something_EDITED");
+        TestEntity testEntity = new TestEntity(id, username, "something");
 
-    this.setUpUser(id, username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
-        .content(dto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNotFound());
-  }
+        this.setUpUser(id, username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+                .content(dto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 
-  @Test
-  void partialUpdateShouldReturn403WhenDifferentUser() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity3901903190";
-    String password = "test123";
+    @Test
+    void partialUpdateShouldReturn403WhenDifferentUser() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity3901903190";
+        String password = "test123";
 
-    TestDto dto = new TestDto(null, "something_EDITED");
+        TestDto dto = new TestDto(null, "something_EDITED");
 
-    this.setUpUser(ObjectId.get(), username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
-        .content(dto.toJson().getBytes())
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isForbidden());
-  }
+        this.setUpUser(ObjectId.get(), username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+                .content(dto.toJson().getBytes())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
 
-  @Test
-  void deleteTest() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity12313";
-    String password = "test123";
+    @Test
+    void deleteTest() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity12313";
+        String password = "test123";
 
-    this.mongoTemplate.insert(new TestEntity(id, username, "something"));
+        this.mongoTemplate.insert(new TestEntity(id, username, "something"));
 
-    Query query = Query.query(Criteria.where("username").is(username));
-    assertNotNull(this.mongoTemplate.findOne(query, TestEntity.class));
+        Query query = Query.query(Criteria.where("username").is(username));
+        assertNotNull(this.mongoTemplate.findOne(query, TestEntity.class));
 
-    this.setUpUser(id, username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password)))
-        .andExpect(status().isNoContent());
+        this.setUpUser(id, username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password)))
+                .andExpect(status().isNoContent());
 
-    assertNull(this.mongoTemplate.findOne(query, TestEntity.class));
-  }
+        assertNull(this.mongoTemplate.findOne(query, TestEntity.class));
+    }
 
-  @Test
-  void deleteShouldReturn404WhenEntityNotFound() throws Exception {
-    ObjectId id = ObjectId.get();
-    String username = "testEntity123812";
-    String password = "test123";
+    @Test
+    void deleteShouldReturn404WhenEntityNotFound() throws Exception {
+        ObjectId id = ObjectId.get();
+        String username = "testEntity123812";
+        String password = "test123";
 
-    this.setUpUser(id, username, password);
-    this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/tests/{id}", id)
-        .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password)))
-        .andExpect(status().isNotFound());
-  }
+        this.setUpUser(id, username, password);
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password)))
+                .andExpect(status().isNotFound());
+    }
 
-  private void setUpUser(ObjectId id, String username, String password) {
-    Map<String, Object> userDetails = new HashMap<String, Object>() {{
-      this.put("_id", id);
-      this.put("name", username);
-      this.put("password", AbstractCrudControllerIntegrationTest.this.passwordEncoder.encode(password));
-      this.put("roles", Sets.newHashSet(AbstractCrudControllerIntegrationTest.this.roleFactory.obtainRole("USER")));
-    }};
+    private void setUpUser(ObjectId id, String username, String password) {
+        Map<String, Object> userDetails = new HashMap<String, Object>() {{
+            this.put("_id", id);
+            this.put("name", username);
+            this.put("password", AbstractCrudControllerIntegrationTest.this.passwordEncoder.encode(password));
+            this.put("roles", Sets.newHashSet(AbstractCrudControllerIntegrationTest.this.roleFactory.obtainRole("USER")));
+        }};
 
-    this.mongoTemplate.insert(new BasicDBObject(userDetails), "users");
-  }
+        this.mongoTemplate.insert(new BasicDBObject(userDetails), "users");
+    }
 
-  @AfterEach
-  void tearDown() {
-    this.mongoTemplate.dropCollection("tests");
-    this.mongoTemplate.dropCollection("users");
-  }
+    @AfterEach
+    void tearDown() {
+        this.mongoTemplate.dropCollection("tests");
+        this.mongoTemplate.dropCollection("users");
+    }
 
 }
