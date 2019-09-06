@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.authentication.userdetails;
+package org.panda_lang.reposilite.authentication;
 
-import java.util.Map;
+public interface OAuth2UserDetails {
 
-public final class OAuth2UserDetailsFactory {
+    String getProviderId();
 
-    private OAuth2UserDetailsFactory() {}
+    String getName();
 
-    public static OAuth2UserDetails obtainOAuth2UserDetails(String providerName, Map<String, Object> attributes) {
-        if ("github".equalsIgnoreCase(providerName)) {
-            return new GithubOAuth2UserDetails(attributes);
-        }
-        else {
-            throw new UnsupportedOperationException();
-        }
-    }
+    String getDisplayName();
+
+    String getEmail();
+
+    String getAvatar();
 
 }

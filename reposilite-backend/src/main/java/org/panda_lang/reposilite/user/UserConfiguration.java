@@ -16,7 +16,7 @@
 
 package org.panda_lang.reposilite.user;
 
-import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetailsService;
+import org.panda_lang.reposilite.authentication.OAuth2UserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;

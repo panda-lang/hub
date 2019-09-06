@@ -16,7 +16,6 @@
 
 package org.panda_lang.reposilite.authentication;
 
-import org.panda_lang.reposilite.authentication.userdetails.OAuth2UserDetailsService;
 import org.panda_lang.reposilite.user.UserDetailsService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
