@@ -16,8 +16,10 @@
 
 package org.panda_lang.reposilite.authentication;
 
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-abstract class OAuth2UserDetailsService extends DefaultOAuth2UserService {
+public interface OAuth2UserDetailsService extends OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
 }
