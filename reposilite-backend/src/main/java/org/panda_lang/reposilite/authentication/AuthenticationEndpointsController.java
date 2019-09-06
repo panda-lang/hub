@@ -58,7 +58,7 @@ class AuthenticationEndpointsController {
         Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getName(), dto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return ResponseEntity.ok(Collections.singletonMap("accessToken", this.authenticationTokenCreator.create(authentication)));
+        return ResponseEntity.ok(Collections.singletonMap("access_token", this.authenticationTokenCreator.create(authentication)));
     }
 
 }

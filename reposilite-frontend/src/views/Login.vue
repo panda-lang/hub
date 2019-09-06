@@ -53,8 +53,8 @@ export default {
         handleSignin() {
             this.$http.post(`${SIGNIN_ENDPOINT_URL}`, {username: this.username, password: this.password}, {})
                 .then(response => {
-                    let token = response.data.accessToken
-                    localStorage.setItem('accessToken', token)
+                    let token = response.data['access_token']
+                    localStorage.setItem('access_token', token)
                     this.$parent.fetchUser()
                     this.$notify.success("Successfully logged in")
                 })

@@ -27,7 +27,7 @@
             let token = this.obtainUrlParameter('token')
 
             if (token !== undefined) {
-                localStorage.setItem('accessToken', token)
+                localStorage.setItem('access_token', token)
                 this.$notify.success('Successfully logged in')
             } else {
                 this.$notify.error('An error occurred while trying to signin')

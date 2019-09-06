@@ -21,14 +21,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.panda_lang.reposilite.authentication.dto.SignInDto;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -64,29 +67,26 @@ class UserControllerIntegrationTest {
     @Test
     void authenticationTest() throws Exception {
         User user = User.builder()
-                .withName("test12312313")
+                .withName("test123")
                 .withPassword("test123")
-                .withRoles(Sets.newHashSet(this.roleFactory.obtainRole("ADMIN")))
+                .withRoles(Sets.newHashSet(roleFactory.obtainRole("ADMIN")))
                 .build();
-        this.userService.save(user);
+        userService.save(user);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
-                .with(SecurityMockMvcRequestPostProcessors.httpBasic("test12312313", "test123")))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/users/signin")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new SignInDto("test123", "test123").toJson()))
                 .andExpect(status().isOk())
-                .andDo(mvcResult -> System.out.println("Res: " + mvcResult.getResponse().toString()));
-                //.andExpect(jsonPath("$.name", Matchers.is("test12312313")));
+                .andReturn();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
+                .header("Authorization", "Bearer " + new JacksonJsonParser().parseMap(result.getResponse().getContentAsString()).get("access_token")))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void authenticationShouldReturn401WhenBadCredentials() throws Exception {
-        User user = new UserBuilder()
-                .withName("test12312313")
-                .withPassword("test123")
-                .build();
-
-        this.userService.save(user);
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
-                .with(SecurityMockMvcRequestPostProcessors.httpBasic("test12312313", "test1234")))
+    void authenticationShouldReturn401WhenNotLogged() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me"))
                 .andExpect(status().isUnauthorized());
     }
 
