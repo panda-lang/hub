@@ -19,7 +19,7 @@
         <div class="container">
             <div class="columns is-centered">
                 <form class="column is-centered" ref="form" @submit.prevent="handleSignup">
-                    <h1 class="subtitle">Sign in</h1>
+                    <h1 class="subtitle">Sign up</h1>
 
                     <b-field>
                         <b-input name="name" placeholder="Username" minlength="3" maxlength="48" required></b-input>
@@ -29,7 +29,13 @@
                         <b-input name="password" placeholder="Password" type="password" minlength="3" maxlength="30" required></b-input>
                     </b-field>
 
-                    <b-button class="button is-link" type="submit">Login</b-button>
+                    <b-field>
+                        <a :href="signInWithGithubUrl">Sign up with GitHub</a>
+                    </b-field>
+
+                    <b-field>
+                        <b-button class="button is-link" type="submit">Register</b-button>
+                    </b-field>
                 </form>
             </div>
         </div>
@@ -37,14 +43,15 @@
 </template>
 
 <script>
-import {SIGNUP_ENDPOINT_URL} from "../constants"
+import {GITHUB_OAUTH_URL, SIGNUP_ENDPOINT_URL} from "../constants"
 
 export default {
     data: () => ({
         username: '',
         name: '',
         email: '',
-        password: ''
+        password: '',
+        signInWithGithubUrl: GITHUB_OAUTH_URL
     }),
     methods: {
         handleSignup() {
@@ -55,6 +62,7 @@ export default {
                         this.$notify.error('User already exists')
                         return
                     }
+
                     this.$notify.error('An error occurred while trying to signup')
                 })
         }

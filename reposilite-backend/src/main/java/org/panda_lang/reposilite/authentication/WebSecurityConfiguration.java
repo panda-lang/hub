@@ -74,10 +74,6 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().successHandler(this.authenticationSuccessHandler).failureHandler(this.authenticationFailureHandler);
 
         http.addFilterBefore(this.authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-        /* http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .and().httpBasic() */
     }
 
     @Override
