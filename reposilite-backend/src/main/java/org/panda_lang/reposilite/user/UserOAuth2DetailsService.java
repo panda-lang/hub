@@ -22,13 +22,14 @@ import org.panda_lang.reposilite.authentication.OAuth2UserDetailsFactory;
 import org.panda_lang.reposilite.authentication.OAuth2UserDetailsService;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Optional;
 
-class UserOAuth2DetailsService extends OAuth2UserDetailsService {
+class UserOAuth2DetailsService extends DefaultOAuth2UserService implements OAuth2UserDetailsService {
 
     private final UserRepository userRepository;
 
