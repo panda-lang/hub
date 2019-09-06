@@ -102,7 +102,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>2.1.7.RELEASE</version>
+            <version>2.1.8.RELEASE</version>
         </dependency>
 
         <!-- OAuth2 & JWT -->
