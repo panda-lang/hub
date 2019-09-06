@@ -58,16 +58,17 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.oAuth2UserService = oAuth2UserService;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        AuthenticationEntryPoint authenticationEntryPoint = new AuthenticationEntryPoint();
+
         http.cors()
                 .and().csrf().disable()
-                //.httpBasic().disable()
-                .formLogin().disable()
+                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+                .and().formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint())
-                .and().authorizeRequests().antMatchers("/auth/**", "/oauth2/**").permitAll()
+                .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and().authorizeRequests().antMatchers("/auth/**", "/oauth2/**", "/api/tests/**").permitAll()
                 .and().oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorize").authorizationRequestRepository(this.authorizationRequestRepository)
                 .and().redirectionEndpoint().baseUri("/oauth2/callback/*")
                 .and().userInfoEndpoint().userService(this.oAuth2UserService)

@@ -27,7 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.panda_lang.reposilite.user.UserCrudService;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
 import org.panda_lang.reposilite.utils.entity.AbstractDto;
-import org.panda_lang.reposilite.utils.entity.AbstractDtoUtils;
+import org.panda_lang.reposilite.utils.AbstractDtoUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;

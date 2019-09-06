@@ -21,17 +21,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.panda_lang.reposilite.authentication.dto.SignInDto;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -73,14 +70,8 @@ class UserControllerIntegrationTest {
                 .build();
         userService.save(user);
 
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/users/signin")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new SignInDto("test123", "test123").toJson()))
-                .andExpect(status().isOk())
-                .andReturn();
-
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
-                .header("Authorization", "Bearer " + new JacksonJsonParser().parseMap(result.getResponse().getContentAsString()).get("access_token")))
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic("test123", "test123")))
                 .andExpect(status().isOk());
     }
 

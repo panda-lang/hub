@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.utils.entity;
+package org.panda_lang.reposilite.utils;
 
+import org.panda_lang.reposilite.utils.entity.JsonDto;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
