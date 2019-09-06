@@ -19,6 +19,7 @@ package org.panda_lang.reposilite;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -78,10 +79,9 @@ class ReposiliteConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "HEAD", "OPTIONS", "PUT", "PATCH", "DELETE")
-                .allowedHeaders("Authorization", "Cache-Control", "Content-Type")
-                .exposedHeaders("Location")
+                .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
     }

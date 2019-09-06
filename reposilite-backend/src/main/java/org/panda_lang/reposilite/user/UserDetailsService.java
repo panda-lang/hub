@@ -20,11 +20,13 @@ import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.authentication.AuthenticationUserDetailsService;
 import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -61,7 +63,11 @@ public final class UserDetailsService implements AuthenticationUserDetailsServic
         return toUserDetails(user.get());
     }
 
-    private Set<? extends GrantedAuthority> getAuthoritiesByRoles(Set<Role> roles) {
+    private Set<? extends GrantedAuthority> getAuthoritiesByRoles(@Nullable Set<Role> roles) {
+        if (roles == null) {
+            return Collections.emptySet();
+        }
+
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toSet());

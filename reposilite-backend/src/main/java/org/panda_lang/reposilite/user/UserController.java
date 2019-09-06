@@ -31,14 +31,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 class UserController extends AbstractCrudController<User, ObjectId, UserUpdateDto, UserRegistrationDto> {
 
-    protected UserController(@Autowired UserCrudService service) {
+    @Autowired
+    UserController(UserCrudService service) {
         super(service);
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
-    public ResponseEntity<User> me(@AuthenticatedUser User user) {
-        return ResponseEntity.ok(user);
+    public ResponseEntity<User> me(@AuthenticatedUser UserDetails user) {
+        return ResponseEntity.ok(user.getUser());
     }
 
 }

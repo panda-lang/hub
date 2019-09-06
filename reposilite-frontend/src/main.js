@@ -18,11 +18,13 @@ import Vue from 'vue'
 import Buefy from 'buefy'
 import Axios from 'axios'
 import App from './App.vue'
+import { NotificationService } from './services'
 import router from './router'
 import 'buefy/dist/buefy.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = Axios
+Vue.prototype.$notify = NotificationService;
 Vue.use(Buefy)
 
 new Vue({

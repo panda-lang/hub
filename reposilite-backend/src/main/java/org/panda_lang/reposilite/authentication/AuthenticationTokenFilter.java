@@ -35,8 +35,12 @@ class AuthenticationTokenFilter extends OncePerRequestFilter {
     private final AuthenticationTokenProvider tokenProvider;
     private final AuthenticationUserDetailsService userDetailsService;
 
-    AuthenticationTokenFilter(AuthenticationProperties tokenProperties, AuthenticationTokenValidator tokenValidator,
-            AuthenticationTokenProvider tokenProvider, AuthenticationUserDetailsService userDetailsService) {
+    AuthenticationTokenFilter(
+            AuthenticationProperties tokenProperties,
+            AuthenticationTokenValidator tokenValidator,
+            AuthenticationTokenProvider tokenProvider,
+            AuthenticationUserDetailsService userDetailsService
+    ) {
         this.tokenProperties = tokenProperties;
         this.tokenValidator = tokenValidator;
         this.tokenProvider = tokenProvider;

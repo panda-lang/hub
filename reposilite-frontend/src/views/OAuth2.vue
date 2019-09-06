@@ -15,25 +15,26 @@
   -->
 
 <script>
-    export default {
-        render: (createElement) => createElement('h5', "Redirecting..."),
-        methods: {
-            obtainUrlParameter() {
-                let url = window.location.search
-                return url.includes("?token=") === false ? undefined : url.replace("?token=", "")
-            }
-        },
-        mounted() {
-            let token = this.obtainUrlParameter('token')
-
-            if (token !== undefined) {
-                localStorage.setItem('access_token', token)
-                this.$notify.success('Successfully logged in')
-            } else {
-                this.$notify.error('An error occurred while trying to signin')
-            }
-
-            this.$router.push('/')
+export default {
+    render: (createElement) => createElement('h5', "Redirecting..."),
+    methods: {
+        obtainUrlParameter() {
+            let url = window.location.search
+            return url.includes("?token=") === false ? undefined : url.replace("?token=", "")
         }
+    },
+    mounted() {
+        let token = this.obtainUrlParameter('token')
+
+        if (token !== undefined) {
+            localStorage.setItem('access_token', token)
+            this.$parent.fetchUser()
+            this.$notify.success('Successfully logged in')
+        } else {
+            this.$notify.error('An error occurred while trying to signin')
+        }
+
+        this.$router.push('/')
     }
+}
 </script>
