@@ -18,6 +18,7 @@ package org.panda_lang.reposilite.user;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,15 +29,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class UserDetailsTest {
 
     private static User user;
-    private static Map<String, Object> attributes;
+    private static Map<String, Object> attributes = new HashMap<>();
     private static UserDetails details;
 
     @BeforeAll
     static void prepare() {
         user = User.builder()
                 .withName("username")
+                .withPassword(StringUtils.EMPTY)
                 .build();
-        attributes = new HashMap<>();
 
         details = UserDetails.of(user, attributes);
         assertNotNull(details);
