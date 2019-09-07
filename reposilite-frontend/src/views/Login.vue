@@ -15,30 +15,26 @@
   -->
 
 <template>
-    <div class="login">
-        <div class="container">
-            <div class="columns is-centered">
-                <form class="column is-centered" ref="form" @submit.prevent="handleSignin">
-                    <h1 class="subtitle">Sign in</h1>
+    <div class="login columns is-centered">
+        <form class="column is-centered" ref="form" @submit.prevent="handleSignin">
+            <h1 class="subtitle">Sign in</h1>
 
-                    <b-field>
-                        <b-input v-model="username" placeholder="Username" minlength="3" maxlength="48" required></b-input>
-                    </b-field>
+            <b-field>
+                <b-input v-model="username" placeholder="Username" minlength="3" maxlength="48" required></b-input>
+            </b-field>
 
-                    <b-field>
-                        <b-input v-model="password" placeholder="Password" type="password" minlength="3" maxlength="30" required></b-input>
-                    </b-field>
+            <b-field>
+                <b-input v-model="password" placeholder="Password" type="password" minlength="3" maxlength="30" required></b-input>
+            </b-field>
 
-                    <b-field>
-                        <a :href="signInWithGithubUrl">Sign in with GitHub</a>
-                    </b-field>
+            <b-field>
+                <a :href="signInWithGithubUrl">Sign in with GitHub</a>
+            </b-field>
 
-                    <b-field>
-                        <b-button class="button is-link" type="submit">Login</b-button>
-                    </b-field>
-                </form>
-            </div>
-        </div>
+            <b-field>
+                <b-button class="button is-link" type="submit">Login</b-button>
+            </b-field>
+        </form>
     </div>
 </template>
 
@@ -71,19 +67,18 @@ export default {
 </script>
 
 <style lang="stylus">
-.columns
-    padding-top 27px
+.login
+    text-align center
 
-.column
+.login .column
     max-width 460px
     border-radius 7px
     background-color white
     text-align center
-    margin 7px
 
-.input
+.login .input
     max-width 420px !important
 
-.control
+.login .control
     text-align center !important
 </style>

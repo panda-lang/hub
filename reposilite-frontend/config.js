@@ -15,6 +15,6 @@
  */
 
 module.exports = {
-    'port': 80,
+    'frontend': 'http://localhost:80',
     'backend': 'http://localhost:3000'
 }

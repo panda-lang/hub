@@ -15,30 +15,26 @@
   -->
 
 <template>
-    <div class="login">
-        <div class="container">
-            <div class="columns is-centered">
-                <form class="column is-centered" ref="form" @submit.prevent="handleSignup">
-                    <h1 class="subtitle">Sign up</h1>
+    <div class="register columns is-centered">
+        <form class="column is-centered" ref="form" @submit.prevent="handleSignup">
+            <h1 class="subtitle">Sign up</h1>
 
-                    <b-field>
-                        <b-input name="name" placeholder="Username" minlength="3" maxlength="48" required></b-input>
-                    </b-field>
+            <b-field>
+                <b-input name="name" placeholder="Username" minlength="3" maxlength="48" required></b-input>
+            </b-field>
 
-                    <b-field>
-                        <b-input name="password" placeholder="Password" type="password" minlength="3" maxlength="30" required></b-input>
-                    </b-field>
+            <b-field>
+                <b-input name="password" placeholder="Password" type="password" minlength="3" maxlength="30" required></b-input>
+            </b-field>
 
-                    <b-field>
-                        <a :href="signInWithGithubUrl">Sign up with GitHub</a>
-                    </b-field>
+            <b-field>
+                <a :href="signInWithGithubUrl">Sign up with GitHub</a>
+            </b-field>
 
-                    <b-field>
-                        <b-button class="button is-link" type="submit">Register</b-button>
-                    </b-field>
-                </form>
-            </div>
-        </div>
+            <b-field>
+                <b-button class="button is-link" type="submit">Register</b-button>
+            </b-field>
+        </form>
     </div>
 </template>
 
@@ -71,19 +67,18 @@ export default {
 </script>
 
 <style lang="stylus">
-.columns
-    padding-top 27px
+.register
+    text-align center
 
-.column
+.register .column
     max-width 460px
     border-radius 7px
     background-color white
     text-align center
-    margin 7px
 
-.input
+.register .input
     max-width 420px !important
 
-.control
+.register .control
     text-align center !important
 </style>

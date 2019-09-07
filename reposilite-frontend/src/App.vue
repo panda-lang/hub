@@ -26,9 +26,12 @@
                 <b-navbar-item>
                     <router-link class="navbar-item" to="/about">About</router-link>
                 </b-navbar-item>
+                <b-navbar-item>
+                    <router-link class="navbar-item" to="/repositories">Repositories</router-link>
+                </b-navbar-item>
                 <template v-if="authorized">
                     <b-navbar-item>
-                        <a class="navbar-item" href="/" @click="handleLogout">Logout</a>
+                        <a class="navbar-item" href="/" @click="handleLogout">Logout</a >
                     </b-navbar-item>
                 </template>
                 <template v-else>
@@ -41,7 +44,11 @@
                 </template>
             </template>
         </b-navbar>
-        <router-view/>
+        <div class="container page-content-container">
+            <div class="container page-content">
+                <router-view/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -90,6 +97,15 @@ html
 
 .navbar-burger
     height auto !important
+
+.page-content-container
+    padding-top 27px
+
+.page-content
+    padding 17px
+    background-color white
+    min-height 107px
+    text-align left
 
 a
     text-decoration none

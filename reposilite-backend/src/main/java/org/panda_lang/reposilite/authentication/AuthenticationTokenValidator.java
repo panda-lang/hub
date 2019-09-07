@@ -23,12 +23,17 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.Nullable;
 
 class AuthenticationTokenValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationTokenValidator.class);
 
-    boolean validate(String token, String secretToken) {
+    boolean validate(@Nullable String token, String secretToken) {
+        if (token == null) {
+            return false;
+        }
+
         try {
             Jwts.parser().setSigningKey(secretToken).parseClaimsJws(token);
             return true;
