@@ -14,11 +14,26 @@
  * limitations under the License.
  */
 
-const config = require('../config')
+package org.panda_lang.reposilite.depository.panda;
 
-export const BACKEND = config['backend']
-export const FRONTEND = config['frontend']
-export const USER_DETAILS = `${BACKEND}/api/users/me`
-export const SIGNIN_ENDPOINT_URL = `${BACKEND}/api/users/signin`
-export const SIGNUP_ENDPOINT_URL = `${BACKEND}/api/users/signup`
-export const GITHUB_OAUTH_URL = `${BACKEND}/oauth2/authorize/github?redirect_uri=${FRONTEND}/oauth2/redirect`
+import org.panda_lang.reposilite.depository.DepositoryEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+
+@Service
+class PandaServiceImpl implements PandaService {
+
+    @Override
+    public Optional<DepositoryEntity> findEntity(String entityQualifier) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Set<? extends DepositoryEntity> getEntities() {
+        return Collections.emptySet();
+    }
+
+}

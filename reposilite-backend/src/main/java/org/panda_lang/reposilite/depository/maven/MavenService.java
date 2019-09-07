@@ -30,4 +30,9 @@ public interface MavenService extends DepositorySubService {
 
     Set<String> getNames();
 
+    @Override
+    default String getName() {
+        return "maven";
+    }
+
 }

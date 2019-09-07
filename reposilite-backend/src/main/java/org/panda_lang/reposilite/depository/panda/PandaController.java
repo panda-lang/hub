@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 
-const config = require('../config')
+package org.panda_lang.reposilite.depository.panda;
 
-export const BACKEND = config['backend']
-export const FRONTEND = config['frontend']
-export const USER_DETAILS = `${BACKEND}/api/users/me`
-export const SIGNIN_ENDPOINT_URL = `${BACKEND}/api/users/signin`
-export const SIGNUP_ENDPOINT_URL = `${BACKEND}/api/users/signup`
-export const GITHUB_OAUTH_URL = `${BACKEND}/oauth2/authorize/github?redirect_uri=${FRONTEND}/oauth2/redirect`
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+
+@ApiOperation("/api/repository/panda")
+@RestController
+class PandaController {
+
+    private final PandaService pandaService;
+
+    @Autowired
+    PandaController(PandaService pandaService) {
+        this.pandaService = pandaService;
+    }
+
+}

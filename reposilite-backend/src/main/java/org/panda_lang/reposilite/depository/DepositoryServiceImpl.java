@@ -31,7 +31,7 @@ final class DepositoryServiceImpl implements DepositoryService {
     private final Map<String, DepositorySubService> subServiceMap;
 
     @Autowired
-    protected DepositoryServiceImpl(List<DepositorySubService> subServices) {
+    DepositoryServiceImpl(List<DepositorySubService> subServices) {
         this.subServiceMap = new HashMap<>(subServices.size());
 
         for (DepositorySubService subService : subServices) {

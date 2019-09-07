@@ -15,7 +15,25 @@
   -->
 
 <template>
-    <div class="home">
-        <p>Home</p>
+    <div class="repositories">
+        <p>Repositories</p>
+        <ul>
+            <li v-for="repository in repositories">
+                <a :href="'/repository/' + repository">&bull; {{ repository }}</a>
+            </li>
+        </ul>
     </div>
 </template>
+
+<script>
+import { BACKEND } from '../constants'
+
+export default {
+    data: () => ({
+        repositories: []
+    }),
+    mounted() {
+        this.$http.get(BACKEND + '/api/repositories').then(response => (this.repositories = response.data))
+    }
+}
+</script>

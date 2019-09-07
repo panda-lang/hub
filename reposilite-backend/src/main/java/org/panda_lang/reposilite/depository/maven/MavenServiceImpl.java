@@ -94,9 +94,4 @@ final class MavenServiceImpl implements MavenService {
         return mavenRepository.findAll();
     }
 
-    @Override
-    public String getName() {
-        return "Maven";
-    }
-
 }
