@@ -25,27 +25,38 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'home',
+            name: 'Home',
             component: () => import('./views/Home.vue')
         },
         {
             path: '/about',
-            name: 'about',
+            name: 'About',
             component: () => import('./views/About.vue')
         },
         {
             path: '/login',
-            name: 'login',
+            name: 'Login',
             component: () => import('./views/Login.vue')
         },
         {
             path: '/register',
-            name: 'register',
+            name: 'Register',
             component: () => import('./views/Register.vue')
         },
         {
             path: '/oauth2/redirect',
+            name: 'Redirect',
             component: () => import('./views/OAuth2.vue')
+        },
+        {
+            path: '/repositories',
+            name: 'Repositories',
+            component: () => import('./views/Repositories.vue')
+        },
+        {
+            path: "*",
+            name: 'Page Not Found',
+            component: () => import('./views/PageNotFound.vue')
         }
     ]
 })
