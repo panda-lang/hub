@@ -21,6 +21,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.Nullable;
@@ -29,8 +30,8 @@ class AuthenticationTokenValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationTokenValidator.class);
 
-    boolean validate(@Nullable String token, String secretToken) {
-        if (token == null) {
+    boolean validate(@Nullable String token, @Nullable String secretToken) {
+        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(secretToken)) {
             return false;
         }
 

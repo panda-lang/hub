@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiResponses;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
-import org.panda_lang.reposilite.depository.DepositoryResponse;
 import org.panda_lang.reposilite.user.role.IsAdmin;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.reposilite.utils.RequestUtils;
@@ -45,7 +44,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -76,12 +75,14 @@ class MavenController {
             @ApiResponse(code = 200, message = "Successfully returned")
     })
     @GetMapping("/{repository}")
-    public ResponseEntity<Map<String, Object>> repository(@PathVariable @ApiParam("Repository name") String repository) {
-        if (!this.mavenService.getDepository(repository).isPresent()) {
+    public ResponseEntity<Collection<String>> repository(@PathVariable @ApiParam("Repository name") String repository) {
+        Optional<Depository> depositoryValue = this.mavenService.getDepository(repository);
+
+        if (!depositoryValue.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(Collections.singletonMap("name", repository));
+        return ResponseEntity.ok(depositoryValue.get().getChildrenNames());
     }
 
     @ApiOperation("Returns repository entity")
@@ -110,8 +111,7 @@ class MavenController {
             return ResponseUtils.sendFile(response, "application/java", ((Data) entity).getFile());
         }
 
-        File currentFile = new File(depository.get().getRootFile() + "/" + entityQualifier);
-        return ResponseEntity.ok(new DepositoryResponse(currentFile.getPath(), currentFile.list()));
+        return ResponseEntity.ok(entity.getChildrenNames());
     }
 
     @IsAdmin
