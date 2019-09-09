@@ -59,6 +59,13 @@ public interface DepositoryEntity {
     }
 
     /**
+     * Get names of children
+     *
+     * @return the children names
+     */
+    Collection<String> getChildrenNames();
+
+    /**
      * Get collection of child entities
      *
      * @return the child entities

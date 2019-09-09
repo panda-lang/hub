@@ -16,10 +16,10 @@
 
 <template>
     <div class="repositories">
-        <p>Repositories</p>
+        <h5 class="title is-5">Repositories</h5>
         <ul>
             <li v-for="repository in repositories">
-                <a :href="'/repository/' + repository">&bull; {{ repository }}</a>
+                <router-link :to="'/repository/' + repository">&bull; {{ repository }}</router-link>
             </li>
         </ul>
     </div>

@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
@@ -53,10 +54,19 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
     }
 
     @Override
-    public Collection<? extends DepositoryEntity> getChildren() {
-        return node.getChildren().stream()
-                .map(TreemapNode::getElement)
+    public Collection<String> getChildrenNames() {
+        return toEntitiesStream()
+                .map(DepositoryEntity::getName)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<? extends DepositoryEntity> getChildren() {
+        return toEntitiesStream().collect(Collectors.toList());
+    }
+
+    private Stream<DepositoryEntity> toEntitiesStream() {
+        return node.getChildren().stream().map(TreemapNode::getElement);
     }
 
     @Override

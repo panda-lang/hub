@@ -54,6 +54,11 @@ export default new Router({
             component: () => import('./views/Repositories.vue')
         },
         {
+            path: '/repository/:qualifier(.*)',
+            name: 'Repository',
+            component: () => import('./views/Repository.vue')
+        },
+        {
             path: "*",
             name: 'Page Not Found',
             component: () => import('./views/PageNotFound.vue')
