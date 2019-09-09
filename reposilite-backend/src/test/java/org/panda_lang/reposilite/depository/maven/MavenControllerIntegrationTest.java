@@ -16,7 +16,6 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -50,10 +50,10 @@ class MavenControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn200WhenDepositoryPresent() throws Exception {
+    void shouldReturn200AndChildNodesWhenDepositoryPresent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", Matchers.is("releases")));
+                .andExpect(content().json("[ 'org' ]"));
     }
 
 }

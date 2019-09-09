@@ -16,8 +16,6 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.apache.commons.lang3.StringUtils;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.File;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -59,12 +57,10 @@ class ArtifactControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn200WhenArtifactPresent() throws Exception {
-        String path = StringUtils.replace("repositories/maven/releases/org/panda-lang/panda-utilities", "/", File.separator);
-
+    void shouldReturn200AndChildNodesWhenArtifactPresent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.path", Matchers.is(workspace + File.separator + path)));
+                .andExpect(content().json("[ 'indev-0.8.0', 'indev-0.8.87' ]"));
     }
 
 }

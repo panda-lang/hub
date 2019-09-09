@@ -69,7 +69,7 @@ class MavenController {
         }});
     }
 
-    @ApiOperation("Returns name of repository")
+    @ApiOperation("Returns groups located in the repository")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Repository not found"),
             @ApiResponse(code = 200, message = "Successfully returned")
@@ -85,7 +85,7 @@ class MavenController {
         return ResponseEntity.ok(depositoryValue.get().getChildrenNames());
     }
 
-    @ApiOperation("Returns repository entity")
+    @ApiOperation("Returns chind nodes located in the requested entity")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Repository entity not found"),
             @ApiResponse(code = 200, message = "Successfully returned")
