@@ -17,10 +17,20 @@
 <template>
     <div class="register columns is-centered">
         <form class="column is-centered" ref="form" @submit.prevent="handleSignup">
-            <h1 class="subtitle">Sign up</h1>
+            <b-field>
+                <h1 class="subtitle">Sign up</h1>
+            </b-field>
 
             <b-field>
-                <b-input name="name" placeholder="Username" minlength="3" maxlength="48" required></b-input>
+                <b-input name="username" placeholder="Username" minlength="3" maxlength="32" required></b-input>
+            </b-field>
+
+            <b-field>
+                <b-input name="name" placeholder="Display name" minlength="3" maxlength="64"></b-input>
+            </b-field>
+
+            <b-field>
+                <b-input name="email" placeholder="Email" type="email" minlength="3" maxlength="128" required></b-input>
             </b-field>
 
             <b-field>
@@ -51,7 +61,7 @@ export default {
     }),
     methods: {
         handleSignup() {
-            this.$http.post(SIGNUP_ENDPOINT_URL, {username: this.username, name: this.name, email: this.email, password: this.password}, {})
+            this.$http.post(SIGNUP_ENDPOINT_URL, { username: this.username, name: this.name, email: this.email, password: this.password }, {})
                 .then(() => this.$notify.success('Successfully singed up'))
                 .catch(error => {
                     if (error.response.status === 409) {

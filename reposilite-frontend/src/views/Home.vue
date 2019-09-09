@@ -16,6 +16,11 @@
 
 <template>
     <div class="home">
-        <p>Home</p>
+        <p>Repository management software mainly dedicated for Maven and Panda-based artifacts</p>
     </div>
 </template>
+
+<style lang="stylus">
+.home
+    text-align center
+</style>
