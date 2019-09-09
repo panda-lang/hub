@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 class MavenMetadataTest {
 
-    private final static String DEPOSITORY_PATH = StringUtils.replace("/org/panda-lang/panda-utilities/indev-0.8.1/panda-utilities-indev-0.8.1.jar", "/", File.separator);
+    private final static String DEPOSITORY_PATH = StringUtils.replace("/org/panda-lang/panda-utilities/indev-0.8.87/panda-utilities-indev-0.8.87.jar", "/", File.separator);
 
     @Test
     void groupNameBySystemPathTest() {
@@ -45,13 +45,13 @@ class MavenMetadataTest {
     @Test
     void buildVersionBySystemPathTest() {
         MavenMetadata mavenMetadata = MavenMetadata.ofSystemPath(DEPOSITORY_PATH);
-        assertEquals(mavenMetadata.getBuildVersion(), "indev-0.8.1");
+        assertEquals(mavenMetadata.getBuildVersion(), "indev-0.8.87");
     }
 
     @Test
     void buildFileBySystemPathTest() {
         MavenMetadata mavenMetadata = MavenMetadata.ofSystemPath(DEPOSITORY_PATH);
-        assertEquals(mavenMetadata.getBuildFile(), "panda-utilities-indev-0.8.1.jar");
+        assertEquals(mavenMetadata.getBuildFile(), "panda-utilities-indev-0.8.87.jar");
     }
 
 }
