@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ShellComponent
@@ -47,15 +48,20 @@ final class RoleCommands {
 
     @ShellMethod(value = "Sets role for the specified user", key = "chrole")
     public String setRole(String username, String role) {
-        if (this.userRepository.existsByName(username)) {
-            User user = this.userRepository.findByName(username).get();
-            user.addRole(this.roleFactory.obtainRole(role));
+        Optional<Role> roleValue = this.roleRepository.findById(role);
 
-            this.userRepository.save(user);
-            return "Set role `" + role + "` for user: " + username;
+        if (!roleValue.isPresent()) {
+            return "Role '" + role + "' does not exist";
         }
 
-        return "User not found!";
+        Optional<User> userValue = this.userRepository.findByName(username);
+
+        if (!userValue.isPresent()) {
+            return "User not found";
+        }
+
+        userValue.ifPresent(user -> user.addRole(roleValue.get()));
+        return "Set role `" + role + "` for user: " + username;
     }
 
 }
