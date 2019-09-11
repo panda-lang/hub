@@ -27,9 +27,9 @@ public class SignUpDto extends JsonDto {
 
     public SignUpDto(String name, String displayName, String email, String password) {
         this.name = name;
+        this.displayName = displayName;
         this.password = password;
         this.email = email;
-        this.displayName = displayName;
     }
 
     SignUpDto() { }

@@ -82,7 +82,7 @@ class UserOAuth2DetailsService extends DefaultOAuth2UserService implements OAuth
                 .withProvider(userRequest.getClientRegistration().getRegistrationId())
                 .withProviderId(userDetails.getProviderId())
                 .withPassword(StringUtils.EMPTY)
-                .withName(userDetails.getDisplayName())
+                .withName(userDetails.getName())
                 .withDisplayName(userDetails.getDisplayName())
                 .withEmail(userDetails.getEmail())
                 .withAvatar(userDetails.getAvatar())
@@ -92,7 +92,7 @@ class UserOAuth2DetailsService extends DefaultOAuth2UserService implements OAuth
     }
 
     private User updateExistingUser(User user, OAuth2UserDetails userDetails) {
-        user.setName(userDetails.getDisplayName());
+        user.setName(userDetails.getName());
         user.setDisplayName(userDetails.getDisplayName());
         user.setAvatar(userDetails.getAvatar());
 
