@@ -20,6 +20,7 @@ import org.panda_lang.reposilite.depository.AbstractDepositoryOwnerBuilder;
 import org.panda_lang.reposilite.user.role.Role;
 import org.panda_lang.reposilite.utils.Buildable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public final class UserBuilder extends AbstractDepositoryOwnerBuilder<UserBuilder> implements Buildable<User> {
@@ -27,7 +28,7 @@ public final class UserBuilder extends AbstractDepositoryOwnerBuilder<UserBuilde
     private String password;
     private String provider;
     private String providerId;
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     protected UserBuilder() { }
 
@@ -47,7 +48,7 @@ public final class UserBuilder extends AbstractDepositoryOwnerBuilder<UserBuilde
     }
 
     public UserBuilder withRoles(Set<Role> roles) {
-        this.roles = roles;
+        this.roles.addAll(roles);
         return this;
     }
 

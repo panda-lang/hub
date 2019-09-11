@@ -41,7 +41,7 @@ class AuthenticationTokenValidator {
         } catch (SignatureException ex) {
             LOGGER.error("Invalid signature");
         } catch (MalformedJwtException ex) {
-            LOGGER.error("Invalid token");
+            LOGGER.error("Invalid token: { token: " + token + ", secret: " + secretToken + " }");
         } catch (ExpiredJwtException ex) {
             LOGGER.error("Expired token");
         } catch (UnsupportedJwtException ex) {
