@@ -28,13 +28,11 @@ import java.util.stream.Collectors;
 @ShellComponent
 final class RoleCommands {
 
-    private final RoleFactory roleFactory;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public RoleCommands(RoleFactory roleFactory, RoleRepository roleRepository, UserRepository userRepository) {
-        this.roleFactory = roleFactory;
+    public RoleCommands(RoleRepository roleRepository, UserRepository userRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
     }
@@ -60,7 +58,11 @@ final class RoleCommands {
             return "User not found";
         }
 
-        userValue.ifPresent(user -> user.addRole(roleValue.get()));
+        userValue.ifPresent(user -> {
+            user.addRole(roleValue.get());
+            userRepository.save(user);
+        });
+
         return "Set role `" + role + "` for user: " + username;
     }
 
