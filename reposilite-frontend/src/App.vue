@@ -30,6 +30,9 @@
                     <router-link class="navbar-item" to="/repositories">Repositories</router-link>
                 </b-navbar-item>
                 <template v-if="authorized">
+                    <b-navbar-item v-if="this.roles && this.roles.map(value => value.name).includes('ADMIN')">
+                        <router-link class="navbar-item" to="/admin">Admin</router-link>
+                    </b-navbar-item>
                     <b-navbar-item>
                         <a class="navbar-item" href="/" @click="handleLogout">Logout</a >
                     </b-navbar-item>
@@ -57,19 +60,29 @@ import {USER_DETAILS} from "./constants";
 
 export default {
     data: () => ({
-        authorized: false
+        authorized: false,
     }),
     methods: {
         fetchUser() {
-            let that = this
             const accessToken = localStorage.getItem('access_token')
 
             this.$http.get(USER_DETAILS, {headers: {Authorization: `Bearer ${accessToken}`}})
                 .then(response => {
-                    that.authorized = true
-                    return ({ avatar: this.avatar, id: this.identifier, name: this.name, provider: this.provider, providerId: this.providerId, username: this.username, email: this.email } = response.data)
+                    this.authorized = true
+                    console.log(response.data)
+
+                    return ({
+                        avatar: this.avatar,
+                        id: this.identifier,
+                        name: this.name,
+                        provider: this.provider,
+                        providerId: this.providerId,
+                        username: this.username,
+                        email: this.email,
+                        roles: this.roles
+                    } = response.data)
                 }).catch(function(error) {
-                    that.status = false
+                    console.log(error)
                 })
         },
         handleLogout() {

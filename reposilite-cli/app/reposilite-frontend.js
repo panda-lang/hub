@@ -20,8 +20,10 @@ const TextUtils = require('./utils/text-utils')
 class ReposiliteFrontend {
 
     launch() {
-        this.frontend = spawn('npm', [ 'start' ], { cwd: '../reposilite-frontend'})
+        this.frontend = spawn('npm', [ 'run', 'serve' ], { cwd: '../reposilite-frontend'})
         console.log("Launching frontend...")
+
+        this.frontend.stderr.pipe(process.stderr);
 
         this.frontend.stdout.on('data', (data) => {
             console.log(TextUtils.appendSuffix(TextUtils.trimNL(data.toString()), false, '[reposilite-frontend] ', '', (content) => TextUtils.trimNL(content)))
