@@ -61,7 +61,7 @@ class OrganizationBuilderTest {
                 "description='null', " +
                 "email='null', " +
                 "site='null', " +
-                "roles=[]]}}", this.organization.toString());
+                "roles=[]}}", this.organization.toString());
     }
 
 }

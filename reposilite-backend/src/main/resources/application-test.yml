@@ -1,4 +1,6 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://127.0.0.1:0/reposilite
+      host: 127.0.0.1
+      port: 0
+      database: reposilite
