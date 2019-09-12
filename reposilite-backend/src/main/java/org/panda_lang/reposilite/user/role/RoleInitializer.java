@@ -17,6 +17,7 @@
 package org.panda_lang.reposilite.user.role;
 
 import org.panda_lang.panda.utilities.commons.collection.Sets;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,7 @@ final class RoleInitializer implements ApplicationListener<ContextRefreshedEvent
 
     private final RoleRepository roleRepository;
 
+    @Autowired
     public RoleInitializer(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }

@@ -18,6 +18,7 @@ package org.panda_lang.reposilite.user.role;
 
 import com.mongodb.BasicDBObject;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.panda_lang.reposilite.user.User;
@@ -48,10 +49,15 @@ class RoleCommandsIntegrationTest {
     @Autowired
     private RoleFactory roleFactory;
 
+    @BeforeEach
+    void prepareRoles() {
+        roleFactory.obtainRole("ADMIN");
+    }
+
     @Test
     void rolesCommandTest() {
         Object result = this.shell.evaluate(() -> "roles");
-        assertEquals("", result);
+        assertEquals("ADMIN", result);
     }
 
     @Test
@@ -62,21 +68,22 @@ class RoleCommandsIntegrationTest {
         }};
 
         this.mongoTemplate.insert(new BasicDBObject(userDetails), "users");
-        Object result = this.shell.evaluate(() -> "chrole testUser2115 ADMIN");
+        Object result = this.shell.evaluate(() -> "chrole --username testUser2115 --role ADMIN");
+
         User user = this.mongoTemplate.findOne(Query.query(Criteria.where("name").is("testUser2115")), User.class);
+        assertNotNull(user);
 
         assertAll(
                 () -> assertNotNull(this.mongoTemplate.findById("ADMIN", Role.class)),
-                () -> assertNotNull(user),
-                () -> assertTrue(user.getRoles().toString().contains("ADMIN")),
-                () -> assertEquals("Set role `ADMIN` for user: testUser2115", result)
+                () -> assertEquals("Set role `ADMIN` for user: testUser2115", result),
+                () -> assertTrue(user.getRoles().toString().contains("ADMIN"))
         );
     }
 
     @Test
     void setRoleCommandWhenUserNotFound() {
-        Object result = this.shell.evaluate(() -> "chrole testUser1337 ADMIN");
-        assertEquals("User not found!", result);
+        Object result = this.shell.evaluate(() -> "chrole --username testUser1337 --role ADMIN");
+        assertEquals("User not found", result);
     }
 
     @AfterEach
