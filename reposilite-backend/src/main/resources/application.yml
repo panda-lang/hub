@@ -25,9 +25,6 @@ springfox:
 spring:
   main:
     banner-mode: "off"
-  data:
-    mongodb:
-      uri: mongodb://username:password@host:port/database
   security:
     oauth2:
       client:
