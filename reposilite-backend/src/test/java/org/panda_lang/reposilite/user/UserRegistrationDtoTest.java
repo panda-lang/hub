@@ -37,7 +37,7 @@ class UserRegistrationDtoTest {
                 "description='null', " +
                 "email='test@test', " +
                 "site='null', " +
-                "roles=null}", user.toString());
+                "roles=[]}", user.toString());
     }
 
 }
