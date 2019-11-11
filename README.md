@@ -35,7 +35,7 @@ reposilite
 +--docs                            Reposilite Docs - Details about contributing and specification
 +--reposilite-backend              Reposilite Backend - Java + Spring
 +--reposilite-cli                  Reposilite CLI - JavaScript + Node.js
-+--reposilite-frontend             Reposilite Frontend - JavaScript + Vue
++--reposilite-frontend             Reposilite Frontend - TypeScript + React
 +--reposilite-workspace            Reposilite Workspace
 ```
 
