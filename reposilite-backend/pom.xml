@@ -109,7 +109,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
-            <version>5.2.1.RELEASE</version>
+            <version>5.2.0.RELEASE</version>
         </dependency>
                 <dependency>
             <groupId>io.jsonwebtoken</groupId>
