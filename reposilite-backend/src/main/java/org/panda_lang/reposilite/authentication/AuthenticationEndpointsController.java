@@ -16,8 +16,6 @@
 
 package org.panda_lang.reposilite.authentication;
 
-import org.panda_lang.reposilite.authentication.dto.SignInDto;
-import org.panda_lang.reposilite.authentication.dto.SignUpDto;
 import org.panda_lang.reposilite.user.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

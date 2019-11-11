@@ -16,7 +16,7 @@
 
 package org.panda_lang.reposilite.user;
 
-import org.panda_lang.reposilite.authentication.dto.SignUpDto;
+import org.panda_lang.reposilite.authentication.SignUpDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;

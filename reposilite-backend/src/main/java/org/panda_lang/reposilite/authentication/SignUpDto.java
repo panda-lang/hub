@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.authentication.dto;
+package org.panda_lang.reposilite.authentication;
 
 import org.panda_lang.reposilite.utils.entity.JsonDto;
 

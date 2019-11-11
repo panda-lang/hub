@@ -58,7 +58,7 @@ class UserOAuth2DetailsService extends DefaultOAuth2UserService implements OAuth
             throw new RuntimeException("There is no user with that email in provider's system");
         }
 
-        Optional<User> optionalUser = this.userRepository.findByName(userDetails.getDisplayName());
+        Optional<User> optionalUser = this.userRepository.findByName(userDetails.getName());
         User user;
 
         if (optionalUser.isPresent()) {

@@ -27,6 +27,9 @@
                     <router-link class="navbar-item" to="/about">About</router-link>
                 </b-navbar-item>
                 <b-navbar-item>
+                    <router-link class="navbar-item" to="/news">News</router-link>
+                </b-navbar-item>
+                <b-navbar-item>
                     <router-link class="navbar-item" to="/repositories">Repositories</router-link>
                 </b-navbar-item>
                 <template v-if="authorized">
@@ -65,6 +68,10 @@ export default {
     methods: {
         fetchUser() {
             const accessToken = localStorage.getItem('access_token')
+
+            if (accessToken == null) {
+                return
+            }
 
             this.$http.get(USER_DETAILS, {headers: {Authorization: `Bearer ${accessToken}`}})
                 .then(response => {

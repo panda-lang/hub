@@ -39,6 +39,11 @@ export default new Router({
             component: () => import('./views/Login.vue')
         },
         {
+            path: '/news',
+            name: 'News',
+            component: () => import('./views/News.vue')
+        },
+        {
             path: '/register',
             name: 'Register',
             component: () => import('./views/Register.vue')

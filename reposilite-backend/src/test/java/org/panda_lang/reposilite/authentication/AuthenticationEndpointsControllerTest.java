@@ -24,8 +24,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.panda_lang.reposilite.authentication.dto.SignInDto;
-import org.panda_lang.reposilite.authentication.dto.SignUpDto;
 import org.panda_lang.reposilite.user.UserFacade;
 import org.panda_lang.reposilite.utils.AbstractDtoUtils;
 import org.springframework.security.authentication.AuthenticationManager;

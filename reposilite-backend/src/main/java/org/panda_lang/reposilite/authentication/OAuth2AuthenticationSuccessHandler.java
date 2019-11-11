@@ -53,7 +53,8 @@ class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessH
     }
 
     private String obtainRedirectUri(Authentication authentication, HttpServletRequest servletRequest) {
-        Optional<String> optionalRedirectUrl = CookieHelper.obtainCookie(OAuth2AuthorizationRequestRepository.REDIRECT_URI_COOKIE_NAME, servletRequest.getCookies())
+        Optional<String> optionalRedirectUrl = CookieHelper
+                .obtainCookie(OAuth2AuthorizationRequestRepository.REDIRECT_URI_COOKIE_NAME, servletRequest.getCookies())
                 .map(Cookie::getValue);
 
         if (optionalRedirectUrl.isPresent() && !this.isAuthorizedRedirectUri(optionalRedirectUrl.get())) {
