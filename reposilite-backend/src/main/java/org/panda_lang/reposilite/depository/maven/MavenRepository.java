@@ -16,9 +16,9 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
 import org.panda_lang.reposilite.ReposiliteApplication;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
+import org.panda_lang.utilities.commons.collection.map.TreemapNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.ContextRefreshedEvent;

@@ -18,8 +18,7 @@ package org.panda_lang.reposilite;
 
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.panda_lang.utilities.commons.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;

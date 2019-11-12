@@ -21,6 +21,11 @@ import org.panda_lang.reposilite.depository.DepositorySubService;
 public interface NpmService extends DepositorySubService {
 
     @Override
+    default boolean isEnabled() {
+        return false;
+    }
+
+    @Override
     default String getName() {
         return "npm";
     }

@@ -19,11 +19,13 @@ package org.panda_lang.reposilite.user;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.panda_lang.panda.utilities.commons.collection.Sets;
 import org.panda_lang.reposilite.user.role.Role;
+import org.panda_lang.utilities.commons.collection.Sets;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 class UserBuilderTest {

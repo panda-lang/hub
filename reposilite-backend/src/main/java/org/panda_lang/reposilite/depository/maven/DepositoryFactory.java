@@ -16,10 +16,10 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.commons.collection.map.TreeNode;
 import org.panda_lang.reposilite.ReposiliteApplication;
 import org.panda_lang.reposilite.utils.FilesUtils;
+import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.collection.map.TreeNode;
 
 import java.io.File;
 import java.util.HashSet;

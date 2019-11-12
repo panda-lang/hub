@@ -16,10 +16,10 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import org.panda_lang.reposilite.ReposiliteApplication;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
+import org.panda_lang.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 final class MavenUtils {
 

@@ -37,6 +37,15 @@ public interface DepositorySubService {
     Set<? extends DepositoryEntity> getEntities();
 
     /**
+     * Check if service is enabled
+     *
+     * @return true if enabled, otherwise false
+     */
+    default boolean isEnabled() {
+        return true;
+    }
+
+    /**
      * Get sub service name
      *
      * @return the name of sub service

@@ -17,8 +17,8 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
+import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.Optional;
 

@@ -1,6 +1,12 @@
 reposilite:
   workspace: "reposilite-backend/src/test/workspace"
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 spring:
   data:
     mongodb:

@@ -17,8 +17,8 @@
 package org.panda_lang.reposilite.user;
 
 import org.bson.types.ObjectId;
-import org.panda_lang.panda.utilities.commons.collection.Sets;
 import org.panda_lang.reposilite.user.role.RoleFactory;
+import org.panda_lang.utilities.commons.collection.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,4 +72,5 @@ final class UserCrudServiceImpl implements UserCrudService {
     public boolean existsById(ObjectId objectId) {
         return this.userRepository.existsById(objectId);
     }
+
 }

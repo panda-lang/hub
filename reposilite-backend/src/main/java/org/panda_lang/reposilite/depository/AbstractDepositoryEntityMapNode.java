@@ -16,8 +16,8 @@
 
 package org.panda_lang.reposilite.depository;
 
-import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
-import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
+import org.panda_lang.utilities.commons.collection.map.TreemapNode;
+import org.panda_lang.utilities.commons.iterable.ArrayDistributor;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
