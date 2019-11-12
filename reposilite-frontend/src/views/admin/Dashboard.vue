@@ -15,7 +15,7 @@
   -->
 
 <template>
-    <div class="about">
-        <h4>About</h4>
+    <div class="admin-dashboard">
+        <h4>Dashboard</h4>
     </div>
 </template>
