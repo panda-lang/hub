@@ -15,5 +15,20 @@
   -->
 
 <template>
+    <div class="admin">
+        <b-navbar class="admin-menu">
+            <template slot="brand">
+                <b-navbar-item><router-link to="/admin">Dashboard</router-link></b-navbar-item>
+                <b-navbar-item><router-link to="/admin/traffic">Traffic</router-link></b-navbar-item>
+                <b-navbar-item><router-link to="/admin/upload">Upload</router-link></b-navbar-item>
+                <b-navbar-item><router-link to="/admin/settings">Settings</router-link></b-navbar-item>
+            </template>
+        </b-navbar>
 
+        <hr>
+
+        <router-view></router-view>
+
+        <hr>
+    </div>
 </template>
