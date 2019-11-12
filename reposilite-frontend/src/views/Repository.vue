@@ -22,7 +22,7 @@
                 <router-link :to="'/repository/' + (qualifier ? qualifier + '/' : '') + entity" @click="updateEntities">&bull; {{ entity }}</router-link>
             </li>
         </ul>
-        <p v-else>Error {{ error }}</p>
+        <p v-else>{{ error }}</p>
 
         <template v-if="qualifier">
             <br>
@@ -60,7 +60,14 @@ export default {
 
                     return (this.entities = response.data)
                 })
-                //.catch(error => (this.error = error.response.status))
+                .catch(error => {
+                    if (error.response.status === 404) {
+                        this.error = 'Empty directory'
+                    }
+                    else {
+                        (this.error = error.response.status)
+                    }
+                })
         },
         toFormattedPath(path) {
             const firstOccuranceIndex = path.search(/\//) + 1

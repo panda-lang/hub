@@ -76,6 +76,11 @@ export default new Router({
             component: () => import('./views/Repositories.vue')
         },
         {
+            path: '/repository',
+            name: 'Repositories Redirect',
+            redirect: '/repositories'
+        },
+        {
             path: '/repository/:qualifier(.*)',
             name: 'Repository',
             component: () => import('./views/Repository.vue')
