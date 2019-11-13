@@ -17,18 +17,28 @@
 package org.panda_lang.reposilite.depository.panda;
 
 import io.swagger.annotations.ApiOperation;
+import org.panda_lang.reposilite.depository.AbstractSubServiceController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @ApiOperation("/api/repository/panda")
 @RestController
-class PandaController {
-
-    private final PandaService pandaService;
+class PandaController extends AbstractSubServiceController<PandaService> {
 
     @Autowired
     PandaController(PandaService pandaService) {
-        this.pandaService = pandaService;
+        super(pandaService);
+    }
+
+    @GetMapping("/**")
+    public ResponseEntity<Object> projects(HttpServletRequest request,  HttpServletResponse response) throws IOException {
+        return super.getEntity(request, response);
     }
 
 }

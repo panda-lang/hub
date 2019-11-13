@@ -14,25 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
-
-import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.panda_lang.reposilite.depository.FileDepositoryEntity;
+package org.panda_lang.reposilite.depository;
 
 import java.io.File;
 
-public final class Data extends AbstractDepositoryEntity implements FileDepositoryEntity {
+public interface FileDepositoryEntity extends DepositoryEntity {
 
-    private final File file;
-
-    Data(File file) {
-        super(file.getName());
-        this.file = file;
-    }
-
-    @Override
-    public File getFile() {
-        return file;
-    }
+    File getFile();
 
 }
