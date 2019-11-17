@@ -17,7 +17,6 @@
 package org.panda_lang.reposilite.depository;
 
 import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.collection.map.TreemapNode;
 
 import java.util.Collection;
 import java.util.Map;
@@ -28,11 +27,11 @@ import java.util.stream.Stream;
 public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
     private final String name;
-    private final AbstractDepositoryEntityMapNode node;
+    private final DepositoryTree<?> node;
 
     protected AbstractDepositoryEntity(String name) {
         this.name = name;
-        this.node = new AbstractDepositoryEntityMapNode(this, DepositoryEntity::getName);
+        this.node = new DepositoryTree<>(this, DepositoryEntity::getName);
     }
 
     @Override
@@ -45,11 +44,17 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
         node.add(entity.getNode());
     }
 
+    @Override
+    public Optional<DepositoryEntity> getChild(String name) {
+        return Optional.ofNullable(node.get(name));
+    }
+
     protected <T extends DepositoryEntity> Map<String, ? extends T> getMappedChildrenOfType(Class<T> type) {
         return streamOfType(type).collect(Collectors.toMap(DepositoryEntity::getName, element -> element));
     }
 
-    public TreemapNode<DepositoryEntity> getNode() {
+    @Override
+    public DepositoryTree<?> getNode() {
         return node;
     }
 
@@ -65,8 +70,8 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
         return toEntitiesStream().collect(Collectors.toList());
     }
 
-    private Stream<DepositoryEntity> toEntitiesStream() {
-        return node.getChildren().stream().map(TreemapNode::getElement);
+    private Stream<? extends DepositoryEntity> toEntitiesStream() {
+        return node.getChildren().stream().map(DepositoryTree::getElement);
     }
 
     @Override

@@ -48,11 +48,6 @@ class ReposiliteConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public File mavenRepositoryDirectory(@Qualifier("repositoriesDirectory") File repositories) {
-        return new File(repositories, "maven");
-    }
-
-    @Bean
     public PromptProvider shellPrompt() {
         return () -> new AttributedString("reposilite:> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN));
     }

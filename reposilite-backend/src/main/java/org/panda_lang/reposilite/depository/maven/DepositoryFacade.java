@@ -17,15 +17,18 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.ReposiliteApplication;
+import org.panda_lang.reposilite.depository.DepositoryUtils;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.collection.map.TreeNode;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-final class DepositoryFactory {
+@Service
+final class DepositoryFacade {
 
     public Set<Depository> loadDepositories(File root) {
         Set<Depository> depositories = new HashSet<>();
@@ -74,7 +77,7 @@ final class DepositoryFactory {
             load(depository, groupFactory, leafFile);
         }
 
-        MavenUtils.print(depository);
+        DepositoryUtils.print(depository);
     }
 
     private void load(Depository depository, GroupFactory groupFactory, File file) {

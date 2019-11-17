@@ -17,30 +17,25 @@
 package org.panda_lang.reposilite.depository.panda;
 
 import org.panda_lang.reposilite.depository.DepositoryEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.panda_lang.reposilite.depository.utils.DepositoryPathMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.io.File;
+import java.util.Map;
 
 @Service
-class PandaServiceImpl implements PandaService {
+final class PackageFacade {
 
-    private final PandaRepository repository;
+    private static final String PATTERN = "{owner}/{project}/builds/{build}";
 
-    @Autowired
-    PandaServiceImpl(PandaRepository repository) {
-        this.repository = repository;
-    }
+    Map<String, DepositoryEntity> loadPackages(File packagesRoot) {
+        DepositoryPathMapper mapper = new DepositoryPathMapper(PATTERN)
+                .registerExtensions("zip", "proxy")
+                .registerMapper("{owner}", (parent, name) -> new OwnerEntity(name))
+                .registerMapper("{project}", (parent, name) -> new ProjectEntity(name))
+                .registerMapper("{build}", (parent, name) -> new BuildEntity(name));
 
-    @Override
-    public Optional<DepositoryEntity> findEntity(String entityQualifier) {
-        return this.repository.findEntityByURLPath(entityQualifier);
-    }
-
-    @Override
-    public Collection<? extends DepositoryEntity> getEntities() {
-        return repository.getOwners();
+        return mapper.map(packagesRoot);
     }
 
 }

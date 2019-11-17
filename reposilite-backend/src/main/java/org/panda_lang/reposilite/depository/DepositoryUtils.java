@@ -14,41 +14,37 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.depository;
 
 import org.panda_lang.reposilite.ReposiliteApplication;
-import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.utilities.commons.StringUtils;
-import org.panda_lang.utilities.commons.text.ContentJoiner;
 
-final class MavenUtils {
+public final class DepositoryUtils {
 
-    private MavenUtils() { }
+    private DepositoryUtils() { }
 
-    static void print(Depository depository) {
+    public static void print(DepositoryEntity depository) {
         ReposiliteApplication.getLogger().info("└── " + depository.getName());
 
-        for (Group group : depository.getGroups()) {
+        for (DepositoryEntity group : depository.getChildren()) {
             printEntity(1, group);
         }
     }
 
     private static void printEntity(int level, DepositoryEntity entity) {
-        if (entity instanceof Artifact) {
-            Artifact artifact = (Artifact) entity;
-            ReposiliteApplication.getLogger().info(StringUtils.buildSpace((level - 1) * 3) + "│  ├── " + artifact.getName() + " { " + ContentJoiner.on(", ").join(artifact.getVersions()) + " }");
+        if (entity instanceof ProjectDepositoryEntity) {
+            ReposiliteApplication.getLogger().info(StringUtils.buildSpace((level - 1) * 3) + "│  ├── " + entity);
+            return;
         }
-        else if (entity instanceof Group) {
-            ReposiliteApplication.getLogger().info(StringUtils.buildSpace(level * 3) + "├── " + entity.getName());
-            Group group = (Group) entity;
 
-            for (DepositoryEntity child : group.getChildren()) {
-                printEntity(level + 1, child);
-            }
+        ReposiliteApplication.getLogger().info(StringUtils.buildSpace(level * 3) + "├── " + entity.getName());
+
+        for (DepositoryEntity child : entity.getChildren()) {
+            printEntity(level + 1, child);
         }
     }
 
-    static int lastIndexOf(String text, String element, int toIndex) {
+    public static int lastIndexOf(String text, String element, int toIndex) {
         if (toIndex < 0) {
             return -1;
         }

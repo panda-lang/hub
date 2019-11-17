@@ -18,7 +18,7 @@ package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.ReposiliteApplication;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
-import org.panda_lang.utilities.commons.collection.map.TreemapNode;
+import org.panda_lang.reposilite.depository.DepositoryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -37,34 +37,34 @@ import java.util.stream.Collectors;
 @Repository
 class MavenRepository {
 
+    private final DepositoryFacade facade;
     private final File repositoriesRoot;
-    private final Map<String, TreemapNode<? extends Depository>> depositories;
+    private final Map<String, DepositoryTree<? extends Depository>> depositories;
 
     @Autowired
-    public MavenRepository(@Qualifier("mavenRepositoryDirectory") File repositoriesRoot) {
-        this.repositoriesRoot = repositoriesRoot;
+    public MavenRepository(DepositoryFacade facade, @Qualifier("repositoriesDirectory") File repositoriesRoot) {
+        this.facade = facade;
+        this.repositoriesRoot = new File(repositoriesRoot, "maven");
         this.depositories = new HashMap<>();
     }
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         ReposiliteApplication.getLogger().info("Loading maven repositories from " + repositoriesRoot + "...");
-
-        DepositoryFactory factory = new DepositoryFactory();
-        Collection<Depository> loadedDepositories = factory.loadDepositories(this.repositoriesRoot);
+        Collection<Depository> loadedDepositories = facade.loadDepositories(this.repositoriesRoot);
 
         for (Depository loadedDepository : loadedDepositories) {
-            TreemapNode node = loadedDepository.getNode();
+            DepositoryTree<?> node = loadedDepository.getNode();
             //noinspection unchecked
-            this.depositories.put(loadedDepository.getName(), (TreemapNode<? extends Depository>) node);
+            this.depositories.put(loadedDepository.getName(), (DepositoryTree<? extends Depository>) node);
         }
 
-        if (this.depositories.isEmpty()) {
+        if (depositories.isEmpty()) {
             ReposiliteApplication.getLogger().warn("Repositories not found!");
             return;
         }
 
-        ReposiliteApplication.getLogger().info("Result: " + this.depositories.size() + " repositories have been found");
+        ReposiliteApplication.getLogger().info(depositories.size() + " maven repositories have been found");
     }
 
     public @Nullable DepositoryEntity findEntityByURLPath(String uri) {
@@ -84,12 +84,12 @@ class MavenRepository {
         return entity.orElse(null);
     }
 
-    private @Nullable TreemapNode<? extends DepositoryEntity> findDepositoryNodeByName(String name) {
+    private @Nullable DepositoryTree<? extends Depository> findDepositoryNodeByName(String name) {
         return this.depositories.get(name);
     }
 
     public @Nullable Depository findDepositoryByName(String name) {
-        TreemapNode<? extends Depository> node = depositories.get(name);
+        DepositoryTree<? extends Depository> node = findDepositoryNodeByName(name);
 
         if (node == null) {
             return null;
@@ -100,7 +100,7 @@ class MavenRepository {
 
     public Set<Depository> findAll() {
         return this.depositories.values().stream()
-                .map(TreemapNode::getElement)
+                .map(DepositoryTree::getElement)
                 .collect(Collectors.toSet());
     }
 

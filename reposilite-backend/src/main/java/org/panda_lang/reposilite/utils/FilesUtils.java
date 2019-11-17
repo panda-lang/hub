@@ -31,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 public final class FilesUtils {
 
@@ -69,7 +70,7 @@ public final class FilesUtils {
     }
 
     public static File getMostRecentDirectory(Path directoryPath) {
-        return Arrays.stream(directoryPath.toFile().listFiles())
+        return Arrays.stream(Objects.requireNonNull(directoryPath.toFile().listFiles()))
                 .filter(File::isDirectory)
                 .max(Comparator.comparingLong(File::lastModified))
                 .orElseGet(null);

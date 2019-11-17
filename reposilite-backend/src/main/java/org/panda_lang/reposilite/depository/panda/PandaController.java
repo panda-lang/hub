@@ -21,6 +21,8 @@ import org.panda_lang.reposilite.depository.AbstractSubServiceController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +38,14 @@ class PandaController extends AbstractSubServiceController<PandaService> {
         super(pandaService);
     }
 
+    @PutMapping("/**")
+    public ResponseEntity<Object> put(@RequestBody Object object) throws IOException {
+        System.out.println(object);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/**")
-    public ResponseEntity<Object> projects(HttpServletRequest request,  HttpServletResponse response) throws IOException {
+    public ResponseEntity<Object> get(HttpServletRequest request,  HttpServletResponse response) throws IOException {
         return super.getEntity(request, response);
     }
 

@@ -100,7 +100,7 @@ class MavenController extends AbstractSubServiceController<MavenService> {
             @ApiResponse(code = 204, message = "Successfully updated")
     })
     @PutMapping("/{repository}/**")
-    public ResponseEntity<Object> addArtifact(@PathVariable String repository, @RequestBody MultipartFile file, HttpServletRequest request) throws IOException {
+    public ResponseEntity<Object> putArtifact(@PathVariable String repository, @RequestBody MultipartFile file, HttpServletRequest request) throws IOException {
         if (!SUPPORTED_EXTENSIONS.containsKey(FilenameUtils.getExtension(file.getOriginalFilename()))) {
             return ResponseEntity.badRequest().build();
         }

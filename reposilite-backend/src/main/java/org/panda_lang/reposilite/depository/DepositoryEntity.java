@@ -16,8 +16,6 @@
 
 package org.panda_lang.reposilite.depository;
 
-import org.panda_lang.utilities.commons.collection.map.TreemapNode;
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,6 +44,14 @@ public interface DepositoryEntity {
      * @param child the entity to add
      */
     void addEntity(DepositoryEntity child);
+
+    /**
+     * Check if entity has child with the given name
+     *
+     * @param name the name to check for
+     * @return true if entity has
+     */
+    Optional<DepositoryEntity> getChild(String name);
 
     /**
      * Get collection of child entities of the requested type
@@ -77,7 +83,7 @@ public interface DepositoryEntity {
      *
      * @return the node
      */
-    TreemapNode<DepositoryEntity> getNode();
+    DepositoryTree<?> getNode();
 
     /**
      * Get name used in addresses
