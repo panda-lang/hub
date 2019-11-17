@@ -21,7 +21,7 @@ import org.panda_lang.reposilite.depository.FileDepositoryEntity;
 
 import java.io.File;
 
-public final class Data extends AbstractDepositoryEntity implements FileDepositoryEntity {
+final class Data extends AbstractDepositoryEntity implements FileDepositoryEntity {
 
     private final File file;
 

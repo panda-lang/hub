@@ -17,91 +17,40 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.ReposiliteApplication;
-import org.panda_lang.reposilite.depository.DepositoryEntity;
-import org.panda_lang.reposilite.depository.DepositoryTree;
+import org.panda_lang.reposilite.depository.AbstractDepositoryRepository;
+import org.panda_lang.reposilite.depository.utils.DepositoryPathMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
-class MavenRepository {
+class MavenRepository extends AbstractDepositoryRepository<Depository> {
 
-    private final DepositoryFacade facade;
-    private final File repositoriesRoot;
-    private final Map<String, DepositoryTree<? extends Depository>> depositories;
+    private static final String PATTERN = "{repository}/{*group}/{artifact}/{version}/{build}";
 
     @Autowired
-    public MavenRepository(DepositoryFacade facade, @Qualifier("repositoriesDirectory") File repositoriesRoot) {
-        this.facade = facade;
-        this.repositoriesRoot = new File(repositoriesRoot, "maven");
-        this.depositories = new HashMap<>();
+    public MavenRepository(@Qualifier("repositoriesDirectory") File repositoriesRoot) {
+        super(new File(repositoriesRoot, "maven"));
     }
 
-    @EventListener
-    public void seed(ContextRefreshedEvent event) {
-        ReposiliteApplication.getLogger().info("Loading maven repositories from " + repositoriesRoot + "...");
-        Collection<Depository> loadedDepositories = facade.loadDepositories(this.repositoriesRoot);
+    @Override
+    public DepositoryPathMapper initializeMapper() {
+        ReposiliteApplication.getLogger().info("Loading maven repositories from " + super.getRepositoryRoot() + "...");
 
-        for (Depository loadedDepository : loadedDepositories) {
-            DepositoryTree<?> node = loadedDepository.getNode();
-            //noinspection unchecked
-            this.depositories.put(loadedDepository.getName(), (DepositoryTree<? extends Depository>) node);
-        }
-
-        if (depositories.isEmpty()) {
-            ReposiliteApplication.getLogger().warn("Repositories not found!");
-            return;
-        }
-
-        ReposiliteApplication.getLogger().info(depositories.size() + " maven repositories have been found");
+        return new DepositoryPathMapper(PATTERN)
+                .registerExtensions("jar", "xml", "pom")
+                .registerMapper("{repository}", (file, parent, name) -> new Depository(new File(super.getRepositoryRoot(), name)))
+                .registerMapper("{group}", (file, parent, name) -> new Group(name))
+                .registerMapper("{artifact}", (file, parent, name) -> new Artifact(name))
+                .registerMapper("{version}", (file, parent, name) -> new Build(name))
+                .registerMapper("{build}", (file, parent, name) -> new Data(file));
     }
 
-    public @Nullable DepositoryEntity findEntityByURLPath(String uri) {
-        int index = uri.indexOf('/');
-        Depository depository = findDepositoryByName(index == -1 ? uri : uri.substring(0, index));
-
-        if (index == -1 || depository == null) {
-            return depository;
-        }
-
-        Optional<DepositoryEntity> entity = depository.find(uri.substring(index + 1));
-
-        if (!entity.isPresent()) {
-            entity = depository.find(uri);
-        }
-
-        return entity.orElse(null);
-    }
-
-    private @Nullable DepositoryTree<? extends Depository> findDepositoryNodeByName(String name) {
-        return this.depositories.get(name);
-    }
-
-    public @Nullable Depository findDepositoryByName(String name) {
-        DepositoryTree<? extends Depository> node = findDepositoryNodeByName(name);
-
-        if (node == null) {
-            return null;
-        }
-
-        return node.getElement();
-    }
-
-    public Set<Depository> findAll() {
-        return this.depositories.values().stream()
-                .map(DepositoryTree::getElement)
-                .collect(Collectors.toSet());
+    @Override
+    public void onLoad() {
+        ReposiliteApplication.getLogger().info(getEntities().size() + " maven repositories have been found");
     }
 
 }

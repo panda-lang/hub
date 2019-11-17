@@ -58,9 +58,9 @@ class PandaControllerTest {
 
     @Test
     void shouldReturn200AndChildNodesWhenDepositoryPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get(PATH + "/dzikoysk/"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get(PATH + "/dzikoysk"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[ 'project1', 'project2' ]"));
+                .andExpect(content().json("[ 'another-project', 'example-project' ]"));
     }
 
 }

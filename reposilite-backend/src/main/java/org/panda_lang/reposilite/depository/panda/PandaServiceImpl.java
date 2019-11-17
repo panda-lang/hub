@@ -34,13 +34,13 @@ class PandaServiceImpl implements PandaService {
     }
 
     @Override
-    public Optional<DepositoryEntity> findEntity(String entityQualifier) {
+    public Optional<? extends DepositoryEntity> findEntity(String entityQualifier) {
         return this.repository.findEntityByURLPath(entityQualifier);
     }
 
     @Override
     public Collection<? extends DepositoryEntity> getEntities() {
-        return repository.getOwners();
+        return repository.findAll();
     }
 
 }

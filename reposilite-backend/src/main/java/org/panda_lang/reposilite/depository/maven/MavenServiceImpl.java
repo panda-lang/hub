@@ -73,13 +73,13 @@ final class MavenServiceImpl implements MavenService {
     }
 
     @Override
-    public Optional<DepositoryEntity> findEntity(String entityQualifier) {
-        return Optional.ofNullable(this.mavenRepository.findEntityByURLPath(entityQualifier));
+    public Optional<? extends DepositoryEntity> findEntity(String entityQualifier) {
+        return this.mavenRepository.findEntityByURLPath(entityQualifier);
     }
 
     @Override
     public Optional<Depository> getDepository(String name) {
-        return Optional.ofNullable(this.mavenRepository.findDepositoryByName(name));
+        return this.mavenRepository.findEntityByName(name);
     }
 
     @Override

@@ -27,7 +27,7 @@ public interface DepositorySubService {
      * @param entityQualifier the qualifier to search for
      * @return the found entity
      */
-    Optional<DepositoryEntity> findEntity(String entityQualifier);
+    Optional<? extends DepositoryEntity> findEntity(String entityQualifier);
 
     /**
      * Get all available entities

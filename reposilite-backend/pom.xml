@@ -196,13 +196,6 @@
             <version>3.9</version>
         </dependency>
 
-        <!-- Annotations -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>17.0.0</version>
-        </dependency>
-
         <!-- Tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

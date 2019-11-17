@@ -20,14 +20,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.io.File;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,10 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class ArtifactControllerIntegrationTest {
-
-    @Autowired
-    @Qualifier("workspaceDirectory")
-    private File workspace;
 
     @Autowired
     private MavenController mavenController;
@@ -60,7 +53,7 @@ class ArtifactControllerIntegrationTest {
     void shouldReturn200AndChildNodesWhenArtifactPresent() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[ 'indev-0.8.0', 'indev-0.8.87' ]"));
+                .andExpect(content().json("[ 'indev-0.8.0', 'indev-0.8.87', 'maven-metadata.xml' ]"));
     }
 
 }

@@ -86,13 +86,6 @@ public interface DepositoryEntity {
     DepositoryTree<?> getNode();
 
     /**
-     * Get name used in addresses
-     *
-     * @return the uri name
-     */
-    String getURIName();
-
-    /**
      * Get display name of entity
      *
      * @return the name

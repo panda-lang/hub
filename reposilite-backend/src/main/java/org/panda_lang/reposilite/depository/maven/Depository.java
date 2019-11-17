@@ -17,10 +17,13 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
+import org.panda_lang.reposilite.depository.DepositoryEntity;
+import org.panda_lang.utilities.commons.StringUtils;
 import org.springframework.lang.Nullable;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Optional;
 
 public final class Depository extends AbstractDepositoryEntity {
 
@@ -29,6 +32,35 @@ public final class Depository extends AbstractDepositoryEntity {
     Depository(File root) {
         super(root.getName());
         this.root = root;
+    }
+
+    protected Group createIfAbsent(String groupName) {
+        String[] units = StringUtils.split(groupName, ".");
+        Group previousGroup = createIfAbsent(this, units[0]);
+
+        for (int index = 1; index < units.length && previousGroup != null; index++) {
+            previousGroup = createIfAbsent(previousGroup, units[index]);
+        }
+
+        return previousGroup;
+    }
+
+    private @Nullable Group createIfAbsent(DepositoryEntity parent, String name) {
+        Optional<DepositoryEntity> entityValue = parent.find(name);
+
+        if (!entityValue.isPresent()) {
+            Group group = new Group(name);
+            parent.addEntity(group);
+            return group;
+        }
+
+        DepositoryEntity entity = entityValue.get();
+
+        if (entity instanceof Group) {
+            return (Group) entity;
+        }
+
+        return null;
     }
 
     public @Nullable Group getGroup(String groupName) {

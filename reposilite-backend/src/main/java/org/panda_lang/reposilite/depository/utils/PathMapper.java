@@ -18,10 +18,11 @@ package org.panda_lang.reposilite.depository.utils;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.reposilite.depository.DepositoryEntity;
+import org.panda_lang.utilities.commons.function.TriFunction;
 
-import java.util.function.BiFunction;
+import java.io.File;
 
 @FunctionalInterface
-public interface PathMapper extends BiFunction<@Nullable DepositoryEntity, String, DepositoryEntity> {
+public interface PathMapper extends TriFunction<File, @Nullable DepositoryEntity, String, DepositoryEntity> {
 
 }

@@ -17,62 +17,42 @@
 package org.panda_lang.reposilite.depository.panda;
 
 import org.panda_lang.reposilite.ReposiliteApplication;
-import org.panda_lang.reposilite.depository.DepositoryEntity;
-import org.panda_lang.reposilite.depository.DepositoryUtils;
+import org.panda_lang.reposilite.depository.AbstractDepositoryRepository;
+import org.panda_lang.reposilite.depository.utils.DepositoryPathMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 
 @Repository
-class PandaRepository {
+class PandaRepository extends AbstractDepositoryRepository<OwnerEntity> {
 
-    private final PackageFacade facade;
-    private final File packagesRoot;
-    private final Map<String, OwnerEntity> owners = new HashMap<>();
+    private static final String PATTERN = "{owner}/{project}/builds/{build}";
 
     @Autowired
-    PandaRepository(PackageFacade facade, @Qualifier("repositoriesDirectory") File packagesRoot) {
-        this.facade = facade;
-        this.packagesRoot = new File(packagesRoot, "panda");
+    PandaRepository(@Qualifier("repositoriesDirectory") File packagesRoot) {
+        super(new File(packagesRoot, "panda"));
     }
 
-    @EventListener
-    public void seed(ContextRefreshedEvent event) {
-        ReposiliteApplication.getLogger().info("Loading Panda packages from " + packagesRoot + "...");
-        Map<String, DepositoryEntity> entities = facade.loadPackages(packagesRoot);
+    @Override
+    public DepositoryPathMapper initializeMapper() {
+        ReposiliteApplication.getLogger().info("Loading Panda packages from " + super.getRepositoryRoot() + "...");
 
-        for (Entry<String, DepositoryEntity> entity : entities.entrySet()) {
-            owners.put(entity.getKey(), (OwnerEntity) entity.getValue());
-            DepositoryUtils.print(entity.getValue());
-        }
+        return new DepositoryPathMapper(PATTERN)
+                .registerExtensions("zip", "proxy")
+                .registerMapper("{owner}", (file, parent, name) -> new OwnerEntity(name))
+                .registerMapper("{project}", (file, parent, name) -> new ProjectEntity(name))
+                .registerMapper("{build}", (file, parent, name) -> new BuildEntity(file));
+    }
 
-        if (owners.isEmpty()) {
-            ReposiliteApplication.getLogger().warn("Repositories not found!");
-            return;
-        }
-
-        long sum = owners.values().stream()
+    @Override
+    public void onLoad() {
+        long sum = getEntities().values().stream()
                 .mapToLong(entity -> entity.getChildren().size())
                 .sum();
 
         ReposiliteApplication.getLogger().info(sum + " panda packages have been found");
-    }
-
-    Optional<DepositoryEntity> findEntityByURLPath(String entityQualifier) {
-        return Optional.empty();
-    }
-
-    Collection<? extends OwnerEntity> getOwners() {
-        return owners.values();
     }
 
 }

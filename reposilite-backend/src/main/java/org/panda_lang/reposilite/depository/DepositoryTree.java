@@ -16,8 +16,8 @@
 
 package org.panda_lang.reposilite.depository;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.utilities.commons.iterable.ArrayDistributor;
+import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -45,7 +45,7 @@ public abstract class AbstractSubServiceController<T extends DepositorySubServic
 
     protected ResponseEntity<Object> getEntity(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String entityQualifier = RequestUtils.extractWildcard(request);
-        Optional<DepositoryEntity> entityValue = service.findEntity(entityQualifier);
+        Optional<? extends DepositoryEntity> entityValue = service.findEntity(entityQualifier);
 
         if (!entityValue.isPresent()) {
             return ResponseEntity.notFound().build();

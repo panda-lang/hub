@@ -48,7 +48,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@ApiOperation("Operations pertaining to Maven repositories")
+@ApiOperation("Operations pertaining to the Maven repositories")
 @RequestMapping("api/repository/maven")
 @RestController
 class MavenController extends AbstractSubServiceController<MavenService> {

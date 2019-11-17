@@ -48,10 +48,10 @@ final class DepositoryPath {
             return elements.get(forIndex);
         }
 
-        int requiredEnd = elements.size() - wildcardIndex;
+        int requiredEnd = elements.size() - (wildcardIndex + 1);
 
-        if (forIndex > elements.size()) {
-            return elements.get(forIndex - requiredEnd);
+        if (forIndex >= (fullLength - requiredEnd)) {
+            return elements.get(elements.size() - (fullLength - forIndex));
         }
 
         return elements.get(wildcardIndex);

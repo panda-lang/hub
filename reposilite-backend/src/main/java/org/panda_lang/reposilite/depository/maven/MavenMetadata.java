@@ -16,7 +16,6 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.reposilite.depository.DepositoryUtils;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
@@ -60,8 +59,8 @@ public final class MavenMetadata {
 
     static MavenMetadata ofSystemPath(String path) {
         int buildNameIndex = path.lastIndexOf(File.separator);
-        int buildVersionIndex = DepositoryUtils.lastIndexOf(path, File.separator, buildNameIndex);
-        int artifactNameIndex = DepositoryUtils.lastIndexOf(path, File.separator, buildVersionIndex);
+        int buildVersionIndex = lastIndexOfSeparator(path, buildNameIndex);
+        int artifactNameIndex = lastIndexOfSeparator(path, buildVersionIndex);
 
         String groupName = path.substring(1, artifactNameIndex).replace(File.separator, ".");
         String artifactName = path.substring(artifactNameIndex + 1, buildVersionIndex);
@@ -69,6 +68,10 @@ public final class MavenMetadata {
         String buildFile = path.substring(buildNameIndex + 1);
 
         return new MavenMetadata(groupName, artifactName, buildVersion, buildFile);
+    }
+
+    private static int lastIndexOfSeparator(String text, int toIndex) {
+        return toIndex < 0 ? -1 : text.substring(0, toIndex).lastIndexOf(File.separator);
     }
 
 }

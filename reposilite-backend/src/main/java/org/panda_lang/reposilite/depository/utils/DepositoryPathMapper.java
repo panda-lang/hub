@@ -99,6 +99,11 @@ public final class DepositoryPathMapper {
             }
 
             PathMapper mapper = mappers.get(unit.getName());
+
+            if (mapper == null) {
+                throw new UnsupportedOperationException("Unknown unit " + unit.getName());
+            }
+
             DepositoryEntity entity;
 
             // get parent entity or create a new one
@@ -106,14 +111,14 @@ public final class DepositoryPathMapper {
                 entity = entities.get(value);
 
                 if (entity == null) {
-                    entity = mapper.apply(null, value);
+                    entity = mapper.apply(file, null, value);
                 }
 
                 parent = entity;
             }
             // get or create child entity
             else {
-                entity = mapPrevious(previous, value, mapper);
+                entity = mapPrevious(file, previous, value, mapper);
             }
 
             previous = entity;
@@ -122,9 +127,9 @@ public final class DepositoryPathMapper {
         return Optional.ofNullable(parent);
     }
 
-    private DepositoryEntity mapPrevious(DepositoryEntity previous, String value, PathMapper mapper) {
+    private DepositoryEntity mapPrevious(File file, DepositoryEntity previous, String value, PathMapper mapper) {
         return previous.getChild(value).orElseGet(() -> {
-            DepositoryEntity entity = mapper.apply(previous, value);
+            DepositoryEntity entity = mapper.apply(file, previous, value);
             previous.addEntity(entity);
             return entity;
         });

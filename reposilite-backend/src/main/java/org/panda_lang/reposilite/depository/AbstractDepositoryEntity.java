@@ -21,6 +21,7 @@ import org.panda_lang.utilities.commons.StringUtils;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,14 +35,23 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
         this.node = new DepositoryTree<>(this, DepositoryEntity::getName);
     }
 
-    @Override
-    public Optional<DepositoryEntity> find(String path) {
-        return Optional.ofNullable(node.find(StringUtils.split(path, "/")));
+    @SuppressWarnings("unchecked")
+    public <T extends DepositoryEntity> T createIfAbsent(String name, Function<String, T> entityFunction) {
+        return (T) getChild(name).orElseGet(() -> {
+            T entity = entityFunction.apply(name);
+            addEntity(entity);
+            return entity;
+        });
     }
 
     @Override
     public void addEntity(DepositoryEntity entity) {
         node.add(entity.getNode());
+    }
+
+    @Override
+    public Optional<DepositoryEntity> find(String path) {
+        return Optional.ofNullable(node.find(StringUtils.split(path, "/")));
     }
 
     @Override
@@ -72,11 +82,6 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
     private Stream<? extends DepositoryEntity> toEntitiesStream() {
         return node.getChildren().stream().map(DepositoryTree::getElement);
-    }
-
-    @Override
-    public String getURIName() {
-        return StringUtils.replaceFirst(getName(), ".", "/");
     }
 
     @Override

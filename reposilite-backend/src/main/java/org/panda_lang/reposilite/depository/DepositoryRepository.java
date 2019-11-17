@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.depository;
 
-final class BuildFactory {
+import java.util.Optional;
+import java.util.Set;
 
-    private final Artifact artifact;
+interface DepositoryRepository<T> {
 
-    BuildFactory(Artifact artifact) {
-        this.artifact = artifact;
-    }
+    Optional<? extends DepositoryEntity> findEntityByURLPath(String path);
 
-    protected Build obtainBuild(String buildVersion) {
-        Build build = artifact.getBuild(buildVersion);
+    Optional<T> findEntityByName(String name);
 
-        if (build == null) {
-            build = new Build(buildVersion);
-            artifact.addEntity(build);
-        }
-
-        return build;
-    }
+    Set<T> findAll();
 
 }
