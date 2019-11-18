@@ -23,10 +23,10 @@
     <parent>
         <groupId>org.panda-lang</groupId>
         <artifactId>reposilite-parent</artifactId>
-        <version>indev-2019.9.4</version>
+        <version>indev-2019.11.18</version>
     </parent>
 
     <artifactId>reposilite-cli</artifactId>
-    <version>indev-2019.9.4</version>
+    <version>indev-2019.11.18</version>
 
 </project>
