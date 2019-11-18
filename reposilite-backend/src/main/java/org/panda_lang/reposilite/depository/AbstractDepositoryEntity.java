@@ -16,23 +16,44 @@
 
 package org.panda_lang.reposilite.depository;
 
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
+import org.panda_lang.utilities.commons.StringUtils;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
     private final String name;
-    private final AbstractDepositoryEntityMapNode node;
+    private final File file;
+    private final DepositoryTree<?> node;
 
-    protected AbstractDepositoryEntity(String name) {
-        this.name = name;
-        this.node = new AbstractDepositoryEntityMapNode(this, DepositoryEntity::getName);
+    protected AbstractDepositoryEntity(File file) {
+        this.name = file.getName();
+        this.file = file;
+        this.node = new DepositoryTree<>(this, DepositoryEntity::getName);
+    }
+
+    protected AbstractDepositoryEntity(File root, String name) {
+        this(new File(root, name));
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends DepositoryEntity> T createIfAbsent(String name, Function<String, T> entityFunction) {
+        return (T) getChild(name).orElseGet(() -> {
+            T entity = entityFunction.apply(name);
+            addEntity(entity);
+            return entity;
+        });
+    }
+
+    @Override
+    public void addEntity(DepositoryEntity entity) {
+        node.add(entity.toNode());
     }
 
     @Override
@@ -41,15 +62,24 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
     }
 
     @Override
-    public void addEntity(DepositoryEntity entity) {
-        node.add(entity.getNode());
+    public Optional<DepositoryEntity> getChild(String name) {
+        return Optional.ofNullable(node.get(name));
     }
 
     protected <T extends DepositoryEntity> Map<String, ? extends T> getMappedChildrenOfType(Class<T> type) {
         return streamOfType(type).collect(Collectors.toMap(DepositoryEntity::getName, element -> element));
     }
 
-    public TreemapNode<DepositoryEntity> getNode() {
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type) {
+        return getChildren().stream()
+                .filter(element -> type.isAssignableFrom(element.getClass()))
+                .map(element -> (T) element);
+    }
+
+    @Override
+    public DepositoryTree<?> toNode() {
         return node;
     }
 
@@ -65,13 +95,13 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
         return toEntitiesStream().collect(Collectors.toList());
     }
 
-    private Stream<DepositoryEntity> toEntitiesStream() {
-        return node.getChildren().stream().map(TreemapNode::getElement);
+    private Stream<? extends DepositoryEntity> toEntitiesStream() {
+        return node.getChildren().stream().map(DepositoryTree::getElement);
     }
 
     @Override
-    public String getURIName() {
-        return StringUtils.replaceFirst(getName(), ".", "/");
+    public File getFile() {
+        return file;
     }
 
     @Override

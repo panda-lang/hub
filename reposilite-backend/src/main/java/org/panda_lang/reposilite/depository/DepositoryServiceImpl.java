@@ -16,6 +16,7 @@
 
 package org.panda_lang.reposilite.depository;
 
+import org.panda_lang.reposilite.ReposiliteApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,13 @@ final class DepositoryServiceImpl implements DepositoryService {
         this.subServiceMap = new HashMap<>(subServices.size());
 
         for (DepositorySubService subService : subServices) {
+            if (!subService.isEnabled()) {
+                ReposiliteApplication.getLogger().info("Skipping disabled '" + subService.getName() + "' subservice");
+                continue;
+            }
+
             subServiceMap.put(subService.getName().toLowerCase(), subService);
+            ReposiliteApplication.getLogger().info("Subservice '" + subService.getName() + "' has been registered");
         }
     }
 

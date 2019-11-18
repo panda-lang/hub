@@ -17,30 +17,29 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.springframework.lang.Nullable;
+import org.panda_lang.reposilite.depository.ProjectDepositoryEntity;
+import org.panda_lang.utilities.commons.text.ContentJoiner;
 
 import java.io.File;
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public final class Depository extends AbstractDepositoryEntity {
+final class ArtifactEntity extends AbstractDepositoryEntity implements ProjectDepositoryEntity {
 
-    private final File root;
-
-    Depository(File root) {
-        super(root.getName());
-        this.root = root;
+    ArtifactEntity(File root, String name) {
+        super(root, name);
     }
 
-    public @Nullable Group getGroup(String groupName) {
-        return super.getMappedChildrenOfType(Group.class).get(groupName);
+    protected List<? extends String> getVersions() {
+        return super.streamOfType(BuildEntity.class)
+                .map(BuildEntity::getName)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
-    public Collection<? extends Group> getGroups() {
-        return super.getChildrenOfType(Group.class);
-    }
-
-    public File getRootFile() {
-        return root;
+    @Override
+    public String toString() {
+        return getName() + " { " + ContentJoiner.on(", ").join(getVersions()) + " }";
     }
 
 }

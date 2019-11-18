@@ -16,8 +16,8 @@
 
 package org.panda_lang.reposilite.depository;
 
+import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 public interface DepositorySubService {
 
@@ -27,14 +27,23 @@ public interface DepositorySubService {
      * @param entityQualifier the qualifier to search for
      * @return the found entity
      */
-    Optional<DepositoryEntity> findEntity(String entityQualifier);
+    Optional<? extends DepositoryEntity> findEntityByQualifier(String entityQualifier);
+
+    /**
+     * Check if service is enabled
+     *
+     * @return true if enabled, otherwise false
+     */
+    default boolean isEnabled() {
+        return true;
+    }
 
     /**
      * Get all available entities
      *
      * @return the list of entities
      */
-    Set<? extends DepositoryEntity> getEntities();
+    Collection<? extends DepositoryEntity> getEntities();
 
     /**
      * Get sub service name

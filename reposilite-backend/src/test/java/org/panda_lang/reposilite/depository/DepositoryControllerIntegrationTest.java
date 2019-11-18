@@ -47,7 +47,7 @@ class DepositoryControllerIntegrationTest {
     void repositories() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/repositories"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[ 'maven', 'npm', 'panda' ]"));
+                .andExpect(content().json("[ 'maven', 'panda' ]"));
     }
 
 }

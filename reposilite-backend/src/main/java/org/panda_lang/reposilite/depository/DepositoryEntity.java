@@ -16,11 +16,9 @@
 
 package org.panda_lang.reposilite.depository;
 
-import org.panda_lang.panda.utilities.commons.collection.map.TreemapNode;
-
+import java.io.File;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public interface DepositoryEntity {
@@ -33,13 +31,6 @@ public interface DepositoryEntity {
      */
     Optional<DepositoryEntity> find(String uri);
 
-    @SuppressWarnings("unchecked")
-    default  <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type) {
-        return getChildren().stream()
-                .filter(element -> type.isAssignableFrom(element.getClass()))
-                .map(element -> (T) element);
-    }
-
     /**
      * Add entity as a child to the current entity
      *
@@ -48,15 +39,28 @@ public interface DepositoryEntity {
     void addEntity(DepositoryEntity child);
 
     /**
-     * Get collection of child entities of the requested type
+     * Get node used by entity
      *
-     * @param type the type of entity to search for
-     * @param <T> the type of entity
-     * @return collection of requested entities
+     * @return the node
      */
-    default <T extends DepositoryEntity> Collection<? extends T> getChildrenOfType(Class<T> type) {
-        return streamOfType(type).collect(Collectors.toList());
-    }
+    DepositoryTree<?> toNode();
+
+    /**
+     * Get children stream of the given type
+     *
+     * @param type the type of children
+     * @param <T> generic representation of type
+     * @return the type
+     */
+     <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type);
+
+    /**
+     * Check if entity has child with the given name
+     *
+     * @param name the name to check for
+     * @return true if entity has
+     */
+    Optional<DepositoryEntity> getChild(String name);
 
     /**
      * Get names of children
@@ -73,18 +77,11 @@ public interface DepositoryEntity {
     Collection<? extends DepositoryEntity> getChildren();
 
     /**
-     * Get node used by entity
+     * Get associated file
      *
-     * @return the node
+     * @return the file
      */
-    TreemapNode<DepositoryEntity> getNode();
-
-    /**
-     * Get name used in addresses
-     *
-     * @return the uri name
-     */
-    String getURIName();
+    File getFile();
 
     /**
      * Get display name of entity

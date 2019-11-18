@@ -14,30 +14,34 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.depository.utils;
 
-import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.springframework.lang.Nullable;
+import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.util.Collection;
+import static org.junit.jupiter.api.Assertions.*;
 
-public final class Build extends AbstractDepositoryEntity {
+class DepositoryUnitTest {
 
-    Build(String version) {
-        super(version);
+    private static final DepositoryUnit ELEMENT = DepositoryUnit.of("{*group}", 1);
+
+    @Test
+    void isMultipart() {
+        assertTrue(ELEMENT.isMultipart());
     }
 
-    public void addContent(File file) {
-        super.addEntity(new Data(file));
+    @Test
+    void isWildcard() {
+        assertTrue(ELEMENT.isWildcard());
     }
 
-    public @Nullable Data getData(String dataName) {
-        return super.getMappedChildrenOfType(Data.class).get(dataName);
+    @Test
+    void getRequired() {
+        assertEquals(1, ELEMENT.getRequired());
     }
 
-    public Collection<? extends Data> getContent() {
-        return super.getChildrenOfType(Data.class);
+    @Test
+    void getName() {
+        assertEquals("{group}", ELEMENT.getName());
     }
 
 }

@@ -30,15 +30,10 @@ public class MetadataFileFactory {
         this.mavenService = mavenService;
     }
 
-    public MetadataFile createMetadataFile(Depository depository, MavenMetadata metadata, MavenMetadataPaths paths, MultipartFile file) throws IOException {
-        GroupFactory groupFactory = new GroupFactory(depository);
-        Group group = groupFactory.obtainGroup(metadata.getGroupName());
-
-        ArtifactFactory artifactFactory = new ArtifactFactory(group);
-        Artifact artifact = artifactFactory.obtainArtifact(metadata.getArtifactName());
-
-        BuildFactory buildFactory = new BuildFactory(artifact);
-        buildFactory.obtainBuild(metadata.getBuildVersion());
+    public MetadataFile createMetadataFile(RepositoryEntity depository, MavenMetadata metadata, MavenMetadataPaths paths, MultipartFile file) throws IOException {
+        GroupEntity group = depository.createIfAbsent(metadata.getGroupName());
+        ArtifactEntity artifact = group.createIfAbsent(metadata.getArtifactName(), name -> new ArtifactEntity(group.getFile(), name));
+        artifact.createIfAbsent(metadata.getBuildVersion(), name -> new BuildEntity(artifact.getFile(), name));
 
         Files.createDirectories(paths.getBuildDirectory());
         FilesUtils.storeFile(paths.getBuildDirectory(), file, false);

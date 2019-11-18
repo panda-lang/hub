@@ -31,25 +31,25 @@ class MavenMetadataTest {
     private final static String DEPOSITORY_PATH = StringUtils.replace("/org/panda-lang/panda-utilities/indev-0.8.87/panda-utilities-indev-0.8.87.jar", "/", File.separator);
 
     @Test
-    void groupNameBySystemPathTest() {
+    void getGroupName() {
         MavenMetadata mavenMetadata = MavenMetadata.ofSystemPath(DEPOSITORY_PATH);
         assertEquals(mavenMetadata.getGroupName(), "org.panda-lang");
     }
 
     @Test
-    void artifactIdBySystemPathTest() {
+    void getArtifactName() {
         MavenMetadata mavenMetadata = MavenMetadata.ofSystemPath(DEPOSITORY_PATH);
         assertEquals(mavenMetadata.getArtifactName(), "panda-utilities");
     }
 
     @Test
-    void buildVersionBySystemPathTest() {
+    void getBuildVersion() {
         MavenMetadata mavenMetadata = MavenMetadata.ofSystemPath(DEPOSITORY_PATH);
         assertEquals(mavenMetadata.getBuildVersion(), "indev-0.8.87");
     }
 
     @Test
-    void buildFileBySystemPathTest() {
+    void getBuildFile() {
         MavenMetadata mavenMetadata = MavenMetadata.ofSystemPath(DEPOSITORY_PATH);
         assertEquals(mavenMetadata.getBuildFile(), "panda-utilities-indev-0.8.87.jar");
     }

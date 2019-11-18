@@ -18,7 +18,7 @@ package org.panda_lang.reposilite.user;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.utilities.commons.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

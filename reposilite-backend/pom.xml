@@ -20,11 +20,11 @@
     <parent>
         <groupId>org.panda-lang</groupId>
         <artifactId>reposilite-parent</artifactId>
-        <version>indev-2019.9.4</version>
+        <version>indev-2019.11.18</version>
     </parent>
 
     <artifactId>reposilite-backend</artifactId>
-    <version>indev-2019.9.4</version>
+    <version>indev-2019.11.18</version>
 
     <properties>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -105,13 +105,25 @@
             <version>2.1.10.RELEASE</version>
         </dependency>
 
+        <!-- Metrics -->
+        <dependency>
+            <groupId>org.springframework.metrics</groupId>
+            <artifactId>spring-metrics</artifactId>
+            <version>0.5.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_common</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+
         <!-- OAuth2 & JWT -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
             <version>5.1.6.RELEASE</version>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
@@ -121,7 +133,7 @@
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda</artifactId>
-            <version>indev-19.8.24</version>
+            <version>indev-19.11.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.tinylog</groupId>
@@ -182,13 +194,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
-        </dependency>
-
-        <!-- Annotations -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>18.0.0</version>
         </dependency>
 
         <!-- Tests -->

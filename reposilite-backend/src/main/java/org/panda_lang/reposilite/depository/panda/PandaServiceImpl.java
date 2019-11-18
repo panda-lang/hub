@@ -17,23 +17,30 @@
 package org.panda_lang.reposilite.depository.panda;
 
 import org.panda_lang.reposilite.depository.DepositoryEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 class PandaServiceImpl implements PandaService {
 
-    @Override
-    public Optional<DepositoryEntity> findEntity(String entityQualifier) {
-        return Optional.empty();
+    private final PandaRepository repository;
+
+    @Autowired
+    PandaServiceImpl(PandaRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public Set<? extends DepositoryEntity> getEntities() {
-        return Collections.emptySet();
+    public Optional<? extends DepositoryEntity> findEntityByQualifier(String entityQualifier) {
+        return this.repository.findEntityByURLPath(entityQualifier);
+    }
+
+    @Override
+    public Collection<? extends DepositoryEntity> getEntities() {
+        return repository.findAll();
     }
 
 }

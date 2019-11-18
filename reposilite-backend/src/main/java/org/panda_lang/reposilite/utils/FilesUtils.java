@@ -20,7 +20,6 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.panda_lang.panda.utilities.commons.collection.map.TreeNode;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,27 +30,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 public final class FilesUtils {
-
-    public static TreeNode<File> collectFiles(File directory) {
-        TreeNode<File> tree = new TreeNode<>(directory);
-        File[] files = directory.listFiles();
-
-        if (files == null || files.length == 0) {
-            return tree;
-        }
-
-        for (File file : files) {
-            tree.add(file.isDirectory() ? collectFiles(file) : new TreeNode<>(file));
-        }
-
-        return tree;
-    }
-
-    public static void storeFile(Path path, MultipartFile file) {
-        storeFile(path, file, true);
-    }
 
     public static void storeFile(Path path, MultipartFile file, boolean xmlAllowed) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -69,7 +50,7 @@ public final class FilesUtils {
     }
 
     public static File getMostRecentDirectory(Path directoryPath) {
-        return Arrays.stream(directoryPath.toFile().listFiles())
+        return Arrays.stream(Objects.requireNonNull(directoryPath.toFile().listFiles()))
                 .filter(File::isDirectory)
                 .max(Comparator.comparingLong(File::lastModified))
                 .orElseGet(null);
@@ -90,7 +71,6 @@ public final class FilesUtils {
         }
     }
 
-    private FilesUtils() {
-    }
+    private FilesUtils() { }
 
 }

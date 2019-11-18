@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class BuildControllerIntegrationTest {
+class GroupEntityControllerIntegrationTest {
 
     @Autowired
     @Qualifier("workspaceDirectory")
@@ -51,16 +51,16 @@ class BuildControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn404WhenBuildIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-333.8.0"))
+    void shouldReturn404WhenGroupIsNotPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/pl/panda-lang/"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void shouldReturn200AndChildNodesWhenBuildPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-0.8.0"))
+    void shouldReturn200AndChildNodesWhenGroupPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[ 'panda-utilities-indev-0.8.0.jar', 'panda-utilities-indev-0.8.0.pom' ]"));
+                .andExpect(content().json("[ 'panda-utilities' ]"));
     }
 
 }

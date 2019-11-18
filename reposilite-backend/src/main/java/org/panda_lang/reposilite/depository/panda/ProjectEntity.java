@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.depository.panda;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.springframework.lang.Nullable;
+import org.panda_lang.reposilite.depository.ProjectDepositoryEntity;
+import org.panda_lang.utilities.commons.text.ContentJoiner;
 
-import java.util.Collection;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class Artifact extends AbstractDepositoryEntity {
+final class ProjectEntity extends AbstractDepositoryEntity implements ProjectDepositoryEntity {
 
-    Artifact(String name) {
-        super(name);
+    ProjectEntity(File root, String name) {
+        super(root, name);
     }
 
     public List<? extends String> getVersions() {
-        return super.streamOfType(Build.class)
-                .map(Build::getName)
+        return super.streamOfType(BuildEntity.class)
+                .map(BuildEntity::getName)
                 .sorted()
                 .collect(Collectors.toList());
     }
 
-    public @Nullable Build getBuild(String version) {
-        return super.getMappedChildrenOfType(Build.class).get(version);
-    }
-
-    public Collection<? extends Build> getBuilds() {
-        return super.getChildrenOfType(Build.class);
+    @Override
+    public String toString() {
+        return getName() + " { " + ContentJoiner.on(", ").join(getVersions()) + " }";
     }
 
 }
+

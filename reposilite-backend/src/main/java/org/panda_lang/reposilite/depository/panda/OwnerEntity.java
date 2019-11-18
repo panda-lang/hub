@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.depository.panda;
 
-final class ArtifactFactory {
+import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
 
-    private final Group group;
+import java.io.File;
 
-    ArtifactFactory(Group group) {
-        this.group = group;
-    }
+final class OwnerEntity extends AbstractDepositoryEntity {
 
-    protected Artifact obtainArtifact(String artifactName) {
-        Artifact artifact = group.getArtifact(artifactName);
-
-        if (artifact == null) {
-            artifact = new Artifact(artifactName);
-            group.addEntity(artifact);
-        }
-
-        return artifact;
+    OwnerEntity(File root, String name) {
+        super(root, name);
     }
 
 }

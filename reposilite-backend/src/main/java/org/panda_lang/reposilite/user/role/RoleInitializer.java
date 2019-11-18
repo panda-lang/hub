@@ -16,7 +16,7 @@
 
 package org.panda_lang.reposilite.user.role;
 
-import org.panda_lang.panda.utilities.commons.collection.Sets;
+import org.panda_lang.utilities.commons.collection.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
