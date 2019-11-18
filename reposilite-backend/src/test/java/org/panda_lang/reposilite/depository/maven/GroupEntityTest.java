@@ -16,19 +16,20 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.springframework.lang.Nullable;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-final class GroupEntity extends AbstractDepositoryEntity {
+import static org.junit.jupiter.api.Assertions.*;
 
-    GroupEntity(File root, String name) {
-        super(root, name);
-    }
+class GroupEntityTest {
 
-    public @Nullable ArtifactEntity getArtifact(String artifactName) {
-        return super.getMappedChildrenOfType(ArtifactEntity.class).get(artifactName);
+    private static final GroupEntity GROUP_ENTITY = new GroupEntity(new File("root"), "group");
+
+    @Test
+    void getArtifact() {
+        GROUP_ENTITY.addEntity(new ArtifactEntity(GROUP_ENTITY.getFile(), "artifact"));
+        assertNotNull(GROUP_ENTITY.getArtifact("artifact"));
     }
 
 }

@@ -52,12 +52,7 @@ public interface DepositoryEntity {
      * @param <T> generic representation of type
      * @return the type
      */
-    @SuppressWarnings("unchecked")
-    default  <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type) {
-        return getChildren().stream()
-                .filter(element -> type.isAssignableFrom(element.getClass()))
-                .map(element -> (T) element);
-    }
+     <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type);
 
     /**
      * Check if entity has child with the given name

@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.error;
 
-import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.springframework.lang.Nullable;
+import org.junit.jupiter.api.Test;
 
-import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-final class GroupEntity extends AbstractDepositoryEntity {
+class ErrorDtoTest {
 
-    GroupEntity(File root, String name) {
-        super(root, name);
+    @Test
+    void getCode() {
+        ErrorDto errorDto = new ErrorDto(404, null);
+        assertEquals(404, errorDto.getCode());
     }
 
-    public @Nullable ArtifactEntity getArtifact(String artifactName) {
-        return super.getMappedChildrenOfType(ArtifactEntity.class).get(artifactName);
+    @Test
+    void getMessage() {
+        ErrorDto errorDto = new ErrorDto(-1, "error message");
+        assertEquals("error message", errorDto.getMessage());
     }
 
 }

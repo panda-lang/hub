@@ -33,7 +33,8 @@ import java.util.Map;
 @RestController
 class CustomErrorController implements ErrorController {
 
-    private final static String ERROR_PATH = "/error";
+    private static final String ERROR_PATH = "/error";
+
     private final ErrorAttributes errorAttributes;
     private final MessageSource messageSource;
 

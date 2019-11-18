@@ -71,6 +71,14 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public <T extends DepositoryEntity> Stream<T> streamOfType(Class<T> type) {
+        return getChildren().stream()
+                .filter(element -> type.isAssignableFrom(element.getClass()))
+                .map(element -> (T) element);
+    }
+
+    @Override
     public DepositoryTree<?> toNode() {
         return node;
     }
