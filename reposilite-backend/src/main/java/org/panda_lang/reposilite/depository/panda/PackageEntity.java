@@ -18,10 +18,12 @@ package org.panda_lang.reposilite.depository.panda;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
 
+import java.io.File;
+
 final class PackageEntity extends AbstractDepositoryEntity {
 
-    protected PackageEntity(String name) {
-        super(name);
+    PackageEntity(File file) {
+        super(file);
     }
 
 }

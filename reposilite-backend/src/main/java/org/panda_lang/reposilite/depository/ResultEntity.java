@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository.maven;
+package org.panda_lang.reposilite.depository;
 
-import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.springframework.lang.Nullable;
-
-final class Group extends AbstractDepositoryEntity {
-
-    Group(String name) {
-        super(name);
-    }
-
-    public @Nullable Artifact getArtifact(String artifactName) {
-        return super.getMappedChildrenOfType(Artifact.class).get(artifactName);
-    }
+public interface ResultEntity extends DepositoryEntity {
 
 }

@@ -17,26 +17,21 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.utilities.commons.StringUtils;
 import org.springframework.lang.Nullable;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.Optional;
 
-public final class Depository extends AbstractDepositoryEntity {
+final class RepositoryEntity extends AbstractDepositoryEntity {
 
-    private final File root;
-
-    Depository(File root) {
-        super(root.getName());
-        this.root = root;
+    public RepositoryEntity(File root, String name) {
+        super(root, name);
     }
 
-    protected Group createIfAbsent(String groupName) {
+    protected GroupEntity createIfAbsent(String groupName) {
         String[] units = StringUtils.split(groupName, ".");
-        Group previousGroup = createIfAbsent(this, units[0]);
+        GroupEntity previousGroup = createIfAbsent(this, units[0]);
 
         for (int index = 1; index < units.length && previousGroup != null; index++) {
             previousGroup = createIfAbsent(previousGroup, units[index]);
@@ -45,34 +40,28 @@ public final class Depository extends AbstractDepositoryEntity {
         return previousGroup;
     }
 
-    private @Nullable Group createIfAbsent(DepositoryEntity parent, String name) {
-        Optional<DepositoryEntity> entityValue = parent.find(name);
+    private @Nullable
+    GroupEntity createIfAbsent(org.panda_lang.reposilite.depository.DepositoryEntity parent, String name) {
+        Optional<org.panda_lang.reposilite.depository.DepositoryEntity> entityValue = parent.find(name);
 
         if (!entityValue.isPresent()) {
-            Group group = new Group(name);
+            GroupEntity group = new GroupEntity(parent.getFile(), name);
             parent.addEntity(group);
             return group;
         }
 
-        DepositoryEntity entity = entityValue.get();
+        org.panda_lang.reposilite.depository.DepositoryEntity entity = entityValue.get();
 
-        if (entity instanceof Group) {
-            return (Group) entity;
+        if (entity instanceof GroupEntity) {
+            return (GroupEntity) entity;
         }
 
         return null;
     }
 
-    public @Nullable Group getGroup(String groupName) {
-        return super.getMappedChildrenOfType(Group.class).get(groupName);
-    }
-
-    public Collection<? extends Group> getGroups() {
-        return super.getChildrenOfType(Group.class);
-    }
-
-    public File getRootFile() {
-        return root;
+    public @Nullable
+    GroupEntity getGroup(String groupName) {
+        return super.getMappedChildrenOfType(GroupEntity.class).get(groupName);
     }
 
 }

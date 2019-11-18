@@ -27,14 +27,7 @@ public interface DepositorySubService {
      * @param entityQualifier the qualifier to search for
      * @return the found entity
      */
-    Optional<? extends DepositoryEntity> findEntity(String entityQualifier);
-
-    /**
-     * Get all available entities
-     *
-     * @return the list of entities
-     */
-    Collection<? extends DepositoryEntity> getEntities();
+    Optional<? extends DepositoryEntity> findEntityByQualifier(String entityQualifier);
 
     /**
      * Check if service is enabled
@@ -44,6 +37,13 @@ public interface DepositorySubService {
     default boolean isEnabled() {
         return true;
     }
+
+    /**
+     * Get all available entities
+     *
+     * @return the list of entities
+     */
+    Collection<? extends DepositoryEntity> getEntities();
 
     /**
      * Get sub service name

@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
 import java.io.File;
 
 @Repository
-class MavenRepository extends AbstractDepositoryRepository<Depository> {
+class MavenRepository extends AbstractDepositoryRepository<RepositoryEntity> {
 
     private static final String PATTERN = "{repository}/{*group}/{artifact}/{version}/{build}";
 
@@ -41,11 +41,11 @@ class MavenRepository extends AbstractDepositoryRepository<Depository> {
 
         return new DepositoryPathMapper(PATTERN)
                 .registerExtensions("jar", "xml", "pom")
-                .registerMapper("{repository}", (file, parent, name) -> new Depository(new File(super.getRepositoryRoot(), name)))
-                .registerMapper("{group}", (file, parent, name) -> new Group(name))
-                .registerMapper("{artifact}", (file, parent, name) -> new Artifact(name))
-                .registerMapper("{version}", (file, parent, name) -> new Build(name))
-                .registerMapper("{build}", (file, parent, name) -> new Data(file));
+                .registerMapper("{repository}", (file, parent, name) -> new RepositoryEntity(super.getRepositoryRoot(), name))
+                .registerMapper("{group}", (file, parent, name) -> new GroupEntity(parent.getFile(), name))
+                .registerMapper("{artifact}", (file, parent, name) -> new ArtifactEntity(parent.getFile(), name))
+                .registerMapper("{version}", (file, parent, name) -> new BuildEntity(parent.getFile(), name))
+                .registerMapper("{build}", (file, parent, name) -> new DataEntity(file));
     }
 
     @Override

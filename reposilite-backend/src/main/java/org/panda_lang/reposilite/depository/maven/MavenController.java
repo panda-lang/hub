@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiResponses;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda_lang.reposilite.depository.AbstractSubServiceController;
-import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.user.role.IsAdmin;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.panda_lang.reposilite.utils.RequestUtils;
@@ -73,7 +72,7 @@ class MavenController extends AbstractSubServiceController<MavenService> {
     })
     @GetMapping("/{repository}")
     public ResponseEntity<Collection<String>> repository(@PathVariable @ApiParam("Repository name") String repository) {
-        Optional<Depository> depositoryValue = getService().getDepository(repository);
+        Optional<RepositoryEntity> depositoryValue = getService().getDepository(repository);
 
         if (!depositoryValue.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -105,22 +104,22 @@ class MavenController extends AbstractSubServiceController<MavenService> {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Depository> depositoryValue = getService().getDepository(repository);
+        Optional<RepositoryEntity> depositoryValue = getService().getDepository(repository);
 
         if (!depositoryValue.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
         String entityQualifier = RequestUtils.extractWildcard(request);
-        Depository depository = depositoryValue.get();
+        RepositoryEntity depository = depositoryValue.get();
         MavenMetadata metadata = MavenMetadata.ofSystemPath(Paths.get("\\" + entityQualifier + File.separator + file.getOriginalFilename()).toString());
-        Optional<DepositoryEntity> entityValue = depository.find(entityQualifier);
+        Optional<org.panda_lang.reposilite.depository.DepositoryEntity> entityValue = depository.find(entityQualifier);
 
         if (!entityValue.isPresent() && StringUtils.isBlank(metadata.getBuildVersion())) {
             return ResponseEntity.badRequest().build();
         }
 
-        Path buildDirectory = Paths.get(depository.getRootFile().getPath() + File.separator + entityQualifier);
+        Path buildDirectory = Paths.get(depository.getFile().getPath() + File.separator + entityQualifier);
         Path buildFile = Paths.get(buildDirectory + File.separator + file.getOriginalFilename());
 
         if (!entityValue.isPresent()) {
@@ -129,15 +128,15 @@ class MavenController extends AbstractSubServiceController<MavenService> {
             return ResponseEntity.noContent().build();
         }
 
-        DepositoryEntity entity = entityValue.get();
+        org.panda_lang.reposilite.depository.DepositoryEntity entity = entityValue.get();
 
-        if (!(entity instanceof Build)) {
+        if (!(entity instanceof BuildEntity)) {
             return ResponseEntity.badRequest().build();
         }
 
         FilesUtils.storeFile(buildDirectory, file, false);
         FilesUtils.writeFileChecksums(buildFile.toAbsolutePath());
-        Group group = depository.getGroup(metadata.getGroupName());
+        GroupEntity group = depository.getGroup(metadata.getGroupName());
 
         if (group == null) {
             return ResponseEntity.notFound().build();

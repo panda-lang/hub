@@ -24,9 +24,9 @@ import java.util.Set;
 
 public interface MavenService extends DepositorySubService {
 
-    MetadataFile generateMetaDataFile(Depository depository, Group group, Artifact artifact, Path buildDirectoryPath);
+    MetadataFile generateMetaDataFile(RepositoryEntity depository, GroupEntity group, ArtifactEntity artifact, Path buildDirectoryPath);
 
-    Optional<Depository> getDepository(String name);
+    Optional<RepositoryEntity> getDepository(String name);
 
     Set<String> getNames();
 

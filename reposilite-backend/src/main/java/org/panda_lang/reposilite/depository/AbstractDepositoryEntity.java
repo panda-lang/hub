@@ -18,6 +18,7 @@ package org.panda_lang.reposilite.depository;
 
 import org.panda_lang.utilities.commons.StringUtils;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -28,11 +29,17 @@ import java.util.stream.Stream;
 public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
     private final String name;
+    private final File file;
     private final DepositoryTree<?> node;
 
-    protected AbstractDepositoryEntity(String name) {
-        this.name = name;
+    protected AbstractDepositoryEntity(File file) {
+        this.name = file.getName();
+        this.file = file;
         this.node = new DepositoryTree<>(this, DepositoryEntity::getName);
+    }
+
+    protected AbstractDepositoryEntity(File root, String name) {
+        this(new File(root, name));
     }
 
     @SuppressWarnings("unchecked")
@@ -82,6 +89,11 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
     private Stream<? extends DepositoryEntity> toEntitiesStream() {
         return node.getChildren().stream().map(DepositoryTree::getElement);
+    }
+
+    @Override
+    public File getFile() {
+        return file;
     }
 
     @Override

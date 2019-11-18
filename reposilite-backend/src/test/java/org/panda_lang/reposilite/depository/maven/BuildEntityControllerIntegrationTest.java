@@ -20,25 +20,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.File;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class GroupControllerIntegrationTest {
-
-    @Autowired
-    @Qualifier("workspaceDirectory")
-    private File workspace;
+class BuildEntityControllerIntegrationTest {
 
     @Autowired
     private MavenController mavenController;
@@ -51,16 +44,16 @@ class GroupControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn404WhenGroupIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/pl/panda-lang/"))
+    void shouldReturn404WhenBuildIsNotPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-333.8.0"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void shouldReturn200AndChildNodesWhenGroupPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
+    void shouldReturn200AndChildNodesWhenBuildPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-0.8.0"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[ 'panda-utilities' ]"));
+                .andExpect(content().json("[ 'panda-utilities-indev-0.8.0.jar', 'panda-utilities-indev-0.8.0.pom' ]"));
     }
 
 }

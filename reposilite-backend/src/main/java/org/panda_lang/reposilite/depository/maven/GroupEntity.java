@@ -17,13 +17,19 @@
 package org.panda_lang.reposilite.depository.maven;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
+import org.springframework.lang.Nullable;
 
-import java.util.Collection;
+import java.io.File;
 
-final class Build extends AbstractDepositoryEntity {
+final class GroupEntity extends AbstractDepositoryEntity {
 
-    Build(String version) {
-        super(version);
+    GroupEntity(File root, String name) {
+        super(root, name);
+    }
+
+    public @Nullable
+    ArtifactEntity getArtifact(String artifactName) {
+        return super.getMappedChildrenOfType(ArtifactEntity.class).get(artifactName);
     }
 
 }

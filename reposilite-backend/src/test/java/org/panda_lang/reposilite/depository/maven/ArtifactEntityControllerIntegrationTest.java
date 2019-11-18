@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class BuildControllerIntegrationTest {
+class ArtifactEntityControllerIntegrationTest {
 
     @Autowired
     private MavenController mavenController;
@@ -44,16 +44,16 @@ class BuildControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn404WhenBuildIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-333.8.0"))
+    void shouldReturn404WhenArtifactIsNotPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/p4nd4-utilities/"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void shouldReturn200AndChildNodesWhenBuildPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/indev-0.8.0"))
+    void shouldReturn200AndChildNodesWhenArtifactPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[ 'panda-utilities-indev-0.8.0.jar', 'panda-utilities-indev-0.8.0.pom' ]"));
+                .andExpect(content().json("[ 'indev-0.8.0', 'indev-0.8.87', 'maven-metadata.xml' ]"));
     }
 
 }

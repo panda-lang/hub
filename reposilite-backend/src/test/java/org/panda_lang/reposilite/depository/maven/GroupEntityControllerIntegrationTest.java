@@ -20,18 +20,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.io.File;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class ArtifactControllerIntegrationTest {
+class GroupEntityControllerIntegrationTest {
+
+    @Autowired
+    @Qualifier("workspaceDirectory")
+    private File workspace;
 
     @Autowired
     private MavenController mavenController;
@@ -44,16 +51,16 @@ class ArtifactControllerIntegrationTest {
     }
 
     @Test
-    void shouldReturn404WhenArtifactIsNotPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/p4nd4-utilities/"))
+    void shouldReturn404WhenGroupIsNotPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/pl/panda-lang/"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void shouldReturn200AndChildNodesWhenArtifactPresent() throws Exception {
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/panda-utilities/"))
+    void shouldReturn200AndChildNodesWhenGroupPresent() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/repository/maven/releases/org/panda-lang/"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[ 'indev-0.8.0', 'indev-0.8.87', 'maven-metadata.xml' ]"));
+                .andExpect(content().json("[ 'panda-utilities' ]"));
     }
 
 }

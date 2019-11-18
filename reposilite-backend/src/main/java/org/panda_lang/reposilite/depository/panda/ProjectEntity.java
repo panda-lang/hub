@@ -20,13 +20,14 @@ import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
 import org.panda_lang.reposilite.depository.ProjectDepositoryEntity;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
 final class ProjectEntity extends AbstractDepositoryEntity implements ProjectDepositoryEntity {
 
-    protected ProjectEntity(String name) {
-        super(name);
+    ProjectEntity(File root, String name) {
+        super(root, name);
     }
 
     public List<? extends String> getVersions() {

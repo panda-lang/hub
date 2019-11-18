@@ -28,7 +28,7 @@ import java.io.File;
 @Repository
 class PandaRepository extends AbstractDepositoryRepository<OwnerEntity> {
 
-    private static final String PATTERN = "{owner}/{project}/builds/{build}";
+    protected static final String PATTERN = "{owner}/{project}/builds/{build}";
 
     @Autowired
     PandaRepository(@Qualifier("repositoriesDirectory") File packagesRoot) {
@@ -41,8 +41,8 @@ class PandaRepository extends AbstractDepositoryRepository<OwnerEntity> {
 
         return new DepositoryPathMapper(PATTERN)
                 .registerExtensions("zip", "proxy")
-                .registerMapper("{owner}", (file, parent, name) -> new OwnerEntity(name))
-                .registerMapper("{project}", (file, parent, name) -> new ProjectEntity(name))
+                .registerMapper("{owner}", (file, parent, name) -> new OwnerEntity(super.getRepositoryRoot(), name))
+                .registerMapper("{project}", (file, parent, name) -> new ProjectEntity(parent.getFile(), name))
                 .registerMapper("{build}", (file, parent, name) -> new BuildEntity(file));
     }
 

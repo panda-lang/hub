@@ -27,7 +27,7 @@ import java.util.Set;
 class NpmServiceImpl implements NpmService {
 
     @Override
-    public Optional<DepositoryEntity> findEntity(String entityQualifier) {
+    public Optional<DepositoryEntity> findEntityByQualifier(String entityQualifier) {
         return Optional.empty();
     }
 

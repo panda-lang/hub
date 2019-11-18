@@ -16,7 +16,6 @@
 
 package org.panda_lang.reposilite.depository.maven;
 
-import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.panda_lang.reposilite.utils.FilesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ final class MavenServiceImpl implements MavenService {
     }
 
     @Override
-    public MetadataFile generateMetaDataFile(Depository depository, Group group, Artifact artifact, Path buildDirectoryPath) {
+    public MetadataFile generateMetaDataFile(RepositoryEntity depository, GroupEntity group, ArtifactEntity artifact, Path buildDirectoryPath) {
         File mostRecentDirectory = FilesUtils.getMostRecentDirectory(buildDirectoryPath.toAbsolutePath());
 
         MetadataFile metadata = new MetadataFileBuilder()
@@ -73,24 +72,24 @@ final class MavenServiceImpl implements MavenService {
     }
 
     @Override
-    public Optional<? extends DepositoryEntity> findEntity(String entityQualifier) {
+    public Optional<? extends org.panda_lang.reposilite.depository.DepositoryEntity> findEntityByQualifier(String entityQualifier) {
         return this.mavenRepository.findEntityByURLPath(entityQualifier);
     }
 
     @Override
-    public Optional<Depository> getDepository(String name) {
+    public Optional<RepositoryEntity> getDepository(String name) {
         return this.mavenRepository.findEntityByName(name);
     }
 
     @Override
     public Set<String> getNames() {
         return this.mavenRepository.findAll().stream()
-                .map(Depository::getName)
+                .map(RepositoryEntity::getName)
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public Set<? extends DepositoryEntity> getEntities() {
+    public Set<? extends org.panda_lang.reposilite.depository.DepositoryEntity> getEntities() {
         return mavenRepository.findAll();
     }
 

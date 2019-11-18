@@ -18,7 +18,6 @@ package org.panda_lang.reposilite.depository.maven;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.panda_lang.reposilite.depository.DepositoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -48,10 +47,10 @@ class MavenRepositoryIntegrationTest {
 
     @Test
     void findRepositoryNodeByNameTest() {
-        Optional<Depository> depository = this.mavenRepository.findEntityByName("releases");
+        Optional<RepositoryEntity> depository = this.mavenRepository.findEntityByName("releases");
         assertTrue(depository.isPresent());
 
-        Optional<DepositoryEntity> depositoryEntity = depository.get().find("org/panda-lang/panda-utilities");
+        Optional<org.panda_lang.reposilite.depository.DepositoryEntity> depositoryEntity = depository.get().find("org/panda-lang/panda-utilities");
         assertTrue(depositoryEntity.isPresent());
         assertEquals(depositoryEntity.get().getName(), "panda-utilities");
     }

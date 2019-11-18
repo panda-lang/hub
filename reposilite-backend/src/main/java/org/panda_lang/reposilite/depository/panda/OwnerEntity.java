@@ -18,10 +18,12 @@ package org.panda_lang.reposilite.depository.panda;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
 
+import java.io.File;
+
 final class OwnerEntity extends AbstractDepositoryEntity {
 
-    protected OwnerEntity(String name) {
-        super(name);
+    OwnerEntity(File root, String name) {
+        super(root, name);
     }
 
 }

@@ -17,22 +17,14 @@
 package org.panda_lang.reposilite.depository.panda;
 
 import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
-import org.panda_lang.reposilite.depository.FileDepositoryEntity;
+import org.panda_lang.reposilite.depository.ResultEntity;
 
 import java.io.File;
 
-final class BuildEntity extends AbstractDepositoryEntity implements FileDepositoryEntity {
-
-    private final File file;
+final class BuildEntity extends AbstractDepositoryEntity implements ResultEntity {
 
     protected BuildEntity(File file) {
-        super(file.getName());
-        this.file = file;
-    }
-
-    @Override
-    public File getFile() {
-        return file;
+        super(file);
     }
 
 }

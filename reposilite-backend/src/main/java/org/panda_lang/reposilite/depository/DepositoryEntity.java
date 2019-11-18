@@ -16,6 +16,7 @@
 
 package org.panda_lang.reposilite.depository;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -84,6 +85,13 @@ public interface DepositoryEntity {
      * @return the node
      */
     DepositoryTree<?> getNode();
+
+    /**
+     * Get associated file
+     *
+     * @return the file
+     */
+    File getFile();
 
     /**
      * Get display name of entity

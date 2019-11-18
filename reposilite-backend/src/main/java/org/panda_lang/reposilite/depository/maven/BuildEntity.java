@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.depository;
+package org.panda_lang.reposilite.depository.maven;
+
+import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
 
 import java.io.File;
 
-public interface FileDepositoryEntity extends DepositoryEntity {
+final class BuildEntity extends AbstractDepositoryEntity {
 
-    File getFile();
+    BuildEntity(File root, String name) {
+        super(root, name);
+    }
 
 }

@@ -20,18 +20,19 @@ import org.panda_lang.reposilite.depository.AbstractDepositoryEntity;
 import org.panda_lang.reposilite.depository.ProjectDepositoryEntity;
 import org.panda_lang.utilities.commons.text.ContentJoiner;
 
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
-final class Artifact extends AbstractDepositoryEntity implements ProjectDepositoryEntity {
+final class ArtifactEntity extends AbstractDepositoryEntity implements ProjectDepositoryEntity {
 
-    Artifact(String name) {
-        super(name);
+    ArtifactEntity(File root, String name) {
+        super(root, name);
     }
 
     protected List<? extends String> getVersions() {
-        return super.streamOfType(Build.class)
-                .map(Build::getName)
+        return super.streamOfType(BuildEntity.class)
+                .map(BuildEntity::getName)
                 .sorted()
                 .collect(Collectors.toList());
     }
