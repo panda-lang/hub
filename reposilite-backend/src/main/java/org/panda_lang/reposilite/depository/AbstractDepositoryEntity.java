@@ -53,7 +53,7 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
 
     @Override
     public void addEntity(DepositoryEntity entity) {
-        node.add(entity.getNode());
+        node.add(entity.toNode());
     }
 
     @Override
@@ -71,7 +71,7 @@ public abstract class AbstractDepositoryEntity implements DepositoryEntity {
     }
 
     @Override
-    public DepositoryTree<?> getNode() {
+    public DepositoryTree<?> toNode() {
         return node;
     }
 
