@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ApiOperation("Operations pertaining to the Panda packages")
 @RequestMapping("/api/repository/panda")
@@ -67,6 +68,13 @@ class PandaController extends AbstractSubServiceController<PandaService> {
         FilesUtils.storeFile(new File(entity.getFile(), "builds").toPath(), file, false);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<Object> get() {
+        return ResponseEntity.ok(super.getService().getEntities().stream()
+                .map(DepositoryEntity::getName)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/**")

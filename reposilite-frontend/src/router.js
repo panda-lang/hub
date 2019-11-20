@@ -34,23 +34,6 @@ export default new Router({
             component: () => import('./views/About.vue')
         },
         {
-            path: '/admin',
-            component: () => import('./views/Admin.vue'),
-
-            children: [
-                {
-                    path: '',
-                    name: 'Dashboard',
-                    component: () => import('./views/admin/Dashboard.vue')
-                },
-                {
-                    path: 'upload',
-                    name: 'Upload',
-                    component: () => import('./views/admin/Upload.vue')
-                }
-            ]
-        },
-        {
             path: '/login',
             name: 'Login',
             component: () => import('./views/Login.vue')
@@ -84,6 +67,23 @@ export default new Router({
             path: '/repository/:qualifier(.*)',
             name: 'Repository',
             component: () => import('./views/Repository.vue')
+        },
+        {
+            path: '/admin',
+            component: () => import('./views/Admin.vue'),
+
+            children: [
+                {
+                    path: '',
+                    name: 'Admin Dashboard',
+                    component: () => import('./views/admin/Dashboard.vue')
+                },
+                {
+                    path: 'upload',
+                    name: 'Admin Upload',
+                    component: () => import('./views/admin/Upload.vue')
+                }
+            ]
         },
         {
             path: "*",

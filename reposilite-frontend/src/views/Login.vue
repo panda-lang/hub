@@ -49,7 +49,7 @@ export default {
     }),
     methods: {
         handleSignin() {
-            this.$http.post(`${SIGNIN_ENDPOINT_URL}`, {username: this.username, password: this.password}, {})
+            this.$http.post(`${SIGNIN_ENDPOINT_URL}`, { username: this.username, password: this.password }, {})
                 .then(response => {
                     localStorage.setItem('access_token', response.data['access_token'])
                 })

@@ -28,7 +28,7 @@ export default {
 
         if (token !== undefined) {
             localStorage.setItem('access_token', token)
-            this.$parent.fetchUser()
+            this.$parent.$parent.fetchUser()
             this.$notify.success('Successfully logged in')
         } else {
             this.$notify.error('An error occurred while trying to signin')

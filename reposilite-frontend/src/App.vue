@@ -16,55 +16,31 @@
 
 <template>
     <div id="app">
-        <b-navbar class="navbar is-fixed-top" role="navigation">
-            <template slot="brand">
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/">Reposilite</router-link>
-                </b-navbar-item>
-            </template>
-            <template slot="end">
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/about">About</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/news">News</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/repositories">Repositories</router-link>
-                </b-navbar-item>
-                <template v-if="authorized">
-                    <b-navbar-item v-if="this.roles && this.roles.map(value => value.name).includes('ADMIN')">
-                        <router-link class="navbar-item" to="/admin">Admin</router-link>
-                    </b-navbar-item>
-                    <b-navbar-item>
-                        <a class="navbar-item" href="/" @click="handleLogout">Logout</a >
-                    </b-navbar-item>
-                </template>
-                <template v-else>
-                    <b-navbar-item>
-                        <router-link class="navbar-item" to="/login">Login</router-link>
-                    </b-navbar-item>
-                    <b-navbar-item>
-                        <router-link class="navbar-item" to="/register">Register</router-link>
-                    </b-navbar-item>
-                </template>
-            </template>
-        </b-navbar>
-        <div class="container page-content-container">
-            <div class="container page-content">
-                <router-view/>
-            </div>
-        </div>
+        <template v-if="isWelcome()">
+            <Welcome/>
+        </template>
+        <template v-else>
+            <Dashboard/>
+        </template>
     </div>
 </template>
 
 <script>
 import {USER_DETAILS} from "./constants";
 
+import Menu from './components/Menu.vue'
+import Welcome from './components/Welcome'
+import Dashboard from './components/Dashboard'
+
 export default {
     data: () => ({
-        authorized: false,
+        user: undefined
     }),
+    components: {
+        Dashboard,
+        Welcome,
+        Menu
+    },
     methods: {
         fetchUser() {
             const accessToken = localStorage.getItem('access_token')
@@ -73,12 +49,9 @@ export default {
                 return
             }
 
-            this.$http.get(USER_DETAILS, {headers: {Authorization: `Bearer ${accessToken}`}})
+            this.$http.get(USER_DETAILS, { headers: { Authorization: `Bearer ${accessToken}` } })
                 .then(response => {
-                    this.authorized = true
-                    console.log(response.data)
-
-                    return ({
+                    this.user = {
                         avatar: this.avatar,
                         id: this.identifier,
                         name: this.name,
@@ -87,14 +60,17 @@ export default {
                         username: this.username,
                         email: this.email,
                         roles: this.roles
-                    } = response.data)
+                    } = response.data;
+
+                    localStorage.setItem('user', JSON.stringify(this.user))
                 }).catch(function(error) {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('access_token')
                     console.log(error)
                 })
         },
-        handleLogout() {
-            this.$parent.id = ''
-            localStorage.removeItem('access_token')
+        isWelcome() {
+            return !this.user && this.$route.name === 'Home'
         }
     },
     created() {
@@ -114,9 +90,6 @@ html
 
 #app
     text-align right
-
-.navbar-burger
-    height auto !important
 
 .page-content-container
     padding-top 27px
