@@ -16,65 +16,32 @@
 
 <template>
     <div id="app">
-        <template v-if="isWelcome()">
-            <Welcome/>
-        </template>
-        <template v-else>
-            <Dashboard/>
-        </template>
+        <Welcome v-if="isWelcome()"/>
+        <Dashboard v-else/>
     </div>
 </template>
 
 <script>
-import {USER_DETAILS} from "./constants";
-
 import Menu from './components/Menu.vue'
 import Welcome from './components/Welcome'
 import Dashboard from './components/Dashboard'
 
 export default {
-    data: () => ({
-        user: undefined
-    }),
     components: {
         Dashboard,
         Welcome,
         Menu
     },
     methods: {
-        fetchUser() {
-            const accessToken = localStorage.getItem('access_token')
-
-            if (accessToken == null) {
-                return
-            }
-
-            this.$http.get(USER_DETAILS, { headers: { Authorization: `Bearer ${accessToken}` } })
-                .then(response => {
-                    this.user = {
-                        avatar: this.avatar,
-                        id: this.identifier,
-                        name: this.name,
-                        provider: this.provider,
-                        providerId: this.providerId,
-                        username: this.username,
-                        email: this.email,
-                        roles: this.roles
-                    } = response.data;
-
-                    localStorage.setItem('user', JSON.stringify(this.user))
-                }).catch(function(error) {
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('access_token')
-                    console.log(error)
-                })
+        getUser() {
+            return this.$store.state.user
         },
         isWelcome() {
-            return !this.user && this.$route.name === 'Home'
+            return !this.getUser() && this.$route.name === 'Home'
         }
     },
     created() {
-        this.fetchUser()
+        this.$store.dispatch('fetchUser')
     }
 }
 </script>

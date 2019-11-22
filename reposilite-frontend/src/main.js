@@ -15,19 +15,25 @@
  */
 
 import Vue from 'vue'
-import Buefy from 'buefy'
+import Vuex from 'vuex'
 import Axios from 'axios'
-import App from './App.vue'
-import { NotificationService } from './services'
-import router from './router'
+import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
-Vue.config.productionTip = false
-Vue.prototype.$http = Axios
-Vue.prototype.$notify = NotificationService;
+import App from './App.vue'
+import Router from './router'
+import { store } from './store/store'
+import { NotificationService } from './services'
+
+Vue.use(Vuex)
 Vue.use(Buefy)
+Vue.prototype.$http = Axios
+Vue.prototype.$notify = NotificationService
+Vue.config.productionTip = false
 
 new Vue({
-    router,
+    el: '#app',
+    router: Router,
+    store,
     render: h => h(App)
 }).$mount('#app')

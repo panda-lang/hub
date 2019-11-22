@@ -28,6 +28,8 @@
 import Menu from './Menu'
 
 export default {
-    components: {Menu}
+    components: {
+        Menu
+    }
 }
 </script>

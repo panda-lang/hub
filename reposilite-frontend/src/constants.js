@@ -18,6 +18,8 @@ const config = require('../config')
 
 export const BACKEND = config['backend']
 export const FRONTEND = config['frontend']
+
+export const ACCESS_TOKEN = 'access_token'
 export const USER_DETAILS = `${BACKEND}/api/users/me`
 export const SIGNIN_ENDPOINT_URL = `${BACKEND}/api/users/signin`
 export const SIGNUP_ENDPOINT_URL = `${BACKEND}/api/users/signup`

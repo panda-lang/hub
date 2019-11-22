@@ -15,12 +15,15 @@
   -->
 
 <script>
+
+const parameter = '?token='
+
 export default {
-    render: (createElement) => createElement('h5', "Redirecting..."),
+    render: (createElement) => createElement('h5', 'Redirecting...'),
     methods: {
         obtainUrlParameter() {
             let url = window.location.search
-            return url.includes("?token=") === false ? undefined : url.replace("?token=", "")
+            return url.includes(parameter) === false ? undefined : url.replace(parameter, '')
         }
     },
     mounted() {
@@ -28,7 +31,7 @@ export default {
 
         if (token !== undefined) {
             localStorage.setItem('access_token', token)
-            this.$parent.$parent.fetchUser()
+            this.$store.dispatch('fetchUser')
             this.$notify.success('Successfully logged in')
         } else {
             this.$notify.error('An error occurred while trying to signin')

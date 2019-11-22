@@ -31,8 +31,8 @@
             <b-navbar-item>
                 <router-link class="navbar-item" to="/repositories">Repositories</router-link>
             </b-navbar-item>
-            <template v-if="this.$parent.user">
-                <b-navbar-item v-if="this.$parent.user.roles && this.$parent.user.roles.map(value => value.name).includes('ADMIN')">
+            <template v-if="user">
+                <b-navbar-item v-if="roles">
                     <router-link class="navbar-item" to="/admin">Admin</router-link>
                 </b-navbar-item>
                 <b-navbar-item>
@@ -54,12 +54,20 @@
 <script>
 export default {
     name: 'Menu',
+    computed: {
+        user: function () {
+            return this.$store.state.user
+        },
+        roles: function () {
+            return this.user.roles && this.user.roles
+                .map(value => value.name)
+                .includes('ADMIN')
+        },
+    },
     methods: {
         handleLogout() {
-            // noinspection JSUnresolvedVariable
-            this.$parent.id = ''
-            localStorage.removeItem('access_token')
-            localStorage.removeItem('user')
+            this.$store.dispatch('removeUser')
+            this.$parent.$parent.id = ''
         }
     }
 }
