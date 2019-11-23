@@ -29,11 +29,11 @@
 import { BACKEND } from '../constants'
 
 export default {
-    data: () => ({
-        repositories: []
-    }),
-    mounted() {
-        this.$http.get(BACKEND + '/api/repositories').then(response => (this.repositories = response.data))
-    }
+  data: () => ({
+    repositories: []
+  }),
+  mounted () {
+    this.$http.get(BACKEND + '/api/repositories').then(response => (this.repositories = response.data))
+  }
 }
 </script>

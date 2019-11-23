@@ -49,30 +49,30 @@
 </template>
 
 <script>
-import {GITHUB_OAUTH_URL, SIGNUP_ENDPOINT_URL} from "../constants"
+import { GITHUB_OAUTH_URL, SIGNUP_ENDPOINT_URL } from '../constants'
 
 export default {
-    data: () => ({
-        username: '',
-        name: '',
-        email: '',
-        password: '',
-        signInWithGithubUrl: GITHUB_OAUTH_URL
-    }),
-    methods: {
-        handleSignup() {
-            this.$http.post(SIGNUP_ENDPOINT_URL, { username: this.username, name: this.name, email: this.email, password: this.password }, {})
-                .then(() => this.$notify.success('Successfully singed up'))
-                .catch(error => {
-                    if (error.response.status === 409) {
-                        this.$notify.error('User already exists')
-                        return
-                    }
+  data: () => ({
+    username: '',
+    name: '',
+    email: '',
+    password: '',
+    signInWithGithubUrl: GITHUB_OAUTH_URL
+  }),
+  methods: {
+    handleSignup () {
+      this.$http.post(SIGNUP_ENDPOINT_URL, { username: this.username, name: this.name, email: this.email, password: this.password }, {})
+        .then(() => this.$notify.success('Successfully singed up'))
+        .catch(error => {
+          if (error.response.status === 409) {
+            this.$notify.error('User already exists')
+            return
+          }
 
-                    this.$notify.error('An error occurred while trying to signup')
-                })
-        }
+          this.$notify.error('An error occurred while trying to signup')
+        })
     }
+  }
 }
 </script>
 

@@ -42,30 +42,30 @@
 </template>
 
 <script>
-import {GITHUB_OAUTH_URL, SIGNIN_ENDPOINT_URL} from "../constants";
+import { GITHUB_OAUTH_URL, SIGNIN_ENDPOINT_URL } from '../constants'
 
 export default {
-    data: () => ({
-        username: '',
-        password: '',
-        signInWithGithubUrl: GITHUB_OAUTH_URL
-    }),
-    methods: {
-        handleSignin() {
-            this.$http.post(`${SIGNIN_ENDPOINT_URL}`, { username: this.username, password: this.password }, {})
-                .then(response => {
-                    this.$store.dispatch('setToken', response.data['access_token'])
-                })
-                .catch(error => {
-                    if (error.response.status === 401) {
-                        this.$notify.error('Bad credentials')
-                        return
-                    }
+  data: () => ({
+    username: '',
+    password: '',
+    signInWithGithubUrl: GITHUB_OAUTH_URL
+  }),
+  methods: {
+    handleSignin () {
+      this.$http.post(`${SIGNIN_ENDPOINT_URL}`, { username: this.username, password: this.password }, {})
+        .then(response => {
+          this.$store.dispatch('setToken', response.data['access_token'])
+        })
+        .catch(error => {
+          if (error.response.status === 401) {
+            this.$notify.error('Bad credentials')
+            return
+          }
 
-                    this.$notify.error('An error occurred while trying to signin')
-                })
-        }
+          this.$notify.error('An error occurred while trying to signin')
+        })
     }
+  }
 }
 </script>
 

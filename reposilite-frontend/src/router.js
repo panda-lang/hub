@@ -20,75 +20,75 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export const router = new Router({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes: [
-        {
-            path: '/',
-            name: 'Home',
-            component: () => import('./views/Home.vue')
-        },
-        {
-            path: '/about',
-            name: 'About',
-            component: () => import('./views/About.vue')
-        },
-        {
-            path: '/login',
-            name: 'Login',
-            component: () => import('./views/Login.vue')
-        },
-        {
-            path: '/news',
-            name: 'News',
-            component: () => import('./views/News.vue')
-        },
-        {
-            path: '/register',
-            name: 'Register',
-            component: () => import('./views/Register.vue')
-        },
-        {
-            path: '/oauth2/redirect',
-            name: 'Redirect',
-            component: () => import('./views/OAuth2.vue')
-        },
-        {
-            path: '/repositories',
-            name: 'Repositories',
-            component: () => import('./views/Repositories.vue')
-        },
-        {
-            path: '/repository',
-            name: 'Repositories Redirect',
-            redirect: '/repositories'
-        },
-        {
-            path: '/repository/:qualifier(.*)',
-            name: 'Repository',
-            component: () => import('./views/Repository.vue')
-        },
-        {
-            path: '/admin',
-            component: () => import('./views/Admin.vue'),
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: () => import('./views/Home.vue')
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: () => import('./views/About.vue')
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('./views/Login.vue')
+    },
+    {
+      path: '/news',
+      name: 'News',
+      component: () => import('./views/News.vue')
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import('./views/Register.vue')
+    },
+    {
+      path: '/oauth2/redirect',
+      name: 'Redirect',
+      component: () => import('./views/OAuth2.vue')
+    },
+    {
+      path: '/repositories',
+      name: 'Repositories',
+      component: () => import('./views/Repositories.vue')
+    },
+    {
+      path: '/repository',
+      name: 'Repositories Redirect',
+      redirect: '/repositories'
+    },
+    {
+      path: '/repository/:qualifier(.*)',
+      name: 'Repository',
+      component: () => import('./views/Repository.vue')
+    },
+    {
+      path: '/admin',
+      component: () => import('./views/Admin.vue'),
 
-            children: [
-                {
-                    path: '',
-                    name: 'Admin Dashboard',
-                    component: () => import('./views/admin/Dashboard.vue')
-                },
-                {
-                    path: 'upload',
-                    name: 'Admin Upload',
-                    component: () => import('./views/admin/Upload.vue')
-                }
-            ]
+      children: [
+        {
+          path: '',
+          name: 'Admin Dashboard',
+          component: () => import('./views/admin/Dashboard.vue')
         },
         {
-            path: "*",
-            name: 'Page Not Found',
-            component: () => import('./views/PageNotFound.vue')
+          path: 'upload',
+          name: 'Admin Upload',
+          component: () => import('./views/admin/Upload.vue')
         }
-    ]
+      ]
+    },
+    {
+      path: '*',
+      name: 'Page Not Found',
+      component: () => import('./views/PageNotFound.vue')
+    }
+  ]
 })

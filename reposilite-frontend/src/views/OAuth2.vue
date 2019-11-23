@@ -19,25 +19,25 @@
 const parameter = '?token='
 
 export default {
-    render: (createElement) => createElement('h5', 'Redirecting...'),
-    methods: {
-        obtainUrlParameter() {
-            let url = window.location.search
-            return url.includes(parameter) === false ? undefined : url.replace(parameter, '')
-        }
-    },
-    mounted() {
-        let token = this.obtainUrlParameter('token')
-
-        if (token !== undefined) {
-            this.$store.dispatch('setToken', token)
-            this.$store.dispatch('fetchUser')
-            this.$notify.success('Successfully logged in')
-        } else {
-            this.$notify.error('An error occurred while trying to signin')
-        }
-
-        this.$router.push('/')
+  render: (createElement) => createElement('h5', 'Redirecting...'),
+  methods: {
+    obtainUrlParameter () {
+      let url = window.location.search
+      return url.includes(parameter) === false ? undefined : url.replace(parameter, '')
     }
+  },
+  mounted () {
+    let token = this.obtainUrlParameter('token')
+
+    if (token !== undefined) {
+      this.$store.dispatch('setToken', token)
+      this.$store.dispatch('fetchUser')
+      this.$notify.success('Successfully logged in')
+    } else {
+      this.$notify.error('An error occurred while trying to signin')
+    }
+
+    this.$router.push('/')
+  }
 }
 </script>

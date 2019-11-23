@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-import toastr from "toastr"
+import toastr from 'toastr'
 
 export default {
-  error(message) {
-    this.printNotification(message, "error");
+  error (message) {
+    this.printNotification(message, 'error')
   },
-  success(message) {
-    this.printNotification(message, "success");
+  success (message) {
+    this.printNotification(message, 'success')
   },
-  warning(message) {
-    this.printNotification(message, "warning");
+  warning (message) {
+    this.printNotification(message, 'warning')
   },
-  info(message) {
-    this.printNotification(message, "info");
+  info (message) {
+    this.printNotification(message, 'info')
   },
-  printNotification(message, type) {
+  printNotification (message, type) {
     let options = {
-      "progressBar": true,
-      "positionClass": "toast-bottom-right",
-      "showDuration": "300",
-      "hideDuration": "500",
-      "timeOut": "2500",
-      "extendedTimeOut": "1000"
-    };
+      'progressBar': true,
+      'positionClass': 'toast-bottom-right',
+      'showDuration': '300',
+      'hideDuration': '500',
+      'timeOut': '2500',
+      'extendedTimeOut': '1000'
+    }
 
-    toastr[type](message, null, options);
+    toastr[type](message, null, options)
   }
 }
