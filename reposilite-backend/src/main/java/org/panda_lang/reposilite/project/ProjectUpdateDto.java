@@ -16,11 +16,8 @@
 
 package org.panda_lang.reposilite.project;
 
-import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.entity.NameableMongoRepository;
-import org.springframework.stereotype.Repository;
+import org.panda_lang.reposilite.utils.entity.AbstractDto;
 
-@Repository
-interface ProjectRepository extends NameableMongoRepository<Project, ObjectId>{
+final class ProjectUpdateDto extends AbstractDto<Project> {
 
 }

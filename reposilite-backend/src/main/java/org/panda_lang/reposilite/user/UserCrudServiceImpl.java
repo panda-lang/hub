@@ -18,24 +18,21 @@ package org.panda_lang.reposilite.user;
 
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.user.role.RoleFactory;
+import org.panda_lang.reposilite.utils.entity.AbstractCrudOperationService;
 import org.panda_lang.utilities.commons.collection.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
-final class UserCrudServiceImpl implements UserCrudService {
+final class UserCrudServiceImpl extends AbstractCrudOperationService<User, ObjectId> implements UserCrudService {
 
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleFactory roleFactory;
 
     @Autowired
-    public UserCrudServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleFactory roleFactory) {
-        this.userRepository = userRepository;
+    public UserCrudServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, RoleFactory roleFactory) {
+        super(repository);
         this.passwordEncoder = passwordEncoder;
         this.roleFactory = roleFactory;
     }
@@ -44,33 +41,7 @@ final class UserCrudServiceImpl implements UserCrudService {
     public User save(User user) {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         user.setRoles(Sets.newHashSet(this.roleFactory.obtainRole("USER")));
-
-        return this.userRepository.save(user);
-    }
-
-    @Override
-    public Optional<User> findByName(String name) {
-        return this.userRepository.findByName(name);
-    }
-
-    @Override
-    public Optional<User> findById(ObjectId objectId) {
-        return this.userRepository.findById(objectId);
-    }
-
-    @Override
-    public List<User> findAll() {
-        return this.userRepository.findAll();
-    }
-
-    @Override
-    public void deleteById(ObjectId objectId) {
-        this.userRepository.deleteById(objectId);
-    }
-
-    @Override
-    public boolean existsById(ObjectId objectId) {
-        return this.userRepository.existsById(objectId);
+        return super.getRepository().save(user);
     }
 
 }
