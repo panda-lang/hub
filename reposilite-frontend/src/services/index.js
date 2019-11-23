@@ -14,4 +14,4 @@
  * limitations under the License.
  */
 
-export { default as NotificationService } from "./notification.service"
+export { default as notifications } from "./notification.service"

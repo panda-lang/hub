@@ -23,24 +23,28 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
+        token: localStorage.getItem(ACCESS_TOKEN),
         user: undefined
     },
 
     mutations: {
         SET_USER: (state, user) => {
             state.user = user
+        },
+        SET_TOKEN: (state, token) => {
+            state.token = token
         }
     },
 
     actions: {
-        fetchUser({ commit, dispatch }) {
-            if (!localStorage.getItem(ACCESS_TOKEN)) {
+        fetchUser({ dispatch, state }) {
+            if (!state.token) {
                 return
             }
 
             Axios.get(USER_DETAILS, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+                    Authorization: `Bearer ${state.token}`
                 }
             }).then(response => {
                 const user = {
@@ -68,12 +72,23 @@ export const store = new Vuex.Store({
             localStorage.removeItem(ACCESS_TOKEN)
             localStorage.removeItem('user')
             commit('SET_USER', undefined)
+        },
+        setToken({ commit }, token) {
+            localStorage.setItem(ACCESS_TOKEN, token)
+            commit('SET_TOKEN', token)
+        },
+        removeToken({ commit }) {
+            localStorage.removeItem(ACCESS_TOKEN)
+            commit('SET_TOKEN', undefined)
         }
     },
 
     getters: {
         getUser(state) {
             return state.user
+        },
+        getToken(state) {
+            return state.token
         }
     },
 })

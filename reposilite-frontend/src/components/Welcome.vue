@@ -15,9 +15,11 @@
   -->
 
 <template>
-    <div class="container">
+    <div>
         <Menu/>
-        <div>WELCOME</div>
+        <div class="container welcome-content">
+            <div>WELCOME</div>
+        </div>
     </div>
 </template>
 
@@ -30,3 +32,32 @@ export default {
     }
 }
 </script>
+
+<style lang="stylus">
+.welcome
+    background-color #6B3E78
+    background-image url('../assets/background.png')
+    background-size 117%
+
+/*
+ * Menu component
+ */
+.welcome .logo
+    color white
+.welcome .navbar
+    background-color rgba(0, 0, 0, 0)
+.welcome .navbar-item
+    color white
+.welcome .navbar-item:hover
+    background-color rgba(0, 0, 0, 0) !important
+    color #efefef !important
+    text-decoration underline
+.welcome .login-item
+    font-weight bold
+
+/*
+ * Welcome content
+ */
+.welcome-content
+    color white
+</style>

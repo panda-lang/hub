@@ -15,33 +15,28 @@
   -->
 
 <template>
-    <div id="app">
-        <Welcome v-if="isWelcome()"/>
+    <div id="app" :class='{ welcome }'>
+        <Welcome v-if="welcome"/>
         <Dashboard v-else/>
     </div>
 </template>
 
 <script>
-import Menu from './components/Menu.vue'
 import Welcome from './components/Welcome'
 import Dashboard from './components/Dashboard'
 
 export default {
     components: {
         Dashboard,
-        Welcome,
-        Menu
+        Welcome
     },
-    methods: {
-        getUser() {
+    computed: {
+        user: function () {
             return this.$store.state.user
         },
-        isWelcome() {
-            return !this.getUser() && this.$route.name === 'Home'
+        welcome: function () {
+            return !this.user && this.$route.name === 'Home'
         }
-    },
-    created() {
-        this.$store.dispatch('fetchUser')
     }
 }
 </script>
@@ -52,17 +47,20 @@ export default {
 </style>
 
 <style lang="stylus">
-html
-    background-color #efefef !important
+html, body
+    height: 100%
+    margin: 0
+    padding: 0
+    overflow hidden
 
 #app
-    text-align right
+    height: 100%
 
 .page-content-container
-    padding-top 27px
+    margin-top 27px
 
 .page-content
-    padding 17px
+    margin 17px
     background-color white
     min-height 107px
     text-align left

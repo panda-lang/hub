@@ -30,6 +30,9 @@
             <b-field>
                 <a :href="signInWithGithubUrl">Sign in with GitHub</a>
             </b-field>
+            <b-field>
+                <router-link to="/register">Register a new account</router-link>
+            </b-field>
 
             <b-field>
                 <b-button class="button is-link" type="submit">Login</b-button>
@@ -51,7 +54,7 @@ export default {
         handleSignin() {
             this.$http.post(`${SIGNIN_ENDPOINT_URL}`, { username: this.username, password: this.password }, {})
                 .then(response => {
-                    localStorage.setItem('access_token', response.data['access_token'])
+                    this.$store.dispatch('setToken', response.data['access_token'])
                 })
                 .catch(error => {
                     if (error.response.status === 401) {

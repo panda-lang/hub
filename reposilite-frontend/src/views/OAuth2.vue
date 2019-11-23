@@ -30,7 +30,7 @@ export default {
         let token = this.obtainUrlParameter('token')
 
         if (token !== undefined) {
-            localStorage.setItem('access_token', token)
+            this.$store.dispatch('setToken', token)
             this.$store.dispatch('fetchUser')
             this.$notify.success('Successfully logged in')
         } else {

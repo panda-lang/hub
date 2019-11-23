@@ -15,11 +15,12 @@
   -->
 
 <template>
-    <div class="container page-content-container">
+    <div>
         <Menu/>
-
-        <div class="container page-content">
-            <router-view/>
+        <div class="container page-content-container">
+            <div class="page-content">
+                <router-view/>
+            </div>
         </div>
     </div>
 </template>
@@ -33,3 +34,8 @@ export default {
     }
 }
 </script>
+
+<style lang="stylus" scoped>
+html
+    background-color #efefef
+</style>

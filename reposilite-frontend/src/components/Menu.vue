@@ -15,10 +15,10 @@
   -->
 
 <template>
-    <b-navbar class="navbar is-fixed-top" role="navigation">
+    <b-navbar class="navbar" role="navigation">
         <template slot="brand">
             <b-navbar-item>
-                <router-link class="navbar-item" to="/">Reposilite</router-link>
+                <router-link class="navbar-item logo" to="/">R</router-link>
             </b-navbar-item>
         </template>
         <template slot="end">
@@ -41,10 +41,7 @@
             </template>
             <template v-else>
                 <b-navbar-item>
-                    <router-link class="navbar-item" to="/login">Login</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/register">Register</router-link>
+                    <router-link class="navbar-item login-item" to="/login">Login</router-link>
                 </b-navbar-item>
             </template>
         </template>
@@ -67,13 +64,24 @@ export default {
     methods: {
         handleLogout() {
             this.$store.dispatch('removeUser')
-            this.$parent.$parent.id = ''
+            this.$parent.id = ''
         }
     }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
+.logo
+    font-family "Lucida Handwriting" !important
+    font-size 30px
+    margin-left 17px
+
 .navbar-burger
     height auto !important
+
+.navbar-item
+    font-family "Leelawadee UI"
+
+.navbar-end:last-child
+    padding-right 17px
 </style>
