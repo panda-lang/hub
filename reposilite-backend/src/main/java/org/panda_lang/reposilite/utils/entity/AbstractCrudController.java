@@ -37,6 +37,14 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Default implementation of crud controller
+ *
+ * @param <T> type of entity
+ * @param <ID> type of id
+ * @param <U> type of update dto
+ * @param <C> type of create dto
+ */
 public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, ID, U extends AbstractDto<T>, C extends AbstractDto<T>> {
 
     @SuppressWarnings({ "ELValidationInJSP", "SpringElInspection" })
@@ -53,7 +61,6 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
     protected ResponseEntity<List<T>> readAll() {
         return ResponseEntity.ok(this.service.findAll());
     }
-
 
     @ApiOperation("Displays specified entity by it's identifier")
     @ApiResponses({

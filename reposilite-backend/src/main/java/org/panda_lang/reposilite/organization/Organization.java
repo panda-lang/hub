@@ -24,7 +24,7 @@ import org.panda_lang.reposilite.user.User;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+@Document("organizations")
 public final class Organization implements DepositoryOwner {
 
     @Id

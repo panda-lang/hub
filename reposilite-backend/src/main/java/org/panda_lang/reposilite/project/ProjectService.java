@@ -16,6 +16,9 @@
 
 package org.panda_lang.reposilite.project;
 
-public interface ProjectService {
+import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.utils.entity.CrudOperationsService;
+
+interface ProjectService extends CrudOperationsService<Project, ObjectId> {
 
 }

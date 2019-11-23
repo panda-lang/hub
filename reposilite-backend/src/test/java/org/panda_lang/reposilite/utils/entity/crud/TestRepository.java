@@ -17,14 +17,13 @@
 package org.panda_lang.reposilite.utils.entity.crud;
 
 import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.utils.entity.NameableMongoRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface TestRepository extends MongoRepository<TestEntity, ObjectId> {
-
-    Optional<TestEntity> findByUsername(String username);
+public interface TestRepository extends NameableMongoRepository<TestEntity, ObjectId> {
 
 }

@@ -17,14 +17,20 @@
 package org.panda_lang.reposilite.project;
 
 import io.swagger.annotations.ApiOperation;
+import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.utils.entity.AbstractCrudController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @ApiOperation("Operations pertaining to projects")
 @RestController
 @RequestMapping("/api/projects")
-class ProjectController {
+class ProjectController extends AbstractCrudController<Project, ObjectId, ProjectUpdateDto, ProjectUpdateDto> {
 
-
+    @Autowired
+    protected ProjectController(ProjectService service) {
+        super(service);
+    }
 
 }

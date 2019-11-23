@@ -16,17 +16,30 @@
 
 package org.panda_lang.reposilite.project;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.entity.AbstractCrudOperationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.panda_lang.reposilite.utils.entity.IdentifiableEntity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Service
-class ProjectServiceImpl extends AbstractCrudOperationService<Project, ObjectId> implements ProjectService {
+import java.io.Serializable;
 
-    @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
-        super(projectRepository);
+@Document("projects")
+class Project implements IdentifiableEntity<ObjectId>, Serializable {
+
+    @Id
+    @JsonSerialize(using = ToStringSerializer.class)
+    private ObjectId identifier;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public ObjectId getIdentifier() {
+        return identifier;
     }
 
 }
