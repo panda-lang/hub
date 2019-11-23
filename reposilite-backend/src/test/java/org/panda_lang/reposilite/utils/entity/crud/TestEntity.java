@@ -29,12 +29,12 @@ public class TestEntity implements IdentifiableEntity<ObjectId> {
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId identifier;
-    private String username;
+    private String name;
     private String something;
 
-    public TestEntity(ObjectId identifier, String username, String something) {
+    public TestEntity(ObjectId identifier, String name, String something) {
         this.identifier = identifier;
-        this.username = username;
+        this.name = name;
         this.something = something;
     }
 
@@ -46,8 +46,8 @@ public class TestEntity implements IdentifiableEntity<ObjectId> {
         return this.identifier;
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getName() {
+        return this.name;
     }
 
     public String getSomething() {
@@ -58,8 +58,8 @@ public class TestEntity implements IdentifiableEntity<ObjectId> {
         this.identifier = identifier;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setSomething(String something) {
@@ -70,7 +70,7 @@ public class TestEntity implements IdentifiableEntity<ObjectId> {
     public String toString() {
         return "TestEntity{" +
                 "identifier=" + this.identifier +
-                ", username='" + this.username + '\'' +
+                ", name='" + this.name + '\'' +
                 ", something='" + this.something + '\'' +
                 '}';
     }

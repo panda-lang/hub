@@ -41,7 +41,7 @@ class BeanUtilTest {
         assertAll(
                 () -> assertNotNull(testEntity),
                 () -> assertNotNull(testEntityEdited),
-                () -> assertEquals(testEntityEdited.getUsername(), testEntity.getUsername()),
+                () -> assertEquals(testEntityEdited.getName(), testEntity.getName()),
                 () -> assertEquals(testEntityEdited.getIdentifier(), testEntity.getIdentifier()),
                 () -> assertEquals(testEntityEdited.getSomething(), testEntity.getSomething())
         );

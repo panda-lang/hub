@@ -171,7 +171,7 @@ class AbstractCrudControllerIntegrationTest {
         assertAll(
                 () -> assertNotNull(databaseEntity),
                 () -> assertNotEquals(databaseEntity, testEntity),
-                () -> assertEquals(username + "_EDITED", databaseEntity.getUsername())
+                () -> assertEquals(username + "_EDITED", databaseEntity.getName())
         );
     }
 
@@ -197,7 +197,7 @@ class AbstractCrudControllerIntegrationTest {
         assertAll(
                 () -> assertNotNull(databaseEntity),
                 () -> assertNotEquals(databaseEntity, testEntity),
-                () -> assertEquals(testDto.getUsername(), databaseEntity.getUsername())
+                () -> assertEquals(testDto.getUsername(), databaseEntity.getName())
         );
     }
 
@@ -261,7 +261,7 @@ class AbstractCrudControllerIntegrationTest {
         assertAll(
                 () -> assertNotNull(databaseEntity.getSomething()),
                 () -> assertEquals(databaseEntity.getSomething(), "something_EDITED"),
-                () -> assertEquals(databaseEntity.getUsername(), username)
+                () -> assertEquals(databaseEntity.getName(), username)
         );
     }
 
