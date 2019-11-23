@@ -32,7 +32,7 @@
                 <router-link class="navbar-item" to="/repositories">Repositories</router-link>
             </b-navbar-item>
             <template v-if="user">
-                <b-navbar-item v-if="roles">
+                <b-navbar-item v-if="isAdmin">
                     <router-link class="navbar-item" to="/admin">Admin</router-link>
                 </b-navbar-item>
                 <b-navbar-item>
@@ -55,10 +55,8 @@ export default {
         user: function () {
             return this.$store.state.user
         },
-        roles: function () {
-            return this.user.roles && this.user.roles
-                .map(value => value.name)
-                .includes('ADMIN')
+        isAdmin: function () {
+            return this.$store.getters.isAdmin
         },
     },
     methods: {
@@ -71,11 +69,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.logo
-    font-family "Lucida Handwriting" !important
-    font-size 30px
-    margin-left 17px
-
 .navbar-burger
     height auto !important
 
@@ -84,4 +77,11 @@ export default {
 
 .navbar-end:last-child
     padding-right 17px
+</style>
+
+<style lang="stylus">
+.logo
+    font-family "Lucida Handwriting" !important
+    font-size 30px
+    margin-left 17px
 </style>

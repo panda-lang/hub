@@ -36,6 +36,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-html
+#app
     background-color #efefef
 </style>

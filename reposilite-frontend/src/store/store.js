@@ -84,11 +84,10 @@ export const store = new Vuex.Store({
     },
 
     getters: {
-        getUser(state) {
-            return state.user
-        },
-        getToken(state) {
-            return state.token
+        isAdmin(state) {
+            return state.user.roles && state.user.roles
+                .map(value => value.name)
+                .includes('ADMIN')
         }
-    },
+    }
 })

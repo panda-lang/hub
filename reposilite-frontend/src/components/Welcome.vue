@@ -18,7 +18,18 @@
     <div>
         <Menu/>
         <div class="container welcome-content">
-            <div>WELCOME</div>
+            <div class="columns">
+                <div class="column is-centered">
+                    <h1>Where the Universe begins</h1>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="description column is-centered">
+                    Instantly publish your crates and install them.
+                    Use the API to interact and find out more information about available crates.
+                    Become a contributor and enhance the site with your work.
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -38,7 +49,6 @@ export default {
     background-color #6B3E78
     background-image url('../assets/background.png')
     background-size 117%
-
 /*
  * Menu component
  */
@@ -54,10 +64,18 @@ export default {
     text-decoration underline
 .welcome .login-item
     font-weight bold
+</style>
 
-/*
- * Welcome content
- */
+<style lang="stylus">
 .welcome-content
     color white
+    font-family "Leelawadee UI"
+    text-align center
+h1
+    font-size 70px
+    font-weight bold
+    width auto
+.description
+    font-size 16px
+    width 217px
 </style>

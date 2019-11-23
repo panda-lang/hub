@@ -72,16 +72,13 @@ export default {
 <style lang="stylus">
 .login
     text-align center
-
 .login .column
     max-width 460px
     border-radius 7px
     background-color white
     text-align center
-
 .login .input
     max-width 420px !important
-
 .login .control
     text-align center !important
 </style>
