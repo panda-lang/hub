@@ -19,63 +19,61 @@ const trim = require('trim-newlines')
 const java = require('./utils/java-utils')
 
 class ReposiliteBackend {
+	launch (config) {
+		console.log('Launching backend...')
 
-    launch(config) {
-        console.log("Launching backend...")
+		const env = Object.create(process.env)
+		env.MAVEN_OPTS = java.optionsToParameters(config)
 
-        const env = Object.create(process.env)
-        env.MAVEN_OPTS = java.optionsToParameters(config)
+		this.backend = spawn('../reposilite-backend/mvnw', ['spring-boot:run', '-f', '../reposilite-backend/pom.xml'], {
+			cwd: '../reposilite-workspace/',
+			env: env
+		})
 
-        this.backend = spawn('../reposilite-backend/mvnw', [ 'spring-boot:run', '-f', '../reposilite-backend/pom.xml' ], {
-            cwd: '../reposilite-workspace/',
-            env: env
-        })
+		this.backend.on('error', (error) => {
+			console.error(error)
+		})
 
-        this.backend.on('error', (error) => {
-            console.error(error)
-        })
+		let requiresNL
 
-        let requiresNL
+		this.backend.stdout.on('data', (data) => {
+			let message = data.toString()
 
-        this.backend.stdout.on('data', (data) => {
-            let message = data.toString()
+			if (requiresNL) {
+				message = '\n' + message
+				requiresNL = false
+			}
 
-            if (requiresNL) {
-                message = "\n" + message
-                requiresNL = false
-            }
+			if (message.endsWith('\n')) {
+				requiresNL = true
+				message = trim.end(message)
+			}
 
-            if (message.endsWith("\n")) {
-                requiresNL = true
-                message = trim.end(message)
-            }
+			process.stdout.write(message.replace(/\n/g, '\n[reposilite-backend] '))
+		})
 
-            process.stdout.write(message.replace(/\n/g, "\n[reposilite-backend] "))
-        })
+		const that = this
 
-        const that = this
+		this.backend.on('exit', (code, signal) => {
+			console.warn(`[reposilite-backend] process exited with code ${code} and signal ${signal}`)
+			that.backend = null
+		})
+	}
 
-        this.backend.on('exit', (code, signal) => {
-            console.warn(`[reposilite-backend] process exited with code ${code} and signal ${signal}`)
-            that.backend = null
-        })
-    }
+	execute (command) {
+		this.backend.stdin.write(command + '\n')
+	}
 
-    execute(command) {
-        this.backend.stdin.write(command + "\n")
-    }
+	shutdown () {
+		if (this.isActive()) {
+			this.backend.stdin.pause()
+			this.backend.kill()
+		}
+	}
 
-    shutdown() {
-        if (this.isActive()) {
-            this.backend.stdin.pause()
-            this.backend.kill()
-        }
-    }
-
-    isActive() {
-        return this.backend != null
-    }
-
+	isActive () {
+		return this.backend != null
+	}
 }
 
 module.exports = ReposiliteBackend

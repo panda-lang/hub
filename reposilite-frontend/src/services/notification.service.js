@@ -30,13 +30,13 @@ export default {
 		this.printNotification(message, 'info')
 	},
 	printNotification (message, type) {
-		let options = {
-			'progressBar': true,
-			'positionClass': 'toast-bottom-right',
-			'showDuration': '300',
-			'hideDuration': '500',
-			'timeOut': '2500',
-			'extendedTimeOut': '1000'
+		const options = {
+			progressBar: true,
+			positionClass: 'toast-bottom-right',
+			showDuration: '300',
+			hideDuration: '500',
+			timeOut: '2500',
+			extendedTimeOut: '1000'
 		}
 
 		toastr[type](message, null, options)

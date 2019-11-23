@@ -18,40 +18,38 @@ const spawn = require('cross-spawn-with-kill')
 const TextUtils = require('./utils/text-utils')
 
 class ReposiliteFrontend {
+	launch () {
+		this.frontend = spawn('npm', ['run', 'serve'], { cwd: '../reposilite-frontend' })
+		console.log('Launching frontend...')
 
-    launch() {
-        this.frontend = spawn('npm', [ 'run', 'serve' ], { cwd: '../reposilite-frontend'})
-        console.log("Launching frontend...")
+		this.frontend.stderr.pipe(process.stderr)
 
-        this.frontend.stderr.pipe(process.stderr);
+		this.frontend.stdout.on('data', (data) => {
+			console.log(TextUtils.appendSuffix(TextUtils.trimNL(data.toString()), false, '[reposilite-frontend] ', '', (content) => TextUtils.trimNL(content)))
+		})
 
-        this.frontend.stdout.on('data', (data) => {
-            console.log(TextUtils.appendSuffix(TextUtils.trimNL(data.toString()), false, '[reposilite-frontend] ', '', (content) => TextUtils.trimNL(content)))
-        })
+		const that = this
 
-        const that = this
+		this.frontend.on('exit', (code, signal) => {
+			console.warn(`[reposilite-frontend] process exited with code ${code} and signal ${signal}`)
+			that.frontend = null
+		})
+	}
 
-        this.frontend.on('exit', (code, signal) => {
-            console.warn(`[reposilite-frontend] process exited with code ${code} and signal ${signal}`)
-            that.frontend = null
-        })
-    }
+	execute (command) {
+		this.frontend.stdin.write(command + '\n')
+	}
 
-    execute(command) {
-        this.frontend.stdin.write(command + "\n")
-    }
+	shutdown () {
+		if (this.isActive()) {
+			this.frontend.stdin.pause()
+			this.frontend.kill()
+		}
+	}
 
-    shutdown() {
-        if (this.isActive()) {
-            this.frontend.stdin.pause()
-            this.frontend.kill()
-        }
-    }
-
-    isActive() {
-        return this.frontend != null
-    }
-
+	isActive () {
+		return this.frontend != null
+	}
 }
 
 module.exports = ReposiliteFrontend

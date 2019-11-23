@@ -22,12 +22,12 @@ export default {
 	render: (createElement) => createElement('h5', 'Redirecting...'),
 	methods: {
 		obtainUrlParameter () {
-			let url = window.location.search
+			const url = window.location.search
 			return url.includes(parameter) === false ? undefined : url.replace(parameter, '')
 		}
 	},
 	mounted () {
-		let token = this.obtainUrlParameter('token')
+		const token = this.obtainUrlParameter('token')
 
 		if (token !== undefined) {
 			this.$store.dispatch('setToken', token)

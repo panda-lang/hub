@@ -47,7 +47,7 @@ export default {
 	},
 	methods: {
 		updateEntities () {
-			this.qualifier = this.$route.params['qualifier']
+			this.qualifier = this.$route.params.qualifier
 			const url = BACKEND + '/api/repository/' + this.qualifier
 			console.log(url)
 

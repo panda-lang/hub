@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 
-cd "reposilite-cli" || exit 1
-
-npm install
-npm start
+yarn install
+yarn workspace @reposilite/cli start

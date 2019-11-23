@@ -16,29 +16,29 @@
 
 const Promise = require('bluebird')
 
-function promiseWhile(condition, action) {
-    const resolver = Promise.defer()
+function promiseWhile (condition, action) {
+	const resolver = Promise.defer()
 
-    const loop = () => {
-        if (!condition()) {
-            return resolver.resolve()
-        }
+	const loop = () => {
+		if (!condition()) {
+			return resolver.resolve()
+		}
 
-        return Promise.cast(action())
-            .then(loop)
-            .catch(resolver.reject)
-    }
+		return Promise.cast(action())
+			.then(loop)
+			.catch(resolver.reject)
+	}
 
-    process.nextTick(loop)
-    return resolver.promise
+	process.nextTick(loop)
+	return resolver.promise
 }
 
-async function promiseWhileDelayed(condition, delay) {
-    return promiseWhile(condition, () => createDelay(delay))
+async function promiseWhileDelayed (condition, delay) {
+	return promiseWhile(condition, () => createDelay(delay))
 }
 
-function createDelay(delay) {
-    return new Promise((resolve) => setTimeout(() => resolve(), delay))
+function createDelay (delay) {
+	return new Promise((resolve) => setTimeout(() => resolve(), delay))
 }
 
 module.exports = { promiseWhile, promiseWhileDelayed }

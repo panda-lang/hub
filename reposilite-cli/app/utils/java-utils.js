@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-function optionsToParameters(options) {
-    let parameters = ''
+function optionsToParameters (options) {
+	let parameters = ''
 
-    for (const key in options) {
-        if (options.hasOwnProperty(key)) {
-            parameters += ' -D' + key + '="' + options[key] + '"'
-        }
-    }
+	for (const key in options) {
+		if (options.hasOwnProperty(key)) {
+			parameters += ' -D' + key + '="' + options[key] + '"'
+		}
+	}
 
-    return parameters
+	return parameters
 }
 
 module.exports = { optionsToParameters }

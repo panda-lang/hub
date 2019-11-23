@@ -1,5 +1,5 @@
 {
-  "name": "reposilite-cli",
+  "name": "@reposilite/cli",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -15,5 +15,6 @@
     "moment": "^2.24.0",
     "prompts": "^2.0.3",
     "trim-newlines": "^3.0.0"
-  }
+  },
+  "devDependencies": {}
 }

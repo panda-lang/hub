@@ -18,7 +18,7 @@ const config = require('./config')
 
 module.exports = {
 	devServer: {
-		port: config['port']
+		port: config.port
 	},
 
 	lintOnSave: false

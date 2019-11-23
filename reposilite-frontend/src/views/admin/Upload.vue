@@ -79,7 +79,7 @@ export default {
 				this.$http.put(DEPOSITORY_UPLOAD + '/' + this.path, formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
-						'Authorization': `Bearer ${accessToken}`
+						Authorization: `Bearer ${accessToken}`
 					}
 				}).then(() => {
 					this.$notify.success('Successfully uploaded artifact!')

@@ -54,7 +54,7 @@ export default {
 		handleSignin () {
 			this.$http.post(`${SIGNIN_ENDPOINT_URL}`, { username: this.username, password: this.password }, {})
 				.then(response => {
-					this.$store.dispatch('setToken', response.data['access_token'])
+					this.$store.dispatch('setToken', response.data.access_token)
 				})
 				.catch(error => {
 					if (error.response.status === 401) {
