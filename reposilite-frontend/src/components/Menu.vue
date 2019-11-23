@@ -50,21 +50,21 @@
 
 <script>
 export default {
-  name: 'Menu',
-  computed: {
-    user: function () {
-      return this.$store.state.user
-    },
-    isAdmin: function () {
-      return this.$store.getters.isAdmin
-    }
-  },
-  methods: {
-    handleLogout () {
-      this.$store.dispatch('removeUser')
-      this.$parent.id = ''
-    }
-  }
+	name: 'Menu',
+	computed: {
+		user: function () {
+			return this.$store.state.user
+		},
+		isAdmin: function () {
+			return this.$store.getters.isAdmin
+		}
+	},
+	methods: {
+		handleLogout () {
+			this.$store.dispatch('removeUser')
+			this.$parent.id = ''
+		}
+	}
 }
 </script>
 

@@ -28,18 +28,18 @@ import Welcome from './components/Welcome'
 import Dashboard from './components/Dashboard'
 
 export default {
-  components: {
-    Dashboard,
-    Welcome
-  },
-  computed: {
-    ...mapState({
-      user: state => state.user
-    }),
-    welcome: function () {
-      return !this.user && this.$route.name === 'Home'
-    }
-  }
+	components: {
+		Dashboard,
+		Welcome
+	},
+	computed: {
+		...mapState({
+			user: state => state.user
+		}),
+		welcome: function () {
+			return !this.user && this.$route.name === 'Home'
+		}
+	}
 }
 </script>
 

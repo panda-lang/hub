@@ -35,52 +35,52 @@
 import { BACKEND } from '../constants'
 
 export default {
-  data: () => ({
-    entities: [],
-    qualifier: undefined,
-    error: undefined
-  }),
-  watch: {
-    $route () {
-      this.updateEntities()
-    }
-  },
-  methods: {
-    updateEntities () {
-      this.qualifier = this.$route.params['qualifier']
-      const url = BACKEND + '/api/repository/' + this.qualifier
-      console.log(url)
+	data: () => ({
+		entities: [],
+		qualifier: undefined,
+		error: undefined
+	}),
+	watch: {
+		$route () {
+			this.updateEntities()
+		}
+	},
+	methods: {
+		updateEntities () {
+			this.qualifier = this.$route.params['qualifier']
+			const url = BACKEND + '/api/repository/' + this.qualifier
+			console.log(url)
 
-      this.$http.get(url)
-        .then(response => {
-          if (!response.headers['content-type'].includes('application/json')) {
-            require('js-file-download')(response.data, this.qualifier.split('\\').pop().split('/').pop())
-            return
-          }
+			this.$http.get(url)
+				.then(response => {
+					if (!response.headers['content-type'].includes('application/json')) {
+						require('js-file-download')(response.data, this.qualifier.split('\\').pop().split('/').pop())
+						return
+					}
 
-          return (this.entities = response.data)
-        })
-        .catch(error => {
-          if (error.response.status === 404) {
-            this.error = 'Empty directory'
-          } else {
-            (this.error = error.response.status)
-          }
-        })
-    },
-    toFormattedPath (path) {
-      const firstOccuranceIndex = path.search(/\//) + 1
-      const secondOccuranceIndex = firstOccuranceIndex + path.slice(firstOccuranceIndex).search(/\//) + 1
-      return path.substr(0, secondOccuranceIndex).replace(/\//g, ' :: ') + path.slice(secondOccuranceIndex).replace(/\//g, '.')
-    },
-    getParentPath () {
-      const elements = this.qualifier.split('/')
-      elements.pop()
-      return elements.join('/')
-    }
-  },
-  created () {
-    this.updateEntities()
-  }
+					return (this.entities = response.data)
+				})
+				.catch(error => {
+					if (error.response.status === 404) {
+						this.error = 'Empty directory'
+					} else {
+						(this.error = error.response.status)
+					}
+				})
+		},
+		toFormattedPath (path) {
+			const firstOccuranceIndex = path.search(/\//) + 1
+			const secondOccuranceIndex = firstOccuranceIndex + path.slice(firstOccuranceIndex).search(/\//) + 1
+			return path.substr(0, secondOccuranceIndex).replace(/\//g, ' :: ') + path.slice(secondOccuranceIndex).replace(/\//g, '.')
+		},
+		getParentPath () {
+			const elements = this.qualifier.split('/')
+			elements.pop()
+			return elements.join('/')
+		}
+	},
+	created () {
+		this.updateEntities()
+	}
 }
 </script>

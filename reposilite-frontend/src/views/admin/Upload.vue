@@ -61,36 +61,36 @@
 import { DEPOSITORY_UPLOAD } from '../../constants'
 
 export default {
-  data: () => ({
-    path: '',
-    dropFiles: []
-  }),
-  methods: {
-    deleteDropFile (index) {
-      this.dropFiles.splice(index, 1)
-    },
-    uploadFiles () {
-      const accessToken = localStorage.getItem('access_token')
+	data: () => ({
+		path: '',
+		dropFiles: []
+	}),
+	methods: {
+		deleteDropFile (index) {
+			this.dropFiles.splice(index, 1)
+		},
+		uploadFiles () {
+			const accessToken = localStorage.getItem('access_token')
 
-      this.dropFiles.forEach(file => {
-        const formData = new FormData()
-        formData.append('file', file)
+			this.dropFiles.forEach(file => {
+				const formData = new FormData()
+				formData.append('file', file)
 
-        this.$http.put(DEPOSITORY_UPLOAD + '/' + this.path, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${accessToken}`
-          }
-        }).then(() => {
-          this.$notify.success('Successfully uploaded artifact!')
-        })
-          .catch(error => {
-            console.log(error)
-            this.$notify.error('Cannot upload artifact: ' + error.response.message)
-          })
-      })
-    }
-  }
+				this.$http.put(DEPOSITORY_UPLOAD + '/' + this.path, formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+						'Authorization': `Bearer ${accessToken}`
+					}
+				}).then(() => {
+					this.$notify.success('Successfully uploaded artifact!')
+				})
+					.catch(error => {
+						console.log(error)
+						this.$notify.error('Cannot upload artifact: ' + error.response.message)
+					})
+			})
+		}
+	}
 }
 </script>
 
