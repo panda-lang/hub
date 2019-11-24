@@ -33,7 +33,8 @@ public class TestDto extends AbstractDto<TestEntity> {
         this.something = something;
     }
 
-    public TestDto() { // JACKSON
+    public TestDto() {
+        // Jackson
     }
 
     public String getUsername() {

@@ -38,8 +38,6 @@ public final class Organization implements ProjectOwner {
     private String site;
     private User owner;
 
-    Organization() {}
-
     Organization(String name, String displayName, String description, String email, String avatar, String site, User owner) {
         this.name = name;
         this.displayName = displayName;
@@ -48,6 +46,10 @@ public final class Organization implements ProjectOwner {
         this.site = site;
         this.avatar = avatar;
         this.owner = owner;
+    }
+
+    Organization() {
+        // Jackson
     }
 
     @Override

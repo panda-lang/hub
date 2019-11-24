@@ -34,6 +34,37 @@ class Project implements IdentifiableEntity<ObjectId>, Serializable {
     private ObjectId identifier;
     private String name;
     private ProjectOwner owner;
+    private String address;
+
+    Project(String name, ProjectOwner owner, String address) {
+        this.name = name;
+        this.owner = owner;
+        this.address = address;
+    }
+
+    Project() {
+        // Jackson
+    }
+
+    void setName(String name) {
+        this.name = name;
+    }
+
+    void setOwner(ProjectOwner owner) {
+        this.owner = owner;
+    }
+
+    void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public ProjectOwner getOwner() {
+        return owner;
+    }
 
     public String getName() {
         return name;
@@ -42,6 +73,16 @@ class Project implements IdentifiableEntity<ObjectId>, Serializable {
     @Override
     public ObjectId getIdentifier() {
         return identifier;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "identifier=" + identifier +
+                ", name='" + name + '\'' +
+                ", owner=" + owner +
+                ", address='" + address + '\'' +
+                '}';
     }
 
 }
