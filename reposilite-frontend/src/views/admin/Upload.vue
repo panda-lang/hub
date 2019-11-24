@@ -58,9 +58,10 @@
 </template>
 
 <script>
-import { DEPOSITORY_UPLOAD } from '../../constants'
+import API from '../../api'
 
 export default {
+	name: 'Upload',
 	data: () => ({
 		path: '',
 		dropFiles: []
@@ -72,22 +73,17 @@ export default {
 		uploadFiles () {
 			const accessToken = localStorage.getItem('access_token')
 
-			this.dropFiles.forEach(file => {
+			this.dropFiles.forEach(async file => {
 				const formData = new FormData()
 				formData.append('file', file)
 
-				this.$http.put(DEPOSITORY_UPLOAD + '/' + this.path, formData, {
-					headers: {
-						'Content-Type': 'multipart/form-data',
-						Authorization: `Bearer ${accessToken}`
-					}
-				}).then(() => {
+				try {
+					await API.repository.maven(`/${this.path}`, formData, accessToken)
 					this.$notify.success('Successfully uploaded artifact!')
-				})
-					.catch(error => {
-						console.log(error)
-						this.$notify.error('Cannot upload artifact: ' + error.response.message)
-					})
+				} catch (err) {
+					// TODO: Get error reason
+					this.$notify.error('Cannot upload artifact')
+				}
 			})
 		}
 	}

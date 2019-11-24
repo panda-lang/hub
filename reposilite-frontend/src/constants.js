@@ -21,7 +21,4 @@ export const FRONTEND = config.frontend
 
 export const ACCESS_TOKEN = 'access_token'
 export const USER_DETAILS = `${BACKEND}/api/users/me`
-export const SIGNIN_ENDPOINT_URL = `${BACKEND}/api/users/signin`
-export const SIGNUP_ENDPOINT_URL = `${BACKEND}/api/users/signup`
 export const GITHUB_OAUTH_URL = `${BACKEND}/oauth2/authorize/github?redirect_uri=${FRONTEND}/oauth2/redirect`
-export const DEPOSITORY_UPLOAD = `${BACKEND}/api/repository/maven`

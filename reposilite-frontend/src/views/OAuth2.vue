@@ -19,6 +19,7 @@
 const parameter = '?token='
 
 export default {
+	name: 'OAuth2',
 	render: (createElement) => createElement('h5', 'Redirecting...'),
 	methods: {
 		obtainUrlParameter () {

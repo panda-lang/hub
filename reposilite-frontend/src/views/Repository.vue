@@ -1,4 +1,4 @@
-<<!--
+<!--
   - Copyright (c) 2018-2019 Reposilite Team
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@
     <div class="repository">
         <h5 class="title is-5">Repository - {{ toFormattedPath(qualifier) }}</h5>
         <ul v-if="!error">
-            <li v-for="entity in entities">
+            <li v-for="(entity, i) in entities" :key="i">
                 <router-link :to="'/repository/' + (qualifier ? qualifier + '/' : '') + entity" @click="updateEntities">&bull; {{ entity }}</router-link>
             </li>
         </ul>
@@ -32,9 +32,10 @@
 </template>
 
 <script>
-import { BACKEND } from '../constants'
+import API from '../api'
 
 export default {
+	name: 'Repository',
 	data: () => ({
 		entities: [],
 		qualifier: undefined,
@@ -46,11 +47,16 @@ export default {
 		}
 	},
 	methods: {
-		updateEntities () {
-			this.qualifier = this.$route.params.qualifier
-			const url = BACKEND + '/api/repository/' + this.qualifier
-			console.log(url)
+		async updateEntities () {
+			try {
+				this.qualifier = this.$route.params.qualifier
+				this.entities = await API.repository.entities(this.qualifier)
+			} catch (err) {
+				this.error = err
+			}
 
+			// TODO: Make backend always return JSON
+			/*
 			this.$http.get(url)
 				.then(response => {
 					if (!response.headers['content-type'].includes('application/json')) {
@@ -67,6 +73,7 @@ export default {
 						(this.error = error.response.status)
 					}
 				})
+				*/
 		},
 		toFormattedPath (path) {
 			const firstOccuranceIndex = path.search(/\//) + 1

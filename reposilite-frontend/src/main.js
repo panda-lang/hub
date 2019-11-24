@@ -16,7 +16,6 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Axios from 'axios'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
@@ -27,7 +26,6 @@ import { notifications } from './services'
 
 Vue.use(Vuex)
 Vue.use(Buefy)
-Vue.prototype.$http = Axios
 Vue.prototype.$notify = notifications
 Vue.config.productionTip = false
 
