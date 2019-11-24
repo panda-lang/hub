@@ -45,8 +45,8 @@ final class OrganizationUpdateDto extends AbstractDto<Organization> {
         this.site = site;
     }
 
-    public OrganizationUpdateDto() { // Jackson
-
+    public OrganizationUpdateDto() {
+        // Jackson
     }
 
     public String getDescription() {

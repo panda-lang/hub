@@ -48,7 +48,8 @@ final class UserUpdateDto extends AbstractDto<User> {
         this.site = site;
     }
 
-    public UserUpdateDto() { // JACKSON
+    public UserUpdateDto() {
+        // Jackson
     }
 
     public String getUsername() {

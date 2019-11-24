@@ -16,8 +16,49 @@
 
 package org.panda_lang.reposilite.project;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
+import org.panda_lang.reposilite.user.ProjectOwner;
 import org.panda_lang.reposilite.utils.entity.AbstractDto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 final class ProjectUpdateDto extends AbstractDto<Project> {
+
+    @NotNull(message = "{name.notNull}") @NotEmpty(message = "{name.notEmpty}") @Length(min = 3, max = 32, message = "{name.length}")
+    private String name;
+    @NotNull(message = "{owner.notNull}")
+    private ProjectOwner owner;
+    @URL(message = "{address.format}") @NotEmpty(message = "{address.notEmpty}") @NotNull(message = "{address.notNull}")
+    private String address;
+
+    public ProjectUpdateDto(String name, ProjectOwner owner,String address) {
+        this.name = name;
+        this.owner = owner;
+        this.address = address;
+    }
+
+    public ProjectUpdateDto() {
+        // Jackson
+    }
+
+    public ProjectOwner getOwner() {
+        return owner;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public Project toEntity() {
+        return new Project(name, owner, address);
+    }
 
 }

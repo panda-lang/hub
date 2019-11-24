@@ -50,8 +50,8 @@ public final class UserRegistrationDto extends AbstractDto<User> {
         this.confirmEmail = confirmEmail;
     }
 
-    public UserRegistrationDto() { // JACKSON
-
+    public UserRegistrationDto() {
+        // Jackson
     }
 
     public String getUsername() {

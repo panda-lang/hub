@@ -34,7 +34,8 @@ final class UserAuthenticationDto extends AbstractDto<User> {
         this.password = password;
     }
 
-    public UserAuthenticationDto() { // JACKSON
+    public UserAuthenticationDto() {
+        // Jackson
     }
 
     public String getUsername() {

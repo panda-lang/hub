@@ -38,7 +38,8 @@ public class TestEntity implements IdentifiableEntity<ObjectId> {
         this.something = something;
     }
 
-    public TestEntity() { // JACKSON
+    public TestEntity() {
+        // Jackson
     }
 
     @Override
