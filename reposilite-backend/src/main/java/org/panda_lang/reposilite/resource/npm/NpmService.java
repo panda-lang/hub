@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.organization;
+package org.panda_lang.reposilite.resource.npm;
 
-import org.panda_lang.reposilite.user.ProjectOwner.AbstractProjectOwnerBuilder;
-import org.panda_lang.reposilite.user.User;
-import org.panda_lang.reposilite.utils.Buildable;
+import org.panda_lang.reposilite.resource.ResourcesSubService;
 
-final class OrganizationBuilder extends AbstractProjectOwnerBuilder<OrganizationBuilder> implements Buildable<Organization> {
+public interface NpmService extends ResourcesSubService {
 
-    private User owner;
-
-    public OrganizationBuilder withOwner(User owner) {
-        this.owner = owner;
-        return this;
+    @Override
+    default boolean isEnabled() {
+        return false;
     }
 
     @Override
-    public Organization build() {
-        return new Organization(this.name, this.displayName, this.description, this.email, this.avatar, this.site, this.owner);
+    default String getName() {
+        return "npm";
     }
 
 }

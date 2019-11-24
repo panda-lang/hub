@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.panda_lang.reposilite.user.User;
-import org.panda_lang.reposilite.user.UserCrudService;
+import org.panda_lang.reposilite.user.UserService;
 import org.panda_lang.reposilite.user.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,10 +39,10 @@ import java.util.Optional;
 @RequestMapping("api/register")
 final class RegistrationController {
 
-    private final UserCrudService service;
+    private final UserService service;
 
     @Autowired
-    public RegistrationController(UserCrudService service) {
+    public RegistrationController(UserService service) {
         this.service = service;
     }
 

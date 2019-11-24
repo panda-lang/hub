@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.depository.DepositoryOwner;
 import org.panda_lang.reposilite.user.role.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,7 +27,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 @Document("users")
-public final class User implements DepositoryOwner {
+public final class User implements ProjectOwner {
 
     @Id
     @JsonSerialize(using = ToStringSerializer.class)

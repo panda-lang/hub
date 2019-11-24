@@ -14,32 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.user;
+package org.panda_lang.reposilite.resource;
 
 import io.swagger.annotations.ApiOperation;
-import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.entity.AbstractCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@ApiOperation("Operations pertaining to user")
+import java.util.Set;
+
+@ApiOperation("/api/repositories")
 @RestController
-@RequestMapping("/api/users")
-class UserController extends AbstractCrudController<User, ObjectId, UserUpdateDto, UserRegistrationDto> {
+class ResourcesController {
+
+    private final ResourcesService resourcesService;
 
     @Autowired
-    UserController(UserService service) {
-        super(service);
+    ResourcesController(ResourcesService resourcesService) {
+        this.resourcesService = resourcesService;
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/me")
-    public ResponseEntity<User> me(@AuthenticatedUser UserDetails user) {
-        return ResponseEntity.ok(user.getUser());
+    @GetMapping({ "/api/repositories", "/api/repository/" })
+    ResponseEntity<Set<String>> repositories() {
+        return ResponseEntity.ok(resourcesService.getSubServicesNames());
     }
 
 }
