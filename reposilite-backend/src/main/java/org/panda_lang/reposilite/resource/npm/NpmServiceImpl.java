@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.organization;
+package org.panda_lang.reposilite.resource.npm;
 
-import org.panda_lang.reposilite.user.ProjectOwner.AbstractProjectOwnerBuilder;
-import org.panda_lang.reposilite.user.User;
-import org.panda_lang.reposilite.utils.Buildable;
+import org.panda_lang.reposilite.resource.Resource;
+import org.springframework.stereotype.Service;
 
-final class OrganizationBuilder extends AbstractProjectOwnerBuilder<OrganizationBuilder> implements Buildable<Organization> {
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
 
-    private User owner;
+@Service
+class NpmServiceImpl implements NpmService {
 
-    public OrganizationBuilder withOwner(User owner) {
-        this.owner = owner;
-        return this;
+    @Override
+    public Optional<Resource> findEntityByQualifier(String entityQualifier) {
+        return Optional.empty();
     }
 
     @Override
-    public Organization build() {
-        return new Organization(this.name, this.displayName, this.description, this.email, this.avatar, this.site, this.owner);
+    public Set<? extends Resource> getEntities() {
+        return Collections.emptySet();
     }
 
 }

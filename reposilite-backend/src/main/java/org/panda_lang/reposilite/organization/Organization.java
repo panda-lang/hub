@@ -19,13 +19,13 @@ package org.panda_lang.reposilite.organization;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.depository.DepositoryOwner;
+import org.panda_lang.reposilite.user.ProjectOwner;
 import org.panda_lang.reposilite.user.User;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("organizations")
-public final class Organization implements DepositoryOwner {
+public final class Organization implements ProjectOwner {
 
     @Id
     @JsonSerialize(using = ToStringSerializer.class)

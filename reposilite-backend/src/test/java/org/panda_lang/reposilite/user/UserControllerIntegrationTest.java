@@ -47,7 +47,7 @@ class UserControllerIntegrationTest {
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    private UserCrudService userService;
+    private UserService userService;
 
     @Autowired
     private RoleFactory roleFactory;

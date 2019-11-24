@@ -19,6 +19,7 @@ package org.panda_lang.reposilite.project;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.user.ProjectOwner;
 import org.panda_lang.reposilite.utils.entity.IdentifiableEntity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -32,6 +33,7 @@ class Project implements IdentifiableEntity<ObjectId>, Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId identifier;
     private String name;
+    private ProjectOwner owner;
 
     public String getName() {
         return name;
