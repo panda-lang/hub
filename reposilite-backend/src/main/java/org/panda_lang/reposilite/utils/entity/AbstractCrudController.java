@@ -45,14 +45,14 @@ import java.util.Optional;
  * @param <U> type of update dto
  * @param <C> type of create dto
  */
-public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, ID, U extends AbstractDto<T>, C extends AbstractDto<T>> {
+public abstract class AbstractCrudController<S extends CrudOperationsService<T, ID>, T extends IdentifiableEntity<ID>, ID, U extends AbstractDto<T>, C extends AbstractDto<T>> {
 
     @SuppressWarnings({ "ELValidationInJSP", "SpringElInspection" })
     private static final String SPEL_EXPRESSION = "(isAuthenticated() && principal.user.identifier.equals(#id)) || hasAuthority('ADMIN')";
 
-    private final CrudOperationsService<T, ID> service;
+    private final S service;
 
-    protected AbstractCrudController(CrudOperationsService<T, ID> service) {
+    protected AbstractCrudController(S service) {
         this.service = service;
     }
 
@@ -166,6 +166,10 @@ public abstract class AbstractCrudController<T extends IdentifiableEntity<ID>, I
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(entity));
+    }
+
+    protected S getService() {
+        return service;
     }
 
 }

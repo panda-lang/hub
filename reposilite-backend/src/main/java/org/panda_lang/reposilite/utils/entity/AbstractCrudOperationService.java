@@ -19,11 +19,11 @@ package org.panda_lang.reposilite.utils.entity;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractCrudOperationService<E extends IdentifiableEntity<ID>, ID> implements CrudOperationsService<E, ID> {
+public abstract class AbstractCrudOperationService<R extends NameableMongoRepository<E, ID>, E extends IdentifiableEntity<ID>, ID> implements CrudOperationsService<E, ID> {
 
-    private final NameableMongoRepository<E, ID> repository;
+    private final R repository;
 
-    protected AbstractCrudOperationService(NameableMongoRepository<E, ID> repository) {
+    protected AbstractCrudOperationService(R repository) {
         this.repository = repository;
     }
 
@@ -57,7 +57,7 @@ public abstract class AbstractCrudOperationService<E extends IdentifiableEntity<
         return repository.existsById(id);
     }
 
-    protected NameableMongoRepository<E, ID> getRepository() {
+    protected R getRepository() {
         return repository;
     }
 

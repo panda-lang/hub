@@ -16,36 +16,27 @@
 
 package org.panda_lang.reposilite.resource;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.panda_lang.reposilite.AbstractStandaloneIntegrationTest;
+import org.panda_lang.utilities.commons.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-class ResourcesControllerIntegrationTest {
+class ResourcesControllerIntegrationTest extends AbstractStandaloneIntegrationTest {
 
     @Autowired
     private ResourcesController resourcesController;
 
-    private MockMvc mockMvc;
-
-    @BeforeEach
-    void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.resourcesController).build();
+    @Override
+    protected Object[] controllers() {
+        return ArrayUtils.of(resourcesController);
     }
 
     @Test
     void repositories() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/repositories"))
+        super.perform("/api/repositories")
                 .andExpect(status().isOk())
                 .andExpect(content().json("[ 'maven', 'panda' ]"));
     }

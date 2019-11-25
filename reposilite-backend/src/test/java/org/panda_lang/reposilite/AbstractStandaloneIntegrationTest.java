@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.reposilite.utils.entity.crud;
+package org.panda_lang.reposilite;
 
-import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.utils.entity.AbstractCrudController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@RestController
-@RequestMapping("/api/tests")
-public class TestEntityController extends AbstractCrudController<TestCrudService, TestEntity, ObjectId, TestDto, TestDto> {
+public abstract class AbstractStandaloneIntegrationTest extends AbstractIntegrationTest {
 
-    @Autowired
-    protected TestEntityController(TestCrudService service) {
-        super(service);
+    protected abstract Object[] controllers();
+
+    @Override
+    protected MockMvc setup() {
+        return MockMvcBuilders.standaloneSetup(controllers()).build();
     }
 
 }

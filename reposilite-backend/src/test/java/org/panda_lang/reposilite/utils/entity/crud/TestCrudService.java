@@ -22,11 +22,8 @@ import org.panda_lang.reposilite.utils.entity.CrudOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
-public class TestCrudService extends AbstractCrudOperationService<TestEntity, ObjectId> implements CrudOperationsService<TestEntity, ObjectId> {
+public class TestCrudService extends AbstractCrudOperationService<TestRepository, TestEntity, ObjectId> implements CrudOperationsService<TestEntity, ObjectId> {
 
     @Autowired
     TestCrudService(TestRepository testRepository) {

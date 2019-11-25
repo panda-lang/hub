@@ -18,7 +18,17 @@ package org.panda_lang.reposilite.project;
 
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.utils.entity.CrudOperationsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 interface ProjectService extends CrudOperationsService<Project, ObjectId> {
+
+    List<Project> findAllByOwnerName(String name);
+
+    Page<Project> findAll(Pageable pageable);
+
+    long count();
 
 }

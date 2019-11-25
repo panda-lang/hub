@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @ApiOperation("Operations pertaining to user")
 @RestController
 @RequestMapping("/api/users")
-class UserController extends AbstractCrudController<User, ObjectId, UserUpdateDto, UserRegistrationDto> {
+class UserController extends AbstractCrudController<UserService, User, ObjectId, UserUpdateDto, UserRegistrationDto> {
 
     @Autowired
     UserController(UserService service) {
