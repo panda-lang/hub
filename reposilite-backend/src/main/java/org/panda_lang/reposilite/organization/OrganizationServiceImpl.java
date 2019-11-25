@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-class OrganizationServiceImpl extends AbstractCrudOperationService<Organization, ObjectId> implements OrganizationService {
+class OrganizationServiceImpl extends AbstractCrudOperationService<OrganizationRepository, Organization, ObjectId> implements OrganizationService {
 
     @Autowired
     public OrganizationServiceImpl(OrganizationRepository organizationRepository) {

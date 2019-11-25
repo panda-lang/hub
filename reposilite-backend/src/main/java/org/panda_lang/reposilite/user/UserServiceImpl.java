@@ -25,7 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-final class UserServiceImpl extends AbstractCrudOperationService<User, ObjectId> implements UserService {
+final class UserServiceImpl extends AbstractCrudOperationService<UserRepository, User, ObjectId> implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final RoleFactory roleFactory;

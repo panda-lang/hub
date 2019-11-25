@@ -20,17 +20,58 @@ import io.swagger.annotations.ApiOperation;
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.utils.entity.AbstractCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @ApiOperation("Operations pertaining to projects")
 @RestController
 @RequestMapping("/api/projects")
-class ProjectController extends AbstractCrudController<Project, ObjectId, ProjectUpdateDto, ProjectUpdateDto> {
+class ProjectController extends AbstractCrudController<ProjectService, Project, ObjectId, ProjectUpdateDto, ProjectUpdateDto> {
+
+    private static final int PAGE_SIZE = 10;
 
     @Autowired
     protected ProjectController(ProjectService service) {
         super(service);
+    }
+
+    @ApiOperation("Always returns empty list")
+    @GetMapping
+    @Override
+    protected ResponseEntity<List<Project>> readAll() {
+        return ResponseEntity.noContent().build();
+    }
+
+    @ApiOperation("Returns amount of projects")
+    @GetMapping("/count")
+    protected ResponseEntity<Long> count() {
+        return ResponseEntity.ok(super.getService().count());
+    }
+
+    @ApiOperation("Returns amount of pages")
+    @GetMapping("/page")
+    protected ResponseEntity<Integer> pages() {
+        return ResponseEntity.ok((int) Math.ceil(super.getService().count() / (float) PAGE_SIZE));
+    }
+
+    @ApiOperation("Returns page with up to " + PAGE_SIZE + " projects")
+    @GetMapping("/page/{number}")
+    protected ResponseEntity<List<Project>> page(@PathVariable Integer number) {
+        return ResponseEntity.ok(super.getService()
+                .findAll(PageRequest.of(number, PAGE_SIZE))
+                .getContent());
+    }
+
+    @ApiOperation("Returns all repositories that belongs to the requested user")
+    @GetMapping("/user/{user}")
+    protected ResponseEntity<List<Project>> userProjects(@PathVariable String user) {
+        return ResponseEntity.ok(super.getService().findAllByOwnerName(user));
     }
 
 }

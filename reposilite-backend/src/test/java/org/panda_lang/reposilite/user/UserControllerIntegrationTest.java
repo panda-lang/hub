@@ -18,48 +18,21 @@ package org.panda_lang.reposilite.user;
 
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.panda_lang.reposilite.AbstractContextIntegrationTest;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
-class UserControllerIntegrationTest {
-
-    @Autowired
-    private WebApplicationContext applicationContext;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
+class UserControllerIntegrationTest extends AbstractContextIntegrationTest {
 
     @Autowired
     private UserService userService;
 
     @Autowired
     private RoleFactory roleFactory;
-
-    private MockMvc mockMvc;
-
-    @BeforeEach
-    void setUp() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.applicationContext)
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build();
-    }
 
     @Test
     void authenticationTest() throws Exception {
@@ -70,20 +43,19 @@ class UserControllerIntegrationTest {
                 .build();
         userService.save(user);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me")
-                .with(SecurityMockMvcRequestPostProcessors.httpBasic("test123", "test123")))
+        super.getMockMvc().perform(get("/api/users/me").with(SecurityMockMvcRequestPostProcessors.httpBasic("test123", "test123")))
                 .andExpect(status().isOk());
     }
 
     @Test
     void authenticationShouldReturn401WhenNotLogged() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/me"))
+        super.perform("/api/users/me")
                 .andExpect(status().isUnauthorized());
     }
 
     @AfterEach
-    void tearDown() {
-        this.mongoTemplate.dropCollection("users");
+    void drop() {
+        super.drop("users");
     }
 
 }

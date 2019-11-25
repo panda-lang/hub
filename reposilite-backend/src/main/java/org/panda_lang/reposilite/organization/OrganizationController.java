@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 @ApiOperation("Operations pertaining to organization")
 @RestController
 @RequestMapping("/api/organizations")
-class OrganizationController extends AbstractCrudController<Organization, ObjectId, OrganizationUpdateDto, OrganizationUpdateDto> {
+class OrganizationController extends AbstractCrudController<OrganizationService, Organization, ObjectId, OrganizationUpdateDto, OrganizationUpdateDto> {
 
-    // TODO Organization create DTO
-    protected OrganizationController(@Autowired OrganizationService service) {
+    @Autowired
+    protected OrganizationController(OrganizationService service) {
         super(service);
     }
 
