@@ -30,25 +30,32 @@ final class ProjectUpdateDto extends AbstractDto<Project> {
     private String name;
     @NotNull(message = "{owner.notNull}")
     private ProjectOwner owner;
-    @URL(message = "{address.format}") @NotEmpty(message = "{address.notEmpty}") @NotNull(message = "{address.notNull}")
-    private String address;
+    @URL(message = "{source.format}") @NotEmpty(message = "{source.notEmpty}") @NotNull(message = "{source.notNull}")
+    private String platformUri;
+    @URL(message = "{website.format}") @NotEmpty(message = "{website.notEmpty}") @NotNull(message = "{website.notNull}")
+    private String website;
 
-    public ProjectUpdateDto(String name, ProjectOwner owner,String address) {
+    public ProjectUpdateDto(String name, ProjectOwner owner, String platformUri, String website) {
         this.name = name;
         this.owner = owner;
-        this.address = address;
+        this.platformUri = platformUri;
+        this.website = website;
     }
 
     public ProjectUpdateDto() {
         // Jackson
     }
 
-    public ProjectOwner getOwner() {
-        return owner;
+    public String getWebsite() {
+        return website;
     }
 
-    public String getAddress() {
-        return address;
+    public String getPlatformUri() {
+        return platformUri;
+    }
+
+    public ProjectOwner getOwner() {
+        return owner;
     }
 
     @Override
@@ -58,7 +65,7 @@ final class ProjectUpdateDto extends AbstractDto<Project> {
 
     @Override
     public Project toEntity() {
-        return new Project(name, owner, address);
+        return new Project(name, owner, platformUri, website);
     }
 
 }

@@ -48,7 +48,7 @@ public interface ProjectOwner extends IdentifiableEntity<ObjectId>, Serializable
 
     String getAvatar();
 
-    public abstract class AbstractProjectOwnerBuilder<T extends Buildable<? extends ProjectOwner>> {
+    abstract class AbstractProjectOwnerBuilder<T extends Buildable<? extends ProjectOwner>> {
 
         protected String name;
         protected String displayName;

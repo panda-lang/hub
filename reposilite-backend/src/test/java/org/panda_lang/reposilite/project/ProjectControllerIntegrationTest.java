@@ -36,7 +36,7 @@ final class ProjectControllerIntegrationTest extends AbstractContextIntegrationT
 
     @BeforeEach
     void prepare() {
-        projectService.save(new Project("PROJECT NAME", User.builder().withName("onlypanda").build(), "url"));
+        projectService.save(new Project("PROJECT NAME", User.builder().withName("onlypanda").build(), "uri", "website"));
     }
 
     @Test
