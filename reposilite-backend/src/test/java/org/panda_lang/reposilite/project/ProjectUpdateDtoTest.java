@@ -27,13 +27,14 @@ class ProjectUpdateDtoTest {
     @Test
     void toEntityTest() {
         ProjectOwner owner = User.builder().withName("user").build();
-        Project project = new ProjectUpdateDto("project", owner, "https://github.com/panda-lang/panda").toEntity();
+        Project project = new ProjectUpdateDto("project", owner, "github:https://github.com/panda-lang/panda", "panda-lang.org").toEntity();
 
         assertEquals("Project{" +
                 "identifier=null, " +
                 "name='project', " +
                 "owner=" + owner.toString() + ", " +
-                "address='https://github.com/panda-lang/panda'" +
+                "platformUri='github:https://github.com/panda-lang/panda', " +
+                "website='panda-lang.org'" +
                 "}", project.toString());
     }
 

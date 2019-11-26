@@ -16,6 +16,7 @@
 
 package org.panda_lang.reposilite.project;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
@@ -33,33 +34,28 @@ class Project implements IdentifiableEntity<ObjectId>, Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId identifier;
     private String name;
+    @JsonManagedReference
     private ProjectOwner owner;
-    private String address;
+    private String platformUri;
+    private String website;
 
-    Project(String name, ProjectOwner owner, String address) {
+    Project(String name, ProjectOwner owner, String platformUri, String website) {
         this.name = name;
         this.owner = owner;
-        this.address = address;
+        this.platformUri = platformUri;
+        this.website = website;
     }
 
     Project() {
         // Jackson
     }
 
-    void setName(String name) {
-        this.name = name;
+    public String getWebsite() {
+        return website;
     }
 
-    void setOwner(ProjectOwner owner) {
-        this.owner = owner;
-    }
-
-    void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getAddress() {
-        return address;
+    public String getPlatformUri() {
+        return platformUri;
     }
 
     public ProjectOwner getOwner() {
@@ -81,7 +77,8 @@ class Project implements IdentifiableEntity<ObjectId>, Serializable {
                 "identifier=" + identifier +
                 ", name='" + name + '\'' +
                 ", owner=" + owner +
-                ", address='" + address + '\'' +
+                ", platformUri='" + platformUri + '\'' +
+                ", website='" + website + '\'' +
                 '}';
     }
 
