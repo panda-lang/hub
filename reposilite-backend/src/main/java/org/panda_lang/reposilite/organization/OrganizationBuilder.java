@@ -16,7 +16,7 @@
 
 package org.panda_lang.reposilite.organization;
 
-import org.panda_lang.reposilite.user.ProjectOwner.AbstractProjectOwnerBuilder;
+import org.panda_lang.reposilite.user.Owner.AbstractProjectOwnerBuilder;
 import org.panda_lang.reposilite.user.User;
 import org.panda_lang.reposilite.utils.Buildable;
 

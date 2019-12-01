@@ -17,7 +17,7 @@
 package org.panda_lang.reposilite.project;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.reposilite.user.ProjectOwner;
+import org.panda_lang.reposilite.user.Owner;
 import org.panda_lang.reposilite.user.User;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +26,7 @@ class ProjectUpdateDtoTest {
 
     @Test
     void toEntityTest() {
-        ProjectOwner owner = User.builder().withName("user").build();
+        Owner owner = User.builder().withName("user").build();
         Project project = new ProjectUpdateDto("project", owner, "github:https://github.com/panda-lang/panda", "panda-lang.org").toEntity();
 
         assertEquals("Project{" +

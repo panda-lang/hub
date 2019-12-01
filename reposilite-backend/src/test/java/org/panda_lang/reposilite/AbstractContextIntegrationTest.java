@@ -42,4 +42,8 @@ public abstract class AbstractContextIntegrationTest extends AbstractIntegration
         mongoTemplate.getCollection(name).drop();
     }
 
+    protected WebApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
 }

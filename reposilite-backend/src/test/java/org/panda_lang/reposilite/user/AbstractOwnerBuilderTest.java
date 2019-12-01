@@ -26,9 +26,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-class AbstractProjectOwnerBuilderTest {
+class AbstractOwnerBuilderTest {
 
-    private TestProjectOwner projectOwner;
+    private TestOwner projectOwner;
 
     @BeforeEach
     void setUp() {
@@ -62,16 +62,16 @@ class AbstractProjectOwnerBuilderTest {
                 "site='www.test.com'}", this.projectOwner.toString());
     }
 
-    private static class TestProjectOwnerBuilder extends ProjectOwner.AbstractProjectOwnerBuilder<TestProjectOwnerBuilder> implements Buildable<TestProjectOwner> {
+    private static class TestProjectOwnerBuilder extends Owner.AbstractProjectOwnerBuilder<TestProjectOwnerBuilder> implements Buildable<TestOwner> {
 
         @Override
-        public TestProjectOwner build() {
-            return new TestProjectOwner(this);
+        public TestOwner build() {
+            return new TestOwner(this);
         }
 
     }
 
-    private static class TestProjectOwner implements ProjectOwner {
+    private static class TestOwner implements Owner {
 
         private final String name;
         private final String displayName;
@@ -80,7 +80,7 @@ class AbstractProjectOwnerBuilderTest {
         private final String avatar;
         private final String site;
 
-        TestProjectOwner(TestProjectOwnerBuilder builder) {
+        TestOwner(TestProjectOwnerBuilder builder) {
             this.name = builder.name;
             this.displayName = builder.displayName;
             this.description = builder.description;

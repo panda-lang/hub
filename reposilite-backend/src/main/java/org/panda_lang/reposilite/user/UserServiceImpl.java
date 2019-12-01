@@ -19,7 +19,6 @@ package org.panda_lang.reposilite.user;
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.panda_lang.reposilite.utils.entity.AbstractCrudOperationService;
-import org.panda_lang.utilities.commons.collection.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,10 +37,10 @@ final class UserServiceImpl extends AbstractCrudOperationService<UserRepository,
     }
 
     @Override
-    public User save(User user) {
+    public User initializeUser(User user) {
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Sets.newHashSet(this.roleFactory.obtainRole("USER")));
-        return super.getRepository().save(user);
+        user.addRole(this.roleFactory.obtainRole("USER"));
+        return super.save(user);
     }
 
 }

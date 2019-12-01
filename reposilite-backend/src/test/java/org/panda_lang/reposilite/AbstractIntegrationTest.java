@@ -19,6 +19,7 @@ package org.panda_lang.reposilite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -42,8 +43,8 @@ public abstract class AbstractIntegrationTest {
         return getMockMvc().perform(MockMvcRequestBuilders.get(uri));
     }
 
-    protected MockHttpServletRequestBuilder get(String uri) {
-        return MockMvcRequestBuilders.get(uri);
+    protected MockHttpServletRequestBuilder getAuthenticated(String uri, String username, String password) {
+        return MockMvcRequestBuilders.get(uri).with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password));
     }
 
     protected MockMvc getMockMvc() {

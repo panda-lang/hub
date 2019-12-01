@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.reposilite.AbstractContextIntegrationTest;
 import org.panda_lang.reposilite.user.role.RoleFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,9 +40,9 @@ class UserControllerIntegrationTest extends AbstractContextIntegrationTest {
                 .withPassword("test123")
                 .withRoles(Sets.newHashSet(roleFactory.obtainRole("ADMIN")))
                 .build();
-        userService.save(user);
+        userService.initializeUser(user);
 
-        super.getMockMvc().perform(get("/api/users/me").with(SecurityMockMvcRequestPostProcessors.httpBasic("test123", "test123")))
+        super.getMockMvc().perform(getAuthenticated("/api/users/me", "test123", "test123"))
                 .andExpect(status().isOk());
     }
 
