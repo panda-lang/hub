@@ -2,6 +2,8 @@ reposilite:
   workspace: "src/test/workspace"
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   shell:
     interactive:
       enabled: false
