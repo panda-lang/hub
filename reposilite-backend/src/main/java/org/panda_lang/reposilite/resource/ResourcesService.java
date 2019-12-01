@@ -16,13 +16,37 @@
 
 package org.panda_lang.reposilite.resource;
 
-import java.util.Optional;
-import java.util.Set;
+import org.panda_lang.reposilite.ReposiliteApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface ResourcesService {
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    Optional<ResourcesSubService> getSubService(String subServiceName);
+@Service
+class ResourcesService {
 
-    Set<String> getSubServicesNames();
+    private final Map<String, ResourcesSubService> subServiceMap;
+
+    @Autowired
+    public ResourcesService(List<ResourcesSubService> subServices) {
+        this.subServiceMap = new HashMap<>(subServices.size());
+
+        for (ResourcesSubService subService : subServices) {
+            if (!subService.isEnabled()) {
+                ReposiliteApplication.getLogger().info("Skipping disabled '" + subService.getName() + "' subservice");
+                continue;
+            }
+
+            subServiceMap.put(subService.getName().toLowerCase(), subService);
+            ReposiliteApplication.getLogger().info("Subservice '" + subService.getName() + "' has been registered");
+        }
+    }
+
+    public Collection<? extends ResourcesSubService> getSubServices() {
+        return subServiceMap.values();
+    }
 
 }

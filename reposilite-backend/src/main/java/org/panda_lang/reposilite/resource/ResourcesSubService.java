@@ -16,18 +16,14 @@
 
 package org.panda_lang.reposilite.resource;
 
-import java.util.Collection;
+import java.io.File;
 import java.util.Optional;
 
-public interface ResourcesSubService {
+public interface ResourcesSubService<R extends Resource<R>> {
 
-    /**
-     * Get entity
-     *
-     * @param entityQualifier the qualifier to search for
-     * @return the found entity
-     */
-    Optional<? extends Resource> findEntityByQualifier(String entityQualifier);
+    Optional<R> findByName(String value);
+
+    R save(R resource);
 
     /**
      * Check if service is enabled
@@ -39,11 +35,11 @@ public interface ResourcesSubService {
     }
 
     /**
-     * Get all available entities
+     * Get service directory
      *
-     * @return the list of entities
+     * @return resources directory of service
      */
-    Collection<? extends Resource> getEntities();
+    File getServiceDirectory();
 
     /**
      * Get sub service name

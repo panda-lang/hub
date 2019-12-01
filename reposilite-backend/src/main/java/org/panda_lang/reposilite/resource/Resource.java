@@ -16,78 +16,27 @@
 
 package org.panda_lang.reposilite.resource;
 
+import org.panda_lang.reposilite.utils.entity.IdentifiableEntity;
+
 import java.io.File;
-import java.util.Collection;
+import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-public interface Resource {
+public interface Resource<R extends Resource> extends IdentifiableEntity<String>, Serializable {
 
-    /**
-     * Find entity using uri
-     *
-     * @param uri the path to search for
-     * @return the found entity
-     */
-    Optional<Resource> find(String uri);
+    default boolean isLoadable() {
+        return false;
+    }
 
-    /**
-     * Add entity as a child to the current entity
-     *
-     * @param child the entity to add
-     */
-    void addEntity(Resource child);
+    void addResource(R resource);
 
-    /**
-     * Get node used by entity
-     *
-     * @return the node
-     */
-    ResourcesTree<?> toNode();
+    Optional<R> getResource(String name);
 
-    /**
-     * Get children stream of the given type
-     *
-     * @param type the type of children
-     * @param <T> generic representation of type
-     * @return the type
-     */
-     <T extends Resource> Stream<T> streamOfType(Class<T> type);
+    List<? extends R> getResources();
 
-    /**
-     * Check if entity has child with the given name
-     *
-     * @param name the name to check for
-     * @return true if entity has
-     */
-    Optional<Resource> getChild(String name);
-
-    /**
-     * Get names of children
-     *
-     * @return the children names
-     */
-    Collection<String> getChildrenNames();
-
-    /**
-     * Get collection of child entities
-     *
-     * @return the child entities
-     */
-    Collection<? extends Resource> getChildren();
-
-    /**
-     * Get associated file
-     *
-     * @return the file
-     */
     File getFile();
 
-    /**
-     * Get display name of entity
-     *
-     * @return the name
-     */
     String getName();
 
 }

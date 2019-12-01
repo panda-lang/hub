@@ -16,12 +16,11 @@
 
 package org.panda_lang.reposilite.resource.utils;
 
-import org.panda_lang.reposilite.resource.Resource;
 import org.panda_lang.utilities.commons.function.TriFunction;
 
 import java.io.File;
 
 @FunctionalInterface
-public interface PathMapper extends TriFunction<File, Resource, String, Resource> {
+public interface PathMapper<R> extends TriFunction<File, R, String, R> {
 
 }

@@ -20,11 +20,14 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@ApiOperation("/api/repositories")
+@ApiOperation("Operations associated with resources")
+@RequestMapping("/api/resources")
 @RestController
 class ResourcesController {
 
@@ -35,9 +38,11 @@ class ResourcesController {
         this.resourcesService = resourcesService;
     }
 
-    @GetMapping({ "/api/repositories", "/api/repository/" })
-    ResponseEntity<Set<String>> repositories() {
-        return ResponseEntity.ok(resourcesService.getSubServicesNames());
+    @GetMapping("/")
+    ResponseEntity<List<String>> list() {
+        return ResponseEntity.ok(resourcesService.getSubServices().stream()
+                .map(ResourcesSubService::getName)
+                .collect(Collectors.toList()));
     }
 
 }

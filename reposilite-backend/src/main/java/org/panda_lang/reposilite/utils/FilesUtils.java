@@ -20,6 +20,7 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,29 +35,32 @@ import java.util.Objects;
 
 public final class FilesUtils {
 
-    public static void storeFile(Path path, MultipartFile file, boolean xmlAllowed) {
+    public static boolean storeFile(Path path, MultipartFile file, boolean xmlAllowed) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Path directoryPath = path.resolve(fileName);
 
         if (!xmlAllowed && FilenameUtils.getExtension(file.getOriginalFilename()).contains("xml")) {
-            return;
+            return false;
         }
 
         try {
             FileUtils.copyInputStreamToFile(file.getInputStream(), directoryPath.toFile());
+            return true;
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+        return false;
     }
 
-    public static File getMostRecentDirectory(Path directoryPath) {
+    public static @Nullable File getMostRecentDirectory(Path directoryPath) {
         return Arrays.stream(Objects.requireNonNull(directoryPath.toFile().listFiles()))
                 .filter(File::isDirectory)
                 .max(Comparator.comparingLong(File::lastModified))
-                .orElseGet(null);
+                .orElse(null);
     }
 
-    public static void writeFileChecksums(Path path) {
+    public static boolean writeFileChecksums(Path path) {
         try {
             Files.touch(new File(path + ".md5"));
             Files.touch(new File(path + ".sha1"));
@@ -66,9 +70,12 @@ public final class FilesUtils {
 
             FileUtils.writeStringToFile(md5FileFile.toFile(), Files.hash(md5FileFile.toFile(), Hashing.md5()).toString(), StandardCharsets.UTF_8);
             FileUtils.writeStringToFile(sha1FileFile.toFile(), Files.hash(sha1FileFile.toFile(), Hashing.sha1()).toString(), StandardCharsets.UTF_8);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return false;
     }
 
     private FilesUtils() { }

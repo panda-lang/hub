@@ -16,6 +16,10 @@
 
 package org.panda_lang.reposilite;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 import org.panda_lang.utilities.commons.StringUtils;
@@ -26,8 +30,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.shell.jline.PromptProvider;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -35,6 +42,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.io.File;
 
 @Configuration
+@EnableMongoRepositories
 class ReposiliteConfiguration implements WebMvcConfigurer {
 
     @Bean
@@ -43,8 +51,8 @@ class ReposiliteConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public File repositoriesDirectory(@Qualifier("workspaceDirectory") File workspace) {
-        return new File(workspace, "repositories");
+    public File resourcesDirectory(@Qualifier("workspaceDirectory") File workspace) {
+        return new File(workspace, "resources");
     }
 
     @Bean
@@ -82,10 +90,23 @@ class ReposiliteConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-                .addResourceHandler("/resources/**")
+        registry.addResourceHandler("/resources/**")
                 .addResourceLocations("classpath:/resources/")
                 .resourceChain(false);
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        return new CommonsMultipartResolver();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new Jdk8Module());
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        return mapper;
     }
 
 }
