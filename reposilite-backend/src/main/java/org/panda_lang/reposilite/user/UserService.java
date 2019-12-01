@@ -18,10 +18,9 @@ package org.panda_lang.reposilite.user;
 
 import org.bson.types.ObjectId;
 import org.panda_lang.reposilite.utils.entity.CrudOperationsService;
- public interface UserService extends CrudOperationsService<User, ObjectId> {
 
-    @Override
-    @SuppressWarnings("unchecked")
-    User save(User user);
+public interface UserService extends CrudOperationsService<User, ObjectId> {
+
+    User initializeUser(User user);
 
 }

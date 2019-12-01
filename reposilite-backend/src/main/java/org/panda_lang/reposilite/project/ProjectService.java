@@ -17,18 +17,33 @@
 package org.panda_lang.reposilite.project;
 
 import org.bson.types.ObjectId;
+import org.panda_lang.reposilite.utils.entity.AbstractCrudOperationService;
 import org.panda_lang.reposilite.utils.entity.CrudOperationsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-interface ProjectService extends CrudOperationsService<Project, ObjectId> {
+@Service
+class ProjectService extends AbstractCrudOperationService<ProjectRepository, Project, ObjectId> implements CrudOperationsService<Project, ObjectId> {
 
-    List<Project> findAllByOwnerName(String name);
+    @Autowired
+    public ProjectService(ProjectRepository projectRepository) {
+        super(projectRepository);
+    }
 
-    Page<Project> findAll(Pageable pageable);
+    public List<Project> findAllByOwnerName(String name) {
+        return super.getRepository().findAllByOwnerName(name);
+    }
 
-    long count();
+    public Page<Project> findAll(Pageable pageable) {
+        return super.getRepository().findAll(pageable);
+    }
+
+    public long count() {
+        return super.getRepository().count();
+    }
 
 }

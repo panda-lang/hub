@@ -22,7 +22,7 @@ import org.panda_lang.reposilite.utils.Buildable;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class UserBuilder extends ProjectOwner.AbstractProjectOwnerBuilder<UserBuilder> implements Buildable<User> {
+public final class UserBuilder extends Owner.AbstractProjectOwnerBuilder<UserBuilder> implements Buildable<User> {
 
     private String password;
     private String provider;

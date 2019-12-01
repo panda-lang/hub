@@ -20,9 +20,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.bson.types.ObjectId;
-import org.panda_lang.reposilite.user.ProjectOwner;
+import org.panda_lang.reposilite.user.Owner;
 import org.panda_lang.reposilite.utils.entity.IdentifiableEntity;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -34,12 +35,13 @@ class Project implements IdentifiableEntity<ObjectId>, Serializable {
     @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId identifier;
     private String name;
+    @DBRef
     @JsonManagedReference
-    private ProjectOwner owner;
+    private Owner owner;
     private String platformUri;
     private String website;
 
-    Project(String name, ProjectOwner owner, String platformUri, String website) {
+    Project(String name, Owner owner, String platformUri, String website) {
         this.name = name;
         this.owner = owner;
         this.platformUri = platformUri;
@@ -58,7 +60,7 @@ class Project implements IdentifiableEntity<ObjectId>, Serializable {
         return platformUri;
     }
 
-    public ProjectOwner getOwner() {
+    public Owner getOwner() {
         return owner;
     }
 

@@ -39,11 +39,11 @@ import java.util.Optional;
 @RequestMapping("api/register")
 final class RegistrationController {
 
-    private final UserService service;
+    private final UserService userService;
 
     @Autowired
-    public RegistrationController(UserService service) {
-        this.service = service;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @ApiOperation(value = "Register a user account")
@@ -54,9 +54,9 @@ final class RegistrationController {
     })
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody UserRegistrationDto dto, BindingResult result) {
-        Optional<User> user = this.service.findByName(dto.getUsername());
+        Optional<User> userValue = this.userService.findByName(dto.getUsername());
 
-        if (user.isPresent()) {
+        if (userValue.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
@@ -64,7 +64,8 @@ final class RegistrationController {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(dto.toEntity()));
+        User user = this.userService.initializeUser(dto.toEntity());
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
 }

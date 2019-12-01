@@ -22,7 +22,7 @@ import org.panda_lang.reposilite.utils.entity.IdentifiableEntity;
 
 import java.io.Serializable;
 
-public interface ProjectOwner extends IdentifiableEntity<ObjectId>, Serializable {
+public interface Owner extends IdentifiableEntity<ObjectId>, Serializable {
 
     void setName(String name);
 
@@ -48,7 +48,7 @@ public interface ProjectOwner extends IdentifiableEntity<ObjectId>, Serializable
 
     String getAvatar();
 
-    abstract class AbstractProjectOwnerBuilder<T extends Buildable<? extends ProjectOwner>> {
+    abstract class AbstractProjectOwnerBuilder<T extends Buildable<? extends Owner>> {
 
         protected String name;
         protected String displayName;

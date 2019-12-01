@@ -27,7 +27,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 @Document("users")
-public final class User implements ProjectOwner {
+public final class User implements Owner {
 
     @Id
     @JsonSerialize(using = ToStringSerializer.class)
@@ -99,7 +99,7 @@ public final class User implements ProjectOwner {
         this.site = site;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void addRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
