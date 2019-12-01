@@ -17,21 +17,46 @@
 package org.panda_lang.reposilite.resource.maven;
 
 import org.panda_lang.reposilite.resource.ResourcesSubService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
-import java.nio.file.Path;
+import java.io.File;
 import java.util.Optional;
-import java.util.Set;
 
-public interface MavenService extends ResourcesSubService {
+@Service
+class MavenService implements ResourcesSubService<MavenResource> {
 
-    MetadataFile generateMetaDataFile(RepositoryResource repository, GroupResource group, ArtifactResource artifact, Path buildDirectoryPath);
+    private final File mavenResourcesDirectory;
+    private final MavenRepository mavenRepository;
 
-    Optional<RepositoryResource> getRepository(String name);
-
-    Set<String> getNames();
+    @Autowired
+    MavenService(@Qualifier("resourcesDirectory") File resourcesDirectory, MavenRepository mavenRepository) {
+        this.mavenResourcesDirectory = new File(resourcesDirectory, getName());
+        this.mavenRepository = mavenRepository;
+    }
 
     @Override
-    default String getName() {
+    public Optional<MavenResource> findByName(String name) {
+        return mavenRepository.findByName(name);
+    }
+
+    @Override
+    public MavenResource save(MavenResource resource) {
+        return mavenRepository.save(resource);
+    }
+
+    public Optional<MavenResource> findByQulifier(String qualifier) {
+        return mavenRepository.findById(qualifier);
+    }
+
+    @Override
+    public File getServiceDirectory() {
+        return mavenResourcesDirectory;
+    }
+
+    @Override
+    public String getName() {
         return "maven";
     }
 

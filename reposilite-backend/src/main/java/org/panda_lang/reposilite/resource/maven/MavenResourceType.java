@@ -16,14 +16,12 @@
 
 package org.panda_lang.reposilite.resource.maven;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+enum MavenResourceType {
 
-import java.util.Optional;
-
-@Repository
-interface MavenRepository extends MongoRepository<MavenResource, String> {
-
-    Optional<MavenResource> findByName(String name);
+    REPOSITORY,
+    GROUP,
+    ARTIFACT,
+    VERSION,
+    BUILD
 
 }
