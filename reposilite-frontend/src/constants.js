@@ -20,5 +20,4 @@ export const BACKEND = config.backend
 export const FRONTEND = config.frontend
 
 export const ACCESS_TOKEN = 'access_token'
-export const USER_DETAILS = `${BACKEND}/api/users/me`
 export const GITHUB_OAUTH_URL = `${BACKEND}/oauth2/authorize/github?redirect_uri=${FRONTEND}/oauth2/redirect`

@@ -71,6 +71,11 @@ const API = {
 		},
 		async signup (data) {
 			return API.post('/users/signup', data)
+		},
+		async me (token) {
+			return API.get('/users/me', {
+				Authorization: `Bearer ${token}`
+			})
 		}
 	}
 }

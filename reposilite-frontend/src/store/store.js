@@ -16,8 +16,9 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Axios from 'axios'
-import { ACCESS_TOKEN, USER_DETAILS } from '../constants'
+
+import { ACCESS_TOKEN } from '../constants'
+import API from '@/api'
 
 Vue.use(Vuex)
 
@@ -37,46 +38,41 @@ export const store = new Vuex.Store({
 	},
 
 	actions: {
-		fetchUser ({ dispatch, state }) {
+		async fetchUser ({ dispatch, state }) {
 			if (!state.token) {
 				return
 			}
 
-			Axios.get(USER_DETAILS, {
-				headers: {
-					Authorization: `Bearer ${state.token}`
-				}
-			}).then(response => {
-				const user = {
-					avatar: this.avatar,
-					id: this.identifier,
-					name: this.name,
-					provider: this.provider,
-					providerId: this.providerId,
-					username: this.username,
-					email: this.email,
-					roles: this.roles
-				} = response.data
-
-				dispatch('setUser', user)
-			}).catch(function (error) {
+			try {
+				const user = await API.users.me(state.token)
+				dispatch('SET_USER', {
+					...user,
+					get id () {
+						return this.identifier
+					}
+				})
+			} catch (err) {
 				dispatch('removeUser')
-				console.log(error)
-			})
+				console.log(err)
+			}
 		},
+
 		setUser ({ commit }, user) {
 			localStorage.setItem('user', user)
 			commit('SET_USER', user)
 		},
+
 		removeUser ({ commit }) {
 			localStorage.removeItem(ACCESS_TOKEN)
 			localStorage.removeItem('user')
 			commit('SET_USER', undefined)
 		},
+
 		setToken ({ commit }, token) {
 			localStorage.setItem(ACCESS_TOKEN, token)
 			commit('SET_TOKEN', token)
 		},
+
 		removeToken ({ commit }) {
 			localStorage.removeItem(ACCESS_TOKEN)
 			commit('SET_TOKEN', undefined)
