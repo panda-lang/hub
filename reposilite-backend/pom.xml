@@ -247,7 +247,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.5.2</version> <!-- DON'T CHANGE -->
+            <version>5.6.2</version> <!-- DON'T CHANGE -->
             <scope>test</scope>
         </dependency>
         <dependency>
