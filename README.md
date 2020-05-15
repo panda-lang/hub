@@ -2,7 +2,6 @@
 
 <p align="center">
    <a href="https://travis-ci.org/panda-lang/reposilite"><img src="https://travis-ci.org/panda-lang/reposilite.svg?branch=master" alt="Build Status"></a>
-   <a href="https://codecov.io/gh/panda-lang/reposilite"><img src="https://codecov.io/gh/panda-lang/reposilite/branch/master/graph/badge.svg"></a>
    <a href="https://www.codefactor.io/repository/github/panda-lang/reposilite"><img src="https://www.codefactor.io/repository/github/panda-lang/reposilite/badge" alt="CodeFactor"></a>
        
   <p align="center">
