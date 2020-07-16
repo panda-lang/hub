@@ -19,7 +19,7 @@ import { BACKEND } from './constants'
 const API = {
 	async fetch (url, options) {
 		const fetchUrl = url[0] === '/'
-			? `${BACKEND}/api/${url}`
+			? `${BACKEND}/api${url}`
 			: url
 
 		const res = await fetch(fetchUrl, options)

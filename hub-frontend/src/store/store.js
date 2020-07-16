@@ -29,10 +29,10 @@ export const store = new Vuex.Store({
 	},
 
 	mutations: {
-		SET_USER: (state, user) => {
+		user (state, user) {
 			state.user = user
 		},
-		SET_TOKEN: (state, token) => {
+		token (state, token) {
 			state.token = token
 		}
 	},
@@ -45,7 +45,7 @@ export const store = new Vuex.Store({
 
 			try {
 				const user = await API.users.me(state.token)
-				dispatch('SET_USER', {
+				dispatch('setUser', {
 					...user,
 					get id () {
 						return this.identifier
@@ -59,23 +59,23 @@ export const store = new Vuex.Store({
 
 		setUser ({ commit }, user) {
 			localStorage.setItem('user', user)
-			commit('SET_USER', user)
+			commit('user', user)
 		},
 
 		removeUser ({ commit }) {
 			localStorage.removeItem(ACCESS_TOKEN)
 			localStorage.removeItem('user')
-			commit('SET_USER', undefined)
+			commit('user', undefined)
 		},
 
 		setToken ({ commit }, token) {
 			localStorage.setItem(ACCESS_TOKEN, token)
-			commit('SET_TOKEN', token)
+			commit('token', token)
 		},
 
 		removeToken ({ commit }) {
 			localStorage.removeItem(ACCESS_TOKEN)
-			commit('SET_TOKEN', undefined)
+			commit('token', undefined)
 		}
 	},
 

@@ -54,21 +54,6 @@ export const router = new Router({
 			component: () => import('./views/OAuth2.vue')
 		},
 		{
-			path: '/repositories',
-			name: 'Repositories',
-			component: () => import('./views/Repositories.vue')
-		},
-		{
-			path: '/repository',
-			name: 'Repositories Redirect',
-			redirect: '/repositories'
-		},
-		{
-			path: '/repository/:qualifier(.*)',
-			name: 'Repository',
-			component: () => import('./views/Repository.vue')
-		},
-		{
 			path: '/admin',
 			component: () => import('./views/Admin.vue'),
 

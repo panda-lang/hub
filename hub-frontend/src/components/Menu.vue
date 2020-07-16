@@ -28,9 +28,6 @@
             <b-navbar-item>
                 <router-link class="navbar-item" to="/news">News</router-link>
             </b-navbar-item>
-            <b-navbar-item>
-                <router-link class="navbar-item" to="/repositories">Repositories</router-link>
-            </b-navbar-item>
             <template v-if="user">
                 <b-navbar-item v-if="isAdmin">
                     <router-link class="navbar-item" to="/admin">Admin</router-link>
