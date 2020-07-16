@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2018-2019 Reposilite Team
+  ~ Copyright (c) 2018-2019 Hub Team
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -21,23 +21,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.panda-lang</groupId>
-    <artifactId>reposilite-parent</artifactId>
-    <version>indev-2019.11.18</version>
+    <artifactId>hub-parent</artifactId>
+    <version>indev-2020.7.16</version>
     <packaging>pom</packaging>
 
-    <name>Reposilite</name>
-    <description>Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts</description>
-
     <modules>
-        <module>reposilite-backend</module>
-        <module>reposilite-frontend</module>
-        <module>reposilite-cli</module>
+        <module>hub-backend</module>
+        <module>hub-frontend</module>
     </modules>
 
     <scm>
-        <connection>scm:git:https://github.com/panda-lang/reposilite.git</connection>
-        <developerConnection>scm:git:https://github.com/panda-lang/reposilite.git</developerConnection>
-        <url>https://github.com/panda-lang/reposilite.git</url>
+        <connection>scm:git:https://github.com/panda-lang/hub.git</connection>
+        <developerConnection>scm:git:https://github.com/panda-lang/hub.git</developerConnection>
+        <url>https://github.com/panda-lang/hub.git</url>
     </scm>
 
     <licenses>
@@ -118,7 +114,7 @@
                         <skip>true</skip>
                         <show>protected</show>
                         <sourcepath>${basedir}/src/main/java</sourcepath>
-                        <subpackages>org.panda_lang.reposilite</subpackages>
+                        <subpackages>org.panda_lang.hub</subpackages>
                         <includeDependencySources>true</includeDependencySources>
                         <links>
                             <link>http://download.java.net/java/jdk8/docs/api/</link>

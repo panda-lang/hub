@@ -7,7 +7,7 @@ install:
   - mvn --version
 
 before_build:
-  - cd reposilite-backend
+  - cd hub-backend
 
 build_script:
   - mvn clean install spring-boot:repackage

@@ -23,7 +23,7 @@ Artifact repository:
 * Maven metadata files support
 * Simple auth
 
-Reposilite Interface:
+Hub Interface:
 * Admin panel
   * Config
   * Stats

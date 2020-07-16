@@ -110,4 +110,4 @@ package-lock.json
 .nuxt/
 
 ### Custom
-reposilite-backend/workspace/application.yml
+hub-backend/workspace/application.yml

@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "springfox.documentation.swagger.v2.path",
+      "type": "java.lang.String",
+      "description": "Description for springfox.documentation.swagger.v2.path."
+    },
+    {
+      "name": "hub.built-in-frontend",
+      "type": "java.lang.String",
+      "description": "Description for hub.built-in-frontend."
+    },
+    {
+      "name": "hub.workspace",
+      "type": "java.lang.String",
+      "description": "Description for hub.workspace."
+    },
+    {
+      "name": "hub.frontend",
+      "type": "java.lang.String",
+      "description": "Description for hub.frontend."
+    }
+  ] }
