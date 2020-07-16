@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Hub Team
+ * Copyright (c) 2020 Hub Team of panda-lang organization
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,76 +19,76 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export default new Router({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes: [
-        {
-            path: '/',
-            name: 'Home',
-            component: () => import('./views/Home.vue')
-        },
-        {
-            path: '/about',
-            name: 'About',
-            component: () => import('./views/About.vue')
-        },
-        {
-            path: '/admin',
-            component: () => import('./views/Admin.vue'),
+export const router = new Router({
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes: [
+		{
+			path: '/',
+			name: 'Home',
+			component: () => import('./views/Home.vue')
+		},
+		{
+			path: '/about',
+			name: 'About',
+			component: () => import('./views/About.vue')
+		},
+		{
+			path: '/login',
+			name: 'Login',
+			component: () => import('./views/Login.vue')
+		},
+		{
+			path: '/news',
+			name: 'News',
+			component: () => import('./views/News.vue')
+		},
+		{
+			path: '/register',
+			name: 'Register',
+			component: () => import('./views/Register.vue')
+		},
+		{
+			path: '/oauth2/redirect',
+			name: 'Redirect',
+			component: () => import('./views/OAuth2.vue')
+		},
+		{
+			path: '/repositories',
+			name: 'Repositories',
+			component: () => import('./views/Repositories.vue')
+		},
+		{
+			path: '/repository',
+			name: 'Repositories Redirect',
+			redirect: '/repositories'
+		},
+		{
+			path: '/repository/:qualifier(.*)',
+			name: 'Repository',
+			component: () => import('./views/Repository.vue')
+		},
+		{
+			path: '/admin',
+			component: () => import('./views/Admin.vue'),
 
-            children: [
-                {
-                    path: '',
-                    name: 'Dashboard',
-                    component: () => import('./views/admin/Dashboard.vue')
-                },
-                {
-                    path: 'upload',
-                    name: 'Upload',
-                    component: () => import('./views/admin/Upload.vue')
-                }
-            ]
-        },
-        {
-            path: '/login',
-            name: 'Login',
-            component: () => import('./views/Login.vue')
-        },
-        {
-            path: '/news',
-            name: 'News',
-            component: () => import('./views/News.vue')
-        },
-        {
-            path: '/register',
-            name: 'Register',
-            component: () => import('./views/Register.vue')
-        },
-        {
-            path: '/oauth2/redirect',
-            name: 'Redirect',
-            component: () => import('./views/OAuth2.vue')
-        },
-        {
-            path: '/repositories',
-            name: 'Repositories',
-            component: () => import('./views/Repositories.vue')
-        },
-        {
-            path: '/repository',
-            name: 'Repositories Redirect',
-            redirect: '/repositories'
-        },
-        {
-            path: '/repository/:qualifier(.*)',
-            name: 'Repository',
-            component: () => import('./views/Repository.vue')
-        },
-        {
-            path: "*",
-            name: 'Page Not Found',
-            component: () => import('./views/PageNotFound.vue')
-        }
-    ]
+			children: [
+				{
+					path: '',
+					name: 'Admin Dashboard',
+					component: () => import('./views/admin/Dashboard.vue')
+				},
+				{
+					path: 'upload',
+					name: 'Admin Upload',
+					component: () => import('./views/admin/Upload.vue')
+				}
+			]
+		},
+		{
+			path: '*',
+			name: 'Page Not Found',
+			component: () => import('./views/PageNotFound.vue')
+		}
+	]
 })

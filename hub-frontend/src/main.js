@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Hub Team
+ * Copyright (c) 2020 Hub Team of panda-lang organization
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,22 @@
  */
 
 import Vue from 'vue'
+import Vuex from 'vuex'
 import Buefy from 'buefy'
-import Axios from 'axios'
-import App from './App.vue'
-import { NotificationService } from './services'
-import router from './router'
 import 'buefy/dist/buefy.css'
 
-Vue.config.productionTip = false
-Vue.prototype.$http = Axios
-Vue.prototype.$notify = NotificationService;
+import App from './App.vue'
+import { router } from './router'
+import { store } from './store/store'
+import { notifications } from './services'
+
+Vue.use(Vuex)
 Vue.use(Buefy)
+Vue.prototype.$notify = notifications
+Vue.config.productionTip = false
 
 new Vue({
-    router,
-    render: h => h(App)
+	router,
+	store,
+	render: h => h(App)
 }).$mount('#app')

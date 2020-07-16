@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2018-2019 Hub Team
+  - Copyright (c) 2020 Hub Team of panda-lang organization
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
     <div class="repositories">
         <h5 class="title is-5">Repositories</h5>
         <ul>
-            <li v-for="repository in repositories">
+            <li v-for="(repository, i) in repositories" :key="i">
                 <router-link :to="'/repository/' + repository">&bull; {{ repository }}</router-link>
             </li>
         </ul>
@@ -26,14 +26,15 @@
 </template>
 
 <script>
-import { BACKEND } from '../constants'
+import API from '../api'
 
 export default {
-    data: () => ({
-        repositories: []
-    }),
-    mounted() {
-        this.$http.get(BACKEND + '/api/repositories').then(response => (this.repositories = response.data))
-    }
+	name: 'Repositories',
+	data: () => ({
+		repositories: []
+	}),
+	async mounted () {
+		this.repositories = await API.repositories.all()
+	}
 }
 </script>

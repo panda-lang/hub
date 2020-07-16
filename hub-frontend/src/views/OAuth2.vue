@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2018-2019 Hub Team
+  - Copyright (c) 2020 Hub Team of panda-lang organization
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -15,26 +15,30 @@
   -->
 
 <script>
+
+const parameter = '?token='
+
 export default {
-    render: (createElement) => createElement('h5', "Redirecting..."),
-    methods: {
-        obtainUrlParameter() {
-            let url = window.location.search
-            return url.includes("?token=") === false ? undefined : url.replace("?token=", "")
-        }
-    },
-    mounted() {
-        let token = this.obtainUrlParameter('token')
+	name: 'OAuth2',
+	render: (createElement) => createElement('h5', 'Redirecting...'),
+	methods: {
+		obtainUrlParameter () {
+			const url = window.location.search
+			return url.includes(parameter) === false ? undefined : url.replace(parameter, '')
+		}
+	},
+	mounted () {
+		const token = this.obtainUrlParameter('token')
 
-        if (token !== undefined) {
-            localStorage.setItem('access_token', token)
-            this.$parent.fetchUser()
-            this.$notify.success('Successfully logged in')
-        } else {
-            this.$notify.error('An error occurred while trying to signin')
-        }
+		if (token !== undefined) {
+			this.$store.dispatch('setToken', token)
+			this.$store.dispatch('fetchUser')
+			this.$notify.success('Successfully logged in')
+		} else {
+			this.$notify.error('An error occurred while trying to signin')
+		}
 
-        this.$router.push('/')
-    }
+		this.$router.push('/')
+	}
 }
 </script>

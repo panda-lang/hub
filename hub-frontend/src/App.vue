@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2018-2019 Hub Team
+  - Copyright (c) 2020 Hub Team of panda-lang organization
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -15,91 +15,32 @@
   -->
 
 <template>
-    <div id="app">
-        <b-navbar class="navbar is-fixed-top" role="navigation">
-            <template slot="brand">
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/">Hub</router-link>
-                </b-navbar-item>
-            </template>
-            <template slot="end">
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/about">About</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/news">News</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link class="navbar-item" to="/repositories">Repositories</router-link>
-                </b-navbar-item>
-                <template v-if="authorized">
-                    <b-navbar-item v-if="this.roles && this.roles.map(value => value.name).includes('ADMIN')">
-                        <router-link class="navbar-item" to="/admin">Admin</router-link>
-                    </b-navbar-item>
-                    <b-navbar-item>
-                        <a class="navbar-item" href="/" @click="handleLogout">Logout</a >
-                    </b-navbar-item>
-                </template>
-                <template v-else>
-                    <b-navbar-item>
-                        <router-link class="navbar-item" to="/login">Login</router-link>
-                    </b-navbar-item>
-                    <b-navbar-item>
-                        <router-link class="navbar-item" to="/register">Register</router-link>
-                    </b-navbar-item>
-                </template>
-            </template>
-        </b-navbar>
-        <div class="container page-content-container">
-            <div class="container page-content">
-                <router-view/>
-            </div>
-        </div>
+    <div id="app" :class='{ welcome }'>
+        <Welcome v-if="welcome"/>
+        <Dashboard v-else/>
     </div>
 </template>
 
 <script>
-import {USER_DETAILS} from "./constants";
+import { mapState } from 'vuex'
+
+import Welcome from './components/Welcome'
+import Dashboard from './components/Dashboard'
 
 export default {
-    data: () => ({
-        authorized: false,
-    }),
-    methods: {
-        fetchUser() {
-            const accessToken = localStorage.getItem('access_token')
-
-            if (accessToken == null) {
-                return
-            }
-
-            this.$http.get(USER_DETAILS, {headers: {Authorization: `Bearer ${accessToken}`}})
-                .then(response => {
-                    this.authorized = true
-                    console.log(response.data)
-
-                    return ({
-                        avatar: this.avatar,
-                        id: this.identifier,
-                        name: this.name,
-                        provider: this.provider,
-                        providerId: this.providerId,
-                        username: this.username,
-                        email: this.email,
-                        roles: this.roles
-                    } = response.data)
-                }).catch(function(error) {
-                    console.log(error)
-                })
-        },
-        handleLogout() {
-            this.$parent.id = ''
-            localStorage.removeItem('access_token')
-        }
-    },
-    created() {
-        this.fetchUser()
-    }
+	name: 'App',
+	components: {
+		Dashboard,
+		Welcome
+	},
+	computed: {
+		...mapState({
+			user: state => state.user
+		}),
+		welcome: function () {
+			return !this.user && this.$route.name === 'Home'
+		}
+	}
 }
 </script>
 
@@ -109,20 +50,20 @@ export default {
 </style>
 
 <style lang="stylus">
-html
-    background-color #efefef !important
+html, body
+    height: 100%
+    margin: 0
+    padding: 0
+    overflow hidden
 
 #app
-    text-align right
-
-.navbar-burger
-    height auto !important
+    height: 100%
 
 .page-content-container
-    padding-top 27px
+    margin-top 27px
 
 .page-content
-    padding 17px
+    margin 17px
     background-color white
     min-height 107px
     text-align left

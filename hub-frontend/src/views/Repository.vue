@@ -1,5 +1,5 @@
-<<!--
-  - Copyright (c) 2018-2019 Hub Team
+<!--
+  - Copyright (c) 2020 Hub Team of panda-lang organization
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
     <div class="repository">
         <h5 class="title is-5">Repository - {{ toFormattedPath(qualifier) }}</h5>
         <ul v-if="!error">
-            <li v-for="entity in entities">
+            <li v-for="(entity, i) in entities" :key="i">
                 <router-link :to="'/repository/' + (qualifier ? qualifier + '/' : '') + entity" @click="updateEntities">&bull; {{ entity }}</router-link>
             </li>
         </ul>
@@ -32,56 +32,62 @@
 </template>
 
 <script>
-import { BACKEND } from '../constants'
+import API from '../api'
 
 export default {
-    data: () => ({
-        entities: [],
-        qualifier: undefined,
-        error: undefined
-    }),
-    watch:{
-        $route () {
-            this.updateEntities()
-        }
-    },
-    methods: {
-        updateEntities() {
-            this.qualifier = this.$route.params['qualifier']
-            const url = BACKEND + '/api/repository/' + this.qualifier;
-            console.log(url)
+	name: 'Repository',
+	data: () => ({
+		entities: [],
+		qualifier: undefined,
+		error: undefined
+	}),
+	watch: {
+		$route () {
+			this.updateEntities()
+		}
+	},
+	methods: {
+		async updateEntities () {
+			try {
+				this.qualifier = this.$route.params.qualifier
+				this.entities = await API.repository.entities(this.qualifier)
+			} catch (err) {
+				this.error = err
+			}
 
-            this.$http.get(url)
-                .then(response => {
-                    if (!response.headers['content-type'].includes('application/json')) {
-                        require('js-file-download')(response.data, this.qualifier.split('\\').pop().split('/').pop())
-                        return
-                    }
+			// TODO: Make backend always return JSON
+			/*
+			this.$http.get(url)
+				.then(response => {
+					if (!response.headers['content-type'].includes('application/json')) {
+						require('js-file-download')(response.data, this.qualifier.split('\\').pop().split('/').pop())
+						return
+					}
 
-                    return (this.entities = response.data)
-                })
-                .catch(error => {
-                    if (error.response.status === 404) {
-                        this.error = 'Empty directory'
-                    }
-                    else {
-                        (this.error = error.response.status)
-                    }
-                })
-        },
-        toFormattedPath(path) {
-            const firstOccuranceIndex = path.search(/\//) + 1
-            const secondOccuranceIndex = firstOccuranceIndex + path.slice(firstOccuranceIndex).search(/\//) + 1
-            return path.substr(0, secondOccuranceIndex).replace(/\//g, ' :: ') + path.slice(secondOccuranceIndex).replace(/\//g, '.')
-        },
-        getParentPath() {
-            const elements = this.qualifier.split('/')
-            elements.pop()
-            return elements.join('/')
-        }
-    },
-    created() {
-        this.updateEntities()
-    }
+					return (this.entities = response.data)
+				})
+				.catch(error => {
+					if (error.response.status === 404) {
+						this.error = 'Empty directory'
+					} else {
+						(this.error = error.response.status)
+					}
+				})
+				*/
+		},
+		toFormattedPath (path) {
+			const firstOccuranceIndex = path.search(/\//) + 1
+			const secondOccuranceIndex = firstOccuranceIndex + path.slice(firstOccuranceIndex).search(/\//) + 1
+			return path.substr(0, secondOccuranceIndex).replace(/\//g, ' :: ') + path.slice(secondOccuranceIndex).replace(/\//g, '.')
+		},
+		getParentPath () {
+			const elements = this.qualifier.split('/')
+			elements.pop()
+			return elements.join('/')
+		}
+	},
+	created () {
+		this.updateEntities()
+	}
 }
 </script>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Hub Team
+ * Copyright (c) 2020 Hub Team of panda-lang organization
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 const config = require('./config')
 
 module.exports = {
-    devServer: {
-        port: config['port']
-    }
+	devServer: {
+		port: config.port
+	},
+
+	lintOnSave: false
 }

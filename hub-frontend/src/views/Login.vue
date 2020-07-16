@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2018-2019 Hub Team
+  - Copyright (c) 2020 Hub Team of panda-lang organization
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -30,6 +30,9 @@
             <b-field>
                 <a :href="signInWithGithubUrl">Sign in with GitHub</a>
             </b-field>
+            <b-field>
+                <router-link to="/register">Register a new account</router-link>
+            </b-field>
 
             <b-field>
                 <b-button class="button is-link" type="submit">Login</b-button>
@@ -39,46 +42,44 @@
 </template>
 
 <script>
-import {GITHUB_OAUTH_URL, SIGNIN_ENDPOINT_URL} from "../constants";
+import { GITHUB_OAUTH_URL } from '../constants'
+import API from '../api'
 
 export default {
-    data: () => ({
-        username: '',
-        password: '',
-        signInWithGithubUrl: GITHUB_OAUTH_URL
-    }),
-    methods: {
-        handleSignin() {
-            this.$http.post(`${SIGNIN_ENDPOINT_URL}`, {username: this.username, password: this.password}, {})
-                .then(response => {
-                    localStorage.setItem('access_token', response.data['access_token'])
-                })
-                .catch(error => {
-                    if (error.response.status === 401) {
-                        this.$notify.error('Bad credentials')
-                        return
-                    }
+	name: 'Login',
+	data: () => ({
+		username: '',
+		password: '',
+		signInWithGithubUrl: GITHUB_OAUTH_URL
+	}),
+	methods: {
+		async handleSignin () {
+			try {
+				// eslint-disable-next-line camelcase
+				const { access_token } = await API.users.signin({ username: this.username, password: this.password })
+				this.$store.dispatch('setToken', access_token)
+			} catch (err) {
+				if (err.status === 401) {
+					return this.$notify.error('Bad credentials')
+				}
 
-                    this.$notify.error('An error occurred while trying to signin')
-                })
-        }
-    }
+				this.$notify.error('An error occurred while trying to signin')
+			}
+		}
+	}
 }
 </script>
 
 <style lang="stylus">
 .login
     text-align center
-
 .login .column
     max-width 460px
     border-radius 7px
     background-color white
     text-align center
-
 .login .input
     max-width 420px !important
-
 .login .control
     text-align center !important
 </style>

@@ -1,5 +1,5 @@
 <!--
-  - Copyright (c) 2018-2019 Hub Team
+  - Copyright (c) 2020 Hub Team of panda-lang organization
   -
   - Licensed under the Apache License, Version 2.0 (the "License");
   - you may not use this file except in compliance with the License.
@@ -58,39 +58,35 @@
 </template>
 
 <script>
-import { DEPOSITORY_UPLOAD } from "../../constants";
+import API from '../../api'
 
 export default {
-    data: () => ({
-        path: '',
-        dropFiles: []
-    }),
-    methods: {
-        deleteDropFile(index) {
-            this.dropFiles.splice(index, 1)
-        },
-        uploadFiles() {
-            const accessToken = localStorage.getItem('access_token')
+	name: 'Upload',
+	data: () => ({
+		path: '',
+		dropFiles: []
+	}),
+	methods: {
+		deleteDropFile (index) {
+			this.dropFiles.splice(index, 1)
+		},
+		uploadFiles () {
+			const accessToken = localStorage.getItem('access_token')
 
-            this.dropFiles.forEach(file => {
-                const formData = new FormData();
-                formData.append('file', file);
+			this.dropFiles.forEach(async file => {
+				const formData = new FormData()
+				formData.append('file', file)
 
-                this.$http.put(DEPOSITORY_UPLOAD + '/' + this.path, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                }).then(() => {
-                    this.$notify.success('Successfully uploaded artifact!')
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.$notify.error('Cannot upload artifact: ' + error.response.message)
-                });
-            });
-        }
-    }
+				try {
+					await API.repository.maven(`/${this.path}`, formData, accessToken)
+					this.$notify.success('Successfully uploaded artifact!')
+				} catch (err) {
+					// TODO: Get error reason
+					this.$notify.error('Cannot upload artifact')
+				}
+			})
+		}
+	}
 }
 </script>
 

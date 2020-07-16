@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2019 Hub Team
+ * Copyright (c) 2020 Hub Team of panda-lang organization
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,8 @@
 
 const config = require('../config')
 
-export const BACKEND = config['backend']
-export const FRONTEND = config['frontend']
-export const USER_DETAILS = `${BACKEND}/api/users/me`
-export const SIGNIN_ENDPOINT_URL = `${BACKEND}/api/users/signin`
-export const SIGNUP_ENDPOINT_URL = `${BACKEND}/api/users/signup`
+export const BACKEND = config.backend
+export const FRONTEND = config.frontend
+
+export const ACCESS_TOKEN = 'access_token'
 export const GITHUB_OAUTH_URL = `${BACKEND}/oauth2/authorize/github?redirect_uri=${FRONTEND}/oauth2/redirect`
-export const DEPOSITORY_UPLOAD = `${BACKEND}/api/repository/maven`
