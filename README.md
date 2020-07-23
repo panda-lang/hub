@@ -1,16 +1,10 @@
-![Logo](https://user-images.githubusercontent.com/4235722/63769294-c5e02800-c8d2-11e9-96f9-6f64ee5599a7.png)
-
-<p align="center">
+<h1>Hub
    <a href="https://travis-ci.com/panda-lang/hub"><img src="https://travis-ci.com/panda-lang/hub.svg?branch=master" alt="Build Status"></a>
    <a href="https://www.codefactor.io/repository/github/panda-lang/hub"><img src="https://www.codefactor.io/repository/github/panda-lang/hub/badge" alt="CodeFactor"></a>
+</h1>
        
-  <p align="center">
-    Lightweight repository management software mainly dedicated for Maven and Panda-based artifacts<br>
-    ~ <a href="https://panda-lang.org/">panda-lang.org</a> :wq
-  </p>
-  
-  <hr>
-</p>
+Panda Hub is the module manager registry for amazing Panda (+JVM) based projects 📜 <br>
+~ <a href="https://panda-lang.org/">panda-lang.org</a> :wq
 
 #### 📋 Requirements
 - Java 8+
