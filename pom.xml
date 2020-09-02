@@ -103,11 +103,6 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>2.3.1.RELEASE</version>
                 </plugin>
-                <plugin>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>vaadin-maven-plugin</artifactId>
-                    <version>16.0.1</version>
-                </plugin>
 
                 <!-- General -->
                 <plugin>
