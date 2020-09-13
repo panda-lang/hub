@@ -13,9 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.panda_lang.hub.error
 
-internal data class ErrorDto(
-        val code: Int,
-        val message: String
-)
+import spock.lang.Specification
+
+class ErrorDtoTest extends Specification {
+
+    def 'should return proper properties' () {
+        given:
+            def error = new ErrorDto(404, 'Error message')
+
+        expect:
+            error.code == 404
+            error.message == 'Error message'
+    }
+
+}

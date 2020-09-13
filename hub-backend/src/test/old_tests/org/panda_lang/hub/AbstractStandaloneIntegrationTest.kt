@@ -17,12 +17,14 @@ package org.panda_lang.hub
 
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import kotlin.Throws
 
 abstract class AbstractStandaloneIntegrationTest : AbstractIntegrationTest() {
+
     protected abstract fun controllers(): Array<Object?>?
+
     @Override
     protected override fun setup(): MockMvc {
         return MockMvcBuilders.standaloneSetup(controllers()).build()
     }
+
 }

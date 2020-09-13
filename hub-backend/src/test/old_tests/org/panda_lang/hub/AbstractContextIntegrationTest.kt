@@ -21,14 +21,15 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-import kotlin.Throws
 
 abstract class AbstractContextIntegrationTest : AbstractIntegrationTest() {
+
     @Autowired
     private val applicationContext: WebApplicationContext? = null
 
     @Autowired
     private val mongoTemplate: MongoTemplate? = null
+
     @Override
     protected override fun setup(): MockMvc {
         return MockMvcBuilders.webAppContextSetup(applicationContext)
