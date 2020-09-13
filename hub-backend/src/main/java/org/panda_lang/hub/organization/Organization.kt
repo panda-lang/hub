@@ -25,14 +25,17 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("organizations")
 data class Organization constructor(
-    @field:Id
-    @field:JsonSerialize(using = ToStringSerializer::class)
-    override val identifier: ObjectId? = null,
     override var name: String,
-    override var displayName: String,
-    override var description: String,
+    override var displayName: String?,
+    override var description: String?,
     override var email: String,
     override var avatar: String,
-    override var site: String,
+    override var site: String?,
     var owner: User
-) : Owner
+) : Owner {
+
+    @field:Id
+    @field:JsonSerialize(using = ToStringSerializer::class)
+    override var identifier: ObjectId? = null
+
+}

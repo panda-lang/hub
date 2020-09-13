@@ -67,8 +67,7 @@ internal class UserOAuth2DetailsService(
     }
 
     private fun createNewUser(userRequest: OAuth2UserRequest, userDetails: OAuth2UserDetails): User {
-        val user: User = User(
-                null,
+        val user = User(
                 userDetails.name,
                 userDetails.displayName ?: StringUtils.EMPTY,
                 StringUtils.EMPTY,

@@ -27,11 +27,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationProvider
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-internal open class WebSecurityConfiguration(
+internal class WebSecurityConfiguration(
         @param:Qualifier("authenticationUserDetailsService")
         private val userDetailsService: UserDetailsService,
         private val authenticationTokenFilter: AuthenticationTokenFilter,
@@ -43,24 +45,21 @@ internal open class WebSecurityConfiguration(
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-        val authenticationEntryPoint = AuthenticationEntryPoint()
         http.cors()
-                .and().csrf().disable()
-                .httpBasic().authenticationEntryPoint(authenticationEntryPoint)
-                .and().formLogin().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/auth/**", "/oauth2/**", "/api/tests/**").permitAll()
                 .and().oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorize").authorizationRequestRepository(authorizationRequestRepository)
-                .and().redirectionEndpoint().baseUri("/oauth2/callback/*")
+                .and().redirectionEndpoint().baseUri("/login/oauth2/code/*")
                 .and().userInfoEndpoint().userService(oAuth2UserService)
                 .and().successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler)
+
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
 
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
+        auth.authenticationProvider(OAuth2LoginAuthenticationProvider(DefaultAuthorizationCodeTokenResponseClient(), oAuth2UserService))
     }
 
     @Bean

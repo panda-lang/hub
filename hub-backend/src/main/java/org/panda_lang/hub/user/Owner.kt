@@ -21,9 +21,9 @@ import java.io.Serializable
 
 interface Owner : IdentifiableEntity<ObjectId?>, Serializable {
     var name: String
-    var displayName: String
-    var description: String
     var email: String
-    var site: String
+    var displayName: String?
+    var description: String?
+    var site: String?
     var avatar: String
 }

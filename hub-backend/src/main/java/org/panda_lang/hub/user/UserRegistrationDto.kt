@@ -49,7 +49,6 @@ data class UserRegistrationDto(
 
     override fun toEntity(): User {
         return User(
-                null,
                 name,
                 displayName,
                 password,

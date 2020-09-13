@@ -43,7 +43,7 @@ internal class OAuth2AuthenticationSuccessHandler(
     }
 
     private fun obtainRedirectUri(authentication: Authentication, servletRequest: HttpServletRequest): String {
-        val optionalRedirectUrl = CookieHelper.obtainCookie(OAuth2AuthorizationRequestRepository.Companion.REDIRECT_URI_COOKIE_NAME, servletRequest.cookies)
+        val optionalRedirectUrl = CookieHelper.obtainCookie(OAuth2AuthorizationRequestRepository.REDIRECT_URI_COOKIE_NAME, servletRequest.cookies)
                 .map { obj: Cookie? -> obj!!.value }
 
         if (optionalRedirectUrl.isPresent && !isAuthorizedRedirectUri(optionalRedirectUrl.get())) {

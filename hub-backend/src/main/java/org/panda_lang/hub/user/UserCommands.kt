@@ -32,7 +32,6 @@ internal class UserCommands(
         }
 
         val user: User = userRepository.save(User(
-                null,
                 name,
                 name,
                 "",

@@ -38,6 +38,6 @@ data class Project(
 
     @Id
     @JsonSerialize(using = ToStringSerializer::class)
-    override val identifier: ObjectId? = null
+    override var identifier: ObjectId? = null
 
 }

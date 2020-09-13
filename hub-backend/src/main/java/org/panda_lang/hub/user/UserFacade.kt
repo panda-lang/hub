@@ -33,7 +33,6 @@ class UserFacade internal constructor(
         }
 
         val user = userRepository.save(User(
-                null,
                 dto.name,
                 dto.displayName,
                 passwordEncoder.encode(dto.password),

@@ -35,13 +35,15 @@ internal class AuthenticationTokenFilter(
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val jwtToken = obtainJwtTokenFromRequest(request)
         val secretToken = tokenProperties.token.secret
+
         if (jwtToken != null && tokenValidator.validate(jwtToken, secretToken)) {
             val userId = tokenProvider.obtainUserId(jwtToken, secretToken)
             val userDetails = userDetailsService.loadUserById(userId)
-            val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails!!.authorities)
+            val authentication = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
             authentication.details = userDetails
             SecurityContextHolder.getContext().authentication = authentication
         }
+
         filterChain.doFilter(request, response)
     }
 

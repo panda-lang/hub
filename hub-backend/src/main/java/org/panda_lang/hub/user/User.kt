@@ -25,21 +25,22 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("users")
 data class User internal constructor(
-        @Id
-        @JsonSerialize(using = ToStringSerializer::class)
-        override val identifier: ObjectId? = null,
         override var name: String,
-        override var displayName: String,
+        override var displayName: String?,
         @field:JsonIgnore
         var password: String,
-        override var description: String,
+        override var description: String?,
         override var email: String,
         var provider: String,
         var providerId: String,
         override var avatar: String,
-        override var site: String,
+        override var site: String?,
         private var roles: MutableSet<Role>
 ) : Owner {
+
+    @Id
+    @JsonSerialize(using = ToStringSerializer::class)
+    override var identifier: ObjectId? = null
 
     fun getRoles(): Set<Role?> {
         return roles
