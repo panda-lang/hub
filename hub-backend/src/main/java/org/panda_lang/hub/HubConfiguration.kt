@@ -32,8 +32,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories
 import org.springframework.shell.jline.PromptProvider
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
-import org.springframework.web.multipart.MultipartResolver
-import org.springframework.web.multipart.commons.CommonsMultipartResolver
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -41,25 +39,25 @@ import java.io.File
 
 @Configuration
 @EnableMongoRepositories
-internal open class HubConfiguration : WebMvcConfigurer {
+internal class HubConfiguration : WebMvcConfigurer {
 
     @Bean
-    open fun workspaceDirectory(@Value("\${hub.workspace}") workspace: String?): File {
+    fun workspaceDirectory(@Value("\${hub.workspace}") workspace: String?): File {
         return File(StringUtils.replace(workspace, "/", File.separator))
     }
 
     @Bean
-    open fun resourcesDirectory(@Qualifier("workspaceDirectory") workspace: File?): File {
+    fun resourcesDirectory(@Qualifier("workspaceDirectory") workspace: File?): File {
         return File(workspace, "resources")
     }
 
     @Bean
-    open fun shellPrompt(): PromptProvider {
+    fun shellPrompt(): PromptProvider {
         return PromptProvider { AttributedString("hub:> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN)) }
     }
 
     @Bean
-    open fun messageSource(): MessageSource {
+    fun messageSource(): MessageSource {
         val messageSource = ReloadableResourceBundleMessageSource()
         messageSource.setBasename("classpath:messages")
         messageSource.setDefaultEncoding("UTF-8")
@@ -68,7 +66,7 @@ internal open class HubConfiguration : WebMvcConfigurer {
 
     @Bean
     @Primary
-    open fun localValidatorFactoryBean(): LocalValidatorFactoryBean {
+    fun localValidatorFactoryBean(): LocalValidatorFactoryBean {
         val factoryBean = LocalValidatorFactoryBean()
         factoryBean.setValidationMessageSource(messageSource())
         return factoryBean
@@ -90,12 +88,7 @@ internal open class HubConfiguration : WebMvcConfigurer {
     }
 
     @Bean
-    open fun multipartResolver(): MultipartResolver {
-        return CommonsMultipartResolver()
-    }
-
-    @Bean
-    open fun objectMapper(): ObjectMapper {
+    fun objectMapper(): ObjectMapper {
         val mapper = ObjectMapper()
         mapper.registerModule(JavaTimeModule())
         mapper.registerModule(Jdk8Module())
