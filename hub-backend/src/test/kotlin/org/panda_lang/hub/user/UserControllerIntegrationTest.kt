@@ -13,48 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.user
 
-package org.panda_lang.hub.user;
+import com.google.common.collect.Sets
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Test
+import org.panda_lang.hub.AbstractContextIntegrationTest
+import org.panda_lang.hub.user.role.RoleFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import kotlin.Throws
 
-import com.google.common.collect.Sets;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.panda_lang.hub.AbstractContextIntegrationTest;
-import org.panda_lang.hub.user.role.RoleFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-class UserControllerIntegrationTest extends AbstractContextIntegrationTest {
+internal class UserControllerIntegrationTest : AbstractContextIntegrationTest() {
+    @Autowired
+    private val userService: UserService? = null
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleFactory roleFactory;
-
+    private val roleFactory: RoleFactory? = null
     @Test
-    void authenticationTest() throws Exception {
-        User user = User.builder()
+    @Throws(Exception::class)
+    fun authenticationTest() {
+        val user: User = User.builder()
                 .withName("test123")
                 .withPassword("test123")
                 .withRoles(Sets.newHashSet(roleFactory.obtainRole("ADMIN")))
-                .build();
-        userService.initializeUser(user);
-
+                .build()
+        userService.initializeUser(user)
         super.getMockMvc().perform(getAuthenticated("/api/users/me", "test123", "test123"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
     }
 
     @Test
-    void authenticationShouldReturn401WhenNotLogged() throws Exception {
+    @Throws(Exception::class)
+    fun authenticationShouldReturn401WhenNotLogged() {
         super.perform("/api/users/me")
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
     }
 
     @AfterEach
-    void drop() {
-        super.drop("users");
+    fun drop() {
+        super.drop("users")
     }
-
 }

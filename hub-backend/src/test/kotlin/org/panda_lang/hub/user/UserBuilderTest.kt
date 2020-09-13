@@ -13,43 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.user
 
-package org.panda_lang.hub.user;
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.panda_lang.hub.user.role.Role
+import org.panda_lang.utilities.commons.collection.Sets
+import org.springframework.test.context.junit4.SpringRunner
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import kotlin.Throws
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.panda_lang.hub.user.role.Role;
-import org.panda_lang.utilities.commons.collection.Sets;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-@RunWith(SpringRunner.class)
-class UserBuilderTest {
-
-    private User user;
-
+@RunWith(SpringRunner::class)
+internal class UserBuilderTest {
+    private var user: User? = null
     @BeforeEach
-    void setUp() {
-        this.user = new UserBuilder()
+    fun setUp() {
+        user = UserBuilder()
                 .withPassword("test123")
-                .withRoles(Sets.newHashSet(new Role("USER")))
-                .build();
+                .withRoles(Sets.newHashSet(Role("USER")))
+                .build()
     }
 
     @Test
-    void shouldNotBeNull() {
+    fun shouldNotBeNull() {
         assertAll(
-                () -> assertNotNull(this.user.getPassword()),
-                () -> assertNotNull(this.user.getRoles())
-        );
+                { assertNotNull(user.getPassword()) }
+        ) { assertNotNull(user.getRoles()) }
     }
 
     @Test
-    void toStringTest() {
+    fun toStringTest() {
         assertEquals("User{" +
                 "identifier=null, " +
                 "name='null', " +
@@ -58,7 +54,6 @@ class UserBuilderTest {
                 "description='null', " +
                 "email='null', " +
                 "site='null', " +
-                "roles=[Role{name='USER'}]}", this.user.toString());
+                "roles=[Role{name='USER'}]}", user.toString())
     }
-
 }

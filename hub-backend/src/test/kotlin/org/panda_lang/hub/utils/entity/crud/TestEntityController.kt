@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.utils.entity.crud
 
-package org.panda_lang.hub.utils.entity.crud;
-
-import org.bson.types.ObjectId;
-import org.panda_lang.hub.utils.entity.AbstractCrudController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.bson.types.ObjectId
+import org.panda_lang.hub.utils.entity.AbstractCrudController
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import kotlin.Throws
 
 @RestController
 @RequestMapping("/api/tests")
-public class TestEntityController extends AbstractCrudController<TestCrudService, TestEntity, ObjectId, TestDto, TestDto> {
-
-    @Autowired
-    protected TestEntityController(TestCrudService service) {
-        super(service);
-    }
-
-}
+class TestEntityController @Autowired protected constructor(service: TestCrudService?) : AbstractCrudController<TestCrudService?, TestEntity?, ObjectId?, TestDto?, TestDto?>(service)

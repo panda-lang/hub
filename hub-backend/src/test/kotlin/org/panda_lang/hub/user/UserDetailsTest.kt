@@ -13,44 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.user
 
-package org.panda_lang.hub.user;
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
+import org.panda_lang.utilities.commons.StringUtils
+import java.util.HashMap
+import java.util.Map
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import kotlin.Throws
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.panda_lang.utilities.commons.StringUtils;
+internal class UserDetailsTest {
+    @get:Test
+    val attributes: Unit
+        get() {
+            assertEquals(Companion.attributes, details.getAttributes())
+        }
 
-import java.util.HashMap;
-import java.util.Map;
+    @get:Test
+    val user: Unit
+        get() {
+            assertEquals(Companion.user, details.getUser())
+        }
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-class UserDetailsTest {
-
-    private static User user;
-    private static Map<String, Object> attributes = new HashMap<>();
-    private static UserDetails details;
-
-    @BeforeAll
-    static void prepare() {
-        user = User.builder()
-                .withName("username")
-                .withPassword(StringUtils.EMPTY)
-                .build();
-
-        details = UserDetails.of(user, attributes);
-        assertNotNull(details);
+    companion object {
+        private var user: User? = null
+        private val attributes: Map<String, Object> = HashMap()
+        private var details: UserDetails? = null
+        @BeforeAll
+        fun prepare() {
+            user = User.builder()
+                    .withName("username")
+                    .withPassword(StringUtils.EMPTY)
+                    .build()
+            details = UserDetails.of(user, attributes)
+            assertNotNull(details)
+        }
     }
-
-    @Test
-    void getAttributes() {
-        assertEquals(attributes, details.getAttributes());
-    }
-
-    @Test
-    void getUser() {
-        assertEquals(user, details.getUser());
-    }
-
 }

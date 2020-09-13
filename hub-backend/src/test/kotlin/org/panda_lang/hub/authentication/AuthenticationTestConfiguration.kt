@@ -13,49 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.authentication
 
-package org.panda_lang.hub.authentication;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.oauth2.client.registration.ClientRegistration
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
+import org.springframework.security.oauth2.core.AuthorizationGrantType
+import java.util.Collections
+import java.util.List
+import java.util.Objects
+import java.util.stream.Collectors
+import kotlin.Throws
 
 @Configuration
 @EnableWebSecurity
 @Order(101)
-public class AuthenticationTestConfiguration extends WebSecurityConfigurerAdapter {
-
-    private static final List<String> CLIENTS = Collections.singletonList("github");
-
+class AuthenticationTestConfiguration : WebSecurityConfigurerAdapter() {
     @Bean
-    ClientRegistrationRepository clientRegistrationRepository() {
-        List<ClientRegistration> registrations = CLIENTS.stream()
-                .map(this::getRegistration)
+    fun clientRegistrationRepository(): ClientRegistrationRepository {
+        val registrations: List<ClientRegistration> = CLIENTS.stream()
+                .map { client: String -> getRegistration(client) }
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-
-        return new InMemoryClientRegistrationRepository(registrations);
+                .collect(Collectors.toList())
+        return InMemoryClientRegistrationRepository(registrations)
     }
 
-    private ClientRegistration getRegistration(String client) {
+    private fun getRegistration(client: String): ClientRegistration {
         return ClientRegistration.withRegistrationId(client)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .clientId("0")
                 .clientName(client)
                 .clientSecret("0")
                 .tokenUri("unknown")
-                .build();
+                .build()
     }
 
+    companion object {
+        private val CLIENTS: List<String> = Collections.singletonList("github")
+    }
 }

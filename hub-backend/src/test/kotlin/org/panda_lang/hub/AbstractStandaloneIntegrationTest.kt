@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub
 
-package org.panda_lang.hub;
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import kotlin.Throws
 
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-public abstract class AbstractStandaloneIntegrationTest extends AbstractIntegrationTest {
-
-    protected abstract Object[] controllers();
-
+abstract class AbstractStandaloneIntegrationTest : AbstractIntegrationTest() {
+    protected abstract fun controllers(): Array<Object?>?
     @Override
-    protected MockMvc setup() {
-        return MockMvcBuilders.standaloneSetup(controllers()).build();
+    protected override fun setup(): MockMvc {
+        return MockMvcBuilders.standaloneSetup(controllers()).build()
     }
-
 }

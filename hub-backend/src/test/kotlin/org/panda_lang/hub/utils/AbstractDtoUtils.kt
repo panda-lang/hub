@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.utils
 
-package org.panda_lang.hub.utils;
+import org.panda_lang.hub.utils.entity.JsonDto
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultMatcher
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import kotlin.Throws
 
-import org.panda_lang.hub.utils.entity.JsonDto;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-public final class AbstractDtoUtils {
-
-    public static void perform(MockMvc mockMvc, String uri, JsonDto dto, ResultMatcher resultMatcher) throws Exception {
+object AbstractDtoUtils {
+    @Throws(Exception::class)
+    fun perform(mockMvc: MockMvc?, uri: String?, dto: JsonDto, resultMatcher: ResultMatcher?) {
         mockMvc.perform(MockMvcRequestBuilders.post(uri)
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(resultMatcher);
+        ).andExpect(resultMatcher)
     }
-
 }

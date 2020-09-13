@@ -13,37 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub
 
-package org.panda_lang.hub;
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.context.WebApplicationContext
+import kotlin.Throws
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-public abstract class AbstractContextIntegrationTest extends AbstractIntegrationTest {
+abstract class AbstractContextIntegrationTest : AbstractIntegrationTest() {
+    @Autowired
+    private val applicationContext: WebApplicationContext? = null
 
     @Autowired
-    private WebApplicationContext applicationContext;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
+    private val mongoTemplate: MongoTemplate? = null
     @Override
-    protected MockMvc setup() {
-        return MockMvcBuilders.webAppContextSetup(this.applicationContext)
+    protected override fun setup(): MockMvc {
+        return MockMvcBuilders.webAppContextSetup(applicationContext)
                 .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build();
+                .build()
     }
 
-    protected void drop(String name) {
-        mongoTemplate.getCollection(name).drop();
+    protected fun drop(name: String?) {
+        mongoTemplate.getCollection(name).drop()
     }
 
-    protected WebApplicationContext getApplicationContext() {
-        return applicationContext;
+    protected fun getApplicationContext(): WebApplicationContext? {
+        return applicationContext
     }
-
 }

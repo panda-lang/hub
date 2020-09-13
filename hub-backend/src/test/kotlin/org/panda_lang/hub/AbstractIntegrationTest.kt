@@ -13,42 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub
 
-package org.panda_lang.hub;
+import org.junit.jupiter.api.BeforeEach
+import org.junit.runner.RunWith
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
+import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import kotlin.Throws
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner::class)
 @SpringBootTest
-public abstract class AbstractIntegrationTest {
-
-    private MockMvc mockMvc;
-
-    protected abstract MockMvc setup();
-
+abstract class AbstractIntegrationTest {
+    private var mockMvc: MockMvc? = null
+    protected abstract fun setup(): MockMvc?
     @BeforeEach
-    protected void setUp() {
-        this.mockMvc = setup();
+    protected fun setUp() {
+        mockMvc = setup()
     }
 
-    protected ResultActions perform(String uri) throws Exception {
-        return getMockMvc().perform(MockMvcRequestBuilders.get(uri));
+    @Throws(Exception::class)
+    protected fun perform(uri: String?): ResultActions {
+        return getMockMvc().perform(MockMvcRequestBuilders.get(uri))
     }
 
-    protected MockHttpServletRequestBuilder getAuthenticated(String uri, String username, String password) {
-        return MockMvcRequestBuilders.get(uri).with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password));
+    protected fun getAuthenticated(uri: String?, username: String?, password: String?): MockHttpServletRequestBuilder {
+        return MockMvcRequestBuilders.get(uri).with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
     }
 
-    protected MockMvc getMockMvc() {
-        return mockMvc;
+    protected fun getMockMvc(): MockMvc? {
+        return mockMvc
     }
-
 }

@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.user
 
-package org.panda_lang.hub.user;
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.springframework.test.context.junit4.SpringRunner
+import org.junit.jupiter.api.Assertions.*
+import kotlin.Throws
 
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-@RunWith(SpringRunner.class)
-class UserAuthenticationDtoTest {
-
+@RunWith(SpringRunner::class)
+internal class UserAuthenticationDtoTest {
     @Test
-    void toEntityTest() {
-        User user = new UserAuthenticationDto("test", "test123").toEntity();
-
+    fun toEntityTest() {
+        val user: User = UserAuthenticationDto("test", "test123").toEntity()
         assertAll(
-                () -> assertEquals("test", user.getName()),
-                () -> assertEquals("test123", user.getPassword())
-        );
+                { assertEquals("test", user.getName()) }
+        ) { assertEquals("test123", user.getPassword()) }
     }
-
 }

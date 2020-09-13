@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.project
 
-package org.panda_lang.hub.project;
+import org.junit.jupiter.api.Test
+import org.panda_lang.hub.user.Owner
+import org.panda_lang.hub.user.User
+import org.junit.jupiter.api.Assertions.assertEquals
+import kotlin.Throws
 
-import org.junit.jupiter.api.Test;
-import org.panda_lang.hub.user.Owner;
-import org.panda_lang.hub.user.User;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-class ProjectUpdateDtoTest {
-
+internal class ProjectUpdateDtoTest {
     @Test
-    void toEntityTest() {
-        Owner owner = User.builder().withName("user").build();
-        Project project = new ProjectUpdateDto("project", owner, "github:https://github.com/panda-lang/panda", "panda-lang.org").toEntity();
-
+    fun toEntityTest() {
+        val owner: Owner = User.builder().withName("user").build()
+        val project: Project = ProjectUpdateDto("project", owner, "github:https://github.com/panda-lang/panda", "panda-lang.org").toEntity()
         assertEquals("Project{" +
                 "identifier=null, " +
                 "name='project', " +
                 "owner=" + owner.toString() + ", " +
                 "platformUri='github:https://github.com/panda-lang/panda', " +
                 "website='panda-lang.org'" +
-                "}", project.toString());
+                "}", project.toString())
     }
-
 }

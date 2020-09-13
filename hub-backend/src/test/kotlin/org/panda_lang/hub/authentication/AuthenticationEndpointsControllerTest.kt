@@ -13,69 +13,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.authentication
 
-package org.panda_lang.hub.authentication;
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.panda_lang.hub.user.UserFacade
+import org.panda_lang.hub.utils.AbstractDtoUtils
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import kotlin.Throws
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.panda_lang.hub.user.UserFacade;
-import org.panda_lang.hub.utils.AbstractDtoUtils;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
-class AuthenticationEndpointsControllerTest {
-
+@ExtendWith(MockitoExtension::class)
+@RunWith(JUnitPlatform::class)
+internal class AuthenticationEndpointsControllerTest {
     @InjectMocks
-    private AuthenticationEndpointsController authenticationEndpointsController;
+    private val authenticationEndpointsController: AuthenticationEndpointsController? = null
 
     @Mock
-    private UserFacade userFacade;
-    @Mock
-    private AuthenticationManager authenticationManager;
-    @Mock
-    private AuthenticationTokenCreator authenticationTokenCreator;
+    private val userFacade: UserFacade? = null
 
-    private MockMvc mockMvc;
+    @Mock
+    private val authenticationManager: AuthenticationManager? = null
 
+    @Mock
+    private val authenticationTokenCreator: AuthenticationTokenCreator? = null
+    private var mockMvc: MockMvc? = null
     @BeforeEach
-    void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.authenticationEndpointsController).build();
+    fun setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(authenticationEndpointsController).build()
     }
 
     @Test
-    void registerUser() throws Exception {
-        SignUpDto signUpDto = new SignUpDto(
+    @Throws(Exception::class)
+    fun registerUser() {
+        val signUpDto = SignUpDto(
                 "username12",
                 "Username",
                 "test@email.com",
                 "passwd12"
-        );
-
-        AbstractDtoUtils.perform(mockMvc, "/api/users/signup", signUpDto, status().isCreated());
+        )
+        AbstractDtoUtils.perform(mockMvc, "/api/users/signup", signUpDto, status().isCreated())
     }
 
     @Test
-    void authenticateUser() throws Exception {
-        authenticationEndpointsController.registerUser(new SignUpDto(
+    @Throws(Exception::class)
+    fun authenticateUser() {
+        authenticationEndpointsController.registerUser(SignUpDto(
                 "username-sign",
                 "Username Sign",
                 "username-sign@emailcom",
                 "passwd12"
-        ));
-
-        SignInDto signInDto = new SignInDto("username-sign", "passwd12");
-        AbstractDtoUtils.perform(mockMvc, "/api/users/signin", signInDto, status().isOk());
+        ))
+        val signInDto = SignInDto("username-sign", "passwd12")
+        AbstractDtoUtils.perform(mockMvc, "/api/users/signin", signInDto, status().isOk())
     }
-
 }

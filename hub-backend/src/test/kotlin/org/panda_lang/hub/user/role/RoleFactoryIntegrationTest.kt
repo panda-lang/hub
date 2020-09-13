@@ -13,42 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.user.role
 
-package org.panda_lang.hub.user.role;
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.test.context.junit4.SpringRunner
+import org.junit.jupiter.api.Assertions.*
+import kotlin.Throws
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner::class)
 @SpringBootTest
-class RoleFactoryIntegrationTest {
+internal class RoleFactoryIntegrationTest {
+    @Autowired
+    private val roleFactory: RoleFactory? = null
 
     @Autowired
-    private RoleFactory roleFactory;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
+    private val mongoTemplate: MongoTemplate? = null
     @Test
-    void obtainNewRoleTest() {
-        Role role = this.roleFactory.obtainRole("SUPER_VIP");
-
+    fun obtainNewRoleTest() {
+        val role: Role = roleFactory.obtainRole("SUPER_VIP")
         assertAll(
-                () -> assertNotNull(role),
-                () -> assertNotNull(this.mongoTemplate.findById("SUPER_VIP", Role.class))
-        );
+                { assertNotNull(role) }
+        ) { assertNotNull(mongoTemplate.findById("SUPER_VIP", Role::class.java)) }
     }
 
     @AfterEach
-    void tearDown() {
-        this.mongoTemplate.dropCollection("roles");
+    fun tearDown() {
+        mongoTemplate.dropCollection("roles")
     }
-
 }

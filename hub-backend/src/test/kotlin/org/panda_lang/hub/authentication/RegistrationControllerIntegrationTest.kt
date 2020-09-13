@@ -13,61 +13,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.authentication
 
-package org.panda_lang.hub.authentication;
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
+import org.panda_lang.hub.user.UserRegistrationDto
+import org.panda_lang.hub.utils.AbstractDtoUtils
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import kotlin.Throws
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
-import org.panda_lang.hub.user.UserRegistrationDto;
-import org.panda_lang.hub.utils.AbstractDtoUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@RunWith(JUnitPlatform.class)
+@RunWith(JUnitPlatform::class)
 @EnableAutoConfiguration
 @SpringBootTest
-class RegistrationControllerIntegrationTest {
+internal class RegistrationControllerIntegrationTest {
+    @Autowired
+    private val registrationController: RegistrationController? = null
 
     @Autowired
-    private RegistrationController registrationController;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-
-    private MockMvc mockMvc;
-
+    private val mongoTemplate: MongoTemplate? = null
+    private var mockMvc: MockMvc? = null
     @BeforeEach
-    void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.registrationController).build();
+    fun setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(registrationController).build()
     }
 
     @Test
-    void shouldReturnConflictIfUserAlreadyExists() throws Exception {
-        UserRegistrationDto dto = new UserRegistrationDto(
+    @Throws(Exception::class)
+    fun shouldReturnConflictIfUserAlreadyExists() {
+        val dto = UserRegistrationDto(
                 "test123",
                 "test123",
                 "test123",
                 "test123",
                 "test123@test",
                 "test123@test"
-        );
-
-        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isCreated());
-        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isConflict());
+        )
+        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isCreated())
+        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isConflict())
     }
 
     @AfterEach
-    void tearDown() {
-        this.mongoTemplate.dropCollection("users");
+    fun tearDown() {
+        mongoTemplate.dropCollection("users")
     }
-
 }

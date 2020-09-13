@@ -13,67 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.utils.entity.crud
 
-package org.panda_lang.hub.utils.entity.crud;
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import org.bson.types.ObjectId;
-import org.panda_lang.hub.utils.entity.IdentifiableEntity;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import org.bson.types.ObjectId
+import org.panda_lang.hub.utils.entity.IdentifiableEntity
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
+import kotlin.Throws
 
 @Document("tests")
-public class TestEntity implements IdentifiableEntity<ObjectId> {
-
+class TestEntity : IdentifiableEntity<ObjectId?> {
     @Id
-    @JsonSerialize(using = ToStringSerializer.class)
-    private ObjectId identifier;
-    private String name;
-    private String something;
+    @JsonSerialize(using = ToStringSerializer::class)
+    private var identifier: ObjectId? = null
+    var name: String? = null
+    var something: String? = null
 
-    public TestEntity(ObjectId identifier, String name, String something) {
-        this.identifier = identifier;
-        this.name = name;
-        this.something = something;
+    constructor(identifier: ObjectId?, name: String?, something: String?) {
+        this.identifier = identifier
+        this.name = name
+        this.something = something
     }
 
-    public TestEntity() {
+    constructor() {
         // Jackson
     }
 
     @Override
-    public ObjectId getIdentifier() {
-        return this.identifier;
+    fun getIdentifier(): ObjectId? {
+        return identifier
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public String getSomething() {
-        return this.something;
-    }
-
-    public void setIdentifier(ObjectId identifier) {
-        this.identifier = identifier;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSomething(String something) {
-        this.something = something;
+    fun setIdentifier(identifier: ObjectId?) {
+        this.identifier = identifier
     }
 
     @Override
-    public String toString() {
+    override fun toString(): String {
         return "TestEntity{" +
-                "identifier=" + this.identifier +
-                ", name='" + this.name + '\'' +
-                ", something='" + this.something + '\'' +
-                '}';
+                "identifier=" + identifier +
+                ", name='" + name + '\'' +
+                ", something='" + something + '\'' +
+                '}'
     }
-
 }

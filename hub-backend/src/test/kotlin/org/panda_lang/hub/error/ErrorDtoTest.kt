@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.error
 
-package org.panda_lang.hub.error;
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import kotlin.Throws
 
-import org.junit.jupiter.api.Test;
+internal class ErrorDtoTest {
+    @get:Test
+    val code: Unit
+        get() {
+            val errorDto = ErrorDto(404, null)
+            assertEquals(404, errorDto.getCode())
+        }
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-class ErrorDtoTest {
-
-    @Test
-    void getCode() {
-        ErrorDto errorDto = new ErrorDto(404, null);
-        assertEquals(404, errorDto.getCode());
-    }
-
-    @Test
-    void getMessage() {
-        ErrorDto errorDto = new ErrorDto(-1, "error message");
-        assertEquals("error message", errorDto.getMessage());
-    }
-
+    @get:Test
+    val message: Unit
+        get() {
+            val errorDto = ErrorDto(-1, "error message")
+            assertEquals("error message", errorDto.getMessage())
+        }
 }

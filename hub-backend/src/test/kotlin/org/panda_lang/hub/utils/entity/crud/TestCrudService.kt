@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.utils.entity.crud
 
-package org.panda_lang.hub.utils.entity.crud;
-
-import org.bson.types.ObjectId;
-import org.panda_lang.hub.utils.entity.AbstractCrudOperationService;
-import org.panda_lang.hub.utils.entity.CrudOperationsService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.bson.types.ObjectId
+import org.panda_lang.hub.utils.entity.AbstractCrudOperationService
+import org.panda_lang.hub.utils.entity.CrudOperationsService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+import kotlin.Throws
 
 @Service
-public class TestCrudService extends AbstractCrudOperationService<TestRepository, TestEntity, ObjectId> implements CrudOperationsService<TestEntity, ObjectId> {
-
-    @Autowired
-    TestCrudService(TestRepository testRepository) {
-        super(testRepository);
-    }
-
-}
+class TestCrudService @Autowired internal constructor(testRepository: TestRepository?) : AbstractCrudOperationService<TestRepository?, TestEntity?, ObjectId?>(testRepository), CrudOperationsService<TestEntity?, ObjectId?>

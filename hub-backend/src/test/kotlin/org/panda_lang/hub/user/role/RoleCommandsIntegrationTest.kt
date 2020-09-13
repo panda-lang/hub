@@ -13,84 +13,79 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.user.role
 
-package org.panda_lang.hub.user.role;
+import com.mongodb.BasicDBObject
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.panda_lang.hub.user.User
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
+import org.springframework.shell.Shell
+import org.springframework.test.context.junit4.SpringRunner
+import java.util.Collections
+import java.util.HashMap
+import java.util.Map
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import kotlin.Throws
 
-import com.mongodb.BasicDBObject;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.panda_lang.hub.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.shell.Shell;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner::class)
 @SpringBootTest
-class RoleCommandsIntegrationTest {
+internal class RoleCommandsIntegrationTest {
+    @Autowired
+    private val shell: Shell? = null
 
     @Autowired
-    private Shell shell;
-    @Autowired
-    private MongoTemplate mongoTemplate;
-    @Autowired
-    private RoleFactory roleFactory;
+    private val mongoTemplate: MongoTemplate? = null
 
+    @Autowired
+    private val roleFactory: RoleFactory? = null
     @BeforeEach
-    void prepareRoles() {
-        roleFactory.obtainRole("ADMIN");
+    fun prepareRoles() {
+        roleFactory.obtainRole("ADMIN")
     }
 
     @Test
-    void rolesCommandTest() {
-        Object result = this.shell.evaluate(() -> "roles");
-        assertEquals("ADMIN", result);
+    fun rolesCommandTest() {
+        val result: Object = shell.evaluate { "roles" }
+        assertEquals("ADMIN", result)
     }
 
     @Test
-    void setRoleCommandTest() {
-        Map<String, Object> userDetails = new HashMap<String, Object>() {{
-            this.put("name", "testUser2115");
-            this.put("roles", Collections.emptySet());
-        }};
-
-        this.mongoTemplate.insert(new BasicDBObject(userDetails), "users");
-        Object result = this.shell.evaluate(() -> "chrole --username testUser2115 --role ADMIN");
-
-        User user = this.mongoTemplate.findOne(Query.query(Criteria.where("name").is("testUser2115")), User.class);
-        assertNotNull(user);
-
+    fun setRoleCommandTest() {
+        val userDetails: Map<String, Object> = object : HashMap<String?, Object?>() {
+            init {
+                this.put("name", "testUser2115")
+                this.put("roles", Collections.emptySet())
+            }
+        }
+        mongoTemplate.insert(BasicDBObject(userDetails), "users")
+        val result: Object = shell.evaluate { "chrole --username testUser2115 --role ADMIN" }
+        val user: User = mongoTemplate.findOne(Query.query(Criteria.where("name").`is`("testUser2115")), User::class.java)
+        assertNotNull(user)
         assertAll(
-                () -> assertNotNull(this.mongoTemplate.findById("ADMIN", Role.class)),
-                () -> assertEquals("Set role `ADMIN` for user: testUser2115", result),
-                () -> assertTrue(user.getRoles().toString().contains("ADMIN"))
-        );
+                { assertNotNull(mongoTemplate.findById("ADMIN", Role::class.java)) },
+                { assertEquals("Set role `ADMIN` for user: testUser2115", result) }
+        ) { assertTrue(user.getRoles().toString().contains("ADMIN")) }
     }
 
     @Test
-    void setRoleCommandWhenUserNotFound() {
-        Object result = this.shell.evaluate(() -> "chrole --username testUser1337 --role ADMIN");
-        assertEquals("User not found", result);
+    fun setRoleCommandWhenUserNotFound() {
+        val result: Object = shell.evaluate { "chrole --username testUser1337 --role ADMIN" }
+        assertEquals("User not found", result)
     }
 
     @AfterEach
-    void tearDown() {
-        this.mongoTemplate.dropCollection("users");
-        this.mongoTemplate.dropCollection("roles");
+    fun tearDown() {
+        mongoTemplate.dropCollection("users")
+        mongoTemplate.dropCollection("roles")
     }
-
 }

@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.utils.entity.crud
 
-package org.panda_lang.hub.utils.entity.crud;
-
-import org.bson.types.ObjectId;
-import org.panda_lang.hub.utils.entity.NameableMongoRepository;
-import org.springframework.stereotype.Repository;
+import org.bson.types.ObjectId
+import org.panda_lang.hub.utils.entity.NameableMongoRepository
+import org.springframework.stereotype.Repository
+import kotlin.Throws
 
 @Repository
-public interface TestRepository extends NameableMongoRepository<TestEntity, ObjectId> {
-
-}
+interface TestRepository : NameableMongoRepository<TestEntity?, ObjectId?>

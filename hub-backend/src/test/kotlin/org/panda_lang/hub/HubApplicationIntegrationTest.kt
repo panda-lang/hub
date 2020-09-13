@@ -13,27 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub
 
-package org.panda_lang.hub;
+import org.hamcrest.Matchers
+import org.junit.Assert
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.junit4.SpringRunner
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner::class)
 @SpringBootTest
-class HubApplicationIntegrationTest {
-
+internal class HubApplicationIntegrationTest {
     @Autowired
-    private HubConfiguration hubConfiguration;
-
+    private val hubConfiguration: HubConfiguration? = null
     @Test
-    void contextLoads() {
-        Assert.assertThat(this.hubConfiguration, Matchers.notNullValue());
+    fun contextLoads() {
+        Assert.assertThat(hubConfiguration, Matchers.notNullValue())
     }
-
 }

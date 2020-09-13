@@ -13,38 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.utils
 
-package org.panda_lang.hub.utils;
+import org.bson.types.ObjectId
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.panda_lang.hub.utils.entity.crud.TestEntity
+import org.springframework.test.context.junit4.SpringRunner
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import kotlin.Throws
 
-import org.bson.types.ObjectId;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.panda_lang.hub.utils.entity.crud.TestEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-@RunWith(SpringRunner.class)
-class BeanUtilTest {
-
+@RunWith(SpringRunner::class)
+internal class BeanUtilTest {
     @Test
-    void copyNonNullProperties() {
-        ObjectId id = ObjectId.get();
-
-        TestEntity testEntity = new TestEntity(id, "testUsername", "something fucked up");
-        TestEntity testEntityEdited = new TestEntity(null, "testUsernameButEdited", null);
-
-        BeanUtil.copyNonNullProperties(testEntity, testEntityEdited);
-
+    fun copyNonNullProperties() {
+        val id: ObjectId = ObjectId.get()
+        val testEntity = TestEntity(id, "testUsername", "something fucked up")
+        val testEntityEdited = TestEntity(null, "testUsernameButEdited", null)
+        BeanUtil.copyNonNullProperties(testEntity, testEntityEdited)
         assertAll(
-                () -> assertNotNull(testEntity),
-                () -> assertNotNull(testEntityEdited),
-                () -> assertEquals(testEntityEdited.getName(), testEntity.getName()),
-                () -> assertEquals(testEntityEdited.getIdentifier(), testEntity.getIdentifier()),
-                () -> assertEquals(testEntityEdited.getSomething(), testEntity.getSomething())
-        );
+                { assertNotNull(testEntity) },
+                { assertNotNull(testEntityEdited) },
+                { assertEquals(testEntityEdited.getName(), testEntity.getName()) },
+                { assertEquals(testEntityEdited.getIdentifier(), testEntity.getIdentifier()) }
+        ) { assertEquals(testEntityEdited.getSomething(), testEntity.getSomething()) }
     }
-
 }

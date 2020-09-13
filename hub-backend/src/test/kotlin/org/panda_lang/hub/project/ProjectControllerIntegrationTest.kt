@@ -13,73 +13,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.project
 
-package org.panda_lang.hub.project;
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.panda_lang.hub.AbstractContextIntegrationTest
+import org.panda_lang.hub.user.User
+import org.springframework.beans.factory.annotation.Autowired
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.collection.IsCollectionWithSize.hasSize
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import kotlin.Throws
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.panda_lang.hub.AbstractContextIntegrationTest;
-import org.panda_lang.hub.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-final class ProjectControllerIntegrationTest extends AbstractContextIntegrationTest {
-
+internal class ProjectControllerIntegrationTest : AbstractContextIntegrationTest() {
     @Autowired
-    private ProjectService projectService;
-
+    private val projectService: ProjectService? = null
     @BeforeEach
-    void prepare() {
-        projectService.save(new Project("PROJECT NAME", User.builder().withName("onlypanda").build(), "uri", "website"));
+    fun prepare() {
+        projectService.save(Project("PROJECT NAME", User.builder().withName("onlypanda").build(), "uri", "website"))
     }
 
     @Test
-    void shouldReturnNoContent() throws Exception {
+    @Throws(Exception::class)
+    fun shouldReturnNoContent() {
         super.perform("/api/projects")
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent())
     }
 
     @Test
-    void shouldReturn200AndProjectsCount() throws Exception {
+    @Throws(Exception::class)
+    fun shouldReturn200AndProjectsCount() {
         super.perform("/api/projects/count")
                 .andExpect(status().isOk())
-                .andExpect(content().json("1"));
+                .andExpect(content().json("1"))
     }
 
     @Test
-    void shouldReturn200AndAmountOfPages() throws Exception {
+    @Throws(Exception::class)
+    fun shouldReturn200AndAmountOfPages() {
         super.perform("/api/projects/page")
                 .andExpect(status().isOk())
-                .andExpect(content().json("1"));
+                .andExpect(content().json("1"))
     }
 
     @Test
-    void shouldReturn200AndProjectPage() throws Exception {
+    @Throws(Exception::class)
+    fun shouldReturn200AndProjectPage() {
         super.perform("/api/projects/page/0")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", is("PROJECT NAME")));
+                .andExpect(jsonPath("$[0].name", `is`("PROJECT NAME")))
     }
 
     @Test
-    void shouldReturn200AndAllUserProjects() throws Exception {
+    @Throws(Exception::class)
+    fun shouldReturn200AndAllUserProjects() {
         super.perform("/api/projects/user/onlypanda")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", is("PROJECT NAME")));
+                .andExpect(jsonPath("$[0].name", `is`("PROJECT NAME")))
     }
 
     @AfterEach
-    void drop() {
-        super.drop("projects");
+    fun drop() {
+        super.drop("projects")
     }
-
 }

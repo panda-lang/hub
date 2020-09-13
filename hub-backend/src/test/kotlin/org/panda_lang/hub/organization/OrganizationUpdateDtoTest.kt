@@ -13,40 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.organization
 
-package org.panda_lang.hub.organization;
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.*
+import kotlin.Throws
 
-import org.junit.jupiter.api.Test;
+internal class OrganizationUpdateDtoTest {
+    @get:Test
+    val description: Unit
+        get() {
+            assertEquals("description", DTO.getDescription())
+        }
 
-import static org.junit.jupiter.api.Assertions.*;
+    @get:Test
+    val email: Unit
+        get() {
+            assertEquals("email", DTO.getEmail())
+        }
 
-class OrganizationUpdateDtoTest {
+    @get:Test
+    val site: Unit
+        get() {
+            assertEquals("site", DTO.getSite())
+        }
 
-    private static final OrganizationUpdateDto DTO = new OrganizationUpdateDto("name", "display name", "description", "email", "site");
+    @get:Test
+    val displayName: Unit
+        get() {
+            assertEquals("display name", DTO.getDisplayName())
+        }
 
-    @Test
-    void getDescription() {
-        assertEquals("description", DTO.getDescription());
+    @get:Test
+    val name: Unit
+        get() {
+            assertEquals("name", DTO.getName())
+        }
+
+    companion object {
+        private val DTO: OrganizationUpdateDto = OrganizationUpdateDto("name", "display name", "description", "email", "site")
     }
-
-    @Test
-    void getEmail() {
-        assertEquals("email", DTO.getEmail());
-    }
-
-    @Test
-    void getSite() {
-        assertEquals("site", DTO.getSite());
-    }
-
-    @Test
-    void getDisplayName() {
-        assertEquals("display name", DTO.getDisplayName());
-    }
-
-    @Test
-    void getName() {
-        assertEquals("name", DTO.getName());
-    }
-
 }

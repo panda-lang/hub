@@ -13,53 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.utils.entity.crud
 
-package org.panda_lang.hub.utils.entity.crud;
+import org.panda_lang.hub.utils.entity.AbstractDto
+import javax.validation.constraints.NotEmpty
+import kotlin.Throws
 
-import org.panda_lang.hub.utils.entity.AbstractDto;
-
-import javax.validation.constraints.NotEmpty;
-
-public class TestDto extends AbstractDto<TestEntity> {
+class TestDto : AbstractDto<TestEntity?> {
+    @NotEmpty
+    var name: String? = null
+        @Override get() = field
+        set
 
     @NotEmpty
-    private String username;
+    var something: String? = null
 
-    @NotEmpty
-    private String something;
-
-    public TestDto(String username, String something) {
-        this.username = username;
-        this.something = something;
+    constructor(username: String?, something: String?) {
+        name = username
+        this.something = something
     }
 
-    public TestDto() {
+    constructor() {
         // Jackson
     }
 
-    public String getUsername() {
-        return this.username;
+    fun toEntity(): TestEntity {
+        return TestEntity(null, name, something)
     }
-
-    public String getSomething() {
-        return this.something;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setSomething(String something) {
-        this.something = something;
-    }
-
-    @Override
-    public String getName() {
-        return this.username;
-    }
-
-    public TestEntity toEntity() {
-        return new TestEntity(null, this.username, this.something);
-    }
-
 }

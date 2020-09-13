@@ -13,130 +13,126 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.authentication
 
-package org.panda_lang.hub.authentication;
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.jupiter.MockitoExtension
+import org.panda_lang.hub.user.UserService
+import org.panda_lang.hub.user.UserRegistrationDto
+import org.panda_lang.hub.utils.entity.AbstractDto
+import org.panda_lang.hub.utils.AbstractDtoUtils
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultMatcher
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import kotlin.Throws
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.panda_lang.hub.user.UserService;
-import org.panda_lang.hub.user.UserRegistrationDto;
-import org.panda_lang.hub.utils.entity.AbstractDto;
-import org.panda_lang.hub.utils.AbstractDtoUtils;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
-class RegistrationControllerTest {
-
+@ExtendWith(MockitoExtension::class)
+@RunWith(JUnitPlatform::class)
+internal class RegistrationControllerTest {
     @InjectMocks
-    private RegistrationController registrationController;
+    private val registrationController: RegistrationController? = null
 
     @Mock
-    private UserService userService;
-
-    private MockMvc mockMvc;
-
+    private val userService: UserService? = null
+    private var mockMvc: MockMvc? = null
     @BeforeEach
-    void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.registrationController).build();
+    fun setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(registrationController).build()
     }
 
     @Test
-    void registrationTest() throws Exception {
-        UserRegistrationDto dto = new UserRegistrationDto(
+    @Throws(Exception::class)
+    fun registrationTest() {
+        val dto = UserRegistrationDto(
                 "username-123",
                 "display-name-123",
                 "password-123",
                 "password-123",
                 "test123@test",
                 "test123@test"
-        );
-
-        perform(dto, status().isCreated());
+        )
+        perform(dto, status().isCreated())
     }
 
     @Test
-    void shouldReturnBadRequestIfEmpty() throws Exception {
-        UserRegistrationDto dto = new UserRegistrationDto(
+    @Throws(Exception::class)
+    fun shouldReturnBadRequestIfEmpty() {
+        val dto = UserRegistrationDto(
                 "",
                 "",
                 "",
                 "",
                 "",
                 ""
-        );
-
-        perform(dto, status().isBadRequest());
+        )
+        perform(dto, status().isBadRequest())
     }
 
     @Test
-    void shouldReturnBadRequestIfUsernameLengthIsLessThan3() throws Exception {
-        UserRegistrationDto dto = new UserRegistrationDto(
+    @Throws(Exception::class)
+    fun shouldReturnBadRequestIfUsernameLengthIsLessThan3() {
+        val dto = UserRegistrationDto(
                 "12",
                 "test123",
                 "test123",
                 "test123",
                 "test123@test",
                 "test123@test"
-        );
-
-        perform(dto, status().isBadRequest());
+        )
+        perform(dto, status().isBadRequest())
     }
 
     @Test
-    void shouldReturnBadRequestIfPasswordLengthIsLessThan6() throws Exception {
-        UserRegistrationDto dto = new UserRegistrationDto(
+    @Throws(Exception::class)
+    fun shouldReturnBadRequestIfPasswordLengthIsLessThan6() {
+        val dto = UserRegistrationDto(
                 "test123",
                 "test123",
                 "test1",
                 "test1",
                 "test123@test",
                 "test123@test"
-        );
-
-        perform(dto, status().isBadRequest());
+        )
+        perform(dto, status().isBadRequest())
     }
 
     @Test
-    void shouldReturnBadRequestIfConfirmationDoesNotMatch() throws Exception {
-        UserRegistrationDto dto = new UserRegistrationDto(
+    @Throws(Exception::class)
+    fun shouldReturnBadRequestIfConfirmationDoesNotMatch() {
+        val dto = UserRegistrationDto(
                 "test123",
                 "test123",
                 "test123",
                 "test12",
                 "test123@test",
                 "test123@test"
-        );
-
-        perform(dto, status().isBadRequest());
+        )
+        perform(dto, status().isBadRequest())
     }
 
     @Test
-    void shouldReturnBadRequestIfEmailDoesNotMatchPattern() throws Exception {
-        UserRegistrationDto dto = new UserRegistrationDto(
+    @Throws(Exception::class)
+    fun shouldReturnBadRequestIfEmailDoesNotMatchPattern() {
+        val dto = UserRegistrationDto(
                 "test123",
                 "test123",
                 "test123",
                 "test123",
                 "test123",
                 "test123"
-        );
-
-        perform(dto, status().isBadRequest());
+        )
+        perform(dto, status().isBadRequest())
     }
 
-    private void perform(AbstractDto<?> dto, ResultMatcher resultMatcher) throws Exception {
-        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, resultMatcher);
+    @Throws(Exception::class)
+    private fun perform(dto: AbstractDto<*>, resultMatcher: ResultMatcher) {
+        AbstractDtoUtils.perform(mockMvc, "/api/register", dto, resultMatcher)
     }
-
 }

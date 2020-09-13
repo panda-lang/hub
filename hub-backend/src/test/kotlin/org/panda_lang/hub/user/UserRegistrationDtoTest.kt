@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.user
 
-package org.panda_lang.hub.user;
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.springframework.test.context.junit4.SpringRunner
+import org.junit.jupiter.api.Assertions.assertEquals
+import kotlin.Throws
 
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-@RunWith(SpringRunner.class)
-class UserRegistrationDtoTest {
-
+@RunWith(SpringRunner::class)
+internal class UserRegistrationDtoTest {
     @Test
-    void toEntityTest() {
-        User user = new UserRegistrationDto("test", "test displayName", "test", "test", "test@test", "test@test").toEntity();
-
+    fun toEntityTest() {
+        val user: User = UserRegistrationDto("test", "test displayName", "test", "test", "test@test", "test@test").toEntity()
         assertEquals("User{" +
                 "identifier=null, " +
                 "name='test', " +
@@ -37,7 +34,6 @@ class UserRegistrationDtoTest {
                 "description='null', " +
                 "email='test@test', " +
                 "site='null', " +
-                "roles=[]}", user.toString());
+                "roles=[]}", user.toString())
     }
-
 }

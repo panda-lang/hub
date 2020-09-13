@@ -13,39 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.panda_lang.hub.organization
 
-package org.panda_lang.hub.organization;
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.runner.RunWith
+import org.panda_lang.hub.user.User
+import org.springframework.test.context.junit4.SpringRunner
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import kotlin.Throws
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.panda_lang.hub.user.User;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-@RunWith(SpringRunner.class)
-class OrganizationBuilderTest {
-
-    private Organization organization;
-
+@RunWith(SpringRunner::class)
+internal class OrganizationBuilderTest {
+    private var organization: Organization? = null
     @BeforeEach
-    void setUp() {
-        this.organization = new OrganizationBuilder()
+    fun setUp() {
+        organization = OrganizationBuilder()
                 .withOwner(User.builder()
                         .withPassword("test123")
                         .build())
-                .build();
+                .build()
     }
 
     @Test
-    void shouldNotBeNull() {
-        assertNotNull(this.organization.getOwner());
+    fun shouldNotBeNull() {
+        assertNotNull(organization.getOwner())
     }
 
     @Test
-    void toStringTest() {
+    fun toStringTest() {
         assertEquals("Organization{" +
                 "identifier=null, " +
                 "name='null', " +
@@ -61,7 +58,6 @@ class OrganizationBuilderTest {
                 "description='null', " +
                 "email='null', " +
                 "site='null', " +
-                "roles=[]}}", this.organization.toString());
+                "roles=[]}}", organization.toString())
     }
-
 }
