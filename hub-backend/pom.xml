@@ -27,11 +27,15 @@
     <version>indev-2020.7.16</version>
 
     <properties>
+        <kotlin.version>1.3.72</kotlin.version>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
+
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
-        <kotlin.version>1.3.72</kotlin.version>
     </properties>
 
     <dependencyManagement>
