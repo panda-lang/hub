@@ -15,19 +15,15 @@
  */
 package org.panda_lang.hub
 
-import org.slf4j.Logger
+import org.panda_lang.utilities.commons.UnsafeUtils
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-open class HubApplication {
-
-    val logger: Logger = HubLogger.REPOSILITE_LOGGER
-
-}
+open class HubApplication
 
 fun main(args: Array<String>) {
-    HubLogger.initializeMessage()
+    UnsafeUtils.disableIllegalAccessMessage()
     SpringApplication.run(HubApplication::class.java, *args)
 }
 

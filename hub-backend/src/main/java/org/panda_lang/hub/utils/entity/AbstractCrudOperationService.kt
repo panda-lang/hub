@@ -15,8 +15,6 @@
  */
 package org.panda_lang.hub.utils.entity
 
-import java.util.*
-
 abstract class AbstractCrudOperationService<R : NameableMongoRepository<E, ID>, E : IdentifiableEntity<ID>, ID>(
         protected val repository: R
 ) : CrudOperationsService<E, ID> {

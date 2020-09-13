@@ -29,8 +29,8 @@ import kotlin.math.ceil
 @ApiOperation("Operations pertaining to projects")
 @RestController
 @RequestMapping("/api/projects")
-internal open class ProjectController(
-        service: ProjectService
+internal class ProjectController(
+    service: ProjectService
 ) : AbstractCrudController<ProjectService, Project, ObjectId?, ProjectUpdateDto, ProjectUpdateDto>(service) {
 
     companion object {

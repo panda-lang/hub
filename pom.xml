@@ -63,8 +63,12 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-allopen</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
     </dependencies>
-
 
     <repositories>
         <repository>
@@ -79,6 +83,20 @@
             <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
         </repository>
     </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray.kotlin.eap</id>
+            <name>Bintray Kotlin EAP Repository</name>
+            <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <defaultGoal>clean install</defaultGoal>
@@ -164,7 +182,16 @@
                         <args>
                             <arg>-Xjvm-default=enable</arg>
                         </args>
+                        <compilerPlugins>
+                            <compilerPlugin>spring</compilerPlugin>
+                        </compilerPlugins>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.jetbrains.kotlin</groupId>
+                            <artifactId>kotlin-maven-allopen</artifactId>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

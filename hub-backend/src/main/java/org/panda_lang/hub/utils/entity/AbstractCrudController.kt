@@ -37,7 +37,7 @@ import javax.validation.Valid
  * @param <C> type of create dto
  */
 abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : IdentifiableEntity<ID>, ID, U : AbstractDto<T>, C : AbstractDto<T>>(
-        protected val service: S
+        protected open val service: S
 ) {
 
     companion object {

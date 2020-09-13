@@ -18,13 +18,12 @@ package org.panda_lang.hub.project
 import org.bson.types.ObjectId
 import org.panda_lang.hub.utils.entity.AbstractCrudOperationService
 import org.panda_lang.hub.utils.entity.CrudOperationsService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-internal class ProjectService(
+internal open class ProjectService(
         projectRepository: ProjectRepository
 ) : AbstractCrudOperationService<ProjectRepository, Project, ObjectId?>(projectRepository), CrudOperationsService<Project, ObjectId?> {
 

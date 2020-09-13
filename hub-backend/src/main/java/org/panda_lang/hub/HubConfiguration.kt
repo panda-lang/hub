@@ -102,4 +102,5 @@ internal open class HubConfiguration : WebMvcConfigurer {
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         return mapper
     }
+
 }

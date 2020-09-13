@@ -40,7 +40,7 @@ internal class ProjectUpdateDto(
 ) : AbstractDto<Project>() {
 
     override fun toEntity(): Project {
-        return Project(null, name, owner, platformUri, website)
+        return Project(name, owner, platformUri, website)
     }
 
 }
