@@ -4,8 +4,8 @@ notifications:
   email: false
   
 jdk:
-  - openjdk8
-  - openjdk10
+- openjdk14
+
 
 script:
   - mvn install
