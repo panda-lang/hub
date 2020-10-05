@@ -16,12 +16,9 @@
 package org.panda_lang.hub.user
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import java.lang.annotation.Documented
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @AuthenticationPrincipal
-@Documented
-annotation class AuthenticatedUser 
+@MustBeDocumented
+annotation class AuthenticatedUser

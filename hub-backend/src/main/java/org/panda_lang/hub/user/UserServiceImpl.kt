@@ -29,8 +29,9 @@ internal class UserServiceImpl(
 ) : AbstractCrudOperationService<UserRepository, User, ObjectId?>(userRepository), UserService {
 
     override fun initializeUser(user: User): User {
-        user.password = passwordEncoder.encode(user.password)
-        user.addRole(roleFactory.obtainRole("USER"))
-        return super.save(user)
+        return save(user.apply {
+            password = passwordEncoder.encode(user.password)
+            addRole(roleFactory.obtainRole("USER"))
+        })
     }
 }

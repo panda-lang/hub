@@ -26,7 +26,7 @@ internal class AuthenticationTokenValidator {
         private val LOGGER = LoggerFactory.getLogger(AuthenticationTokenValidator::class.java)
     }
 
-    fun validate(@Nullable token: String, @Nullable secretToken: String?): Boolean {
+    fun validate(@Nullable token: String?, @Nullable secretToken: String?): Boolean {
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(secretToken)) {
             return false
         }

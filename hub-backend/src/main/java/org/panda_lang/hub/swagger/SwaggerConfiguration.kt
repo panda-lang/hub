@@ -24,13 +24,11 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 
+private const val PATH_REGEX = "(?!.*error).*$"
+
 @Configuration
 @EnableSwagger2
 internal open class SwaggerConfiguration {
-
-    companion object {
-        private const val PATH_REGEX = "(?!.*error).*$"
-    }
 
     @Bean
     open fun api(): Docket {

@@ -15,6 +15,7 @@
  */
 package org.panda_lang.hub.user
 
+import io.netty.util.internal.StringUtil
 import org.panda_lang.hub.authentication.OAuth2UserDetails
 import org.panda_lang.hub.authentication.OAuth2UserDetailsFactory
 import org.panda_lang.hub.authentication.OAuth2UserDetailsService
@@ -30,7 +31,6 @@ internal class UserOAuth2DetailsService(
     private val userRepository: UserRepository
 ) : DefaultOAuth2UserService(), OAuth2UserDetailsService {
 
-    @Throws(OAuth2AuthenticationException::class)
     override fun loadUser(userRequest: OAuth2UserRequest?): OAuth2User {
         val user = super.loadUser(userRequest)
 
@@ -53,14 +53,14 @@ internal class UserOAuth2DetailsService(
 
         var user: User? = userRepository.findByName(userDetails.name)
 
-        if (user != null) {
+        user = if (user != null) {
             if (providerName != user.provider) {
                 throw RuntimeException("Looks like you're already signed up with " + user.provider + " account.")
             }
 
-            user = updateExistingUser(user, userDetails)
+            updateExistingUser(user, userDetails)
         } else {
-            user = createNewUser(userRequest, userDetails)
+            createNewUser(userRequest, userDetails)
         }
 
         return UserDetails.of(user, oAuth2User.attributes)
@@ -84,9 +84,10 @@ internal class UserOAuth2DetailsService(
     }
 
     private fun updateExistingUser(user: User, userDetails: OAuth2UserDetails): User {
-        user.name = userDetails.name
-        user.displayName = userDetails.displayName ?: StringUtils.EMPTY
-        user.avatar = userDetails.avatar ?: StringUtils.EMPTY
-        return userRepository.save(user)
+        return userRepository.save(user.apply {
+            name = userDetails.name
+            displayName = userDetails.displayName ?: StringUtils.EMPTY
+            avatar = userDetails.avatar ?: StringUtils.EMPTY
+        })
     }
 }

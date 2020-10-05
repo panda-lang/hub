@@ -21,4 +21,4 @@ import org.springframework.security.access.prepost.PreAuthorize
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 @PreAuthorize("hasAuthority('USER')")
-annotation class IsUser 
+annotation class IsUser

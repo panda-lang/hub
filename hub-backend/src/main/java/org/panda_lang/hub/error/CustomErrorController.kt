@@ -18,6 +18,7 @@ package org.panda_lang.hub.error
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.context.MessageSource
+import org.springframework.context.MessageSourceResolvable
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -25,15 +26,13 @@ import org.springframework.web.context.request.WebRequest
 import java.util.*
 import javax.servlet.http.HttpServletResponse
 
+private const val ERROR_PATH = "/error"
+
 @RestController
 internal class CustomErrorController(
     private val errorAttributes: ErrorAttributes,
     private val messageSource: MessageSource
 ) : ErrorController {
-
-    companion object {
-        private const val ERROR_PATH = "/error"
-    }
 
     @RequestMapping(ERROR_PATH) // For all HTTP methods
     fun error(webRequest: WebRequest?, httpServletResponse: HttpServletResponse): ErrorDto {
@@ -44,7 +43,7 @@ internal class CustomErrorController(
             return ErrorDto(
                 400,
                 errors!!.stream()
-                    .map { fieldError: FieldError? -> messageSource.getMessage(fieldError, Locale.getDefault()) }
+                    .map { fieldError: MessageSourceResolvable? -> messageSource.getMessage(fieldError, Locale.getDefault()) }
                     .findFirst()
                     .get()
             )
@@ -53,7 +52,5 @@ internal class CustomErrorController(
         return ErrorDto(httpServletResponse.status, errorAttributes["error"].toString())
     }
 
-    override fun getErrorPath(): String {
-        return ERROR_PATH
-    }
+    override fun getErrorPath(): String = ERROR_PATH
 }

@@ -17,7 +17,7 @@ package org.panda_lang.hub.authentication
 
 import org.panda_lang.hub.utils.entity.JsonDto
 
-class SignUpDto(
+data class SignUpDto(
     val name: String,
     val displayName: String,
     val email: String,

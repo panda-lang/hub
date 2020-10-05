@@ -43,6 +43,7 @@ internal class AuthenticationEndpointsController(
     fun authenticateUser(@RequestBody dto: SignInDto): ResponseEntity<Map<String, Any?>> {
         val authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(dto.name, dto.password))
         SecurityContextHolder.getContext().authentication = authentication
-        return ResponseEntity.ok(Collections.singletonMap<String, Any?>("access_token", authenticationTokenCreator.create(authentication)))
+
+        return ResponseEntity.ok(mapOf("access_token" to authenticationTokenCreator.create(authentication)))
     }
 }

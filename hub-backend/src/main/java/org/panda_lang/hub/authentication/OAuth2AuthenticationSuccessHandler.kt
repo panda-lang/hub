@@ -33,7 +33,6 @@ internal class OAuth2AuthenticationSuccessHandler(
     private val requestRepository: OAuth2AuthorizationRequestRepository
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
-    @Throws(IOException::class)
     override fun onAuthenticationSuccess(servletRequest: HttpServletRequest, servletResponse: HttpServletResponse, authentication: Authentication) {
         if (!servletResponse.isCommitted) {
             val redirectUrl = obtainRedirectUri(authentication, servletRequest)

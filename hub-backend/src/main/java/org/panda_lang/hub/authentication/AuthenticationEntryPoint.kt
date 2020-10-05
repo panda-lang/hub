@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse
 
 internal class AuthenticationEntryPoint : AuthenticationEntryPoint {
 
-    @Throws(IOException::class)
     override fun commence(request: HttpServletRequest, response: HttpServletResponse, authenticationException: AuthenticationException) {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.message)
     }

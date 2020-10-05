@@ -26,16 +26,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import kotlin.math.ceil
 
+private const val PAGE_SIZE = 10
+
 @ApiOperation("Operations pertaining to projects")
 @RestController
 @RequestMapping("/api/projects")
 internal class ProjectController(
     service: ProjectService
 ) : AbstractCrudController<ProjectService, Project, ObjectId?, ProjectUpdateDto, ProjectUpdateDto>(service) {
-
-    companion object {
-        private const val PAGE_SIZE = 10
-    }
 
     @ApiOperation("Always returns empty list")
     @GetMapping
@@ -46,20 +44,19 @@ internal class ProjectController(
     @ApiOperation("Returns amount of projects")
     @GetMapping("/count")
     fun count(): ResponseEntity<Long> {
-        return ResponseEntity.ok(super.service.count())
+        return ResponseEntity.ok(service.count())
     }
 
     @ApiOperation("Returns amount of pages")
     @GetMapping("/page")
     fun pages(): ResponseEntity<Int> {
-        return ResponseEntity.ok(ceil(super.service.count().toDouble() / PAGE_SIZE).toInt())
+        return ResponseEntity.ok(ceil(service.count().toDouble() / PAGE_SIZE).toInt())
     }
 
     @ApiOperation("Returns page with up to $PAGE_SIZE projects")
     @GetMapping("/page/{number}")
     fun page(@PathVariable number: Int?): ResponseEntity<List<Project?>> {
-        return ResponseEntity.ok(
-            super.service
+        return ResponseEntity.ok(service
                 .findAll(PageRequest.of(number!!, PAGE_SIZE))
                 .content
         )
@@ -68,6 +65,7 @@ internal class ProjectController(
     @ApiOperation("Returns all repositories that belongs to the requested user")
     @GetMapping("/user/{user}")
     fun userProjects(@PathVariable user: String?): ResponseEntity<List<Project?>?> {
-        return ResponseEntity.ok(super.service.findAllByOwnerName(user))
+        val projects = service.findAllByOwnerName(user) ?: emptyList()
+        return ResponseEntity.ok(projects)
     }
 }

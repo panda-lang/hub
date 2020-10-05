@@ -15,4 +15,4 @@
  */
 package org.panda_lang.hub
 
-internal class HubRouter 
+internal class HubRouter

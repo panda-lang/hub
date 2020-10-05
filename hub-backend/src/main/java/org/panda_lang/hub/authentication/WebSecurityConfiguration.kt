@@ -43,7 +43,6 @@ internal class WebSecurityConfiguration(
     private val oAuth2UserService: OAuth2UserDetailsService
 ) : WebSecurityConfigurerAdapter() {
 
-    @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.cors()
             .and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -56,14 +55,12 @@ internal class WebSecurityConfiguration(
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
 
-    @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder())
         auth.authenticationProvider(OAuth2LoginAuthenticationProvider(DefaultAuthorizationCodeTokenResponseClient(), oAuth2UserService))
     }
 
     @Bean
-    @Throws(Exception::class)
     override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }

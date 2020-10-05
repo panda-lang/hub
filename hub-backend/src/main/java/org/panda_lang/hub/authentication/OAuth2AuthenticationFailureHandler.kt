@@ -28,7 +28,6 @@ internal class OAuth2AuthenticationFailureHandler(
     private val authorizationRequestRepository: OAuth2AuthorizationRequestRepository
 ) : SimpleUrlAuthenticationFailureHandler() {
 
-    @Throws(IOException::class)
     override fun onAuthenticationFailure(servletRequest: HttpServletRequest, servletResponse: HttpServletResponse, authenticationException: AuthenticationException) {
         var redirectUri = CookieHelper.obtainCookie(OAuth2AuthorizationRequestRepository.REDIRECT_URI_COOKIE_NAME, servletRequest.cookies)
             .map { obj: Cookie? -> obj!!.value }

@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.validation.Valid
 
+private const val SPEL_EXPRESSION = "(isAuthenticated() && principal.user.identifier.equals(#id)) || hasAuthority('ADMIN')"
+
 /**
  * Default implementation of crud controller
  *
@@ -36,13 +38,14 @@ import javax.validation.Valid
  * @param <U> type of update dto
  * @param <C> type of create dto
  */
-abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : IdentifiableEntity<ID>, ID, U : AbstractDto<T>, C : AbstractDto<T>>(
+abstract class AbstractCrudController<S, T, ID, U, C>(
     protected open val service: S
-) {
-
-    companion object {
-        private const val SPEL_EXPRESSION = "(isAuthenticated() && principal.user.identifier.equals(#id)) || hasAuthority('ADMIN')"
-    }
+) where
+    S : CrudOperationsService<T, ID>,
+    T : IdentifiableEntity<ID>,
+    U : AbstractDto<T>,
+    C : AbstractDto<T>
+{
 
     @ApiOperation("Displays all entities")
     @GetMapping

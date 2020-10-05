@@ -31,7 +31,6 @@ internal class AuthenticationTokenFilter(
     private val userDetailsService: AuthenticationUserDetailsService
 ) : OncePerRequestFilter() {
 
-    @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val jwtToken = obtainJwtTokenFromRequest(request)
         val secretToken = tokenProperties.token.secret
@@ -51,10 +50,10 @@ internal class AuthenticationTokenFilter(
         val authorizationHeaderContent = servletRequest.getHeader("Authorization")
         val bearer = "Bearer "
 
-        if (authorizationHeaderContent != null && authorizationHeaderContent.startsWith(bearer)) {
-            return authorizationHeaderContent.substring(bearer.length)
+        return if (authorizationHeaderContent != null && authorizationHeaderContent.startsWith(bearer)) {
+            authorizationHeaderContent.substring(bearer.length)
+        } else {
+            null
         }
-
-        return null
     }
 }

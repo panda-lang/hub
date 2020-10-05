@@ -58,18 +58,18 @@ internal class HubConfiguration : WebMvcConfigurer {
 
     @Bean
     fun messageSource(): MessageSource {
-        val messageSource = ReloadableResourceBundleMessageSource()
-        messageSource.setBasename("classpath:messages")
-        messageSource.setDefaultEncoding("UTF-8")
-        return messageSource
+        return ReloadableResourceBundleMessageSource().also {
+            it.setBasename("classpath:message")
+            it.setDefaultEncoding("UTF-8")
+        }
     }
 
     @Bean
     @Primary
     fun localValidatorFactoryBean(): LocalValidatorFactoryBean {
-        val factoryBean = LocalValidatorFactoryBean()
-        factoryBean.setValidationMessageSource(messageSource())
-        return factoryBean
+        return LocalValidatorFactoryBean().also {
+            it.setValidationMessageSource(messageSource())
+        }
     }
 
     override fun addCorsMappings(registry: CorsRegistry) {
@@ -89,10 +89,10 @@ internal class HubConfiguration : WebMvcConfigurer {
 
     @Bean
     fun objectMapper(): ObjectMapper {
-        val mapper = ObjectMapper()
-        mapper.registerModule(JavaTimeModule())
-        mapper.registerModule(Jdk8Module())
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        return mapper
+        return ObjectMapper().also {
+            it.registerModule(JavaTimeModule())
+            it.registerModule(Jdk8Module())
+            it.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        }
     }
 }
