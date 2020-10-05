@@ -15,7 +15,7 @@
  */
 package org.panda_lang.hub.organization
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class OrganizationUpdateDtoTest {

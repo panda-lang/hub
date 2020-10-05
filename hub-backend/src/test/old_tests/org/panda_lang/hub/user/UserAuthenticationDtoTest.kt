@@ -15,7 +15,7 @@
  */
 package org.panda_lang.hub.user
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.junit4.SpringRunner

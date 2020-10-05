@@ -16,7 +16,7 @@
 package org.panda_lang.hub.user
 
 import org.bson.types.ObjectId
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
