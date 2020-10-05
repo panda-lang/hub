@@ -16,23 +16,23 @@
 package org.panda_lang.hub.user.role
 
 import org.panda_lang.utilities.commons.collection.Sets
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.stereotype.Component
 
 @Component
 internal class RoleInitializer(
-        private val roleRepository: RoleRepository
+    private val roleRepository: RoleRepository
 ) : ApplicationListener<ContextRefreshedEvent> {
 
     override fun onApplicationEvent(contextRefreshedEvent: ContextRefreshedEvent) {
-        roleRepository.saveAll(Sets.newHashSet(
+        roleRepository.saveAll(
+            Sets.newHashSet(
                 Role("USER"),
                 Role("ADMIN"),
                 Role("MOD"),
-                Role("BOT"))
+                Role("BOT")
+            )
         )
     }
-
 }

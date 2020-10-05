@@ -18,5 +18,4 @@ package org.panda_lang.hub.utils.helper
 interface Buildable<T> {
 
     fun build(): T
-
 }

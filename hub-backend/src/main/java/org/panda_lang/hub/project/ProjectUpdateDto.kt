@@ -23,24 +23,23 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 internal class ProjectUpdateDto(
-        @field:NotNull(message = "{name.notNull}")
-        @field:NotEmpty(message = "{name.notEmpty}")
-        @field:Length(min = 3, max = 32, message = "{name.length}")
-        override val name: String,
-        @field:NotNull(message = "{owner.notNull}")
-        val owner: Owner,
-        @field:URL(message = "{source.format}")
-        @field:NotEmpty(message = "{source.notEmpty}")
-        @field:NotNull(message = "{source.notNull}")
-        val platformUri: String,
-        @field:URL(message = "{website.format}")
-        @field:NotEmpty(message = "{website.notEmpty}")
-        @field:NotNull(message = "{website.notNull}")
-        val website: String
+    @field:NotNull(message = "{name.notNull}")
+    @field:NotEmpty(message = "{name.notEmpty}")
+    @field:Length(min = 3, max = 32, message = "{name.length}")
+    override val name: String,
+    @field:NotNull(message = "{owner.notNull}")
+    val owner: Owner,
+    @field:URL(message = "{source.format}")
+    @field:NotEmpty(message = "{source.notEmpty}")
+    @field:NotNull(message = "{source.notNull}")
+    val platformUri: String,
+    @field:URL(message = "{website.format}")
+    @field:NotEmpty(message = "{website.notEmpty}")
+    @field:NotNull(message = "{website.notNull}")
+    val website: String
 ) : AbstractDto<Project>() {
 
     override fun toEntity(): Project {
         return Project(name, owner, platformUri, website)
     }
-
 }

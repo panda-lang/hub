@@ -23,17 +23,16 @@ import kotlin.reflect.KClass
 @Retention(AnnotationRetention.RUNTIME)
 @Constraint(validatedBy = [FieldMatchValidator::class])
 annotation class FieldMatch(
-        val message: String = "",
-        val first: String,
-        val second: String,
-        val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = []
+    val message: String = "",
+    val first: String,
+    val second: String,
+    val groups: Array<KClass<*>> = [],
+    val payload: Array<KClass<out Payload>> = []
 ) {
 
     @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS, AnnotationTarget.ANNOTATION_CLASS)
     @Retention(AnnotationRetention.RUNTIME)
     annotation class AsList(
-            vararg val value: FieldMatch
+        vararg val value: FieldMatch
     )
-
 }

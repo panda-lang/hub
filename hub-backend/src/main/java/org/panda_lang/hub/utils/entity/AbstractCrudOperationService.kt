@@ -16,7 +16,7 @@
 package org.panda_lang.hub.utils.entity
 
 abstract class AbstractCrudOperationService<R : NameableMongoRepository<E, ID>, E : IdentifiableEntity<ID>, ID>(
-        protected val repository: R
+    protected val repository: R
 ) : CrudOperationsService<E, ID> {
 
     override fun findByName(name: String): E? {
@@ -42,5 +42,4 @@ abstract class AbstractCrudOperationService<R : NameableMongoRepository<E, ID>, 
     override fun existsById(id: ID): Boolean {
         return repository.existsById(id)
     }
-
 }

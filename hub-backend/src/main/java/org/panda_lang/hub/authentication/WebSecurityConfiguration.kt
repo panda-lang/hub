@@ -34,24 +34,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 internal class WebSecurityConfiguration(
-        @param:Qualifier("authenticationUserDetailsService")
-        private val userDetailsService: UserDetailsService,
-        private val authenticationTokenFilter: AuthenticationTokenFilter,
-        private val authorizationRequestRepository: OAuth2AuthorizationRequestRepository,
-        private val authenticationFailureHandler: OAuth2AuthenticationFailureHandler,
-        private val authenticationSuccessHandler: OAuth2AuthenticationSuccessHandler,
-        private val oAuth2UserService: OAuth2UserDetailsService
+    @param:Qualifier("authenticationUserDetailsService")
+    private val userDetailsService: UserDetailsService,
+    private val authenticationTokenFilter: AuthenticationTokenFilter,
+    private val authorizationRequestRepository: OAuth2AuthorizationRequestRepository,
+    private val authenticationFailureHandler: OAuth2AuthenticationFailureHandler,
+    private val authenticationSuccessHandler: OAuth2AuthenticationSuccessHandler,
+    private val oAuth2UserService: OAuth2UserDetailsService
 ) : WebSecurityConfigurerAdapter() {
 
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.cors()
-                .and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/auth/**", "/oauth2/**", "/api/tests/**").permitAll()
-                .and().oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorize").authorizationRequestRepository(authorizationRequestRepository)
-                .and().redirectionEndpoint().baseUri("/login/oauth2/code/*")
-                .and().userInfoEndpoint().userService(oAuth2UserService)
-                .and().successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler)
+            .and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().authorizeRequests().antMatchers("/auth/**", "/oauth2/**", "/api/tests/**").permitAll()
+            .and().oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorize").authorizationRequestRepository(authorizationRequestRepository)
+            .and().redirectionEndpoint().baseUri("/login/oauth2/code/*")
+            .and().userInfoEndpoint().userService(oAuth2UserService)
+            .and().successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler)
 
         http.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
@@ -72,5 +72,4 @@ internal class WebSecurityConfiguration(
     open fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
-
 }

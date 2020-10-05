@@ -19,5 +19,4 @@ package org.panda_lang.hub.utils.converter
 internal interface Converter<R, T> {
 
     fun convert(value: T): R
-
 }

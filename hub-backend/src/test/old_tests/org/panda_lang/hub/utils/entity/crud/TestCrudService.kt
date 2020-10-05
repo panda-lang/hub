@@ -20,7 +20,6 @@ import org.panda_lang.hub.utils.entity.AbstractCrudOperationService
 import org.panda_lang.hub.utils.entity.CrudOperationsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import kotlin.Throws
 
 @Service
 class TestCrudService @Autowired internal constructor(testRepository: TestRepository?) : AbstractCrudOperationService<TestRepository?, TestEntity?, ObjectId?>(testRepository), CrudOperationsService<TestEntity?, ObjectId?>

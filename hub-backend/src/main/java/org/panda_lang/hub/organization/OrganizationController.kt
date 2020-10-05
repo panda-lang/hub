@@ -25,5 +25,5 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/organizations")
 internal open class OrganizationController(
-        service: OrganizationService
+    service: OrganizationService
 ) : AbstractCrudController<OrganizationService, Organization, ObjectId?, OrganizationUpdateDto, OrganizationUpdateDto>(service)

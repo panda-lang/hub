@@ -15,14 +15,13 @@
  */
 package org.panda_lang.hub.organization
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.panda_lang.hub.user.User
 import org.springframework.test.context.junit4.SpringRunner
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 internal class OrganizationBuilderTest {
@@ -30,10 +29,12 @@ internal class OrganizationBuilderTest {
     @BeforeEach
     fun setUp() {
         organization = OrganizationBuilder()
-                .withOwner(User.builder()
-                        .withPassword("test123")
-                        .build())
-                .build()
+            .withOwner(
+                User.builder()
+                    .withPassword("test123")
+                    .build()
+            )
+            .build()
     }
 
     @Test
@@ -43,7 +44,8 @@ internal class OrganizationBuilderTest {
 
     @Test
     fun toStringTest() {
-        assertEquals("Organization{" +
+        assertEquals(
+            "Organization{" +
                 "identifier=null, " +
                 "name='null', " +
                 "displayName='null', " +
@@ -58,6 +60,8 @@ internal class OrganizationBuilderTest {
                 "description='null', " +
                 "email='null', " +
                 "site='null', " +
-                "roles=[]}}", organization.toString())
+                "roles=[]}}",
+            organization.toString()
+        )
     }
 }

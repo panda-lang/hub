@@ -31,5 +31,4 @@ internal class GithubOAuth2UserDetails(private val attributes: Map<String, Any>)
 
     override val avatar: String?
         get() = attributes["avatar_url"] as String?
-
 }

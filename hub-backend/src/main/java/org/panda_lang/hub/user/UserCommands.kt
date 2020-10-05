@@ -21,8 +21,8 @@ import org.springframework.shell.standard.ShellMethod
 
 @ShellComponent
 internal class UserCommands(
-        private val userRepository: UserRepository,
-        private val passwordEncoder: PasswordEncoder
+    private val userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder
 ) {
 
     @ShellMethod(value = "Adds user", key = ["useradd"])
@@ -31,7 +31,8 @@ internal class UserCommands(
             return "User already exists"
         }
 
-        val user: User = userRepository.save(User(
+        val user: User = userRepository.save(
+            User(
                 name,
                 name,
                 "",
@@ -42,7 +43,8 @@ internal class UserCommands(
                 "",
                 "",
                 HashSet()
-        ))
+            )
+        )
 
         return "Created user: " + user.name
     }
@@ -56,5 +58,4 @@ internal class UserCommands(
 
         return "Set password for user: $name"
     }
-
 }

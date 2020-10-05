@@ -36,5 +36,4 @@ internal class AuthenticationProperties {
         var secret: String? = null
         var expiration: Long = 0
     }
-
 }

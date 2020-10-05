@@ -26,5 +26,4 @@ abstract class AbstractStandaloneIntegrationTest : AbstractIntegrationTest() {
     protected override fun setup(): MockMvc {
         return MockMvcBuilders.standaloneSetup(controllers()).build()
     }
-
 }

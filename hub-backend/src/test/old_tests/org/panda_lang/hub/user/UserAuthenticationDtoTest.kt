@@ -15,11 +15,10 @@
  */
 package org.panda_lang.hub.user
 
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.junit4.SpringRunner
-import org.junit.jupiter.api.Assertions.*
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 internal class UserAuthenticationDtoTest {
@@ -27,7 +26,7 @@ internal class UserAuthenticationDtoTest {
     fun toEntityTest() {
         val user: User = UserAuthenticationDto("test", "test123").toEntity()
         assertAll(
-                { assertEquals("test", user.getName()) }
+            { assertEquals("test", user.getName()) }
         ) { assertEquals("test123", user.getPassword()) }
     }
 }

@@ -35,14 +35,15 @@ internal open class SwaggerConfiguration {
     @Bean
     open fun api(): Docket {
         return Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .paths(PathSelectors.regex(PATH_REGEX))
-                .build()
-                .apiInfo(ApiInfoBuilder()
-                        .title("Hub API Documentation")
-                        .version("1.0")
-                        .contact(Contact("Panda", "https://panda-lang.org/", "panda@panda-lang.org"))
-                        .build())
+            .select()
+            .paths(PathSelectors.regex(PATH_REGEX))
+            .build()
+            .apiInfo(
+                ApiInfoBuilder()
+                    .title("Hub API Documentation")
+                    .version("1.0")
+                    .contact(Contact("Panda", "https://panda-lang.org/", "panda@panda-lang.org"))
+                    .build()
+            )
     }
-
 }

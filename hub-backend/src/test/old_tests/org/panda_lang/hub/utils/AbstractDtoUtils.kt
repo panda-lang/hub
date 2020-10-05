@@ -25,7 +25,8 @@ import kotlin.Throws
 object AbstractDtoUtils {
     @Throws(Exception::class)
     fun perform(mockMvc: MockMvc?, uri: String?, dto: JsonDto, resultMatcher: ResultMatcher?) {
-        mockMvc.perform(MockMvcRequestBuilders.post(uri)
+        mockMvc.perform(
+            MockMvcRequestBuilders.post(uri)
                 .content(dto.toJson().getBytes())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(resultMatcher)

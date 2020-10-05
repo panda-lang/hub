@@ -46,5 +46,4 @@ internal class AuthenticationTokenValidator {
         }
         return false
     }
-
 }

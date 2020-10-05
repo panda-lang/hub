@@ -58,9 +58,11 @@ internal class ProjectController(
     @ApiOperation("Returns page with up to $PAGE_SIZE projects")
     @GetMapping("/page/{number}")
     fun page(@PathVariable number: Int?): ResponseEntity<List<Project?>> {
-        return ResponseEntity.ok(super.service
+        return ResponseEntity.ok(
+            super.service
                 .findAll(PageRequest.of(number!!, PAGE_SIZE))
-                .content)
+                .content
+        )
     }
 
     @ApiOperation("Returns all repositories that belongs to the requested user")
@@ -68,5 +70,4 @@ internal class ProjectController(
     fun userProjects(@PathVariable user: String?): ResponseEntity<List<Project?>?> {
         return ResponseEntity.ok(super.service.findAllByOwnerName(user))
     }
-
 }

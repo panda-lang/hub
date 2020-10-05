@@ -33,8 +33,8 @@ abstract class AbstractContextIntegrationTest : AbstractIntegrationTest() {
     @Override
     protected override fun setup(): MockMvc {
         return MockMvcBuilders.webAppContextSetup(applicationContext)
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build()
+            .apply(SecurityMockMvcConfigurers.springSecurity())
+            .build()
     }
 
     protected fun drop(name: String?) {

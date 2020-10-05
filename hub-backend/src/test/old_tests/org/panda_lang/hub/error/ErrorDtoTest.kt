@@ -15,9 +15,8 @@
  */
 package org.panda_lang.hub.error
 
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
-import kotlin.Throws
+import org.junit.jupiter.api.Test
 
 internal class ErrorDtoTest {
     @get:Test

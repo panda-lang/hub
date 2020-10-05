@@ -28,7 +28,6 @@ import java.util.Collections
 import java.util.List
 import java.util.Objects
 import java.util.stream.Collectors
-import kotlin.Throws
 
 @Configuration
 @EnableWebSecurity
@@ -37,20 +36,20 @@ class AuthenticationTestConfiguration : WebSecurityConfigurerAdapter() {
     @Bean
     fun clientRegistrationRepository(): ClientRegistrationRepository {
         val registrations: List<ClientRegistration> = CLIENTS.stream()
-                .map { client: String -> getRegistration(client) }
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList())
+            .map { client: String -> getRegistration(client) }
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList())
         return InMemoryClientRegistrationRepository(registrations)
     }
 
     private fun getRegistration(client: String): ClientRegistration {
         return ClientRegistration.withRegistrationId(client)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .clientId("0")
-                .clientName(client)
-                .clientSecret("0")
-                .tokenUri("unknown")
-                .build()
+            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+            .clientId("0")
+            .clientName(client)
+            .clientSecret("0")
+            .tokenUri("unknown")
+            .build()
     }
 
     companion object {

@@ -28,16 +28,15 @@ import java.io.Serializable
 
 @Document("projects")
 data class Project(
-        val name: String,
-        @field:DBRef
-        @field:JsonManagedReference
-        val owner: Owner,
-        val platformUri: String,
-        val website: String
+    val name: String,
+    @field:DBRef
+    @field:JsonManagedReference
+    val owner: Owner,
+    val platformUri: String,
+    val website: String
 ) : IdentifiableEntity<ObjectId?>, Serializable {
 
     @Id
     @JsonSerialize(using = ToStringSerializer::class)
     override var identifier: ObjectId? = null
-
 }

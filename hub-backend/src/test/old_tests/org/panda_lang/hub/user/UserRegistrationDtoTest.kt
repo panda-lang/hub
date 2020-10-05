@@ -15,18 +15,18 @@
  */
 package org.panda_lang.hub.user
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.test.context.junit4.SpringRunner
-import org.junit.jupiter.api.Assertions.assertEquals
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 internal class UserRegistrationDtoTest {
     @Test
     fun toEntityTest() {
         val user: User = UserRegistrationDto("test", "test displayName", "test", "test", "test@test", "test@test").toEntity()
-        assertEquals("User{" +
+        assertEquals(
+            "User{" +
                 "identifier=null, " +
                 "name='test', " +
                 "displayName='test displayName', " +
@@ -34,6 +34,8 @@ internal class UserRegistrationDtoTest {
                 "description='null', " +
                 "email='test@test', " +
                 "site='null', " +
-                "roles=[]}", user.toString())
+                "roles=[]}",
+            user.toString()
+        )
     }
 }

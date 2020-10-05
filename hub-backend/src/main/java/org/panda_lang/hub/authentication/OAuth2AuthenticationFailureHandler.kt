@@ -25,22 +25,21 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class OAuth2AuthenticationFailureHandler(
-        private val authorizationRequestRepository: OAuth2AuthorizationRequestRepository
+    private val authorizationRequestRepository: OAuth2AuthorizationRequestRepository
 ) : SimpleUrlAuthenticationFailureHandler() {
 
     @Throws(IOException::class)
     override fun onAuthenticationFailure(servletRequest: HttpServletRequest, servletResponse: HttpServletResponse, authenticationException: AuthenticationException) {
         var redirectUri = CookieHelper.obtainCookie(OAuth2AuthorizationRequestRepository.REDIRECT_URI_COOKIE_NAME, servletRequest.cookies)
-                .map { obj: Cookie? -> obj!!.value }
-                .orElse("/")
+            .map { obj: Cookie? -> obj!!.value }
+            .orElse("/")
 
         redirectUri = UriComponentsBuilder.fromUriString(redirectUri)
-                .queryParam("error", authenticationException.localizedMessage)
-                .build()
-                .toUriString()
+            .queryParam("error", authenticationException.localizedMessage)
+            .build()
+            .toUriString()
 
         authorizationRequestRepository.removeAuthorizationRequestCookies(servletResponse, servletRequest)
         redirectStrategy.sendRedirect(servletRequest, servletResponse, redirectUri)
     }
-
 }

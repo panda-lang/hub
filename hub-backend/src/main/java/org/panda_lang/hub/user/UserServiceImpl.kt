@@ -23,9 +23,9 @@ import org.springframework.stereotype.Service
 
 @Service
 internal class UserServiceImpl(
-        userRepository: UserRepository,
-        private val passwordEncoder: PasswordEncoder,
-        private val roleFactory: RoleFactory
+    userRepository: UserRepository,
+    private val passwordEncoder: PasswordEncoder,
+    private val roleFactory: RoleFactory
 ) : AbstractCrudOperationService<UserRepository, User, ObjectId?>(userRepository), UserService {
 
     override fun initializeUser(user: User): User {
@@ -33,5 +33,4 @@ internal class UserServiceImpl(
         user.addRole(roleFactory.obtainRole("USER"))
         return super.save(user)
     }
-
 }

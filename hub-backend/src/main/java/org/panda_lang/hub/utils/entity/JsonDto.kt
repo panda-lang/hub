@@ -29,5 +29,4 @@ open class JsonDto {
 
         return null
     }
-
 }

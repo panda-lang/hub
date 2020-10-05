@@ -17,6 +17,10 @@ package org.panda_lang.hub.user.role
 
 import com.mongodb.BasicDBObject
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
@@ -31,11 +35,6 @@ import org.springframework.test.context.junit4.SpringRunner
 import java.util.Collections
 import java.util.HashMap
 import java.util.Map
-import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertTrue
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -72,8 +71,8 @@ internal class RoleCommandsIntegrationTest {
         val user: User = mongoTemplate.findOne(Query.query(Criteria.where("name").`is`("testUser2115")), User::class.java)
         assertNotNull(user)
         assertAll(
-                { assertNotNull(mongoTemplate.findById("ADMIN", Role::class.java)) },
-                { assertEquals("Set role `ADMIN` for user: testUser2115", result) }
+            { assertNotNull(mongoTemplate.findById("ADMIN", Role::class.java)) },
+            { assertEquals("Set role `ADMIN` for user: testUser2115", result) }
         ) { assertTrue(user.getRoles().toString().contains("ADMIN")) }
     }
 

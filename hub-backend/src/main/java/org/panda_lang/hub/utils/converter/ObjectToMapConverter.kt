@@ -27,5 +27,4 @@ class ObjectToMapConverter : Converter<Map<String, Any>, Any?> {
     override fun convert(dto: Any?): Map<String, Any> {
         return OBJECT_MAPPER.convertValue<Map<String, Any>>(dto!!, object : TypeReference<Map<String, Any>>() {})
     }
-
 }

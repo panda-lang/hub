@@ -19,5 +19,4 @@ package org.panda_lang.hub.utils.entity
 interface IdentifiableEntity<ID> {
 
     val identifier: ID?
-
 }

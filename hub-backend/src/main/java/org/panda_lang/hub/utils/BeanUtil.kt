@@ -27,10 +27,10 @@ object BeanUtil {
         val propertyDescriptors: Array<PropertyDescriptor> = src.propertyDescriptors
 
         return propertyDescriptors
-                .filter { propertyDescriptor: PropertyDescriptor -> src.getPropertyValue(propertyDescriptor.name) == null }
-                .map { obj: PropertyDescriptor -> obj.name }
-                .distinct()
-                .toTypedArray()
+            .filter { propertyDescriptor: PropertyDescriptor -> src.getPropertyValue(propertyDescriptor.name) == null }
+            .map { obj: PropertyDescriptor -> obj.name }
+            .distinct()
+            .toTypedArray()
     }
 
     fun <T> copyNonNullProperties(source: T?, target: T?) {
@@ -40,5 +40,4 @@ object BeanUtil {
 
         BeanUtils.copyProperties(source, target, *getNullPropertyNames(source))
     }
-
 }

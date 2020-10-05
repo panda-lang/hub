@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException
 import org.springframework.security.oauth2.core.user.OAuth2User
 
 internal class UserOAuth2DetailsService(
-        private val userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : DefaultOAuth2UserService(), OAuth2UserDetailsService {
 
     @Throws(OAuth2AuthenticationException::class)
@@ -53,7 +53,7 @@ internal class UserOAuth2DetailsService(
 
         var user: User? = userRepository.findByName(userDetails.name)
 
-        if (user != null ) {
+        if (user != null) {
             if (providerName != user.provider) {
                 throw RuntimeException("Looks like you're already signed up with " + user.provider + " account.")
             }
@@ -68,16 +68,16 @@ internal class UserOAuth2DetailsService(
 
     private fun createNewUser(userRequest: OAuth2UserRequest, userDetails: OAuth2UserDetails): User {
         val user = User(
-                userDetails.name,
-                userDetails.displayName ?: StringUtils.EMPTY,
-                StringUtils.EMPTY,
-                StringUtils.EMPTY,
-                userDetails.email,
-                userRequest.clientRegistration.registrationId,
-                userDetails.providerId,
-                userDetails.avatar ?: StringUtils.EMPTY,
-                StringUtils.EMPTY,
-                HashSet()
+            userDetails.name,
+            userDetails.displayName ?: StringUtils.EMPTY,
+            StringUtils.EMPTY,
+            StringUtils.EMPTY,
+            userDetails.email,
+            userRequest.clientRegistration.registrationId,
+            userDetails.providerId,
+            userDetails.avatar ?: StringUtils.EMPTY,
+            StringUtils.EMPTY,
+            HashSet()
         )
 
         return userRepository.save(user)
@@ -89,5 +89,4 @@ internal class UserOAuth2DetailsService(
         user.avatar = userDetails.avatar ?: StringUtils.EMPTY
         return userRepository.save(user)
     }
-
 }

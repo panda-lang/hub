@@ -18,6 +18,6 @@ package org.panda_lang.hub.authentication
 import org.panda_lang.hub.utils.entity.JsonDto
 
 class SignInDto(
-        val name: String,
-        val password: String
+    val name: String,
+    val password: String
 ) : JsonDto()

@@ -27,5 +27,4 @@ internal class AuthenticationEntryPoint : AuthenticationEntryPoint {
     override fun commence(request: HttpServletRequest, response: HttpServletResponse, authenticationException: AuthenticationException) {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.message)
     }
-
 }

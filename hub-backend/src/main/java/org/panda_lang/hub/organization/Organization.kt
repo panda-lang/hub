@@ -37,5 +37,4 @@ data class Organization constructor(
     @field:Id
     @field:JsonSerialize(using = ToStringSerializer::class)
     override var identifier: ObjectId? = null
-
 }

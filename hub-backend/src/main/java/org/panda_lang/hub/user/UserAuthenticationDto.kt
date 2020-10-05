@@ -20,10 +20,10 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 internal class UserAuthenticationDto(
-        @NotNull
-        @NotEmpty
-        override val name: String,
-        @NotNull
-        @NotEmpty
-        val password: String
+    @NotNull
+    @NotEmpty
+    override val name: String,
+    @NotNull
+    @NotEmpty
+    val password: String
 ) : AbstractDto<User>()

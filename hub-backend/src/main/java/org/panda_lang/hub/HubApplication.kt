@@ -26,4 +26,3 @@ fun main(args: Array<String>) {
     UnsafeUtils.disableIllegalAccessMessage()
     SpringApplication.run(HubApplication::class.java, *args)
 }
-

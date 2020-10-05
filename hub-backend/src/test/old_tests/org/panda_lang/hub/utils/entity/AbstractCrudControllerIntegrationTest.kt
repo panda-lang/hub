@@ -20,6 +20,11 @@ import com.mongodb.BasicDBObject
 import org.bson.types.ObjectId
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
@@ -42,17 +47,12 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import java.util.HashMap
 import java.util.Map
-import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import kotlin.Throws
 
 @RunWith(SpringRunner::class)
@@ -81,8 +81,8 @@ internal class AbstractCrudControllerIntegrationTest {
     @BeforeEach
     fun setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build()
+            .apply(SecurityMockMvcConfigurers.springSecurity())
+            .build()
     }
 
     @Test
@@ -91,16 +91,16 @@ internal class AbstractCrudControllerIntegrationTest {
         repository.save(TestEntity(ObjectId.get(), "testEntity1125", "something"))
         repository.save(TestEntity(ObjectId.get(), "testEntity1126", "something"))
         mockMvc.perform(MockMvcRequestBuilders.get("/api/tests"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name", Matchers.`is`("testEntity1125")))
-                .andExpect(jsonPath("$[1].name", Matchers.`is`("testEntity1126")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].name", Matchers.`is`("testEntity1125")))
+            .andExpect(jsonPath("$[1].name", Matchers.`is`("testEntity1126")))
     }
 
     @Test
     @Throws(Exception::class)
     fun readShouldReturn404WhenDoesNotExists() {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", ObjectId.get()))
-                .andExpect(status().isNotFound())
+            .andExpect(status().isNotFound())
     }
 
     @Test
@@ -109,20 +109,22 @@ internal class AbstractCrudControllerIntegrationTest {
         val id: ObjectId = ObjectId.get()
         repository.save(TestEntity(id, "testEntity1127", "something"))
         mockMvc.perform(MockMvcRequestBuilders.get("/api/tests/{id}", id.toHexString()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", Matchers.`is`("testEntity1127")))
-                .andExpect(jsonPath("$.identifier", Matchers.`is`(id.toHexString())))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name", Matchers.`is`("testEntity1127")))
+            .andExpect(jsonPath("$.identifier", Matchers.`is`(id.toHexString())))
     }
 
     @Test
     @Throws(Exception::class)
     fun createTest() {
         val testDto = TestDto("testEntity1128", "something")
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/tests")
                 .content(testDto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name", Matchers.`is`("testEntity1128")))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.name", Matchers.`is`("testEntity1128")))
     }
 
     @Test
@@ -130,20 +132,24 @@ internal class AbstractCrudControllerIntegrationTest {
     fun createShouldReturn409WhenAlreadyExists() {
         val testDto = TestDto("testEntity1129", "something")
         repository.save(TestEntity(ObjectId.get(), "testEntity1129", "something"))
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/tests")
                 .content(testDto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isConflict())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isConflict())
     }
 
     @Test
     @Throws(Exception::class)
     fun createShouldReturn400WhenValidationError() {
         val testDto = TestDto(null, null)
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/tests")
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/tests")
                 .content(testDto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isBadRequest())
     }
 
     @Test
@@ -156,16 +162,18 @@ internal class AbstractCrudControllerIntegrationTest {
         val testEntity = TestEntity(id, username, "something")
         repository.save(testEntity)
         setUpUser(id, username, password)
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/tests/{id}", id)
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
                 .content(testDto.toJson())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isNoContent())
         val query: Query = Query.query(Criteria.where("name").`is`(testDto.getUsername()))
         val databaseEntity: TestEntity = mongoTemplate.findOne(query, TestEntity::class.java)
         assertAll(
-                { assertNotNull(databaseEntity) },
-                { assertNotEquals(databaseEntity, testEntity) }
+            { assertNotNull(databaseEntity) },
+            { assertNotEquals(databaseEntity, testEntity) }
         ) { assertEquals(username + "_EDITED", databaseEntity.getName()) }
     }
 
@@ -178,16 +186,18 @@ internal class AbstractCrudControllerIntegrationTest {
         val testDto = TestDto(username + "_EDITED", "something")
         val testEntity = TestEntity(id, username, "something")
         setUpUser(id, username, password)
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/tests/{id}", id)
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
                 .content(testDto.toJson())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isCreated())
         val query: Query = Query.query(Criteria.where("name").`is`(testDto.getUsername()))
         val databaseEntity: TestEntity = mongoTemplate.findOne(query, TestEntity::class.java)
         assertAll(
-                { assertNotNull(databaseEntity) },
-                { assertNotEquals(databaseEntity, testEntity) }
+            { assertNotNull(databaseEntity) },
+            { assertNotEquals(databaseEntity, testEntity) }
         ) { assertEquals(testDto.getUsername(), databaseEntity.getName()) }
     }
 
@@ -201,11 +211,13 @@ internal class AbstractCrudControllerIntegrationTest {
         val testEntity = TestEntity(id, username, "something")
         repository.save(testEntity)
         setUpUser(ObjectId.get(), username, password)
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/tests/{id}", id)
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
                 .content(testDto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isForbidden())
     }
 
     @Test
@@ -218,11 +230,13 @@ internal class AbstractCrudControllerIntegrationTest {
         val testEntity = TestEntity(id, username, "something")
         repository.save(testEntity)
         setUpUser(id, username, password)
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/tests/{id}", id)
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/tests/{id}", id)
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
                 .content(testDto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isBadRequest())
     }
 
     @Test
@@ -235,17 +249,19 @@ internal class AbstractCrudControllerIntegrationTest {
         val testEntity = TestEntity(id, username, "something")
         repository.save(testEntity)
         setUpUser(id, username, password)
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
+        mockMvc.perform(
+            MockMvcRequestBuilders.patch("/api/tests/{id}", id)
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
                 .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isNoContent())
         val query: Query = Query.query(Criteria.where("name").`is`(username))
         val databaseEntity: TestEntity = mongoTemplate.findOne(query, TestEntity::class.java)
         assertNotNull(databaseEntity)
         assertAll(
-                { assertNotNull(databaseEntity.getSomething()) },
-                { assertEquals(databaseEntity.getSomething(), "something_EDITED") }
+            { assertNotNull(databaseEntity.getSomething()) },
+            { assertEquals(databaseEntity.getSomething(), "something_EDITED") }
         ) { assertEquals(databaseEntity.getName(), username) }
     }
 
@@ -258,11 +274,13 @@ internal class AbstractCrudControllerIntegrationTest {
         val dto = TestDto(null, "something_EDITED")
         val testEntity = TestEntity(id, username, "something")
         setUpUser(id, username, password)
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
+        mockMvc.perform(
+            MockMvcRequestBuilders.patch("/api/tests/{id}", id)
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
                 .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isNotFound())
     }
 
     @Test
@@ -273,11 +291,13 @@ internal class AbstractCrudControllerIntegrationTest {
         val password = "test123"
         val dto = TestDto(null, "something_EDITED")
         setUpUser(ObjectId.get(), username, password)
-        mockMvc.perform(MockMvcRequestBuilders.patch("/api/tests/{id}", id)
+        mockMvc.perform(
+            MockMvcRequestBuilders.patch("/api/tests/{id}", id)
                 .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
                 .content(dto.toJson().getBytes())
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden())
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isForbidden())
     }
 
     @Test
@@ -290,9 +310,11 @@ internal class AbstractCrudControllerIntegrationTest {
         val query: Query = Query.query(Criteria.where("name").`is`(username))
         assertNotNull(mongoTemplate.findOne(query, TestEntity::class.java))
         setUpUser(id, username, password)
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/tests/{id}", id)
-                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password)))
-                .andExpect(status().isNoContent())
+        mockMvc.perform(
+            MockMvcRequestBuilders.delete("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+        )
+            .andExpect(status().isNoContent())
         assertNull(mongoTemplate.findOne(query, TestEntity::class.java))
     }
 
@@ -303,9 +325,11 @@ internal class AbstractCrudControllerIntegrationTest {
         val username = "testEntity123812"
         val password = "test123"
         setUpUser(id, username, password)
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/tests/{id}", id)
-                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password)))
-                .andExpect(status().isNotFound())
+        mockMvc.perform(
+            MockMvcRequestBuilders.delete("/api/tests/{id}", id)
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic(username, password))
+        )
+            .andExpect(status().isNotFound())
     }
 
     private fun setUpUser(id: ObjectId, username: String, password: String) {

@@ -15,14 +15,13 @@
  */
 package org.panda_lang.hub.user
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.panda_lang.utilities.commons.StringUtils
 import java.util.HashMap
 import java.util.Map
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import kotlin.Throws
 
 internal class UserDetailsTest {
     @get:Test
@@ -44,9 +43,9 @@ internal class UserDetailsTest {
         @BeforeAll
         fun prepare() {
             user = User.builder()
-                    .withName("username")
-                    .withPassword(StringUtils.EMPTY)
-                    .build()
+                .withName("username")
+                .withPassword(StringUtils.EMPTY)
+                .build()
             details = UserDetails.of(user, attributes)
             assertNotNull(details)
         }

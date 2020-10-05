@@ -15,23 +15,25 @@
  */
 package org.panda_lang.hub.project
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.panda_lang.hub.user.Owner
 import org.panda_lang.hub.user.User
-import org.junit.jupiter.api.Assertions.assertEquals
-import kotlin.Throws
 
 internal class ProjectUpdateDtoTest {
     @Test
     fun toEntityTest() {
         val owner: Owner = User.builder().withName("user").build()
         val project: Project = ProjectUpdateDto("project", owner, "github:https://github.com/panda-lang/panda", "panda-lang.org").toEntity()
-        assertEquals("Project{" +
+        assertEquals(
+            "Project{" +
                 "identifier=null, " +
                 "name='project', " +
                 "owner=" + owner.toString() + ", " +
                 "platformUri='github:https://github.com/panda-lang/panda', " +
                 "website='panda-lang.org'" +
-                "}", project.toString())
+                "}",
+            project.toString()
+        )
     }
 }

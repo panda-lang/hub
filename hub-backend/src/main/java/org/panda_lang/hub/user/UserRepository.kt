@@ -23,5 +23,4 @@ import org.springframework.stereotype.Repository
 interface UserRepository : NameableMongoRepository<User, ObjectId?> {
 
     fun existsByEmail(email: String?): Boolean
-
 }

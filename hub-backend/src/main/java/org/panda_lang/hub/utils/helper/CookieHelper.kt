@@ -54,5 +54,4 @@ object CookieHelper {
     fun <T> deserialize(cookie: Cookie?, clazz: Class<T>): T {
         return clazz.cast(SerializationUtils.deserialize(Base64.getUrlDecoder().decode(cookie!!.value)))
     }
-
 }

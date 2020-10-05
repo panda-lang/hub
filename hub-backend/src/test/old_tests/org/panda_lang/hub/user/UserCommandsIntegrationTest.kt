@@ -17,6 +17,7 @@ package org.panda_lang.hub.user
 
 import com.mongodb.BasicDBObject
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,8 +29,6 @@ import org.springframework.shell.Shell
 import org.springframework.test.context.junit4.SpringRunner
 import java.util.HashMap
 import java.util.Map
-import org.junit.jupiter.api.Assertions.*
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -45,7 +44,7 @@ internal class UserCommandsIntegrationTest {
         val query = Query()
         query.addCriteria(Criteria.where("name").`is`("testUser123"))
         assertAll(
-                { assertTrue(mongoTemplate.exists(query, "users")) }
+            { assertTrue(mongoTemplate.exists(query, "users")) }
         ) { assertEquals("Created user: testUser123", result) }
     }
 
@@ -73,7 +72,7 @@ internal class UserCommandsIntegrationTest {
         val result: Object = shell.evaluate { "passwd testUser133 test" }
         val user: User = mongoTemplate.findOne(Query().addCriteria(Criteria.where("name").`is`("testUser133")), User::class.java, "users")
         assertAll(
-                { assertEquals("Set password for user: testUser133", result) }
+            { assertEquals("Set password for user: testUser133", result) }
         ) { assertNotNull(user.getPassword()) }
     }
 

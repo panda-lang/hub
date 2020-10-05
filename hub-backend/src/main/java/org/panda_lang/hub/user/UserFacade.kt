@@ -23,8 +23,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import java.net.URI
 
 class UserFacade internal constructor(
-        private val passwordEncoder: PasswordEncoder,
-        private val userRepository: UserRepository
+    private val passwordEncoder: PasswordEncoder,
+    private val userRepository: UserRepository
 ) {
 
     fun register(dto: SignUpDto): URI {
@@ -32,7 +32,8 @@ class UserFacade internal constructor(
             throw ResponseStatusException(HttpStatus.CONFLICT)
         }
 
-        val user = userRepository.save(User(
+        val user = userRepository.save(
+            User(
                 dto.name,
                 dto.displayName,
                 passwordEncoder.encode(dto.password),
@@ -43,13 +44,13 @@ class UserFacade internal constructor(
                 "",
                 "",
                 HashSet()
-        ))
+            )
+        )
 
         return ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/api/user/{id}")
-                .buildAndExpand(user.identifier)
-                .toUri()
+            .fromCurrentContextPath()
+            .path("/api/user/{id}")
+            .buildAndExpand(user.identifier)
+            .toUri()
     }
-
 }

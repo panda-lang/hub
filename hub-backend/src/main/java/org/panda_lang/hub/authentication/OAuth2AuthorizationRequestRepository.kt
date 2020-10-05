@@ -32,8 +32,8 @@ internal class OAuth2AuthorizationRequestRepository : AuthorizationRequestReposi
 
     override fun loadAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {
         return CookieHelper.obtainCookie(OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME, request.cookies)
-                .map { cookie: Cookie? -> CookieHelper.deserialize(cookie, OAuth2AuthorizationRequest::class.java) }
-                .orElse(null)
+            .map { cookie: Cookie? -> CookieHelper.deserialize(cookie, OAuth2AuthorizationRequest::class.java) }
+            .orElse(null)
     }
 
     override fun removeAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {
@@ -59,5 +59,4 @@ internal class OAuth2AuthorizationRequestRepository : AuthorizationRequestReposi
         CookieHelper.removeCookie(OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME, httpServletRequest, httpServletResponse)
         CookieHelper.removeCookie(REDIRECT_URI_COOKIE_NAME, httpServletRequest, httpServletResponse)
     }
-
 }

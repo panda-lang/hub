@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service
 
 @Service
 internal open class ProjectService(
-        projectRepository: ProjectRepository
+    projectRepository: ProjectRepository
 ) : AbstractCrudOperationService<ProjectRepository, Project, ObjectId?>(projectRepository), CrudOperationsService<Project, ObjectId?> {
 
     fun findAllByOwnerName(name: String?): List<Project?>? {
@@ -38,5 +38,4 @@ internal open class ProjectService(
     fun count(): Long {
         return super.repository.count()
     }
-
 }

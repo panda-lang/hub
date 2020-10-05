@@ -23,5 +23,4 @@ import org.springframework.stereotype.Repository
 internal interface ProjectRepository : NameableMongoRepository<Project, ObjectId?> {
 
     fun findAllByOwnerName(name: String?): List<Project?>?
-
 }

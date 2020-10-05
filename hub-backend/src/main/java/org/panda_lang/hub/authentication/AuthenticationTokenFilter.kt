@@ -25,10 +25,10 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class AuthenticationTokenFilter(
-        private val tokenProperties: AuthenticationProperties,
-        private val tokenValidator: AuthenticationTokenValidator,
-        private val tokenProvider: AuthenticationTokenProvider,
-        private val userDetailsService: AuthenticationUserDetailsService
+    private val tokenProperties: AuthenticationProperties,
+    private val tokenValidator: AuthenticationTokenValidator,
+    private val tokenProvider: AuthenticationTokenProvider,
+    private val userDetailsService: AuthenticationUserDetailsService
 ) : OncePerRequestFilter() {
 
     @Throws(IOException::class, ServletException::class)
@@ -57,5 +57,4 @@ internal class AuthenticationTokenFilter(
 
         return null
     }
-
 }

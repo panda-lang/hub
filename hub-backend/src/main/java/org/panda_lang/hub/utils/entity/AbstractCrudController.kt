@@ -37,7 +37,7 @@ import javax.validation.Valid
  * @param <C> type of create dto
  */
 abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : IdentifiableEntity<ID>, ID, U : AbstractDto<T>, C : AbstractDto<T>>(
-        protected open val service: S
+    protected open val service: S
 ) {
 
     companion object {
@@ -52,21 +52,21 @@ abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : Iden
 
     @ApiOperation("Displays specified entity by it's identifier")
     @ApiResponses(
-            ApiResponse(code = 404, message = "Entity could not be found"),
-            ApiResponse(code = 200, message = "Entity found and displayed")
+        ApiResponse(code = 404, message = "Entity could not be found"),
+        ApiResponse(code = 200, message = "Entity found and displayed")
     )
     @GetMapping("/{id}")
     fun read(@PathVariable @ApiParam("Entity identifier") id: ID): ResponseEntity<T> {
         return Optional.ofNullable(service.findById(id))
-                .map { body: T -> ResponseEntity.ok(body) }
-                .orElseGet { ResponseEntity.notFound().build() }
+            .map { body: T -> ResponseEntity.ok(body) }
+            .orElseGet { ResponseEntity.notFound().build() }
     }
 
     @ApiOperation("Creates entity")
     @ApiResponses(
-            ApiResponse(code = 409, message = "Entity already exists"),
-            ApiResponse(code = 400, message = "Validation error occurred"),
-            ApiResponse(code = 201, message = "Entity created")
+        ApiResponse(code = 409, message = "Entity already exists"),
+        ApiResponse(code = 400, message = "Validation error occurred"),
+        ApiResponse(code = 201, message = "Entity created")
     )
     @PostMapping
     protected fun create(@RequestBody @ApiParam("Entity data transfer object") dto: @Valid C, result: BindingResult): ResponseEntity<*> {
@@ -75,13 +75,13 @@ abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : Iden
 
     @ApiOperation("Updates entity")
     @ApiResponses(
-            ApiResponse(code = 201, message = "Entity created"),
-            ApiResponse(code = 400, message = "Validation error occurred"),
-            ApiResponse(code = 204, message = "Entity updated")
+        ApiResponse(code = 201, message = "Entity created"),
+        ApiResponse(code = 400, message = "Validation error occurred"),
+        ApiResponse(code = 204, message = "Entity updated")
     )
     @PreAuthorize(SPEL_EXPRESSION)
     @PutMapping("/{id}")
-    protected fun update(@RequestBody @ApiParam("Entity data transfer object") dto: @Valid U, @PathVariable @ApiParam("Entity identifier") id: ID, result: BindingResult ): ResponseEntity<*> {
+    protected fun update(@RequestBody @ApiParam("Entity data transfer object") dto: @Valid U, @PathVariable @ApiParam("Entity identifier") id: ID, result: BindingResult): ResponseEntity<*> {
         val entity: T = service.findById(id) ?: return createEntity(dto, result)
 
         if (result.hasErrors()) {
@@ -92,14 +92,14 @@ abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : Iden
         service.save(entity)
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build<Any>()
+            .status(HttpStatus.NO_CONTENT)
+            .build<Any>()
     }
 
     @ApiOperation("Partial updates entity")
     @ApiResponses(
-            ApiResponse(code = 404, message = "Entity could not be found"),
-            ApiResponse(code = 204, message = "Entity updated")
+        ApiResponse(code = 404, message = "Entity could not be found"),
+        ApiResponse(code = 204, message = "Entity updated")
     )
     @PreAuthorize(SPEL_EXPRESSION)
     @PatchMapping("/{id}")
@@ -114,8 +114,8 @@ abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : Iden
 
     @ApiOperation("Deletes entity")
     @ApiResponses(
-            ApiResponse(code = 404, message = "Entity could not be found"),
-            ApiResponse(code = 204, message = "Entity deleted")
+        ApiResponse(code = 404, message = "Entity could not be found"),
+        ApiResponse(code = 204, message = "Entity deleted")
     )
     @PreAuthorize(SPEL_EXPRESSION)
     @DeleteMapping("/{id}")
@@ -133,19 +133,18 @@ abstract class AbstractCrudController<S : CrudOperationsService<T, ID>, T : Iden
 
         service.findByName(dto.name) ?: run {
             return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .build<Any>()
+                .status(HttpStatus.CONFLICT)
+                .build<Any>()
         }
 
         if (result.hasErrors()) {
             return ResponseEntity
-                    .badRequest()
-                    .build<Any>()
+                .badRequest()
+                .build<Any>()
         }
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(service.save(entity))
+            .status(HttpStatus.CREATED)
+            .body(service.save(entity))
     }
-
 }

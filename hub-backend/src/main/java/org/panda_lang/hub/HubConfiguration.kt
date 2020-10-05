@@ -74,17 +74,17 @@ internal class HubConfiguration : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "HEAD", "OPTIONS", "PUT", "PATCH", "DELETE")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600)
+            .allowedOrigins("*")
+            .allowedMethods("GET", "POST", "HEAD", "OPTIONS", "PUT", "PATCH", "DELETE")
+            .allowedHeaders("*")
+            .allowCredentials(true)
+            .maxAge(3600)
     }
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
         registry.addResourceHandler("/resources/**")
-                .addResourceLocations("classpath:/resources/")
-                .resourceChain(false)
+            .addResourceLocations("classpath:/resources/")
+            .resourceChain(false)
     }
 
     @Bean
@@ -95,5 +95,4 @@ internal class HubConfiguration : WebMvcConfigurer {
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         return mapper
     }
-
 }

@@ -24,5 +24,4 @@ object OAuth2UserDetailsFactory {
             throw UnsupportedOperationException()
         }
     }
-
 }

@@ -38,9 +38,9 @@ internal class RegistrationController @Autowired constructor(private val userSer
 
     @ApiOperation(value = "Register a user account")
     @ApiResponses(
-            ApiResponse(code = 409, message = "User with that username already exists"),
-            ApiResponse(code = 400, message = "Bad Request"),
-            ApiResponse(code = 201, message = "Successfully created user", response = User::class)
+        ApiResponse(code = 409, message = "User with that username already exists"),
+        ApiResponse(code = 400, message = "Bad Request"),
+        ApiResponse(code = 201, message = "Successfully created user", response = User::class)
     )
     @PostMapping
     fun register(@RequestBody dto: @Valid UserRegistrationDto, result: BindingResult): ResponseEntity<*> {
@@ -57,8 +57,7 @@ internal class RegistrationController @Autowired constructor(private val userSer
         user = userService.initializeUser(dto.toEntity())
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(user)
+            .status(HttpStatus.CREATED)
+            .body(user)
     }
-
 }

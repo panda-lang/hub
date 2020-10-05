@@ -23,14 +23,14 @@ import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import org.panda_lang.hub.user.UserService
 import org.panda_lang.hub.user.UserRegistrationDto
-import org.panda_lang.hub.utils.entity.AbstractDto
+import org.panda_lang.hub.user.UserService
 import org.panda_lang.hub.utils.AbstractDtoUtils
+import org.panda_lang.hub.utils.entity.AbstractDto
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import kotlin.Throws
 
 @ExtendWith(MockitoExtension::class)
@@ -51,12 +51,12 @@ internal class RegistrationControllerTest {
     @Throws(Exception::class)
     fun registrationTest() {
         val dto = UserRegistrationDto(
-                "username-123",
-                "display-name-123",
-                "password-123",
-                "password-123",
-                "test123@test",
-                "test123@test"
+            "username-123",
+            "display-name-123",
+            "password-123",
+            "password-123",
+            "test123@test",
+            "test123@test"
         )
         perform(dto, status().isCreated())
     }
@@ -65,12 +65,12 @@ internal class RegistrationControllerTest {
     @Throws(Exception::class)
     fun shouldReturnBadRequestIfEmpty() {
         val dto = UserRegistrationDto(
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
         )
         perform(dto, status().isBadRequest())
     }
@@ -79,12 +79,12 @@ internal class RegistrationControllerTest {
     @Throws(Exception::class)
     fun shouldReturnBadRequestIfUsernameLengthIsLessThan3() {
         val dto = UserRegistrationDto(
-                "12",
-                "test123",
-                "test123",
-                "test123",
-                "test123@test",
-                "test123@test"
+            "12",
+            "test123",
+            "test123",
+            "test123",
+            "test123@test",
+            "test123@test"
         )
         perform(dto, status().isBadRequest())
     }
@@ -93,12 +93,12 @@ internal class RegistrationControllerTest {
     @Throws(Exception::class)
     fun shouldReturnBadRequestIfPasswordLengthIsLessThan6() {
         val dto = UserRegistrationDto(
-                "test123",
-                "test123",
-                "test1",
-                "test1",
-                "test123@test",
-                "test123@test"
+            "test123",
+            "test123",
+            "test1",
+            "test1",
+            "test123@test",
+            "test123@test"
         )
         perform(dto, status().isBadRequest())
     }
@@ -107,12 +107,12 @@ internal class RegistrationControllerTest {
     @Throws(Exception::class)
     fun shouldReturnBadRequestIfConfirmationDoesNotMatch() {
         val dto = UserRegistrationDto(
-                "test123",
-                "test123",
-                "test123",
-                "test12",
-                "test123@test",
-                "test123@test"
+            "test123",
+            "test123",
+            "test123",
+            "test12",
+            "test123@test",
+            "test123@test"
         )
         perform(dto, status().isBadRequest())
     }
@@ -121,12 +121,12 @@ internal class RegistrationControllerTest {
     @Throws(Exception::class)
     fun shouldReturnBadRequestIfEmailDoesNotMatchPattern() {
         val dto = UserRegistrationDto(
-                "test123",
-                "test123",
-                "test123",
-                "test123",
-                "test123",
-                "test123"
+            "test123",
+            "test123",
+            "test123",
+            "test123",
+            "test123",
+            "test123"
         )
         perform(dto, status().isBadRequest())
     }

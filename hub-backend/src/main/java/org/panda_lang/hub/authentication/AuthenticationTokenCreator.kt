@@ -23,8 +23,8 @@ import java.sql.Date
 import java.time.LocalDate
 
 internal class AuthenticationTokenCreator(
-        private val authenticationProperties: AuthenticationProperties,
-        private val objectToMapConverter: ObjectToMapConverter
+    private val authenticationProperties: AuthenticationProperties,
+    private val objectToMapConverter: ObjectToMapConverter
 ) {
 
     fun create(authentication: Authentication): String {
@@ -32,11 +32,10 @@ internal class AuthenticationTokenCreator(
         val expirationDate = LocalDate.now().plusDays(authenticationProperties.token.expiration)
 
         return Jwts.builder()
-                .setExpiration(Date.valueOf(expirationDate))
-                .setIssuedAt(Date.valueOf(LocalDate.now()))
-                .setSubject(principal["name"].toString())
-                .signWith(SignatureAlgorithm.HS512, authenticationProperties.token.secret)
-                .compact()
+            .setExpiration(Date.valueOf(expirationDate))
+            .setIssuedAt(Date.valueOf(LocalDate.now()))
+            .setSubject(principal["name"].toString())
+            .signWith(SignatureAlgorithm.HS512, authenticationProperties.token.secret)
+            .compact()
     }
-
 }

@@ -15,7 +15,6 @@
  */
 package org.panda_lang.hub.error
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.servlet.error.ErrorAttributes
 import org.springframework.boot.web.servlet.error.ErrorController
 import org.springframework.context.MessageSource
@@ -28,8 +27,8 @@ import javax.servlet.http.HttpServletResponse
 
 @RestController
 internal class CustomErrorController(
-        private val errorAttributes: ErrorAttributes,
-        private val messageSource: MessageSource
+    private val errorAttributes: ErrorAttributes,
+    private val messageSource: MessageSource
 ) : ErrorController {
 
     companion object {
@@ -42,10 +41,13 @@ internal class CustomErrorController(
 
         if (httpServletResponse.status == 400 && errorAttributes["errors"] != null) {
             val errors = errorAttributes["errors"] as Collection<FieldError>?
-            return ErrorDto(400, errors!!.stream()
+            return ErrorDto(
+                400,
+                errors!!.stream()
                     .map { fieldError: FieldError? -> messageSource.getMessage(fieldError, Locale.getDefault()) }
                     .findFirst()
-                    .get())
+                    .get()
+            )
         }
 
         return ErrorDto(httpServletResponse.status, errorAttributes["error"].toString())
@@ -54,5 +56,4 @@ internal class CustomErrorController(
     override fun getErrorPath(): String {
         return ERROR_PATH
     }
-
 }

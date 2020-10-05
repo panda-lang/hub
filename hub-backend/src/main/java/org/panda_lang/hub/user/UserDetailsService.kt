@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserDetailsService(
-        private val userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : AuthenticationUserDetailsService {
 
     @Throws(UsernameNotFoundException::class)
@@ -42,14 +42,13 @@ class UserDetailsService(
 
     private fun getAuthoritiesByRoles(@Nullable roles: Set<Role?>?): Set<GrantedAuthority?> {
         return roles
-                ?.filterNotNull()
-                ?.map { role: Role -> SimpleGrantedAuthority(role.name) }
-                ?.toSet()
-                ?: emptySet()
+            ?.filterNotNull()
+            ?.map { role: Role -> SimpleGrantedAuthority(role.name) }
+            ?.toSet()
+            ?: emptySet()
     }
 
     private fun toUserDetails(user: User): UserDetails {
         return UserDetails(user, user.name, user.password, getAuthoritiesByRoles(user.getRoles()))
     }
-
 }

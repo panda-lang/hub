@@ -21,7 +21,6 @@ import org.bson.types.ObjectId
 import org.panda_lang.hub.utils.entity.IdentifiableEntity
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
-import kotlin.Throws
 
 @Document("tests")
 class TestEntity : IdentifiableEntity<ObjectId?> {
@@ -53,9 +52,9 @@ class TestEntity : IdentifiableEntity<ObjectId?> {
     @Override
     override fun toString(): String {
         return "TestEntity{" +
-                "identifier=" + identifier +
-                ", name='" + name + '\'' +
-                ", something='" + something + '\'' +
-                '}'
+            "identifier=" + identifier +
+            ", name='" + name + '\'' +
+            ", something='" + something + '\'' +
+            '}'
     }
 }

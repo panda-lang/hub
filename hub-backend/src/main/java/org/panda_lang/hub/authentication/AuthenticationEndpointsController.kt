@@ -29,9 +29,9 @@ import java.util.*
 @RequestMapping("/api/users")
 @RestController
 internal class AuthenticationEndpointsController(
-        private val authenticationManager: AuthenticationManager,
-        private val authenticationTokenCreator: AuthenticationTokenCreator,
-        private val userFacade: UserFacade
+    private val authenticationManager: AuthenticationManager,
+    private val authenticationTokenCreator: AuthenticationTokenCreator,
+    private val userFacade: UserFacade
 ) {
 
     @PostMapping("/signup")
@@ -45,5 +45,4 @@ internal class AuthenticationEndpointsController(
         SecurityContextHolder.getContext().authentication = authentication
         return ResponseEntity.ok(Collections.singletonMap<String, Any?>("access_token", authenticationTokenCreator.create(authentication)))
     }
-
 }

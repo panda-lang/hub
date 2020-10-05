@@ -15,14 +15,14 @@
  */
 package org.panda_lang.hub.project
 
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.collection.IsCollectionWithSize.hasSize
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.panda_lang.hub.AbstractContextIntegrationTest
 import org.panda_lang.hub.user.User
 import org.springframework.beans.factory.annotation.Autowired
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.collection.IsCollectionWithSize.hasSize
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -40,43 +40,43 @@ internal class ProjectControllerIntegrationTest : AbstractContextIntegrationTest
     @Throws(Exception::class)
     fun shouldReturnNoContent() {
         super.perform("/api/projects")
-                .andExpect(status().isNoContent())
+            .andExpect(status().isNoContent())
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldReturn200AndProjectsCount() {
         super.perform("/api/projects/count")
-                .andExpect(status().isOk())
-                .andExpect(content().json("1"))
+            .andExpect(status().isOk())
+            .andExpect(content().json("1"))
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldReturn200AndAmountOfPages() {
         super.perform("/api/projects/page")
-                .andExpect(status().isOk())
-                .andExpect(content().json("1"))
+            .andExpect(status().isOk())
+            .andExpect(content().json("1"))
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldReturn200AndProjectPage() {
         super.perform("/api/projects/page/0")
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", `is`("PROJECT NAME")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", hasSize(1)))
+            .andExpect(jsonPath("$[0].name", `is`("PROJECT NAME")))
     }
 
     @Test
     @Throws(Exception::class)
     fun shouldReturn200AndAllUserProjects() {
         super.perform("/api/projects/user/onlypanda")
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", `is`("PROJECT NAME")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$", hasSize(1)))
+            .andExpect(jsonPath("$[0].name", `is`("PROJECT NAME")))
     }
 
     @AfterEach

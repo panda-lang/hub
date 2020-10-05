@@ -26,5 +26,4 @@ interface NameableMongoRepository<T : IdentifiableEntity<ID>, ID> : MongoReposit
     fun findByIdentifier(id: ID): T?
 
     fun existsByName(name: String): Boolean
-
 }

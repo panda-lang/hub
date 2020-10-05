@@ -23,43 +23,42 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 @FieldMatch.AsList(
-        FieldMatch(first = "password", second = "confirmPassword", message = "{match.password}"),
-        FieldMatch(first = "email", second = "confirmEmail", message = "{match.email}")
+    FieldMatch(first = "password", second = "confirmPassword", message = "{match.password}"),
+    FieldMatch(first = "email", second = "confirmEmail", message = "{match.email}")
 )
 data class UserRegistrationDto(
-        @field:NotEmpty(message = "{username.notEmpty}")
-        @field:NotNull(message = "{username.notNull}")
-        @field:Length(min = 3, max = 32, message = "{username.length}")
-        override val name: String,
-        @field:NotEmpty(message = "{displayName.notEmpty}")
-        @field:NotNull(message = "{displayName.notNull}")
-        @field:Length(min = 3, max = 32, message = "{displayName.length}")
-        val displayName: String,
-        @NotEmpty(message = "{password.notEmpty}")
-        @NotNull(message = "{password.notNull}")
-        @Length(min = 6, message = "{password.length}")
-        val password: String,
-        val confirmPassword: String,
-        @NotEmpty(message = "{email.notEmpty}")
-        @NotNull(message = "{email.notNull}")
-        @Email(message = "{email.format}")
-        val email: String,
-        val confirmEmail: String
+    @field:NotEmpty(message = "{username.notEmpty}")
+    @field:NotNull(message = "{username.notNull}")
+    @field:Length(min = 3, max = 32, message = "{username.length}")
+    override val name: String,
+    @field:NotEmpty(message = "{displayName.notEmpty}")
+    @field:NotNull(message = "{displayName.notNull}")
+    @field:Length(min = 3, max = 32, message = "{displayName.length}")
+    val displayName: String,
+    @NotEmpty(message = "{password.notEmpty}")
+    @NotNull(message = "{password.notNull}")
+    @Length(min = 6, message = "{password.length}")
+    val password: String,
+    val confirmPassword: String,
+    @NotEmpty(message = "{email.notEmpty}")
+    @NotNull(message = "{email.notNull}")
+    @Email(message = "{email.format}")
+    val email: String,
+    val confirmEmail: String
 ) : AbstractDto<User>() {
 
     override fun toEntity(): User {
         return User(
-                name,
-                displayName,
-                password,
-                email,
-                "",
-                "",
-                "",
-                "",
-                "",
-                HashSet()
+            name,
+            displayName,
+            password,
+            email,
+            "",
+            "",
+            "",
+            "",
+            "",
+            HashSet()
         )
     }
-
 }
