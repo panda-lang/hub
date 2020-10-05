@@ -21,7 +21,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.util.UriComponentsBuilder
-import java.io.IOException
 import java.net.URI
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest

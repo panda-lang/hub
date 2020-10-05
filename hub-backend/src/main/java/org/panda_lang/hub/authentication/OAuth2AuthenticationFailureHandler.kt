@@ -19,7 +19,6 @@ import org.panda_lang.hub.utils.helper.CookieHelper
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
 import org.springframework.web.util.UriComponentsBuilder
-import java.io.IOException
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse

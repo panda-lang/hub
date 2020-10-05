@@ -24,8 +24,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.*
-import java.util.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import java.util.Optional
 import javax.validation.Valid
 
 private const val SPEL_EXPRESSION = "(isAuthenticated() && principal.user.identifier.equals(#id)) || hasAuthority('ADMIN')"
@@ -41,11 +47,10 @@ private const val SPEL_EXPRESSION = "(isAuthenticated() && principal.user.identi
 abstract class AbstractCrudController<S, T, ID, U, C>(
     protected open val service: S
 ) where
-    S : CrudOperationsService<T, ID>,
+S : CrudOperationsService<T, ID>,
     T : IdentifiableEntity<ID>,
     U : AbstractDto<T>,
-    C : AbstractDto<T>
-{
+    C : AbstractDto<T> {
 
     @ApiOperation("Displays all entities")
     @GetMapping

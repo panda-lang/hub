@@ -15,7 +15,6 @@
  */
 package org.panda_lang.hub.user
 
-import io.netty.util.internal.StringUtil
 import org.panda_lang.hub.authentication.OAuth2UserDetails
 import org.panda_lang.hub.authentication.OAuth2UserDetailsFactory
 import org.panda_lang.hub.authentication.OAuth2UserDetailsService
@@ -24,7 +23,6 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException
 import org.springframework.security.oauth2.core.user.OAuth2User
 
 internal class UserOAuth2DetailsService(
@@ -84,10 +82,12 @@ internal class UserOAuth2DetailsService(
     }
 
     private fun updateExistingUser(user: User, userDetails: OAuth2UserDetails): User {
-        return userRepository.save(user.apply {
-            name = userDetails.name
-            displayName = userDetails.displayName ?: StringUtils.EMPTY
-            avatar = userDetails.avatar ?: StringUtils.EMPTY
-        })
+        return userRepository.save(
+            user.apply {
+                name = userDetails.name
+                displayName = userDetails.displayName ?: StringUtils.EMPTY
+                avatar = userDetails.avatar ?: StringUtils.EMPTY
+            }
+        )
     }
 }

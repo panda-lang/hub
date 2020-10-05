@@ -56,7 +56,8 @@ internal class ProjectController(
     @ApiOperation("Returns page with up to $PAGE_SIZE projects")
     @GetMapping("/page/{number}")
     fun page(@PathVariable number: Int?): ResponseEntity<List<Project?>> {
-        return ResponseEntity.ok(service
+        return ResponseEntity.ok(
+            service
                 .findAll(PageRequest.of(number!!, PAGE_SIZE))
                 .content
         )
