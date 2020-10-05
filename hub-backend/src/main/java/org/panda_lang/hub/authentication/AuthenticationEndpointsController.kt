@@ -24,14 +24,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
 
 @RequestMapping("/api/users")
 @RestController
 internal class AuthenticationEndpointsController(
-        private val authenticationManager: AuthenticationManager,
-        private val authenticationTokenCreator: AuthenticationTokenCreator,
-        private val userFacade: UserFacade
+    private val authenticationManager: AuthenticationManager,
+    private val authenticationTokenCreator: AuthenticationTokenCreator,
+    private val userFacade: UserFacade
 ) {
 
     @PostMapping("/signup")
@@ -43,7 +42,7 @@ internal class AuthenticationEndpointsController(
     fun authenticateUser(@RequestBody dto: SignInDto): ResponseEntity<Map<String, Any?>> {
         val authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(dto.name, dto.password))
         SecurityContextHolder.getContext().authentication = authentication
-        return ResponseEntity.ok(Collections.singletonMap<String, Any?>("access_token", authenticationTokenCreator.create(authentication)))
-    }
 
+        return ResponseEntity.ok(mapOf("access_token" to authenticationTokenCreator.create(authentication)))
+    }
 }

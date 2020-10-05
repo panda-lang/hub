@@ -24,19 +24,18 @@ import org.springframework.stereotype.Service
 
 @Service
 internal open class ProjectService(
-        projectRepository: ProjectRepository
+    projectRepository: ProjectRepository
 ) : AbstractCrudOperationService<ProjectRepository, Project, ObjectId?>(projectRepository), CrudOperationsService<Project, ObjectId?> {
 
     fun findAllByOwnerName(name: String?): List<Project?>? {
-        return super.repository.findAllByOwnerName(name)
+        return repository.findAllByOwnerName(name)
     }
 
     fun findAll(pageable: Pageable): Page<Project?> {
-        return super.repository.findAll(pageable)
+        return repository.findAll(pageable)
     }
 
     fun count(): Long {
-        return super.repository.count()
+        return repository.count()
     }
-
 }

@@ -16,14 +16,13 @@
 package org.panda_lang.hub.utils
 
 import org.bson.types.ObjectId
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.panda_lang.hub.utils.entity.crud.TestEntity
 import org.springframework.test.context.junit4.SpringRunner
-import org.junit.jupiter.api.Assertions.assertAll
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 internal class BeanUtilTest {
@@ -34,10 +33,10 @@ internal class BeanUtilTest {
         val testEntityEdited = TestEntity(null, "testUsernameButEdited", null)
         BeanUtil.copyNonNullProperties(testEntity, testEntityEdited)
         assertAll(
-                { assertNotNull(testEntity) },
-                { assertNotNull(testEntityEdited) },
-                { assertEquals(testEntityEdited.getName(), testEntity.getName()) },
-                { assertEquals(testEntityEdited.getIdentifier(), testEntity.getIdentifier()) }
+            { assertNotNull(testEntity) },
+            { assertNotNull(testEntityEdited) },
+            { assertEquals(testEntityEdited.getName(), testEntity.getName()) },
+            { assertEquals(testEntityEdited.getIdentifier(), testEntity.getIdentifier()) }
         ) { assertEquals(testEntityEdited.getSomething(), testEntity.getSomething()) }
     }
 }

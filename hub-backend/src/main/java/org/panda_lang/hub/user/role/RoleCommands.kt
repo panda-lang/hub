@@ -21,15 +21,15 @@ import org.springframework.shell.standard.ShellMethod
 
 @ShellComponent
 internal class RoleCommands(
-        private val roleRepository: RoleRepository,
-        private val userRepository: UserRepository
+    private val roleRepository: RoleRepository,
+    private val userRepository: UserRepository
 ) {
 
     @ShellMethod(value = "Lists all roles", key = ["roles"])
     fun roles(): String {
         return roleRepository.findAll()
-                .filterNotNull()
-                .joinToString { obj: Role -> obj.name }
+            .filterNotNull()
+            .joinToString { obj: Role -> obj.name }
     }
 
     @ShellMethod(value = "Sets role for the specified user", key = ["chrole"])

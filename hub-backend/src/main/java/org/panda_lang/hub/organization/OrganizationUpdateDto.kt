@@ -23,26 +23,26 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 data class OrganizationUpdateDto(
-        @field:NotNull(message = "{name.notNull}")
-        @field:NotEmpty(message = "{name.notEmpty}")
-        @field:Length(min = 3, max = 32, message = "{name.length}")
-        override val name: String,
-        @field:NotNull(message = "{displayName.notNull}")
-        @field:NotEmpty(message = "{displayName.notEmpty}")
-        @field:Length(min = 3, max = 32, message = "{displayName.length}")
-        val displayName: String,
-        @field:NotEmpty(message = "{description.notEmpty}")
-        @field:NotNull(message = "{description.notNull}")
-        @Length(max = 200, message = "{description.length}")
-        val description: String,
-        @field:NotEmpty(message = "{email.notEmpty}")
-        @field:NotNull(message = "{email.notNull}")
-        @field:Email(message = "{email.format}")
-        val email: String,
-        @field:URL(message = "{site.format}")
-        @field:NotEmpty(message = "{site.notEmpty}")
-        @field:NotNull(message = "{site.notNull}")
-        val site: String
+    @field:NotNull(message = "{name.notNull}")
+    @field:NotEmpty(message = "{name.notEmpty}")
+    @field:Length(min = 3, max = 32, message = "{name.length}")
+    override val name: String,
+    @field:NotNull(message = "{displayName.notNull}")
+    @field:NotEmpty(message = "{displayName.notEmpty}")
+    @field:Length(min = 3, max = 32, message = "{displayName.length}")
+    val displayName: String,
+    @field:NotEmpty(message = "{description.notEmpty}")
+    @field:NotNull(message = "{description.notNull}")
+    @Length(max = 200, message = "{description.length}")
+    val description: String,
+    @field:NotEmpty(message = "{email.notEmpty}")
+    @field:NotNull(message = "{email.notNull}")
+    @field:Email(message = "{email.format}")
+    val email: String,
+    @field:URL(message = "{site.format}")
+    @field:NotEmpty(message = "{site.notEmpty}")
+    @field:NotNull(message = "{site.notNull}")
+    val site: String
 ) : AbstractDto<Organization>() {
 
     /*
@@ -59,5 +59,4 @@ data class OrganizationUpdateDto(
         )
     }
     */
-
 }

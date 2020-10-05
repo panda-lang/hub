@@ -21,5 +21,4 @@ import org.panda_lang.hub.utils.entity.CrudOperationsService
 interface UserService : CrudOperationsService<User, ObjectId?> {
 
     fun initializeUser(user: User): User
-
 }

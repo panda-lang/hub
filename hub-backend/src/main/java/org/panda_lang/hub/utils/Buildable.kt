@@ -21,5 +21,4 @@ import java.io.Serializable
 interface Buildable<T : Serializable?> {
 
     fun build(): T
-
 }

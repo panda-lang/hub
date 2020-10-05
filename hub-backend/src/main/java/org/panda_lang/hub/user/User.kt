@@ -25,17 +25,17 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("users")
 data class User internal constructor(
-        override var name: String,
-        override var displayName: String?,
-        @field:JsonIgnore
-        var password: String,
-        override var description: String?,
-        override var email: String,
-        var provider: String,
-        var providerId: String,
-        override var avatar: String,
-        override var site: String?,
-        private var roles: MutableSet<Role>
+    override var name: String,
+    override var displayName: String?,
+    @field:JsonIgnore
+    var password: String,
+    override var description: String?,
+    override var email: String,
+    var provider: String,
+    var providerId: String,
+    override var avatar: String,
+    override var site: String?,
+    private var roles: MutableSet<Role>
 ) : Owner {
 
     @Id
@@ -49,5 +49,4 @@ data class User internal constructor(
     fun addRole(role: Role) {
         roles.add(role)
     }
-
 }

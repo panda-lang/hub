@@ -25,5 +25,4 @@ abstract class AbstractDto<T : IdentifiableEntity<*>?> : JsonDto() {
     open fun toEntity(): T {
         throw UnsupportedOperationException()
     }
-
 }

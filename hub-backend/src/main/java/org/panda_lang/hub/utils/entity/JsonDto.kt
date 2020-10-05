@@ -21,13 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 open class JsonDto {
 
     fun toJson(): String? {
-        try {
+        return try {
             return ObjectMapper().writer().writeValueAsString(this)
         } catch (e: JsonProcessingException) {
             e.printStackTrace()
+            null
         }
-
-        return null
     }
-
 }

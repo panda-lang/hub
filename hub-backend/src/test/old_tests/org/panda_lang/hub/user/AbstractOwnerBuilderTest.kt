@@ -16,13 +16,12 @@
 package org.panda_lang.hub.user
 
 import org.bson.types.ObjectId
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.panda_lang.hub.utils.Buildable
 import org.springframework.test.context.junit4.SpringRunner
-import org.junit.jupiter.api.Assertions.*
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 internal class AbstractOwnerBuilderTest {
@@ -30,32 +29,35 @@ internal class AbstractOwnerBuilderTest {
     @BeforeEach
     fun setUp() {
         projectOwner = TestProjectOwnerBuilder()
-                .withName("test")
-                .withDescription("test description")
-                .withDisplayName("test displayName")
-                .withEmail("test@test")
-                .withSite("www.test.com")
-                .build()
+            .withName("test")
+            .withDescription("test description")
+            .withDisplayName("test displayName")
+            .withEmail("test@test")
+            .withSite("www.test.com")
+            .build()
     }
 
     @Test
     fun shouldNotBeNull() {
         assertAll(
-                { assertNotNull(projectOwner!!.getName()) },
-                { assertNotNull(projectOwner!!.getDescription()) },
-                { assertNotNull(projectOwner!!.getDisplayName()) },
-                { assertNotNull(projectOwner!!.getEmail()) }
+            { assertNotNull(projectOwner!!.getName()) },
+            { assertNotNull(projectOwner!!.getDescription()) },
+            { assertNotNull(projectOwner!!.getDisplayName()) },
+            { assertNotNull(projectOwner!!.getEmail()) }
         ) { assertNotNull(projectOwner!!.getSite()) }
     }
 
     @Test
     fun toStringTest() {
-        assertEquals("TestProjectOwner{" +
+        assertEquals(
+            "TestProjectOwner{" +
                 "name='test', " +
                 "displayName='test displayName', " +
                 "description='test description', " +
                 "email='test@test', " +
-                "site='www.test.com'}", projectOwner.toString())
+                "site='www.test.com'}",
+            projectOwner.toString()
+        )
     }
 
     private class TestProjectOwnerBuilder : Owner.AbstractProjectOwnerBuilder<TestProjectOwnerBuilder?>(), Buildable<TestOwner?> {
@@ -133,12 +135,12 @@ internal class AbstractOwnerBuilderTest {
         @Override
         override fun toString(): String {
             return "TestProjectOwner{" +
-                    "name='" + name + '\'' +
-                    ", displayName='" + displayName + '\'' +
-                    ", description='" + description + '\'' +
-                    ", email='" + email + '\'' +
-                    ", site='" + site + '\'' +
-                    '}'
+                "name='" + name + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", description='" + description + '\'' +
+                ", email='" + email + '\'' +
+                ", site='" + site + '\'' +
+                '}'
         }
 
         init {

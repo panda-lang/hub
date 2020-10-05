@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/users")
 internal open class UserController(
-        service: UserService
+    service: UserService
 ) : AbstractCrudController<UserService, User, ObjectId?, UserUpdateDto, UserRegistrationDto>(service) {
 
     @PreAuthorize("isAuthenticated()")
@@ -36,5 +36,4 @@ internal open class UserController(
     fun me(@AuthenticatedUser user: UserDetails): ResponseEntity<User?> {
         return ResponseEntity.ok(user.user)
     }
-
 }

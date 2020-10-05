@@ -15,8 +15,7 @@
  */
 package org.panda_lang.hub.authentication
 
-internal class GithubOAuth2UserDetails(private val attributes: Map<String, Any>) : OAuth2UserDetails {
-
+internal data class GithubOAuth2UserDetails(private val attributes: Map<String, Any>) : OAuth2UserDetails {
     override val providerId: String
         get() = (attributes["id"] as Int?).toString()
 
@@ -31,5 +30,4 @@ internal class GithubOAuth2UserDetails(private val attributes: Map<String, Any>)
 
     override val avatar: String?
         get() = attributes["avatar_url"] as String?
-
 }

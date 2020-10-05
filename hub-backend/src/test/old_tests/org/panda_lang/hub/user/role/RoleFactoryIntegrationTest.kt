@@ -16,14 +16,14 @@
 package org.panda_lang.hub.user.role
 
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.test.context.junit4.SpringRunner
-import org.junit.jupiter.api.Assertions.*
-import kotlin.Throws
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -37,7 +37,7 @@ internal class RoleFactoryIntegrationTest {
     fun obtainNewRoleTest() {
         val role: Role = roleFactory.obtainRole("SUPER_VIP")
         assertAll(
-                { assertNotNull(role) }
+            { assertNotNull(role) }
         ) { assertNotNull(mongoTemplate.findById("SUPER_VIP", Role::class.java)) }
     }
 

@@ -22,18 +22,19 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+private const val COOKIE_EXPIRATION_TIME = 180
+private const val OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME = "oauth2_auth_request"
+
 internal class OAuth2AuthorizationRequestRepository : AuthorizationRequestRepository<OAuth2AuthorizationRequest?> {
 
     companion object {
         const val REDIRECT_URI_COOKIE_NAME = "redirect_uri"
-        private const val COOKIE_EXPIRATION_TIME = 180
-        private const val OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME = "oauth2_auth_request"
     }
 
     override fun loadAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {
         return CookieHelper.obtainCookie(OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME, request.cookies)
-                .map { cookie: Cookie? -> CookieHelper.deserialize(cookie, OAuth2AuthorizationRequest::class.java) }
-                .orElse(null)
+            .map { cookie: Cookie? -> CookieHelper.deserialize(cookie, OAuth2AuthorizationRequest::class.java) }
+            .orElse(null)
     }
 
     override fun removeAuthorizationRequest(request: HttpServletRequest): OAuth2AuthorizationRequest? {
@@ -50,7 +51,7 @@ internal class OAuth2AuthorizationRequestRepository : AuthorizationRequestReposi
         CookieHelper.appendCookie(OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME, serializedCookie, COOKIE_EXPIRATION_TIME, servletResponse)
         val redirectUri = servletRequest.getParameter(REDIRECT_URI_COOKIE_NAME)
 
-        if (!redirectUri.isEmpty()) {
+        if (redirectUri.isNotEmpty()) {
             CookieHelper.appendCookie(REDIRECT_URI_COOKIE_NAME, redirectUri, COOKIE_EXPIRATION_TIME, servletResponse)
         }
     }
@@ -59,5 +60,4 @@ internal class OAuth2AuthorizationRequestRepository : AuthorizationRequestReposi
         CookieHelper.removeCookie(OAUTH_2_AUTHORIZATION_REQUEST_COOKIE_NAME, httpServletRequest, httpServletResponse)
         CookieHelper.removeCookie(REDIRECT_URI_COOKIE_NAME, httpServletRequest, httpServletResponse)
     }
-
 }

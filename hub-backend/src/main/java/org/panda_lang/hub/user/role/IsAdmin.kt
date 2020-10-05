@@ -16,12 +16,9 @@
 package org.panda_lang.hub.user.role
 
 import org.springframework.security.access.prepost.PreAuthorize
-import java.lang.annotation.Documented
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
 @PreAuthorize("hasAuthority('ADMIN')")
-annotation class IsAdmin 
+annotation class IsAdmin

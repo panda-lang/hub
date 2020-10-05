@@ -34,20 +34,20 @@ internal class UserControllerIntegrationTest : AbstractContextIntegrationTest() 
     @Throws(Exception::class)
     fun authenticationTest() {
         val user: User = User.builder()
-                .withName("test123")
-                .withPassword("test123")
-                .withRoles(Sets.newHashSet(roleFactory.obtainRole("ADMIN")))
-                .build()
+            .withName("test123")
+            .withPassword("test123")
+            .withRoles(Sets.newHashSet(roleFactory.obtainRole("ADMIN")))
+            .build()
         userService.initializeUser(user)
         super.getMockMvc().perform(getAuthenticated("/api/users/me", "test123", "test123"))
-                .andExpect(status().isOk())
+            .andExpect(status().isOk())
     }
 
     @Test
     @Throws(Exception::class)
     fun authenticationShouldReturn401WhenNotLogged() {
         super.perform("/api/users/me")
-                .andExpect(status().isUnauthorized())
+            .andExpect(status().isUnauthorized())
     }
 
     @AfterEach

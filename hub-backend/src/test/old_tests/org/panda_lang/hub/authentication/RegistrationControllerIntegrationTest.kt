@@ -27,8 +27,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import kotlin.Throws
 
 @RunWith(JUnitPlatform::class)
@@ -50,12 +50,12 @@ internal class RegistrationControllerIntegrationTest {
     @Throws(Exception::class)
     fun shouldReturnConflictIfUserAlreadyExists() {
         val dto = UserRegistrationDto(
-                "test123",
-                "test123",
-                "test123",
-                "test123",
-                "test123@test",
-                "test123@test"
+            "test123",
+            "test123",
+            "test123",
+            "test123",
+            "test123@test",
+            "test123@test"
         )
         AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isCreated())
         AbstractDtoUtils.perform(mockMvc, "/api/register", dto, status().isConflict())

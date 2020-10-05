@@ -18,14 +18,11 @@ package org.panda_lang.hub.utils.converter
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 
+private val OBJECT_MAPPER = ObjectMapper()
+
 class ObjectToMapConverter : Converter<Map<String, Any>, Any?> {
 
-    companion object {
-        private val OBJECT_MAPPER = ObjectMapper()
+    override fun convert(value: Any?): Map<String, Any> {
+        return OBJECT_MAPPER.convertValue<Map<String, Any>>(value!!, object : TypeReference<Map<String, Any>>() {})
     }
-
-    override fun convert(dto: Any?): Map<String, Any> {
-        return OBJECT_MAPPER.convertValue<Map<String, Any>>(dto!!, object : TypeReference<Map<String, Any>>() {})
-    }
-
 }

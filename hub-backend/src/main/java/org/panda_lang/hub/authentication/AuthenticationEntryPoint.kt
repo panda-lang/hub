@@ -17,15 +17,12 @@ package org.panda_lang.hub.authentication
 
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
-import java.io.IOException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class AuthenticationEntryPoint : AuthenticationEntryPoint {
 
-    @Throws(IOException::class)
     override fun commence(request: HttpServletRequest, response: HttpServletResponse, authenticationException: AuthenticationException) {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.message)
     }
-
 }

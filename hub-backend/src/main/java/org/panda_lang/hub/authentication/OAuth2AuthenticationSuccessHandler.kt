@@ -21,19 +21,17 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.util.UriComponentsBuilder
-import java.io.IOException
 import java.net.URI
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class OAuth2AuthenticationSuccessHandler(
-        private val tokenCreator: AuthenticationTokenCreator,
-        private val tokenProperties: AuthenticationProperties,
-        private val requestRepository: OAuth2AuthorizationRequestRepository
+    private val tokenCreator: AuthenticationTokenCreator,
+    private val tokenProperties: AuthenticationProperties,
+    private val requestRepository: OAuth2AuthorizationRequestRepository
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
-    @Throws(IOException::class)
     override fun onAuthenticationSuccess(servletRequest: HttpServletRequest, servletResponse: HttpServletResponse, authentication: Authentication) {
         if (!servletResponse.isCommitted) {
             val redirectUrl = obtainRedirectUri(authentication, servletRequest)
@@ -44,7 +42,7 @@ internal class OAuth2AuthenticationSuccessHandler(
 
     private fun obtainRedirectUri(authentication: Authentication, servletRequest: HttpServletRequest): String {
         val optionalRedirectUrl = CookieHelper.obtainCookie(OAuth2AuthorizationRequestRepository.REDIRECT_URI_COOKIE_NAME, servletRequest.cookies)
-                .map { obj: Cookie? -> obj!!.value }
+            .map { obj: Cookie? -> obj!!.value }
 
         if (optionalRedirectUrl.isPresent && !isAuthorizedRedirectUri(optionalRedirectUrl.get())) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication")
@@ -60,15 +58,14 @@ internal class OAuth2AuthenticationSuccessHandler(
         val clientRedirectUri = URI.create(uri)
 
         return tokenProperties.oauth.redirectUrls.stream()
-                .anyMatch { redirectUri: String? ->
-                    val authorizedUri = URI.create(redirectUri)
-                    clientRedirectUri.host.equals(authorizedUri.host, ignoreCase = true) && authorizedUri.port == clientRedirectUri.port
-                }
+            .anyMatch { redirectUri: String? ->
+                val authorizedUri = URI.create(redirectUri)
+                clientRedirectUri.host.equals(authorizedUri.host, ignoreCase = true) && authorizedUri.port == clientRedirectUri.port
+            }
     }
 
     private fun clearAuthenticationAttributes(servletRequest: HttpServletRequest, servletResponse: HttpServletResponse) {
         super.clearAuthenticationAttributes(servletRequest)
         requestRepository.removeAuthorizationRequestCookies(servletResponse, servletRequest)
     }
-
 }

@@ -18,23 +18,20 @@ package org.panda_lang.hub.authentication
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.PropertySource
 import org.springframework.stereotype.Component
-import java.util.*
 
 @Component
 @ConfigurationProperties(prefix = "auth")
 @PropertySource("classpath:auth.properties")
 internal class AuthenticationProperties {
-
     val oauth = OAuth()
     val token = Token()
 
-    class OAuth {
+    data class OAuth(
         var redirectUrls: List<String?> = ArrayList()
-    }
+    )
 
-    class Token {
-        var secret: String? = null
+    data class Token(
+        var secret: String? = null,
         var expiration: Long = 0
-    }
-
+    )
 }

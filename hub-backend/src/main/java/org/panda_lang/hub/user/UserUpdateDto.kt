@@ -23,45 +23,44 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 internal class UserUpdateDto(
-        @field:NotEmpty(message = "{username.notEmpty}")
-        @field:NotNull(message = "{username.notNull}")
-        @field:Length(min = 3, max = 32, message = "{username.length}")
-        override val name: String,
-        @field:NotEmpty(message = "{displayName.notEmpty}")
-        @field:NotNull(message = "{displayName.notNull}")
-        @field:Length(min = 3, max = 32, message = "{displayName.length}")
-        val displayName: String,
-        @field:NotEmpty(message = "{password.notEmpty}")
-        @field:NotNull(message = "{password.notNull}")
-        @field:Length(min = 6, message = "{password.length}")
-        val password: String,
-        @field:NotEmpty(message = "{description.notEmpty}")
-        @field:NotNull(message = "{description.notNull}")
-        @field:Length(max = 200, message = "{description.length}")
-        val description: String,
-        @field:NotEmpty(message = "{email.notEmpty}")
-        @field:NotNull(message = "{email.notNull}")
-        @field:Email(message = "{email.format}")
-        val email: String,
-        @field:URL(message = "{site.format}")
-        @field:NotEmpty(message = "{site.notEmpty}")
-        @field:NotNull(message = "{site.notNull}")
-        val site: String
+    @field:NotEmpty(message = "{username.notEmpty}")
+    @field:NotNull(message = "{username.notNull}")
+    @field:Length(min = 3, max = 32, message = "{username.length}")
+    override val name: String,
+    @field:NotEmpty(message = "{displayName.notEmpty}")
+    @field:NotNull(message = "{displayName.notNull}")
+    @field:Length(min = 3, max = 32, message = "{displayName.length}")
+    val displayName: String,
+    @field:NotEmpty(message = "{password.notEmpty}")
+    @field:NotNull(message = "{password.notNull}")
+    @field:Length(min = 6, message = "{password.length}")
+    val password: String,
+    @field:NotEmpty(message = "{description.notEmpty}")
+    @field:NotNull(message = "{description.notNull}")
+    @field:Length(max = 200, message = "{description.length}")
+    val description: String,
+    @field:NotEmpty(message = "{email.notEmpty}")
+    @field:NotNull(message = "{email.notNull}")
+    @field:Email(message = "{email.format}")
+    val email: String,
+    @field:URL(message = "{site.format}")
+    @field:NotEmpty(message = "{site.notEmpty}")
+    @field:NotNull(message = "{site.notNull}")
+    val site: String
 ) : AbstractDto<User>() {
 
     override fun toEntity(): User {
         return User(
-                name,
-                displayName,
-                password,
-                description,
-                email,
-                "",
-                "",
-                "",
-                site,
-                HashSet()
+            name,
+            displayName,
+            password,
+            description,
+            email,
+            "",
+            "",
+            "",
+            site,
+            HashSet()
         )
     }
-
 }

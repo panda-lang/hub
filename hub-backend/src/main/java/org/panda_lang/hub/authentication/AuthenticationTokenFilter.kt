@@ -18,20 +18,17 @@ package org.panda_lang.hub.authentication
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
-import java.io.IOException
 import javax.servlet.FilterChain
-import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 internal class AuthenticationTokenFilter(
-        private val tokenProperties: AuthenticationProperties,
-        private val tokenValidator: AuthenticationTokenValidator,
-        private val tokenProvider: AuthenticationTokenProvider,
-        private val userDetailsService: AuthenticationUserDetailsService
+    private val tokenProperties: AuthenticationProperties,
+    private val tokenValidator: AuthenticationTokenValidator,
+    private val tokenProvider: AuthenticationTokenProvider,
+    private val userDetailsService: AuthenticationUserDetailsService
 ) : OncePerRequestFilter() {
 
-    @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val jwtToken = obtainJwtTokenFromRequest(request)
         val secretToken = tokenProperties.token.secret
@@ -51,11 +48,10 @@ internal class AuthenticationTokenFilter(
         val authorizationHeaderContent = servletRequest.getHeader("Authorization")
         val bearer = "Bearer "
 
-        if (authorizationHeaderContent != null && authorizationHeaderContent.startsWith(bearer)) {
-            return authorizationHeaderContent.substring(bearer.length)
+        return if (authorizationHeaderContent != null && authorizationHeaderContent.startsWith(bearer)) {
+            authorizationHeaderContent.substring(bearer.length)
+        } else {
+            null
         }
-
-        return null
     }
-
 }

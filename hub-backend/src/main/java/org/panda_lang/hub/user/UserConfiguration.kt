@@ -37,5 +37,4 @@ internal open class UserConfiguration {
     open fun userFacade(passwordEncoder: PasswordEncoder, userRepository: UserRepository): UserFacade {
         return UserFacade(passwordEncoder, userRepository)
     }
-
 }

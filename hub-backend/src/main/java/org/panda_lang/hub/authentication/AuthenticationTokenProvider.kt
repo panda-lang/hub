@@ -22,11 +22,10 @@ internal class AuthenticationTokenProvider {
 
     fun obtainUserId(token: String?, secretToken: String?): ObjectId {
         val claims = Jwts.parser()
-                .setSigningKey(secretToken)
-                .parseClaimsJws(token)
-                .body
+            .setSigningKey(secretToken)
+            .parseClaimsJws(token)
+            .body
 
         return ObjectId(claims.subject)
     }
-
 }

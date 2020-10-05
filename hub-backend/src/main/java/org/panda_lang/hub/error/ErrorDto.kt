@@ -16,6 +16,6 @@
 package org.panda_lang.hub.error
 
 internal data class ErrorDto(
-        val code: Int,
-        val message: String
+    val code: Int,
+    val message: String
 )

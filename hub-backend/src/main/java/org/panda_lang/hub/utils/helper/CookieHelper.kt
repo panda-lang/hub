@@ -16,7 +16,8 @@
 package org.panda_lang.hub.utils.helper
 
 import org.springframework.util.SerializationUtils
-import java.util.*
+import java.util.Base64
+import java.util.Optional
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -24,27 +25,25 @@ import javax.servlet.http.HttpServletResponse
 object CookieHelper {
 
     fun removeCookie(cookieName: String, servletRequest: HttpServletRequest, servletResponse: HttpServletResponse) {
-        obtainCookie(cookieName, servletRequest.cookies).ifPresent { cookie: Cookie? -> appendCookie(cookieName, "", 0, servletResponse) }
+        obtainCookie(cookieName, servletRequest.cookies).ifPresent { appendCookie(cookieName, "", 0, servletResponse) }
     }
 
     fun appendCookie(cookieName: String?, cookieValue: String?, maxAge: Int, servletResponse: HttpServletResponse) {
-        val cookie = Cookie(cookieName, cookieValue)
-        cookie.path = "/"
-        cookie.isHttpOnly = true
-        cookie.maxAge = maxAge
+        val cookie = Cookie(cookieName, cookieValue).also {
+            it.path = "/"
+            it.isHttpOnly = true
+            it.maxAge = maxAge
+        }
         servletResponse.addCookie(cookie)
     }
 
     fun obtainCookie(cookieName: String, cookies: Array<Cookie>?): Optional<Cookie> {
-        if (cookies != null && cookies.isNotEmpty()) {
-            for (cookie in cookies) {
-                if (cookieName == cookie.name) {
-                    return Optional.of(cookie)
-                }
-            }
+        val foundCookie = cookies?.let { cookie ->
+            cookie.firstOrNull { it.name == cookieName }
         }
 
-        return Optional.empty()
+        return foundCookie?.let { Optional.of(it) }
+            ?: Optional.empty()
     }
 
     fun serialize(value: Any?): String {
@@ -54,5 +53,4 @@ object CookieHelper {
     fun <T> deserialize(cookie: Cookie?, clazz: Class<T>): T {
         return clazz.cast(SerializationUtils.deserialize(Base64.getUrlDecoder().decode(cookie!!.value)))
     }
-
 }

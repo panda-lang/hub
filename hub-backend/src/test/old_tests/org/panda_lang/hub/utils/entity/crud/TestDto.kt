@@ -17,7 +17,6 @@ package org.panda_lang.hub.utils.entity.crud
 
 import org.panda_lang.hub.utils.entity.AbstractDto
 import javax.validation.constraints.NotEmpty
-import kotlin.Throws
 
 class TestDto : AbstractDto<TestEntity?> {
     @NotEmpty

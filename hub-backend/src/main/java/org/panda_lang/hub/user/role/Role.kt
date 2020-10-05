@@ -20,5 +20,5 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document("roles")
 data class Role(
-        @field:Id var name: String
+    @field:Id var name: String
 )

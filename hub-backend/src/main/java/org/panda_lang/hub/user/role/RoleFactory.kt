@@ -19,13 +19,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class RoleFactory(
-        private val roleRepository: RoleRepository
+    private val roleRepository: RoleRepository
 ) {
 
     fun obtainRole(roleName: String): Role {
         return roleRepository
-                .findById(roleName)
-                .orElseGet { roleRepository.save(Role(roleName)) }!!
+            .findById(roleName)
+            .orElseGet { roleRepository.save(Role(roleName)) }!!
     }
-
 }

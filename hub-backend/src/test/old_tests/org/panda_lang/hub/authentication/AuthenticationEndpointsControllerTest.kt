@@ -27,8 +27,8 @@ import org.panda_lang.hub.user.UserFacade
 import org.panda_lang.hub.utils.AbstractDtoUtils
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import kotlin.Throws
 
 @ExtendWith(MockitoExtension::class)
@@ -55,10 +55,10 @@ internal class AuthenticationEndpointsControllerTest {
     @Throws(Exception::class)
     fun registerUser() {
         val signUpDto = SignUpDto(
-                "username12",
-                "Username",
-                "test@email.com",
-                "passwd12"
+            "username12",
+            "Username",
+            "test@email.com",
+            "passwd12"
         )
         AbstractDtoUtils.perform(mockMvc, "/api/users/signup", signUpDto, status().isCreated())
     }
@@ -66,12 +66,14 @@ internal class AuthenticationEndpointsControllerTest {
     @Test
     @Throws(Exception::class)
     fun authenticateUser() {
-        authenticationEndpointsController.registerUser(SignUpDto(
+        authenticationEndpointsController.registerUser(
+            SignUpDto(
                 "username-sign",
                 "Username Sign",
                 "username-sign@emailcom",
                 "passwd12"
-        ))
+            )
+        )
         val signInDto = SignInDto("username-sign", "passwd12")
         AbstractDtoUtils.perform(mockMvc, "/api/users/signin", signInDto, status().isOk())
     }

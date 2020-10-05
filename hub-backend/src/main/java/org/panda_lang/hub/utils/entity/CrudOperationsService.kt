@@ -28,5 +28,4 @@ interface CrudOperationsService<T : IdentifiableEntity<ID>, ID> {
     fun deleteById(id: ID)
 
     fun existsById(id: ID): Boolean
-
 }

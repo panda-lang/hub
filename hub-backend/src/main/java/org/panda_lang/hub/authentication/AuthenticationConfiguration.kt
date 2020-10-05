@@ -48,5 +48,4 @@ internal open class AuthenticationConfiguration {
     open fun oAuth2AuthenticationFailureHandler(): OAuth2AuthenticationFailureHandler {
         return OAuth2AuthenticationFailureHandler(authorizationRequestRepository())
     }
-
 }

@@ -20,7 +20,6 @@ import org.panda_lang.hub.utils.entity.AbstractCrudController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import kotlin.Throws
 
 @RestController
 @RequestMapping("/api/tests")

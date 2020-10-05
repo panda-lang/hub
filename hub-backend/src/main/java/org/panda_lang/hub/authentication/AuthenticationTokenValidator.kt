@@ -15,7 +15,11 @@
  */
 package org.panda_lang.hub.authentication
 
-import io.jsonwebtoken.*
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.MalformedJwtException
+import io.jsonwebtoken.SignatureException
+import io.jsonwebtoken.UnsupportedJwtException
 import org.panda_lang.utilities.commons.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.lang.Nullable
@@ -26,7 +30,7 @@ internal class AuthenticationTokenValidator {
         private val LOGGER = LoggerFactory.getLogger(AuthenticationTokenValidator::class.java)
     }
 
-    fun validate(@Nullable token: String, @Nullable secretToken: String?): Boolean {
+    fun validate(@Nullable token: String?, @Nullable secretToken: String?): Boolean {
         if (StringUtils.isEmpty(token) || StringUtils.isEmpty(secretToken)) {
             return false
         }
@@ -46,5 +50,4 @@ internal class AuthenticationTokenValidator {
         }
         return false
     }
-
 }

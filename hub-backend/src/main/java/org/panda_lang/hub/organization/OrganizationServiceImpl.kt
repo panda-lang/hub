@@ -21,5 +21,5 @@ import org.springframework.stereotype.Service
 
 @Service
 internal class OrganizationServiceImpl(
-        organizationRepository: OrganizationRepository
+    organizationRepository: OrganizationRepository
 ) : AbstractCrudOperationService<OrganizationRepository, Organization, ObjectId?>(organizationRepository), OrganizationService

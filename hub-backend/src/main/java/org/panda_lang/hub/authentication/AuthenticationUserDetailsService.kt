@@ -22,5 +22,4 @@ import org.springframework.security.core.userdetails.UserDetailsService
 interface AuthenticationUserDetailsService : UserDetailsService {
 
     fun loadUserById(id: ObjectId): UserDetails
-
 }
