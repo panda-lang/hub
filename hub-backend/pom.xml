@@ -168,7 +168,7 @@
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda</artifactId>
-            <version>0.2.1-alpha</version>
+            <version>0.3.0-alpha</version>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
