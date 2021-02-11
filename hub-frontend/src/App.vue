@@ -49,25 +49,21 @@ export default {
 @import url(~toastr/toastr.scss);
 </style>
 
-<style lang="stylus">
+<style lang="sass">
 html, body
     height: 100%
     margin: 0
     padding: 0
-    overflow hidden
-
+    overflow: hidden
 #app
     height: 100%
-
 .page-content-container
-    margin-top 27px
-
+    margin-top: 27px
 .page-content
-    margin 17px
-    background-color white
-    min-height 107px
-    text-align left
-
+    margin: 17px
+    background-color: white
+    min-height: 107px
+    text-align: left
 a
-    text-decoration none
+    text-decoration: none
 </style>

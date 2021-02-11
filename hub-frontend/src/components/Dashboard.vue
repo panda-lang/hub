@@ -35,7 +35,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 #app
-    background-color #efefef
+  background-color: #efefef
 </style>

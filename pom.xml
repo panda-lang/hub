@@ -45,7 +45,7 @@
     </licenses>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>15</java.version>
         <project.encoding>UTF-8</project.encoding>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <kotlin.version>1.3.72</kotlin.version>

@@ -34,7 +34,8 @@ export default {
 			this.$store.dispatch('setToken', token)
 			this.$store.dispatch('fetchUser')
 			this.$notify.success('Successfully logged in')
-		} else {
+		} 
+		else {
 			this.$notify.error('An error occurred while trying to signin')
 		}
 

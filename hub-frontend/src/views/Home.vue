@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .home
-    text-align center
+  text-align: center
 </style>

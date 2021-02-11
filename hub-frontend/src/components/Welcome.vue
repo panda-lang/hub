@@ -44,38 +44,32 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .welcome
-    background-color #6B3E78
-    background-image url('../assets/background.png')
-    background-size 117%
-/*
- * Menu component
- */
+  background-color: #6B3E78
+  background-image: url('../assets/background.png')
+  background-size: 117%
 .welcome .logo
-    color white
+  color: white
 .welcome .navbar
-    background-color rgba(0, 0, 0, 0)
+  background-color: rgba(0, 0, 0, 0)
 .welcome .navbar-item
-    color white
+  color: white
 .welcome .navbar-item:hover
-    background-color rgba(0, 0, 0, 0) !important
-    color #efefef !important
-    text-decoration underline
+  background-color: rgba(0, 0, 0, 0) !important
+  color: #efefef !important
+  text-decoration: underline
 .welcome .login-item
-    font-weight bold
-</style>
-
-<style lang="stylus">
+  font-weight: bold
 .welcome-content
-    color white
-    font-family "Leelawadee UI"
-    text-align center
+  color: white
+  font-family: "Leelawadee UI"
+  text-align: center
 h1
-    font-size 70px
-    font-weight bold
-    width auto
+  font-size: 70px
+  font-weight: bold
+  width: auto
 .description
-    font-size 16px
-    width 217px
+  font-size: 16px
+  width: 217px
 </style>

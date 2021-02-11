@@ -21,7 +21,7 @@
     </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .page-not-found
-    text-align center
+  text-align: center
 </style>

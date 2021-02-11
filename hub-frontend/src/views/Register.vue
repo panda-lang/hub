@@ -86,19 +86,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-	.register
-		text-align center
-
-	.register .column
-		max-width 460px
-		border-radius 7px
-		background-color white
-		text-align center
-
-	.register .input
-		max-width 420px !important
-
-	.register .control
-		text-align center !important
+<style lang="sass">
+.register
+	text-align: center
+.register .column
+	max-width: 460px
+	border-radius: 7px
+	background-color: white
+	text-align: center
+.register .input
+	max-width: 420px !important
+.register .control
+	text-align: center !important
 </style>

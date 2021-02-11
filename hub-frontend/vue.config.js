@@ -18,7 +18,8 @@ const config = require('./config')
 
 module.exports = {
 	devServer: {
-		port: config.port
+		port: config.port,
+		proxy: 'http://localhost:3000/api'
 	},
 
 	lintOnSave: false

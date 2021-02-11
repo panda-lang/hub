@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.panda_lang.hub.utils
 
-import java.io.Serializable
+package org.panda_lang.hub2.user
 
-@FunctionalInterface
-interface Buildable<T : Serializable?> {
+import org.springframework.data.mongodb.core.mapping.Document
 
-    fun build(): T
+@Document
+class User {
 }

@@ -13,6 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.panda_lang.hub
 
-internal class HubRouter
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.sass$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              indentedSyntax: true,
+              sassOptions: {
+                indentedSyntax: true
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

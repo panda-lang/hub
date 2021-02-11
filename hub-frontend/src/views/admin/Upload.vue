@@ -90,13 +90,11 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .admin-upload
-    text-align center
-
+  text-align: center
 .admin-upload form
-    max-width 350px
-
+  max-width: 350px
 .file .button
-    width 350px
+  width: 350px
 </style>

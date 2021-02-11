@@ -65,20 +65,18 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .navbar-burger
-    height auto !important
-
+  height: auto !important
 .navbar-item
-    font-family "Leelawadee UI"
-
+  font-family: "Leelawadee UI"
 .navbar-end:last-child
-    padding-right 17px
+  padding-right: 17px
 </style>
 
-<style lang="stylus">
+<style lang="sass">
 .logo
-    font-family "Lucida Handwriting" !important
-    font-size 30px
-    margin-left 17px
+  font-family: "Lucida Handwriting" !important
+  font-size: 30px
+  margin-left: 17px
 </style>

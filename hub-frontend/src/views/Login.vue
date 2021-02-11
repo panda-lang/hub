@@ -70,16 +70,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .login
-    text-align center
+  text-align: center
 .login .column
-    max-width 460px
-    border-radius 7px
-    background-color white
-    text-align center
+  max-width: 460px
+  border-radius: 7px
+  background-color: white
+  text-align: center
 .login .input
-    max-width 420px !important
+  max-width: 420px !important
 .login .control
-    text-align center !important
+  text-align: center !important
 </style>
