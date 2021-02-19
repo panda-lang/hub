@@ -4,11 +4,10 @@ notifications:
   email: false
   
 jdk:
-- openjdk14
-
+- openjdk15
 
 script:
-  - mvn install
+  - cd hub-backend && ./gradlew build
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
