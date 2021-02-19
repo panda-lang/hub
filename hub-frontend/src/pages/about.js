@@ -1,10 +1,9 @@
 import Head from 'next/head'
-
-import Page from '../components/Page'
-import Header from '../components/Header'
-import Main from '../components/Main'
-import Footer from '../components/Footer'
 import { Box } from '@chakra-ui/react'
+import Page from '../components/layout/Page'
+import Header from '../components/layout/Header'
+import Main from '../components/layout/Main'
+import Footer from '../components/layout/Footer'
 
 const About = () => {
   return (

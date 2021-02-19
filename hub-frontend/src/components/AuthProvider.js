@@ -4,6 +4,8 @@ import axios from 'axios'
 const AuthContext = createContext()
 const userInfoUrl = 'http://localhost:8080/user'
 
+// TODO: Such a mess 😭
+
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState()
   const [user, setUser] = useState({})
@@ -28,6 +30,10 @@ const AuthProvider = ({ children }) => {
         })
         .then(response => {
           setUser(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+          logout()
         })
     }
     else {
