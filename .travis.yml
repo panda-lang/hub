@@ -7,7 +7,7 @@ jdk:
 - openjdk15
 
 script:
-  - cd hub-backend && ./gradlew build
+  - cd hub-backend && chmod +x gradlew && ./gradlew build
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
