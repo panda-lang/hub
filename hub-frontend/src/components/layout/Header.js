@@ -1,7 +1,7 @@
 import { Box, Heading, Link, useColorModeValue } from '@chakra-ui/react'
-import { Container, Content } from './Container'
-import HeaderMenu from './HeaderMenu'
-import HeaderLogin from './HeaderLogin'
+import { Container, Content } from 'components/layout/Container'
+import HeaderMenu from 'components/layout/HeaderMenu'
+import HeaderLogin from 'components/layout/HeaderLogin'
 
 const Header = ({title}) => {
   const bgColor = useColorModeValue('gray.50', 'gray.900')

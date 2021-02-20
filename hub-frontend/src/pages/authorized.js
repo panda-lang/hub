@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Box, Link } from '@chakra-ui/react'
-import { useAuth } from '../components/AuthProvider'
+import { Link } from '@chakra-ui/react'
+
+import { useAuth } from 'components/AuthProvider'
 
 // TODO: It's kinda slow, probably bcs of the dev mode?
 

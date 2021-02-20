@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Input  } from "@chakra-ui/react"
-import { PackagePreview } from './PackagePreview'
+import { PackagePreview } from 'components/index/PackagePreview'
 
 const Category = props => {
   return (
