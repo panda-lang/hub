@@ -1,4 +1,4 @@
-import { Flex, Text, Box, Link } from '@chakra-ui/react'
+import { Flex, Text, Link } from '@chakra-ui/react'
 import { FaGithub } from 'react-icons/fa'
 import { IoExitOutline } from 'react-icons/io5'
 
@@ -11,21 +11,20 @@ const HeaderLogin = props => {
   const authView = () => {
     if (token) {
       return (
-        <Flex width="100px" onClick={logout}>
+        <Flex width='100px' onClick={logout}>
           <Text>{user.username}</Text>
-          <Text marginTop="4px" marginLeft="7px">
-            <IoExitOutline fontSize="1.15rem" />
+          <Text marginTop='4px' marginLeft='7px'>
+            <IoExitOutline fontSize='1.15rem' />
           </Text>
         </Flex>
       )
-    }
-    else {
+    } else {
       return (
-        <Link href="http://localhost:8080/authorize/github">
-          <Flex width="100px">
+        <Link href='http://localhost:8080/authorize/github'>
+          <Flex width='100px'>
             <Text>Sign In</Text>
-            <Text marginTop="4px" marginLeft="7px">
-              <FaGithub fontSize="1.15rem" />
+            <Text marginTop='4px' marginLeft='7px'>
+              <FaGithub fontSize='1.15rem' />
             </Text>
           </Flex>
         </Link>
@@ -35,12 +34,12 @@ const HeaderLogin = props => {
 
   return (
     <Flex
-      alignItems="center"
-      display={{ sm: "flex", base: "none" }}
+      alignItems='center'
+      display={{ sm: 'flex', base: 'none' }}
       {...props}
     >
-      { authView() }
-      <ColorModeSwitch marginTop="0.3rem" />
+      {authView()}
+      <ColorModeSwitch marginTop='0.3rem' />
     </Flex>
   )
 }

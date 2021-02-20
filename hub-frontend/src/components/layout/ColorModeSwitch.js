@@ -6,7 +6,7 @@ const ColorModeSwitch = props => {
   return (
     <Switch
       color='blue.500'
-      size="md"
+      size='md'
       isChecked={isDark}
       onChange={toggleColorMode}
       {...props}

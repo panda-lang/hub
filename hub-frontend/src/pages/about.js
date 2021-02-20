@@ -15,7 +15,7 @@ const About = () => {
       <Header />
       <Main content={
         <Box>
-          
+
         </Box>
       } />
       <Footer />

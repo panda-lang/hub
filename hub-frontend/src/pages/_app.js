@@ -5,7 +5,8 @@ import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react'
 import { AuthProvider } from 'components/AuthProvider'
 import theme from 'theme'
 
-function HubApp ({ Component, pageProps }) {
+// eslint-disable-next-line react/prop-types
+function HubApp({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <ColorModeProvider

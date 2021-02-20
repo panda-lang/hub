@@ -1,4 +1,4 @@
-import { Box, Flex, Link, Text, useColorModeValue } from "@chakra-ui/react"
+import { Box, Flex, Link, Text, useColorModeValue } from '@chakra-ui/react'
 import { FaGithub, FaTwitter } from 'react-icons/fa'
 
 import { Container, Content } from 'components/layout/Container'
@@ -11,25 +11,25 @@ const Footer = () => {
     <Container
       bg={bgColor}
       color={color}
-      height="2.5rem"
-      padding="7px"
+      height='2.5rem'
+      padding='7px'
     >
-      <Content justifyContent="space-around">
-        <Flex flexDirection="row" paddingY="6px">
-          <Box marginX="7px">
+      <Content justifyContent='space-around'>
+        <Flex flexDirection='row' paddingY='6px'>
+          <Box marginX='7px'>
             <FaTwitter />
           </Box>
-          <Box marginX="7px">
+          <Box marginX='7px'>
             <FaGithub />
           </Box>
         </Flex>
         <Text
-          fontSize="0.8rem"
+          fontSize='0.8rem'
           // fontStyle="italic"
-          paddingTop="0.2rem"
+          paddingTop='0.2rem'
         >
           ~ powered by&nbsp;
-          <Link href="https://github.com/panda-lang/hub" color="blue.400">
+          <Link href='https://github.com/panda-lang/hub' color='blue.400'>
             @panda-lang/hub
           </Link>
         </Text>

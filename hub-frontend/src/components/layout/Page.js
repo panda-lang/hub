@@ -8,8 +8,8 @@ const Page = props => {
     <Flex
       bg={bgColor}
       color={color}
-      flexDirection="column"
-      minH="100vh"
+      flexDirection='column'
+      minH='100vh'
       {...props}
     />
   )

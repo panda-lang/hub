@@ -17,12 +17,12 @@ const Index = () => {
       <Header />
       <Main content={
         <Flex
-          flexDirection="column"
-          alignItems="center"
-          paddingY="77px"
+          flexDirection='column'
+          alignItems='center'
+          paddingY='77px'
         >
-          <Hero/>
-          <PackagesHero marginY="77px"/>
+          <Hero />
+          <PackagesHero marginY='77px' />
         </Flex>
       } />
       <Footer />

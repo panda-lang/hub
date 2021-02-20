@@ -1,11 +1,11 @@
-import { Flex, Link } from "@chakra-ui/react"
+import { Flex, Link } from '@chakra-ui/react'
 
 const MenuItem = props => {
   return (
     <Link
       href={props.href}
-      fontWeight="bold"
-      paddingX="13px"
+      fontWeight='bold'
+      paddingX='13px'
       _focus={{ outline: 0 }}
       {...props}
     >
@@ -17,10 +17,10 @@ const MenuItem = props => {
 const HeaderMenu = props => {
   return (
     <Flex {...props}>
-      <MenuItem label="About" href="/about" />
-      <MenuItem label="Docs" href="/docs" />
-      <MenuItem label="Explore" href="/explore" />
-      <MenuItem label="Support" href="https://panda-lang.org/support/" />
+      <MenuItem label='About' href='/about' />
+      <MenuItem label='Docs' href='/docs' />
+      <MenuItem label='Explore' href='/explore' />
+      <MenuItem label='Support' href='https://panda-lang.org/support/' />
     </Flex>
   )
 }
