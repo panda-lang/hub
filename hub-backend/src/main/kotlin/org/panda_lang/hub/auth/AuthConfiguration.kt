@@ -6,7 +6,6 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.client.*
-import io.ktor.client.engine.apache.*
 import io.ktor.locations.*
 import io.ktor.routing.*
 import org.panda_lang.hub.config
@@ -26,7 +25,7 @@ internal val loginProviders = listOf(
     )
 ).associateBy { it.name }
 
-fun configureAuthentication(app: Application, userFacade: UserFacade): AuthFacade {
+fun configureAuthentication(app: Application, httpClient: HttpClient, userFacade: UserFacade): AuthFacade {
     val secureRandom = SecureRandom()
     val jwtSecret = ByteArray(512)
     secureRandom.nextBytes(jwtSecret)
@@ -43,11 +42,7 @@ fun configureAuthentication(app: Application, userFacade: UserFacade): AuthFacad
 
     app.install(Authentication) {
         oauth("oauth") {
-            client = HttpClient(Apache).apply {
-                app.environment.monitor.subscribe(ApplicationStopping) {
-                    close()
-                }
-            }
+            client = httpClient
             providerLookup = {
                 loginProviders[application.locations.resolve<AuthorizeLocation>(AuthorizeLocation::class, this).type]
             }

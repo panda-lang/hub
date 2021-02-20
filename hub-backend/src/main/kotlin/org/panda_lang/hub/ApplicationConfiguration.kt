@@ -2,6 +2,8 @@ package org.panda_lang.hub
 
 import com.typesafe.config.ConfigFactory
 import io.ktor.application.*
+import io.ktor.client.*
+import io.ktor.client.engine.apache.*
 import io.ktor.config.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -11,9 +13,10 @@ import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.serialization.json.Json
-import org.panda_lang.hub.auth.*
-import org.litote.kmongo.reactivestreams.*
-import org.litote.kmongo.coroutine.*
+import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.reactivestreams.KMongo
+import org.panda_lang.hub.auth.configureAuthentication
+import org.panda_lang.hub.auth.installAuthRouting
 import org.panda_lang.hub.user.configureUsers
 import org.panda_lang.hub.user.installUserRouting
 
@@ -44,6 +47,16 @@ private fun server(
 }
 
 fun Application.module() {
+    val oauthHttpClient = HttpClient(Apache).apply {
+        environment.monitor.subscribe(ApplicationStopping) {
+            close()
+        }
+    }
+
+    moduleWithDeps(oauthHttpClient)
+}
+
+fun Application.moduleWithDeps(oauthHttpClient: HttpClient) {
     install(DefaultHeaders)
     install(CallLogging)
     install(Locations)
@@ -68,7 +81,7 @@ fun Application.module() {
     val database = mongoClient.getDatabase("hub")
 
     val userFacade = configureUsers(this, database)
-    val authFacade = configureAuthentication(this, userFacade)
+    val authFacade = configureAuthentication(this, oauthHttpClient, userFacade)
 
     install(Routing) {
         installUserRouting(this, userFacade)

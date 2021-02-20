@@ -1,3 +1,3 @@
 
-rootProject.name = "hub-backend3"
+rootProject.name = "hub-backend"
 
