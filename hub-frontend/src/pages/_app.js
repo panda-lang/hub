@@ -1,16 +1,17 @@
-import axios from 'axios'
+import 'focus-visible/dist/focus-visible'
+
 import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react'
 
-import { AuthProvider } from '../components/AuthProvider'
-import 'focus-visible/dist/focus-visible'
-import theme from '../theme'
+import { AuthProvider } from 'components/AuthProvider'
+import theme from 'theme'
 
-function HubApp ({ Component, pageProps }) {
+// eslint-disable-next-line react/prop-types
+function HubApp({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <ColorModeProvider
         options={{
-          useSystemColorMode: false
+          useSystemColorMode: false,
         }}
       >
         <AuthProvider>

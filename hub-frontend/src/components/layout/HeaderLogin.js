@@ -1,11 +1,11 @@
-import { useState, createContext, useContext, useEffect } from 'react'
-import { Flex, Text, Box, Link } from '@chakra-ui/react'
+import { Flex, Text, Link } from '@chakra-ui/react'
 import { FaGithub } from 'react-icons/fa'
 import { IoExitOutline } from 'react-icons/io5'
-import ColorModeSwitch from './ColorModeSwitch'
-import { useAuth } from '../AuthProvider'
 
-const HeaderLogin = props => {
+import ColorModeSwitch from 'components/layout/ColorModeSwitch'
+import { useAuth } from 'components/AuthProvider'
+
+const HeaderLogin = (props) => {
   const { token, user, logout } = useAuth()
 
   const authView = () => {
@@ -18,8 +18,7 @@ const HeaderLogin = props => {
           </Text>
         </Flex>
       )
-    }
-    else {
+    } else {
       return (
         <Link href="http://localhost:8080/authorize/github">
           <Flex width="100px">
@@ -34,12 +33,8 @@ const HeaderLogin = props => {
   }
 
   return (
-    <Flex
-      alignItems="center"
-      display={{ sm: "flex", base: "none" }}
-      {...props}
-    >
-      { authView() }
+    <Flex alignItems="center" display={{ sm: 'flex', base: 'none' }} {...props}>
+      {authView()}
       <ColorModeSwitch marginTop="0.3rem" />
     </Flex>
   )

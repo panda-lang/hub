@@ -1,20 +1,14 @@
-import { Flex, Link } from "@chakra-ui/react"
+import { Flex, Link } from '@chakra-ui/react'
 
-const MenuItem = props => {
+const MenuItem = (props) => {
   return (
-    <Link
-      href={props.href}
-      fontWeight="bold"
-      paddingX="13px"
-      _focus={{ outline: 0 }}
-      {...props}
-    >
+    <Link href={props.href} fontWeight="bold" paddingX="13px" _focus={{ outline: 0 }} {...props}>
       {props.label}
     </Link>
   )
 }
 
-const HeaderMenu = props => {
+const HeaderMenu = (props) => {
   return (
     <Flex {...props}>
       <MenuItem label="About" href="/about" />

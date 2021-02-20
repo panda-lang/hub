@@ -2,6 +2,7 @@ import { useState, createContext, useContext, useEffect } from 'react'
 import axios from 'axios'
 
 const AuthContext = createContext()
+// eslint-disable-next-line no-unused-vars
 const userInfoUrl = 'http://localhost:8080/user'
 
 // TODO: Such a mess 😭
@@ -9,7 +10,7 @@ const userInfoUrl = 'http://localhost:8080/user'
 const AuthProvider = ({ children }) => {
   const [token, setToken] = useState()
   const [user, setUser] = useState({})
-  
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
 
@@ -25,23 +26,22 @@ const AuthProvider = ({ children }) => {
       axios
         .get('http://localhost:8080/user', {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .then(response => {
+        .then((response) => {
           setUser(response.data)
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error)
           logout()
         })
-    }
-    else {
+    } else {
       localStorage.removeItem('token')
     }
   }, [token])
 
-  const login = value => {
+  const login = (value) => {
     setToken(value)
   }
 
@@ -53,19 +53,12 @@ const AuthProvider = ({ children }) => {
     token,
     user,
     login,
-    logout
+    logout,
   }
 
-  return (
-    <AuthContext.Provider value={context}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
 }
 
 const useAuth = () => useContext(AuthContext)
 
-export {
-  AuthProvider,
-  useAuth
-}
+export { AuthProvider, useAuth }

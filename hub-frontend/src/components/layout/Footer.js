@@ -1,18 +1,14 @@
-import { Box, Flex, Link, Text, useColorModeValue } from "@chakra-ui/react"
+import { Box, Flex, Link, Text, useColorModeValue } from '@chakra-ui/react'
 import { FaGithub, FaTwitter } from 'react-icons/fa'
-import { Container, Content } from './Container'
+
+import { Container, Content } from 'components/layout/Container'
 
 const Footer = () => {
   const bgColor = useColorModeValue('gray.50', 'gray.900')
   const color = useColorModeValue('black', 'white')
 
   return (
-    <Container
-      bg={bgColor}
-      color={color}
-      height="2.5rem"
-      padding="7px"
-    >
+    <Container bg={bgColor} color={color} height="2.5rem" padding="7px">
       <Content justifyContent="space-around">
         <Flex flexDirection="row" paddingY="6px">
           <Box marginX="7px">
