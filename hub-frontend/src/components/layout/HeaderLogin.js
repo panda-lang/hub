@@ -5,26 +5,26 @@ import { IoExitOutline } from 'react-icons/io5'
 import ColorModeSwitch from 'components/layout/ColorModeSwitch'
 import { useAuth } from 'components/AuthProvider'
 
-const HeaderLogin = props => {
+const HeaderLogin = (props) => {
   const { token, user, logout } = useAuth()
 
   const authView = () => {
     if (token) {
       return (
-        <Flex width='100px' onClick={logout}>
+        <Flex width="100px" onClick={logout}>
           <Text>{user.username}</Text>
-          <Text marginTop='4px' marginLeft='7px'>
-            <IoExitOutline fontSize='1.15rem' />
+          <Text marginTop="4px" marginLeft="7px">
+            <IoExitOutline fontSize="1.15rem" />
           </Text>
         </Flex>
       )
     } else {
       return (
-        <Link href='http://localhost:8080/authorize/github'>
-          <Flex width='100px'>
+        <Link href="http://localhost:8080/authorize/github">
+          <Flex width="100px">
             <Text>Sign In</Text>
-            <Text marginTop='4px' marginLeft='7px'>
-              <FaGithub fontSize='1.15rem' />
+            <Text marginTop="4px" marginLeft="7px">
+              <FaGithub fontSize="1.15rem" />
             </Text>
           </Flex>
         </Link>
@@ -33,13 +33,9 @@ const HeaderLogin = props => {
   }
 
   return (
-    <Flex
-      alignItems='center'
-      display={{ sm: 'flex', base: 'none' }}
-      {...props}
-    >
+    <Flex alignItems="center" display={{ sm: 'flex', base: 'none' }} {...props}>
       {authView()}
-      <ColorModeSwitch marginTop='0.3rem' />
+      <ColorModeSwitch marginTop="0.3rem" />
     </Flex>
   )
 }

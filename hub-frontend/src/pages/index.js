@@ -15,16 +15,14 @@ const Index = () => {
         <title>Hub - Index</title>
       </Head>
       <Header />
-      <Main content={
-        <Flex
-          flexDirection='column'
-          alignItems='center'
-          paddingY='77px'
-        >
-          <Hero />
-          <PackagesHero marginY='77px' />
-        </Flex>
-      } />
+      <Main
+        content={
+          <Flex flexDirection="column" alignItems="center" paddingY="77px">
+            <Hero />
+            <PackagesHero marginY="77px" />
+          </Flex>
+        }
+      />
       <Footer />
     </Page>
   )

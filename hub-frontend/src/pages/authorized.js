@@ -19,7 +19,7 @@ const Authorized = () => {
     router.replace('/')
   })
 
-  return <Link href='/'>Authenticating...</Link>
+  return <Link href="/">Authenticating...</Link>
 }
 
 export default Authorized

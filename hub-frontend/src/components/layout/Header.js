@@ -9,21 +9,23 @@ const Header = ({ title }) => {
 
   return (
     <Container
-      zIndex='1'
+      zIndex="1"
       height={{ sm: '4.5rem', base: 'auto' }}
       bg={bgColor}
       color={color}
-      shadow='sm'
-      paddingX='37px'
+      shadow="sm"
+      paddingX="37px"
     >
       <Content
         flexDirection={{ sm: 'row', base: 'column' }}
-        justifyContent='space-between'
-        alignItems='center'
+        justifyContent="space-between"
+        alignItems="center"
       >
         <Box width={{ sm: '100px', base: 'auto' }} paddingY={{ sm: '0px', base: '7px' }}>
-          <Link href='/' _focus={{ outline: 0 }}>
-            <Heading fontSize='1.5rem' paddingRight='0px'>{title}</Heading>
+          <Link href="/" _focus={{ outline: 0 }}>
+            <Heading fontSize="1.5rem" paddingRight="0px">
+              {title}
+            </Heading>
           </Link>
         </Box>
         <HeaderMenu paddingY={{ sm: '0px', base: '7px' }} />
@@ -34,7 +36,7 @@ const Header = ({ title }) => {
 }
 
 Header.defaultProps = {
-  title: 'Hub'
+  title: 'Hub',
 }
 
 export default Header

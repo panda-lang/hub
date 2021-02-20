@@ -13,11 +13,7 @@ const About = () => {
         <title>Hub - About</title>
       </Head>
       <Header />
-      <Main content={
-        <Box>
-
-        </Box>
-      } />
+      <Main content={<Box></Box>} />
       <Footer />
     </Page>
   )

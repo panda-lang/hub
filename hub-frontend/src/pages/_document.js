@@ -7,10 +7,10 @@ export default class Document extends NextDocument {
       <Html>
         <Head />
         <body>
-        {/* Make Color mode to persists when you refresh the page. */}
-        <ColorModeScript />
-        <Main />
-        <NextScript />
+          {/* Make Color mode to persists when you refresh the page. */}
+          <ColorModeScript />
+          <Main />
+          <NextScript />
         </body>
       </Html>
     )

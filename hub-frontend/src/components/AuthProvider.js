@@ -26,13 +26,13 @@ const AuthProvider = ({ children }) => {
       axios
         .get('http://localhost:8080/user', {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .then(response => {
+        .then((response) => {
           setUser(response.data)
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error)
           logout()
         })
@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
     }
   }, [token])
 
-  const login = value => {
+  const login = (value) => {
     setToken(value)
   }
 
@@ -53,19 +53,12 @@ const AuthProvider = ({ children }) => {
     token,
     user,
     login,
-    logout
+    logout,
   }
 
-  return (
-    <AuthContext.Provider value={context}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
 }
 
 const useAuth = () => useContext(AuthContext)
 
-export {
-  AuthProvider,
-  useAuth
-}
+export { AuthProvider, useAuth }

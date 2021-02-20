@@ -11,7 +11,7 @@ function HubApp({ Component, pageProps }) {
     <ChakraProvider resetCSS theme={theme}>
       <ColorModeProvider
         options={{
-          useSystemColorMode: false
+          useSystemColorMode: false,
         }}
       >
         <AuthProvider>
