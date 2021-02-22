@@ -16,14 +16,15 @@
 
 package org.panda_lang.hub.auth
 
-import io.ktor.client.*
-import io.ktor.client.engine.mock.*
 import io.ktor.http.*
-import io.ktor.server.testing.*
-import org.junit.jupiter.api.Test
-import org.panda_lang.hub.moduleWithDeps
+import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
 
+@Testcontainers
 class AuthenticationTest {
+
+    val mongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:4.4.4"))
 
     private val Url.hostWithPortIfRequired: String
         get() = if (port == protocol.defaultPort) host else hostWithPort
@@ -31,15 +32,39 @@ class AuthenticationTest {
     private val Url.fullUrl: String
         get() = "${protocol.name}://$hostWithPortIfRequired$fullPath"
 
+    /*
     @Test
     fun `should login` () {
+        val frontendConfiguration = FrontendConfiguration("", "")
+        val jwtConfiguration = JwtConfiguration(null!!)
+        val userRepository = UserRepository(null!!)
+        val userFacade = UserFacade(userRepository)
+        val authFacade = AuthFacade(jwtConfiguration, userFacade)
+        val authEndpoint = AuthEndpoint(frontendConfiguration, authFacade)
+        val accessToken = "secret"
+
         val oauthHttpClient = HttpClient(MockEngine) {
             engine {
                 addHandler { request ->
-                    when (request.url.fullUrl) {
-                        "https://example.org/" -> {
-                            val responseHeaders = headersOf("Content-Type" to listOf(ContentType.Text.Plain.toString()))
-                            respond("Hello, world", headers = responseHeaders)
+                    println(request)
+
+                    when {
+                        request.url.fullUrl.startsWith(USER_INFO_URL) -> {
+                            val user = GitHubUser(
+                                "id",
+                                "login",
+                                "avatarUrl",
+                                "user",
+                                "name",
+                                "email"
+                            )
+
+                            val responseHeaders = headersOf(
+                                    Pair("Authorization", Collections.singletonList("token $accessToken")),
+                                    Pair("Content-Type", Collections.singletonList(ContentType.Application.Json.contentType))
+                            )
+
+                            respond(Json.encodeToString(user), headers = responseHeaders)
                         }
                         else -> error("Unhandled ${request.url.fullUrl}")
                     }
@@ -49,7 +74,10 @@ class AuthenticationTest {
 
         withTestApplication {
             application.moduleWithDeps(oauthHttpClient)
+
+            val response = handleRequest(HttpMethod.Get, "/authorize/github") { }
+
         }
     }
-
+*/
 }

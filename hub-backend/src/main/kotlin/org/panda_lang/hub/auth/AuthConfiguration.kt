@@ -8,24 +8,17 @@ import io.ktor.auth.jwt.*
 import io.ktor.client.*
 import io.ktor.locations.*
 import io.ktor.routing.*
-import org.panda_lang.hub.config
-import org.panda_lang.hub.frontendConfiguration
+import org.panda_lang.hub.auth.jwt.DefaultExpirationDateProvider
+import org.panda_lang.hub.auth.jwt.JwtConfiguration
+import org.panda_lang.hub.auth.jwt.JwtProvider
+import org.panda_lang.hub.toFrontendConfiguration
 import org.panda_lang.hub.user.UserFacade
 import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
 
-internal val loginProviders = listOf(
-    OAuthServerSettings.OAuth2ServerSettings(
-        name = "github",
-        authorizeUrl = "https://github.com/login/oauth/authorize",
-        accessTokenUrl = "https://github.com/login/oauth/access_token",
-        clientId = config.property("github.clientId").getString(),
-        clientSecret = config.property("github.clientSecret").getString(),
-        passParamsInURL = false
-    )
-).associateBy { it.name }
-
 fun configureAuthentication(app: Application, httpClient: HttpClient, userFacade: UserFacade): AuthFacade {
+    val config = app.environment.config
+
     val secureRandom = SecureRandom()
     val jwtSecret = ByteArray(512)
     secureRandom.nextBytes(jwtSecret)
@@ -38,7 +31,19 @@ fun configureAuthentication(app: Application, httpClient: HttpClient, userFacade
         Algorithm.HMAC512("2137")
     )
 
-    val authService = AuthFacade(jwtConfiguration, userFacade)
+    val loginProviders = listOf(
+        OAuthServerSettings.OAuth2ServerSettings(
+            name = "github",
+            authorizeUrl = "https://github.com/login/oauth/authorize",
+            accessTokenUrl = "https://github.com/login/oauth/access_token",
+            clientId = config.property("github.clientId").getString(),
+            clientSecret = config.property("github.clientSecret").getString(),
+            passParamsInURL = false
+        )
+    ).associateBy { it.name }
+
+    val jwtProvider = JwtProvider(jwtConfiguration, DefaultExpirationDateProvider(jwtConfiguration.ttl))
+    val authService = AuthFacade(jwtProvider, userFacade)
 
     app.install(Authentication) {
         oauth("oauth") {
@@ -67,7 +72,7 @@ fun configureAuthentication(app: Application, httpClient: HttpClient, userFacade
     return authService
 }
 
-fun installAuthRouting(routing: Routing, authFacade: AuthFacade) {
-    val authEndpoint = AuthEndpoint(frontendConfiguration, authFacade)
+fun installAuthRouting(app: Application, routing: Routing, authFacade: AuthFacade) {
+    val authEndpoint = AuthEndpoint(app.environment.config.toFrontendConfiguration(), authFacade)
     routing.routes(authEndpoint)
 }

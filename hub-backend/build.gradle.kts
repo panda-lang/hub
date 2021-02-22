@@ -45,9 +45,16 @@ dependencies {
     implementation("org.tinylog:slf4j-tinylog:$tinylog")
 
     val junit = "5.7.1"
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$junit")
+
+    val testcontainers = "1.15.2"
+    testImplementation("org.testcontainers:testcontainers:$testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter:$testcontainers")
+    testImplementation("org.testcontainers:mongodb:$testcontainers")
 }
 
 tasks.test {
@@ -62,5 +69,4 @@ tasks.withType<KotlinCompile>() {
 
 application {
     mainClassName = "org.panda_lang.hub.HubApplicationKt"
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true", "-Xmx1G")
 }

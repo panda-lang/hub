@@ -9,7 +9,7 @@ fun configureUsers(app: Application, database: CoroutineDatabase): UserFacade {
     return UserFacade(userRepository)
 }
 
-fun installUserRouting(routing: Routing, userFacade: UserFacade) {
+fun installUserRouting(app: Application, routing: Routing, userFacade: UserFacade) {
     val userEndpoint = UserEndpoint(userFacade)
     routing.routes(userEndpoint)
 }
