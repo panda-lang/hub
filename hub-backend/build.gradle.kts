@@ -44,7 +44,7 @@ dependencies {
     implementation("org.tinylog:tinylog-impl:$tinylog")
     implementation("org.tinylog:slf4j-tinylog:$tinylog")
 
-    val junit = "5.6.0"
+    val junit = "5.7.1"
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit")
