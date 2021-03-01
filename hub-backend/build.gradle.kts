@@ -26,7 +26,7 @@ dependencies {
     implementation("org.litote.kmongo:kmongo-async:$kmongo")
     implementation("org.litote.kmongo:kmongo-reactor:$kmongo")
 
-    val ktor = "1.5.1"
+    val ktor = "1.5.2"
     implementation("io.ktor:ktor-auth-jwt:$ktor")
     implementation("io.ktor:ktor-auth:$ktor")
     implementation("io.ktor:ktor-locations:$ktor")
