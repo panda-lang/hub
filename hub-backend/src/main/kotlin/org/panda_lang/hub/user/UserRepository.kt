@@ -1,19 +1,9 @@
 package org.panda_lang.hub.user
 
-import org.litote.kmongo.eq
-import org.litote.kmongo.coroutine.*
+internal interface UserRepository {
 
-internal class UserRepository(database: CoroutineDatabase) {
+    suspend fun findUserById(id: String): User?
 
-    private val collection = database.getCollection<User>()
-
-    suspend fun findUserById(id: String): User? {
-        return collection.findOne(User::id eq id)
-    }
-
-    suspend fun saveUser(user: User): User {
-        collection.insertOne(user)
-        return user
-    }
+    suspend fun saveUser(user: User): User
 
 }

@@ -14,10 +14,10 @@ import io.ktor.server.netty.*
 import kotlinx.serialization.json.Json
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
-import org.panda_lang.hub.auth.configureAuthentication
+import org.panda_lang.hub.auth.authModule
 import org.panda_lang.hub.auth.installAuthRouting
-import org.panda_lang.hub.user.configureUsers
 import org.panda_lang.hub.user.installUserRouting
+import org.panda_lang.hub.user.usersModule
 import java.security.Security
 
 @EngineAPI
@@ -28,6 +28,7 @@ fun main(args: Array<String>) {
     EngineMain.main(args)
 }
 
+@Suppress("unused") // linked in application.conf
 fun Application.mainModule() {
     val oauthHttpClient = HttpClient(Apache).apply {
         environment.monitor.subscribe(ApplicationStopping) {
@@ -65,8 +66,8 @@ fun Application.mainModuleWithDeps(oauthHttpClient: HttpClient) {
     val mongoClient = KMongo.createClient(config.property("mongo.url").getString()).coroutine
     val database = mongoClient.getDatabase("hub")
 
-    val userFacade = configureUsers(this, database)
-    val authFacade = configureAuthentication(this, oauthHttpClient, userFacade)
+    val userFacade = usersModule(database)
+    val authFacade = authModule(userFacade)
 
     install(Routing) {
         installUserRouting(this@mainModuleWithDeps, this, userFacade)

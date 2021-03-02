@@ -2,7 +2,7 @@ package org.panda_lang.hub.github
 
 import kotlinx.serialization.Serializable
 
-const val USER_INFO_URL = "https://api.github.com/user"
+const val USER_PROFILE_INFO_URL = "https://api.github.com/user"
 
 @Serializable
 data class GitHubUser(

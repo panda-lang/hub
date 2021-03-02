@@ -17,13 +17,17 @@
 package org.panda_lang.hub.auth
 
 import io.ktor.http.*
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.testcontainers.containers.MongoDBContainer
+import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
 
 @Testcontainers
 class AuthenticationTest {
 
+    @Container
     val mongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:4.4.4"))
 
     private val Url.hostWithPortIfRequired: String
@@ -31,6 +35,19 @@ class AuthenticationTest {
 
     private val Url.fullUrl: String
         get() = "${protocol.name}://$hostWithPortIfRequired$fullPath"
+
+    @BeforeEach
+    fun prepare() {
+        mongoDBContainer.start()
+    }
+
+    @Test
+    fun `should login` () {
+        println(mongoDBContainer.firstMappedPort)
+
+        // /authorize/github
+        //
+    }
 
     /*
     @Test

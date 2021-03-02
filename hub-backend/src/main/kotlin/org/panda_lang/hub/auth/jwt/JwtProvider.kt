@@ -17,20 +17,30 @@
 package org.panda_lang.hub.auth.jwt
 
 import com.auth0.jwt.JWT
+import io.ktor.auth.jwt.*
 
 const val JWT_SUBJECT = "Authentication"
+
+const val ID_CLAIM = "id"
+const val TOKEN_CLAIM = "oauth2"
 
 class JwtProvider(private val configuration: JwtConfiguration, private val expirationDateProvider: ExpirationDateProvider) {
 
     fun generateToken(secret: String, userId: String): String {
         return JWT.create()
-                .withSubject(JWT_SUBJECT)
                 .withIssuer(configuration.issuer)
                 .withAudience(configuration.audience)
-                .withClaim(OAUTH2_CLAIM, secret)
+                .withSubject(JWT_SUBJECT)
                 .withClaim(ID_CLAIM, userId)
+                .withClaim(TOKEN_CLAIM, secret)
                 .withExpiresAt(expirationDateProvider.getValidityDate())
                 .sign(configuration.algorithm)
     }
 
 }
+
+fun JWTPrincipal.getIdClaim(): String =
+        payload.getClaim(ID_CLAIM).asString()
+
+fun JWTCredential.getTokenClaim(): String =
+        payload.getClaim(TOKEN_CLAIM).asString()

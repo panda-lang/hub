@@ -14,14 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.auth.jwt
+package org.panda_lang.hub.user
 
-import com.auth0.jwt.algorithms.Algorithm
+import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.eq
 
-data class JwtConfiguration(
-    val issuer: String,
-    val audience: String,
-    val realm: String,
-    val ttl: Long,
-    val algorithm: Algorithm
-)
+internal class MongoUserRepository(database: CoroutineDatabase) : UserRepository {
+
+    private val collection = database.getCollection<User>()
+
+    override suspend fun findUserById(id: String): User? {
+        return collection.findOne(User::id eq id)
+    }
+
+    override suspend fun saveUser(user: User): User {
+        collection.insertOne(user)
+        return user
+    }
+
+}

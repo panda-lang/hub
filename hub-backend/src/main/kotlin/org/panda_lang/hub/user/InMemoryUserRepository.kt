@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.auth.jwt
+package org.panda_lang.hub.user
 
-import com.auth0.jwt.algorithms.Algorithm
+internal class InMemoryUserRepository : UserRepository {
 
-data class JwtConfiguration(
-    val issuer: String,
-    val audience: String,
-    val realm: String,
-    val ttl: Long,
-    val algorithm: Algorithm
-)
+    private val users = HashMap<String, User>()
+
+    override suspend fun findUserById(id: String): User? {
+        return users[id]
+    }
+
+    override suspend fun saveUser(user: User): User {
+        users[user.id] = user
+        return user
+    }
+
+}

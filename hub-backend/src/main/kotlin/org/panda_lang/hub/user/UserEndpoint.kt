@@ -3,14 +3,14 @@ package org.panda_lang.hub.user
 import io.ktor.application.*
 import io.ktor.auth.jwt.*
 import io.ktor.response.*
-import org.panda_lang.hub.auth.jwt.ID_CLAIM
+import org.panda_lang.hub.auth.jwt.getIdClaim
 
 internal class UserEndpoint(
     private val userFacade: UserFacade
 ) {
 
-    suspend fun user(ctx: ApplicationCall, jwtPrincipal: JWTPrincipal) {
-        ctx.respond(userFacade.findUserById(jwtPrincipal.payload.getClaim(ID_CLAIM).asString()))
+    suspend fun user(ctx: ApplicationCall, principal: JWTPrincipal) {
+        userFacade.findUserById(principal.getIdClaim())?.let { ctx.respond(it) }
     }
 
 }

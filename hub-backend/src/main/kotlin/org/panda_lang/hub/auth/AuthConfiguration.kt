@@ -6,6 +6,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.client.*
+import io.ktor.client.engine.apache.*
 import io.ktor.locations.*
 import io.ktor.routing.*
 import org.panda_lang.hub.auth.jwt.DefaultExpirationDateProvider
@@ -16,8 +17,19 @@ import org.panda_lang.hub.user.UserFacade
 import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
 
-fun configureAuthentication(app: Application, httpClient: HttpClient, userFacade: UserFacade): AuthFacade {
-    val config = app.environment.config
+fun Application.authModule(userFacade: UserFacade): AuthFacade {
+    return authModuleWithDeps(userFacade)
+}
+
+fun Application.authModuleWithDeps(
+        userFacade: UserFacade,
+        oauthClient: HttpClient = HttpClient(Apache).apply {
+            environment.monitor.subscribe(ApplicationStopping) {
+                close()
+            }
+        },
+): AuthFacade {
+    val config = environment.config
 
     val secureRandom = SecureRandom()
     val jwtSecret = ByteArray(512)
@@ -45,9 +57,9 @@ fun configureAuthentication(app: Application, httpClient: HttpClient, userFacade
     val jwtProvider = JwtProvider(jwtConfiguration, DefaultExpirationDateProvider(jwtConfiguration.ttl))
     val authService = AuthFacade(jwtProvider, userFacade)
 
-    app.install(Authentication) {
+    install(Authentication) {
         oauth("oauth") {
-            client = httpClient
+            client = oauthClient
             providerLookup = {
                 loginProviders[application.locations.resolve<AuthorizeLocation>(AuthorizeLocation::class, this).type]
             }

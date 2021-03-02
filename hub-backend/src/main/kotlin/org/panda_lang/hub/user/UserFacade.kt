@@ -6,13 +6,13 @@ class UserFacade internal constructor(
     private val userRepository: UserRepository
 ) {
 
-    suspend fun findUserById(id: String): User {
-        return userRepository.findUserById(id)!!
+    suspend fun findUserById(id: String): User? {
+        return userRepository.findUserById(id)
     }
 
     suspend fun fetchUser(githubUser: GitHubUser): User {
         return userRepository.findUserById(githubUser.id) ?: run {
-            val user = User(githubUser.id, githubUser.login, ArrayList())
+            val user = User(githubUser.id, githubUser.login)
             return userRepository.saveUser(user)
         }
     }
