@@ -7,6 +7,7 @@ import io.ktor.config.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.locations.*
+import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.engine.*
@@ -43,8 +44,8 @@ fun Application.mainModuleWithDeps(oauthHttpClient: HttpClient) {
     install(DefaultHeaders)
     install(CallLogging)
     install(Locations)
-    install(HttpsRedirect)
-    install(XForwardedHeaderSupport)
+    // install(HttpsRedirect)
+    // install(XForwardedHeaderSupport)
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true
@@ -72,6 +73,11 @@ fun Application.mainModuleWithDeps(oauthHttpClient: HttpClient) {
     install(Routing) {
         installUserRouting(this@mainModuleWithDeps, this, userFacade)
         installAuthRouting(this@mainModuleWithDeps, this, authFacade)
+        route("/siema") {
+            get {
+                this.context.respond("siema")
+            }
+        }
     }
 }
 

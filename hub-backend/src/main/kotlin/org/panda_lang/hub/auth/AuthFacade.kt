@@ -16,10 +16,12 @@ class AuthFacade internal constructor(
     private val gitHubClient = GitHubClient()
     private val authenticated = HashSet<String>()
 
-    suspend fun authenticate(oauthToken: String): AuthResponse {
+    internal suspend fun authenticate(oauthToken: String): AuthResponse {
         val userInfo = gitHubClient.request<GitHubUser>(USER_PROFILE_INFO_URL, oauthToken)
         val user = userFacade.fetchUser(userInfo)
+        
         val token = provider.generateToken(oauthToken, user.id)
+        println(token)
 
         authenticated.add(oauthToken)
         return AuthResponse(token, user)

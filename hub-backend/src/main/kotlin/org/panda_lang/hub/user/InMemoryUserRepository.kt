@@ -16,9 +16,11 @@
 
 package org.panda_lang.hub.user
 
+import java.util.concurrent.ConcurrentHashMap
+
 internal class InMemoryUserRepository : UserRepository {
 
-    private val users = HashMap<String, User>()
+    private val users = ConcurrentHashMap<String, User>()
 
     override suspend fun findUserById(id: String): User? {
         return users[id]

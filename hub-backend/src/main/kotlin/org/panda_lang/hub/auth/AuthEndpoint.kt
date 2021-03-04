@@ -16,7 +16,6 @@ internal class AuthEndpoint(
       when (oauthResponse) {
          is OAuthAccessTokenResponse.OAuth2 -> {
             val response = authFacade.authenticate(oauthResponse.accessToken)
-            println(response.jwt)
             ctx.respondRedirect("${frontendConfiguration.authUrl}/?token=${response.jwt}")
          }
          is OAuthAccessTokenResponse.OAuth1a ->

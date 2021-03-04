@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import org.panda_lang.hub.user.User
 
 @Serializable
-data class AuthResponse(
+internal data class AuthResponse(
     val jwt: String,
     val user: User
 )
