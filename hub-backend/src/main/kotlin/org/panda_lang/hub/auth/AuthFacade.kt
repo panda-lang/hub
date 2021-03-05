@@ -1,11 +1,11 @@
 package org.panda_lang.hub.auth
 
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.map
 import io.ktor.auth.jwt.*
 import org.panda_lang.hub.auth.jwt.JwtProvider
 import org.panda_lang.hub.auth.jwt.getTokenClaim
-import org.panda_lang.hub.github.GitHubClient
-import org.panda_lang.hub.github.GitHubUser
-import org.panda_lang.hub.github.USER_PROFILE_INFO_URL
+import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.user.UserFacade
 
 class AuthFacade internal constructor(
@@ -13,18 +13,17 @@ class AuthFacade internal constructor(
         private val userFacade: UserFacade
 ) {
 
-    private val gitHubClient = GitHubClient()
     private val authenticated = HashSet<String>()
 
-    internal suspend fun authenticate(oauthToken: String): AuthResponse {
-        val userInfo = gitHubClient.request<GitHubUser>(USER_PROFILE_INFO_URL, oauthToken)
-        val user = userFacade.fetchUser(userInfo)
-        
-        val token = provider.generateToken(oauthToken, user.id)
-        println(token)
+    internal suspend fun authenticate(oauthToken: String): Result<AuthResponse, ErrorResponse> {
+        return userFacade.fetchUser(oauthToken).map {
+            val token = provider.generateToken(oauthToken, it.id)
 
-        authenticated.add(oauthToken)
-        return AuthResponse(token, user)
+            authenticated.add(oauthToken)
+            println(token)
+
+            return@map AuthResponse(token, it)
+        }
     }
 
     fun invalidateToken(credential: JWTCredential) =

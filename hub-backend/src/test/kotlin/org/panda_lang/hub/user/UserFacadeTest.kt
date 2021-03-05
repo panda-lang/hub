@@ -16,36 +16,29 @@
 
 package org.panda_lang.hub.user
 
+import com.github.michaelbull.result.get
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
-import org.panda_lang.hub.github.GitHubUser
+import org.panda_lang.hub.github.LocalGitHubClient
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class UserFacadeTest {
 
-    private var userFacade = UserFacade(InMemoryUserRepository())
+    private var userFacade = UserFacade(LocalGitHubClient(), InMemoryUserRepository())
 
     @Test
     fun `given unknown id should return no value` () = runBlocking {
-        assertNull(userFacade.findUserById("unknownId"))
+        assertNull(userFacade.getUser("unknownId"))
     }
 
     @Test
-    fun `given github profile should create and return user` () = runBlocking {
-        val githubUser = GitHubUser(
-                "githubId",
-                "githubLogin",
-                "githubAvatar",
-                "githubType",
-                "githubDisplayName",
-                "githubEmail"
-        )
+    fun `given github token should fetch profile and return user` () = runBlocking {
+        val fetchResult = userFacade.fetchUser("localToken")
+        val user = fetchResult.get()!!
 
-        val user = userFacade.fetchUser(githubUser)
-
-        assertEquals("githubId", user.id)
-        assertEquals("githubLogin", user.username)
+        assertEquals("localId", user.id)
+        assertEquals("localLogin", user.username)
     }
 
 }

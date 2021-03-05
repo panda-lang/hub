@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.github
+package org.panda_lang.hub.failure
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
+import io.ktor.client.*
+import io.ktor.client.engine.*
+import io.ktor.client.features.*
 
-interface GitHubClient {
+fun <T : HttpClientEngineConfig> HttpClientConfig<T>.failureValidator() {
+    install(HttpCallValidator) {
+        validateResponse { response ->
 
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
-
+            when (response.status.value) {
+                in 300..Int.MAX_VALUE -> throw ErrorResponseException(response)
+            }
+        }
+    }
 }

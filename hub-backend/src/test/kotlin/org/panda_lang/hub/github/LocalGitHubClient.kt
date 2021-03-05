@@ -17,10 +17,28 @@
 package org.panda_lang.hub.github
 
 import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.toResultOr
+import io.ktor.http.*
 import org.panda_lang.hub.failure.ErrorResponse
+import java.util.concurrent.ConcurrentHashMap
 
-interface GitHubClient {
+class LocalGitHubClient : GitHubClient {
 
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
+    private val profiles = ConcurrentHashMap<String, GitHubProfile>()
+
+    init {
+        profiles["localToken"] = GitHubProfile(
+            id = "localId",
+            login = "localLogin",
+            avatarUrl = "localAvatarUrl",
+            type = "localType",
+            name = "localName",
+            email = "localEmail"
+        )
+    }
+
+    override suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse> {
+        return profiles[token].toResultOr { ErrorResponse(HttpStatusCode.NotFound.value, "Not found") }
+    }
 
 }

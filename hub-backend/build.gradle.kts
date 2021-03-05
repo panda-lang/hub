@@ -19,6 +19,7 @@ repositories {
 dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
+    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.11")
 
     val kmongo = "4.2.4"
     implementation("org.litote.kmongo:kmongo:$kmongo")

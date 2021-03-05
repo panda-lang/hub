@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.github
+package org.panda_lang.hub.failure
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
+import io.ktor.client.statement.*
 
-interface GitHubClient {
+class ErrorResponseException(private val response: HttpResponse) : IllegalStateException() {
 
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
+    suspend fun toResponse(): ErrorResponse = ErrorResponse(response.status.value, response.readText())
 
 }

@@ -3,6 +3,7 @@ package org.panda_lang.hub
 import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*
+import io.ktor.client.features.*
 import io.ktor.config.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -17,6 +18,7 @@ import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
 import org.panda_lang.hub.auth.authModule
 import org.panda_lang.hub.auth.installAuthRouting
+import org.panda_lang.hub.failure.failureValidator
 import org.panda_lang.hub.user.installUserRouting
 import org.panda_lang.hub.user.usersModule
 import java.security.Security
@@ -31,16 +33,18 @@ fun main(args: Array<String>) {
 
 @Suppress("unused") // linked in application.conf
 fun Application.mainModule() {
-    val oauthHttpClient = HttpClient(Apache).apply {
-        environment.monitor.subscribe(ApplicationStopping) {
-            close()
-        }
+    val httpClient = HttpClient(Apache) {
+        failureValidator()
     }
 
-    mainModuleWithDeps(oauthHttpClient)
+    mainModuleWithDeps(httpClient)
 }
 
-fun Application.mainModuleWithDeps(oauthHttpClient: HttpClient) {
+fun Application.mainModuleWithDeps(httpClient: HttpClient) {
+    environment.monitor.subscribe(ApplicationStopping) {
+        httpClient.close()
+    }
+
     install(DefaultHeaders)
     install(CallLogging)
     install(Locations)
@@ -67,17 +71,12 @@ fun Application.mainModuleWithDeps(oauthHttpClient: HttpClient) {
     val mongoClient = KMongo.createClient(config.property("mongo.url").getString()).coroutine
     val database = mongoClient.getDatabase("hub")
 
-    val userFacade = usersModule(database)
+    val userFacade = usersModule(httpClient, database)
     val authFacade = authModule(userFacade)
 
     install(Routing) {
         installUserRouting(this@mainModuleWithDeps, this, userFacade)
         installAuthRouting(this@mainModuleWithDeps, this, authFacade)
-        route("/siema") {
-            get {
-                this.context.respond("siema")
-            }
-        }
     }
 }
 
