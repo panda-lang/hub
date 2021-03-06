@@ -4,20 +4,18 @@ import { Link } from '@chakra-ui/react'
 
 import { useAuth } from 'components/AuthProvider'
 
-// TODO: It's kinda slow, probably bcs of the dev mode?
-
 const Authorized = () => {
-  const { login } = useAuth()
+  const { handleLogin } = useAuth()
   const router = useRouter()
-  const token = router.query.token
 
   useEffect(() => {
-    if (token) {
-      login(token)
-    }
+    const jwt = router.query.token
 
-    router.replace('/')
-  })
+    if (jwt) {
+      handleLogin(jwt)
+      router.replace('/')
+    }
+  }, [router])
 
   return <Link href="/">Authenticating...</Link>
 }

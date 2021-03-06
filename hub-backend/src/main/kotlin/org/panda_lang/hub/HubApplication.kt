@@ -4,6 +4,7 @@ import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*
 import io.ktor.client.features.*
+import io.ktor.client.features.json.*
 import io.ktor.config.*
 import io.ktor.features.*
 import io.ktor.http.*
@@ -34,6 +35,9 @@ fun main(args: Array<String>) {
 @Suppress("unused") // linked in application.conf
 fun Application.mainModule() {
     val httpClient = HttpClient(Apache) {
+        install(JsonFeature) {
+            accept(ContentType.Application.Json)
+        }
         failureValidator()
     }
 

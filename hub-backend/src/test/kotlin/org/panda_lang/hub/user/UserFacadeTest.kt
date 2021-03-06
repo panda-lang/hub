@@ -17,6 +17,7 @@
 package org.panda_lang.hub.user
 
 import com.github.michaelbull.result.get
+import com.github.michaelbull.result.getError
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.panda_lang.hub.github.LocalGitHubClient
@@ -34,11 +35,23 @@ class UserFacadeTest {
 
     @Test
     fun `given github token should fetch profile and return user` () = runBlocking {
-        val fetchResult = userFacade.fetchUser("localToken")
+        val token = "localToken"
+
+        val fetchResult = userFacade.fetchUser(token)
         val user = fetchResult.get()!!
 
         assertEquals("localId", user.id)
         assertEquals("localLogin", user.username)
+    }
+
+    @Test
+    fun `given invalid github token should return error response` () = runBlocking {
+        val invalidToken = "invalidToken"
+
+        val fetchResult = userFacade.fetchUser(invalidToken)
+        val error = fetchResult.getError()!!
+
+        assertEquals(404, error.status.value)
     }
 
 }

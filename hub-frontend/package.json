@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "export": "next build && next export -o ../docs/",
+    "pretty": "prettier --write \"./src/**/*.{js,jsx,json}\""
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.5",
@@ -13,14 +15,17 @@
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
     "axios": "^0.21.1",
+    "cookie": "^0.4.1",
     "focus-visible": "^5.2.0",
     "framer-motion": "^3.10.0",
     "next": "^10.0.7",
     "query-string": "^6.14.1",
     "react": "17.0.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0",
-    "swr": "^0.4.2"
+    "swr": "^0.4.2",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "eslint": "^7.21.0",

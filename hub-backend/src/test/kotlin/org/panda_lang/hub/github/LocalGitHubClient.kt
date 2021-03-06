@@ -38,7 +38,7 @@ class LocalGitHubClient : GitHubClient {
     }
 
     override suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse> {
-        return profiles[token].toResultOr { ErrorResponse(HttpStatusCode.NotFound.value, "Not found") }
+        return profiles[token].toResultOr { ErrorResponse(HttpStatusCode.NotFound, "Not found") }
     }
 
 }

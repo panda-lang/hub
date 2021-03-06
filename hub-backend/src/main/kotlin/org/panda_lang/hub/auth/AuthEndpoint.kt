@@ -18,11 +18,11 @@ internal class AuthEndpoint(
          is OAuthAccessTokenResponse.OAuth2 -> {
             authFacade.authenticate(oauthResponse.accessToken).mapBoth(
                 { response -> ctx.respondRedirect("${frontendConfiguration.authUrl}/?token=${response.jwt}") },
-                { error -> ctx.respond(HttpStatusCode.fromValue(error.status), error) }
+                { error -> ctx.respond(error.status, error) }
              )
          }
          is OAuthAccessTokenResponse.OAuth1a ->
-            ctx.respond(HttpStatusCode.Unauthorized, ErrorResponse(HttpStatusCode.Unauthorized.value, "OAuth1 is not supported"))
+            ctx.respond(HttpStatusCode.Unauthorized, ErrorResponse(HttpStatusCode.Unauthorized, "OAuth1 is not supported"))
       }
    }
 

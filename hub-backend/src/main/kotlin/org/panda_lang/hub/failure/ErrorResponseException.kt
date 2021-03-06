@@ -20,6 +20,6 @@ import io.ktor.client.statement.*
 
 class ErrorResponseException(private val response: HttpResponse) : IllegalStateException() {
 
-    suspend fun toResponse(): ErrorResponse = ErrorResponse(response.status.value, response.readText())
+    suspend fun toResponse(): ErrorResponse = ErrorResponse(response.status, response.readText())
 
 }

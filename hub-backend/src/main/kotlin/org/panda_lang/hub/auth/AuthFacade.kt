@@ -7,13 +7,15 @@ import org.panda_lang.hub.auth.jwt.JwtProvider
 import org.panda_lang.hub.auth.jwt.getTokenClaim
 import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.user.UserFacade
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 class AuthFacade internal constructor(
         private val provider: JwtProvider,
         private val userFacade: UserFacade
 ) {
 
-    private val authenticated = HashSet<String>()
+    private val authenticated = ConcurrentHashMap.newKeySet<String>()
 
     internal suspend fun authenticate(oauthToken: String): Result<AuthResponse, ErrorResponse> {
         return userFacade.fetchUser(oauthToken).map {

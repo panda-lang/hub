@@ -24,7 +24,10 @@ const PackagesHero = (props) => {
       <Heading fontSize="1.25rem" paddingY="27px">
         Packages
       </Heading>
-      <Flex justifyContent="space-between" flexDirection={{ md: 'row', base: 'column' }}>
+      <Flex
+        justifyContent="space-between"
+        flexDirection={{ md: 'row', base: 'column' }}
+      >
         <Flex flexDirection="row">
           <Category bg="blue.400" color="white">
             Popular
@@ -39,7 +42,13 @@ const PackagesHero = (props) => {
           </Category>
         </Flex>
       </Flex>
-      <Flex justifyContent="space-around" wrap="wrap" marginY="21px" marginX="-2%" flexGrow="1">
+      <Flex
+        justifyContent="space-around"
+        wrap="wrap"
+        marginY="21px"
+        marginX="-2%"
+        flexGrow="1"
+      >
         <PackagePreview />
         <PackagePreview />
         <PackagePreview />

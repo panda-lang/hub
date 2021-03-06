@@ -23,7 +23,6 @@ import io.ktor.client.features.*
 fun <T : HttpClientEngineConfig> HttpClientConfig<T>.failureValidator() {
     install(HttpCallValidator) {
         validateResponse { response ->
-
             when (response.status.value) {
                 in 300..Int.MAX_VALUE -> throw ErrorResponseException(response)
             }
