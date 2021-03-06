@@ -1,13 +1,14 @@
 {
-  "name": "learn-starter",
-  "version": "0.1.0",
+  "name": "hub-frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export -o ../docs/",
-    "pretty": "prettier --write \"./src/**/*.{js,jsx,json}\""
+    "export": "npm run clean && next build && next export -o ../docs/",
+    "pretty": "prettier --write \"./src/**/*.{js,jsx,json}\"",
+    "clean": "rm -rf .next ../docs/"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.5",
@@ -24,7 +25,6 @@
     "react-cookie": "^4.0.3",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0",
-    "swr": "^0.4.2",
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
