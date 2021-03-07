@@ -36,7 +36,7 @@ internal class JwtProviderTest {
         )
 
         val provider = JwtProvider(configuration, DefaultExpirationDateProvider(configuration.ttl))
-        val token = provider.generateToken("oauth token", "1")
+        val token = provider.generateToken("oauth token", 7)
         val jwt = JWT.decode(token)
 
         assertEquals(configuration.issuer, jwt.issuer)

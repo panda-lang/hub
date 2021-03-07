@@ -30,7 +30,7 @@ class UserFacadeTest {
 
     @Test
     fun `given unknown id should return no value` () = runBlocking {
-        assertNull(userFacade.getUser("unknownId"))
+        assertNull(userFacade.getUser(-1))
     }
 
     @Test
@@ -40,8 +40,8 @@ class UserFacadeTest {
         val fetchResult = userFacade.fetchUser(token)
         val user = fetchResult.get()!!
 
-        assertEquals("localId", user.id)
-        assertEquals("localLogin", user.username)
+        assertEquals(7, user.id)
+        assertEquals("localLogin", user.profile.login)
     }
 
     @Test

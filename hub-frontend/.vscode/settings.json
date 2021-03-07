@@ -1,0 +1,7 @@
+/* Default hub-frontend VSC configuration */ {
+  /* Hide build related directories */
+  "files.exclude": {
+    ".next": true,
+    "node_modules": true,
+  }
+}

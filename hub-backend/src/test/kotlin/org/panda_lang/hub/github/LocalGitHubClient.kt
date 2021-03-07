@@ -18,7 +18,7 @@ package org.panda_lang.hub.github
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.toResultOr
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 import org.panda_lang.hub.failure.ErrorResponse
 import java.util.concurrent.ConcurrentHashMap
 
@@ -28,7 +28,7 @@ class LocalGitHubClient : GitHubClient {
 
     init {
         profiles["localToken"] = GitHubProfile(
-            id = "localId",
+            id = 7,
             login = "localLogin",
             avatarUrl = "localAvatarUrl",
             type = "localType",
