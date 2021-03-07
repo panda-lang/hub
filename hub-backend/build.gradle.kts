@@ -37,6 +37,7 @@ dependencies {
     implementation("io.ktor:ktor-client-gson:$ktor")
     implementation("io.ktor:ktor-gson:$ktor")
     implementation("io.ktor:ktor-serialization:$ktor")
+    implementation("io.ktor:ktor-client-serialization:$ktor")
     testImplementation("io.ktor:ktor-server-test-host:$ktor")
     testImplementation("io.ktor:ktor-client-mock:$ktor")
 

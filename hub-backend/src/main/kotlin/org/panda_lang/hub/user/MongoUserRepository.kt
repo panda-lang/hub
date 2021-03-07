@@ -23,7 +23,7 @@ internal class MongoUserRepository(database: CoroutineDatabase) : UserRepository
 
     private val collection = database.getCollection<User>()
 
-    override suspend fun findUserById(id: String): User? {
+    override suspend fun findUserById(id: Long): User? {
         return collection.findOne(User::id eq id)
     }
 

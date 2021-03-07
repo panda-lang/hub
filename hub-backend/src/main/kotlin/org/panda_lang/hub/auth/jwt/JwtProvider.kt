@@ -26,7 +26,7 @@ const val TOKEN_CLAIM = "oauth2"
 
 class JwtProvider(private val configuration: JwtConfiguration, private val expirationDateProvider: ExpirationDateProvider) {
 
-    fun generateToken(secret: String, userId: String): String {
+    fun generateToken(secret: String, userId: Long): String {
         return JWT.create()
                 .withIssuer(configuration.issuer)
                 .withAudience(configuration.audience)
@@ -39,8 +39,8 @@ class JwtProvider(private val configuration: JwtConfiguration, private val expir
 
 }
 
-fun JWTPrincipal.getIdClaim(): String =
-        payload.getClaim(ID_CLAIM).asString()
+fun JWTPrincipal.getIdClaim(): Long =
+        payload.getClaim(ID_CLAIM).asLong()
 
 fun JWTCredential.getTokenClaim(): String =
         payload.getClaim(TOKEN_CLAIM).asString()

@@ -1,19 +1,26 @@
 package org.panda_lang.hub
 
-import io.ktor.application.*
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.config.*
-import io.ktor.features.*
-import io.ktor.http.*
-import io.ktor.locations.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.serialization.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.application.Application
+import io.ktor.application.ApplicationStopping
+import io.ktor.application.install
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.apache.Apache
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.config.ApplicationConfig
+import io.ktor.features.CORS
+import io.ktor.features.CallLogging
+import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.locations.Locations
+import io.ktor.routing.Routing
+import io.ktor.serialization.json
+import io.ktor.server.engine.EngineAPI
+import io.ktor.server.netty.EngineMain
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -36,6 +43,10 @@ fun main(args: Array<String>) {
 fun Application.mainModule() {
     val httpClient = HttpClient(Apache) {
         install(JsonFeature) {
+            serializer = KotlinxSerializer(Json {
+                ignoreUnknownKeys = true
+            })
+
             accept(ContentType.Application.Json)
         }
         failureValidator()
@@ -74,6 +85,7 @@ fun Application.mainModuleWithDeps(httpClient: HttpClient) {
 
     val mongoClient = KMongo.createClient(config.property("mongo.url").getString()).coroutine
     val database = mongoClient.getDatabase("hub")
+    runBlocking { database.drop() }
 
     val userFacade = usersModule(httpClient, database)
     val authFacade = authModule(userFacade)

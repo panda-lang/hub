@@ -17,12 +17,12 @@ class UserFacade internal constructor(
 
     private suspend fun fetchUser(profile: GitHubProfile): User {
         return userRepository.findUserById(profile.id) ?: run {
-            val user = User(profile.id, profile.login)
+            val user = User(profile.id, profile)
             return@run userRepository.saveUser(user)
         }
     }
 
-    suspend fun getUser(id: String): User? {
+    suspend fun getUser(id: Long): User? {
         return userRepository.findUserById(id)
     }
 

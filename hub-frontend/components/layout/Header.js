@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import {
   Flex,
   Box,
@@ -14,12 +13,14 @@ import {
   MenuDivider,
   useColorModeValue
 } from '@chakra-ui/react'
+
 import { Container, Content } from './Container'
 import { FaGithub } from 'react-icons/fa'
 import { MdArrowDropDown } from 'react-icons/md'
 
 import ThemeSwitch from './ThemeSwitch'
 import { useAuth } from '../AuthProvider'
+import useUser from '../../lib/useUser'
 
 const Header = (props) => {
   const bgColor = useColorModeValue('gray.50', 'gray.900')
@@ -106,14 +107,16 @@ const Login = (props) => {
 }
 
 const ProfileMenu = (props) => {
-  const { user, handleLogout } = useAuth()
-  const profile = user || {}
+  const { handleLogout } = useAuth()
+  const { user } = useUser()
+  console.log(user)
+  const profile = user?.profile || {}
 
   return (
     <Flex>
       <Menu>
         <MenuButton as={Button} rightIcon={<MdArrowDropDown />}>
-          {profile.username}
+          {profile.login}
         </MenuButton>
         <MenuList>
           <MenuDivider />
@@ -123,7 +126,9 @@ const ProfileMenu = (props) => {
           </Box>
           <MenuDivider />
           <MenuGroup>
-            <MenuItem>My profile</MenuItem>
+            <MenuItem>
+              <Link href="/profile">My profile</Link>
+            </MenuItem>
             <MenuItem>Settings </MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </MenuGroup>
