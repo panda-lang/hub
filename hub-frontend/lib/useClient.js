@@ -1,22 +1,21 @@
-import useSWR from "swr"
 import axios from 'axios'
 import hubConfiguration from '../hub.config'
-import { useAuth } from "../components/AuthProvider"
 
-const fetcher = (url, options) => axios
-  .get(url, options)
-  .then(response => response.data)
+const getEndpoint = function (path) {
+  return hubConfiguration.api + path
+}
 
-export default async function useClient(path, token, options) {
-  // return useSWR([url, requestOptions], fetcher)
+const useClient = async function (path, token, options) {
   const response = await axios({
-    url: hubConfiguration.api + path,
+    url: getEndpoint(path),
     method: 'get',
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    ...options
+    ...options,
   })
 
   return response.data
 }
+
+export { useClient, getEndpoint }

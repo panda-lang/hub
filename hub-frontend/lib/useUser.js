@@ -1,51 +1,53 @@
 import { useEffect, useState } from 'react'
 import router from 'next/router'
-import useClient from './useClient'
+import { useClient } from './useClient'
 import { useAuth } from '../components/AuthProvider'
 
-export default function useUser(
-  {
-    redirectTo = false,
-    redirectIfFound = false,
-  } = {}
+const useUser = function (
+  { redirectTo = false, redirectIfFound = false } = {},
+  listener = () => {}
 ) {
   const { token } = useAuth()
   const [user, setUser] = useState()
 
   useEffect(() => {
     useClient('/user', token)
-      .then(response => setUser(response))
-  }, [token])
+      .then((response) =>
+        setUser({
+          authorized: true,
+          ...response,
+        })
+      )
+      .catch((error) =>
+        setUser({
+          authorized: false,
+          error,
+        })
+      )
+      .finally(() => {
+        if (user === undefined) {
+          return
+        }
 
-  // const { data: user, mutate: mutateUser } = useClient('/user', token)
-  return { user } 
-  /*
-  const fetchUser = () => {
-    handleRequest('/user')
-      .then((response) => {
-        setUser(response.data)
-      })
-      .catch((error) => {
-        console.log(error)
-        if (error?.data?.status >= 400) {
-          handleLogout()
+        listener(user)
+
+        if (!redirectTo) {
+          return
+        }
+
+        if (
+          // If redirectTo is set, redirect if the user was not found.
+          (redirectTo && !redirectIfFound && !user?.authorized) ||
+          // If redirectIfFound is also set, redirect if the user was found
+          (redirectIfFound && user?.authorized)
+        ) {
+          console.log(user)
+          router.push(redirectTo)
         }
       })
-  }
-  */
-/*
-  useEffect(() => {
-    if (!redirectTo || !user) return
+  }, [token, redirectIfFound, redirectTo])
 
-    if (
-      // If redirectTo is set, redirect if the user was not found.
-      (redirectTo && !redirectIfFound && !user?.isLoggedIn) ||
-      // If redirectIfFound is also set, redirect if the user was found
-      (redirectIfFound && user?.isLoggedIn)
-    ) {
-      router.push(redirectTo)
-    }
-  }, [user, redirectIfFound, redirectTo])
-*/
-  // return { user, mutateUser }
+  return { user }
 }
+
+export { useUser }

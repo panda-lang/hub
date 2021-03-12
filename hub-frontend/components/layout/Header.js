@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react'
+
 import {
   Flex,
   Box,
   Heading,
   Link,
   Button,
+  Img,
   Text,
   Menu,
   MenuButton,
@@ -11,16 +14,17 @@ import {
   MenuGroup,
   MenuList,
   MenuDivider,
-  useColorModeValue
+  useColorModeValue,
+  useToast,
 } from '@chakra-ui/react'
-
 import { Container, Content } from './Container'
 import { FaGithub } from 'react-icons/fa'
 import { MdArrowDropDown } from 'react-icons/md'
-
 import ThemeSwitch from './ThemeSwitch'
+
 import { useAuth } from '../AuthProvider'
-import useUser from '../../lib/useUser'
+import { useUser } from '../../lib/useUser'
+import { useClient, getEndpoint } from '../../lib/useClient'
 
 const Header = (props) => {
   const bgColor = useColorModeValue('gray.50', 'gray.900')
@@ -88,14 +92,14 @@ const Profile = (props) => {
 
   return (
     <Flex alignItems="center" display={{ sm: 'flex', base: 'none' }} {...props}>
-      {token ? <ProfileMenu/> : <Login />}
+      {token ? <ProfileMenu /> : <Login />}
     </Flex>
   )
 }
 
 const Login = (props) => {
   return (
-    <Link href="http://localhost:8080/authorize/github" {...props}>
+    <Link href={getEndpoint('/authorize/github')} {...props}>
       <Flex width="100px">
         <Text>Sign In</Text>
         <Text marginTop="4px" marginLeft="7px">
@@ -108,7 +112,22 @@ const Login = (props) => {
 
 const ProfileMenu = (props) => {
   const { handleLogout } = useAuth()
-  const { user } = useUser()
+  const [invalidSession, setInvalidSession] = useState(undefined)
+  const { user } = useUser({}, (user) => setInvalidSession(!user.authorized))
+  const toast = useToast()
+
+  useEffect(() => {
+    if (invalidSession) {
+      toast({
+        title: 'Invalid session',
+        status: 'error',
+        duration: 9000,
+      })
+
+      handleLogout()
+    }
+  }, [invalidSession])
+
   console.log(user)
   const profile = user?.profile || {}
 
@@ -116,7 +135,10 @@ const ProfileMenu = (props) => {
     <Flex>
       <Menu>
         <MenuButton as={Button} rightIcon={<MdArrowDropDown />}>
-          {profile.login}
+          <Flex flexDirection="row" justifyContent="center" alignItems="center">
+            <Img src={profile.avatar_url} boxSize="23px" borderRadius="full" />
+            <Box marginLeft="10px">{profile.login}</Box>
+          </Flex>
         </MenuButton>
         <MenuList>
           <MenuDivider />

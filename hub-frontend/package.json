@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "export": "npm run clean && next build && next export -o ../docs/",
-    "pretty": "prettier --write \"./src/**/*.{js,jsx,json}\"",
+    "pretty": "prettier --write \"./{components,lib,pages}/**/*.{js,jsx,json}\"",
     "clean": "rm -rf .next ../docs/"
   },
   "dependencies": {
