@@ -11,5 +11,7 @@ data class GitHubProfile(
     val avatarUrl: String,
     val type: String,
     val name: String,
-    val email: String
+    val location: String,
+    val email: String,
+    val bio: String
 )

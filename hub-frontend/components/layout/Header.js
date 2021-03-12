@@ -112,23 +112,20 @@ const Login = (props) => {
 
 const ProfileMenu = (props) => {
   const { handleLogout } = useAuth()
-  const [invalidSession, setInvalidSession] = useState(undefined)
-  const { user } = useUser({}, (user) => setInvalidSession(!user.authorized))
   const toast = useToast()
 
-  useEffect(() => {
-    if (invalidSession) {
+  const { user } = useUser({redirectTo: '/'}, (user) => {
+    if (!user.authorized) {
+      handleLogout()
       toast({
         title: 'Invalid session',
         status: 'error',
-        duration: 9000,
+        duration: 6000,
+        position: 'top'
       })
-
-      handleLogout()
     }
-  }, [invalidSession])
+  })
 
-  console.log(user)
   const profile = user?.profile || {}
 
   return (
@@ -149,7 +146,7 @@ const ProfileMenu = (props) => {
           <MenuDivider />
           <MenuGroup>
             <MenuItem>
-              <Link href="/profile">My profile</Link>
+              <Link href={"/profile/" + profile.login}>My profile</Link>
             </MenuItem>
             <MenuItem>Settings </MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>

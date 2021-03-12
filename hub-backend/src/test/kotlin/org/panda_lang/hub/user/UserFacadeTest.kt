@@ -30,15 +30,16 @@ class UserFacadeTest {
 
     @Test
     fun `given unknown id should return no value` () = runBlocking {
-        assertNull(userFacade.getUser(-1))
+        val unknownId = -1L
+
+        assertNull(userFacade.getUser(unknownId))
     }
 
     @Test
     fun `given github token should fetch profile and return user` () = runBlocking {
         val token = "localToken"
 
-        val fetchResult = userFacade.fetchUser(token)
-        val user = fetchResult.get()!!
+        val user = userFacade.fetchUser(token).get()!!
 
         assertEquals(7, user.id)
         assertEquals("localLogin", user.profile.login)
@@ -52,6 +53,26 @@ class UserFacadeTest {
         val error = fetchResult.getError()!!
 
         assertEquals(404, error.status.value)
+    }
+
+    @Test
+    fun `given login should find and return user` () = runBlocking {
+        val token = "localToken"
+        val login = "localLogin"
+
+        userFacade.fetchUser(token)
+        val user = userFacade.getUser(login)
+
+        assertEquals(7, user!!.id)
+    }
+
+    @Test
+    fun `given invalid login should return error response` () = runBlocking {
+        val invalidToken = "invalidLogin"
+
+        val user = userFacade.getUser(invalidToken)
+
+        assertNull(user)
     }
 
 }

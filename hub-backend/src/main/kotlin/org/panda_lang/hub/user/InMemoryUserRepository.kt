@@ -26,6 +26,12 @@ internal class InMemoryUserRepository : UserRepository {
         return users[id]
     }
 
+    override suspend fun findUserByLogin(login: String): User? {
+        return users.entries
+            .firstOrNull { it.value.profile.login == login }
+            ?.value
+    }
+
     override suspend fun saveUser(user: User): User {
         users[user.id] = user
         return user

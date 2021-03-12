@@ -33,7 +33,9 @@ class LocalGitHubClient : GitHubClient {
             avatarUrl = "localAvatarUrl",
             type = "localType",
             name = "localName",
-            email = "localEmail"
+            location = "localLocation",
+            email = "localEmail",
+            bio = "localBio"
         )
     }
 

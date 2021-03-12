@@ -24,28 +24,28 @@ const useUser = function (
           error,
         })
       )
-      .finally(() => {
-        if (user === undefined) {
-          return
-        }
-
-        listener(user)
-
-        if (!redirectTo) {
-          return
-        }
-
-        if (
-          // If redirectTo is set, redirect if the user was not found.
-          (redirectTo && !redirectIfFound && !user?.authorized) ||
-          // If redirectIfFound is also set, redirect if the user was found
-          (redirectIfFound && user?.authorized)
-        ) {
-          console.log(user)
-          router.push(redirectTo)
-        }
-      })
   }, [token, redirectIfFound, redirectTo])
+
+  useEffect(() => {
+    if (user === undefined) {
+      return
+    }
+
+    listener(user)
+
+    if (!redirectTo) {
+      return
+    }
+
+    if (
+      // If redirectTo is set, redirect if the user was not found.
+      (redirectTo && !redirectIfFound && !user?.authorized) ||
+      // If redirectIfFound is also set, redirect if the user was found
+      (redirectIfFound && user?.authorized)
+    ) {
+      router.push(redirectTo)
+    }
+  }, [user])
 
   return { user }
 }

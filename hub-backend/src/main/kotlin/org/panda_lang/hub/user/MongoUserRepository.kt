@@ -17,7 +17,9 @@
 package org.panda_lang.hub.user
 
 import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.div
 import org.litote.kmongo.eq
+import org.panda_lang.hub.github.GitHubProfile
 
 internal class MongoUserRepository(database: CoroutineDatabase) : UserRepository {
 
@@ -25,6 +27,10 @@ internal class MongoUserRepository(database: CoroutineDatabase) : UserRepository
 
     override suspend fun findUserById(id: Long): User? {
         return collection.findOne(User::id eq id)
+    }
+
+    override suspend fun findUserByLogin(login: String): User? {
+        return collection.findOne(User::profile / GitHubProfile::login eq login)
     }
 
     override suspend fun saveUser(user: User): User {

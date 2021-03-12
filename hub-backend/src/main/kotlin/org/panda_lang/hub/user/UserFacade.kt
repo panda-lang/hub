@@ -22,6 +22,10 @@ class UserFacade internal constructor(
         }
     }
 
+    suspend fun getUser(login: String): User? {
+        return userRepository.findUserByLogin(login)
+    }
+
     suspend fun getUser(id: Long): User? {
         return userRepository.findUserById(id)
     }

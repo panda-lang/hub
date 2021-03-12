@@ -12,7 +12,13 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     setToken(cookies.get(JWT_COOKIE))
-  }, [token])
+  }, [])
+
+  cookies.addChangeListener((event) => {
+    if (event.name === JWT_COOKIE) {
+      setToken(event.value)
+    }
+  })
 
   const handleLogin = (jwt) => {
     cookies.set(JWT_COOKIE, jwt, {
@@ -20,12 +26,10 @@ const AuthProvider = ({ children }) => {
       maxAge: 60 * 60 * 24 * 30, // 30 days
       sameSite: true,
     })
-    setToken(jwt)
   }
 
   const handleLogout = () => {
     cookies.remove(JWT_COOKIE)
-    setToken(undefined)
   }
 
   const handleRequest = (route, options) => {

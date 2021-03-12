@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Link } from '@chakra-ui/react'
+import { Flex, Link, Spinner } from '@chakra-ui/react'
 
 import { useAuth } from '../components/AuthProvider'
 
@@ -17,7 +17,13 @@ const Authorized = () => {
     }
   }, [router])
 
-  return <Link href="/">Authenticating...</Link>
+  return (
+    <Flex justifyContent="center" alignItems="center" height="100vh">
+      <Link href="/">
+        <Spinner />
+      </Link>
+    </Flex>
+  )
 }
 
 export default Authorized
