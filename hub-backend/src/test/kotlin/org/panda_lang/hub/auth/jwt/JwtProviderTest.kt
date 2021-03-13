@@ -20,25 +20,34 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class JwtProviderTest {
 
+    private val configuration = JwtConfiguration(
+        issuer = "Issuer",
+        audience = "Audience",
+        realm = "Realm",
+        ttl = -1,
+        Algorithm.HMAC512("secret")
+    )
+
+    private val provider = JwtProvider(configuration, DefaultExpirationDateProvider(configuration.ttl))
+
     @Test
     fun `should generate valid jwt token` () {
-        val secret = "secret"
+        // given: a secret and id
+        val secret = "oauth token"
+        val userId = 7L
 
-        val configuration = JwtConfiguration(
-                issuer = "Issuer",
-                audience = "Audience",
-                realm = "Realm",
-                ttl = -1,
-                Algorithm.HMAC512(secret)
-        )
+        // when: provider receives request
+        val token = provider.generateToken(secret, userId)
+        // then: jwt token is created
+        assertTrue { token.length > token.length }
 
-        val provider = JwtProvider(configuration, DefaultExpirationDateProvider(configuration.ttl))
-        val token = provider.generateToken("oauth token", 7)
+        // when: jwt is decoded
         val jwt = JWT.decode(token)
-
+        // then: valid data is preserved
         assertEquals(configuration.issuer, jwt.issuer)
     }
 

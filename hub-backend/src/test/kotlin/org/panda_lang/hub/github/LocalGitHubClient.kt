@@ -26,17 +26,8 @@ class LocalGitHubClient : GitHubClient {
 
     private val profiles = ConcurrentHashMap<String, GitHubProfile>()
 
-    init {
-        profiles["localToken"] = GitHubProfile(
-            id = 7,
-            login = "localLogin",
-            avatarUrl = "localAvatarUrl",
-            type = "localType",
-            name = "localName",
-            location = "localLocation",
-            email = "localEmail",
-            bio = "localBio"
-        )
+    fun registerProfile(token: String, profile: GitHubProfile) {
+        profiles[token] = profile
     }
 
     override suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse> {

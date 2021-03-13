@@ -20,58 +20,64 @@ import com.github.michaelbull.result.get
 import com.github.michaelbull.result.getError
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
-import org.panda_lang.hub.github.LocalGitHubClient
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class UserFacadeTest {
+internal class UserFacadeTest : UserSpecification() {
 
-    private var userFacade = UserFacade(LocalGitHubClient(), InMemoryUserRepository())
-
-    @Test
-    fun `given unknown id should return no value` () = runBlocking {
-        val unknownId = -1L
-
-        assertNull(userFacade.getUser(unknownId))
-    }
+    private var userFacade = UserFacade(super.client, InMemoryUserRepository())
 
     @Test
-    fun `given github token should fetch profile and return user` () = runBlocking {
+    fun `should fetch profile by valid token ` () = runBlocking {
+        // given: a valid token
         val token = "localToken"
-
+        // when: you request user associated with the given token
         val user = userFacade.fetchUser(token).get()!!
-
+        // then: it should return valid user
         assertEquals(7, user.id)
         assertEquals("localLogin", user.profile.login)
     }
 
     @Test
-    fun `given invalid github token should return error response` () = runBlocking {
-        val invalidToken = "invalidToken"
-
+    fun `should fail for unknown token` () = runBlocking {
+        // given: an unknown token
+        val invalidToken = "unknownToken"
+        // when: you try to fetch associated user
         val fetchResult = userFacade.fetchUser(invalidToken)
+        // then: it should return error (404) response
         val error = fetchResult.getError()!!
-
         assertEquals(404, error.status.value)
     }
 
     @Test
-    fun `given login should find and return user` () = runBlocking {
+    fun `should fail for unknown id` () = runBlocking {
+        // given: unknown id
+        val unknownId = -1L
+        // when: you try to get user
+        val user = userFacade.getUser(unknownId)
+        // then: result should not contain user
+        assertNull(user)
+    }
+
+    @Test
+    fun `should find by login` () = runBlocking {
+        // given: token and login
         val token = "localToken"
         val login = "localLogin"
-
         userFacade.fetchUser(token)
+        // when: you try to get the given user
         val user = userFacade.getUser(login)
-
+        // then: result should contain requested user
         assertEquals(7, user!!.id)
     }
 
     @Test
-    fun `given invalid login should return error response` () = runBlocking {
-        val invalidToken = "invalidLogin"
-
-        val user = userFacade.getUser(invalidToken)
-
+    fun `should fail for unknown login` () = runBlocking {
+        // given: unknown login
+        val invalidLogin = "unknownLogin"
+        // when: user is requested
+        val user = userFacade.getUser(invalidLogin)
+        // then: result should not contain user
         assertNull(user)
     }
 

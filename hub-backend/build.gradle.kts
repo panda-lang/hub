@@ -16,18 +16,22 @@ repositories {
     maven { url = uri("https://dl.bintray.com/kotlin/ktor") }
 }
 
+val kmongo = "4.2.4"
+val ktor = "1.5.2"
+val tinylog = "2.2.1"
+val junit = "5.7.1"
+val testcontainers = "1.15.2"
+
 dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.11")
 
-    val kmongo = "4.2.4"
     implementation("org.litote.kmongo:kmongo:$kmongo")
     implementation("org.litote.kmongo:kmongo-coroutine:$kmongo")
     implementation("org.litote.kmongo:kmongo-async:$kmongo")
     implementation("org.litote.kmongo:kmongo-reactor:$kmongo")
 
-    val ktor = "1.5.2"
     implementation("io.ktor:ktor-auth-jwt:$ktor")
     implementation("io.ktor:ktor-auth:$ktor")
     implementation("io.ktor:ktor-locations:$ktor")
@@ -41,25 +45,22 @@ dependencies {
     testImplementation("io.ktor:ktor-server-test-host:$ktor")
     testImplementation("io.ktor:ktor-client-mock:$ktor")
 
-    val tinylog = "2.2.1"
     implementation("org.tinylog:tinylog-api-kotlin:$tinylog")
     implementation("org.tinylog:tinylog-impl:$tinylog")
     implementation("org.tinylog:slf4j-tinylog:$tinylog")
 
-    val junit = "5.7.1"
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit")
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junit")
 
-    val testcontainers = "1.15.2"
     testImplementation("org.testcontainers:testcontainers:$testcontainers")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainers")
     testImplementation("org.testcontainers:mongodb:$testcontainers")
 }
 
-tasks.test {
+tasks.withType<Test> {
     useJUnitPlatform()
 }
 
