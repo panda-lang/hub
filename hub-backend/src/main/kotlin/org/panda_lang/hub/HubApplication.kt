@@ -43,9 +43,11 @@ fun main(args: Array<String>) {
 fun Application.mainModule() {
     val httpClient = HttpClient(Apache) {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(Json {
-                ignoreUnknownKeys = true
-            })
+            serializer = KotlinxSerializer(
+                Json {
+                    ignoreUnknownKeys = true
+                }
+            )
 
             accept(ContentType.Application.Json)
         }
@@ -66,9 +68,11 @@ fun Application.mainModuleWithDeps(httpClient: HttpClient) {
     // install(HttpsRedirect)
     // install(XForwardedHeaderSupport)
     install(ContentNegotiation) {
-        json(Json {
-            prettyPrint = true
-        })
+        json(
+            Json {
+                prettyPrint = true
+            }
+        )
     }
     install(CORS) {
         method(HttpMethod.Options)

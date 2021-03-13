@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.4.31"
     kotlin("plugin.serialization") version "1.4.31"
+    id("org.jmailen.kotlinter") version "3.3.0"
     application
 }
 
@@ -72,4 +73,9 @@ tasks.withType<KotlinCompile>() {
 
 application {
     mainClassName = "org.panda_lang.hub.HubApplicationKt"
+}
+
+kotlinter {
+    indentSize = 4
+    disabledRules = arrayOf("no-blank-line-before-rbrace")
 }

@@ -2,17 +2,16 @@ package org.panda_lang.hub.auth
 
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.map
-import io.ktor.auth.jwt.*
+import io.ktor.auth.jwt.JWTCredential
 import org.panda_lang.hub.auth.jwt.JwtProvider
 import org.panda_lang.hub.auth.jwt.getTokenClaim
 import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.user.UserFacade
-import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class AuthFacade internal constructor(
-        private val provider: JwtProvider,
-        private val userFacade: UserFacade
+    private val provider: JwtProvider,
+    private val userFacade: UserFacade
 ) {
 
     private val authenticated = ConcurrentHashMap.newKeySet<String>()
@@ -29,9 +28,9 @@ class AuthFacade internal constructor(
     }
 
     fun invalidateToken(credential: JWTCredential) =
-            authenticated.remove(credential.getTokenClaim())
+        authenticated.remove(credential.getTokenClaim())
 
     fun isAuthenticated(credential: JWTCredential): Boolean =
-            authenticated.contains(credential.getTokenClaim())
+        authenticated.contains(credential.getTokenClaim())
 
 }

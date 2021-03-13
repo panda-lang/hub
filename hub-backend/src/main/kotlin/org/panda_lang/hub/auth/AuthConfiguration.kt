@@ -2,13 +2,19 @@ package org.panda_lang.hub.auth
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import io.ktor.application.*
-import io.ktor.auth.*
-import io.ktor.auth.jwt.*
-import io.ktor.client.*
-import io.ktor.client.engine.apache.*
-import io.ktor.locations.*
-import io.ktor.routing.*
+import io.ktor.application.Application
+import io.ktor.application.ApplicationStopping
+import io.ktor.application.install
+import io.ktor.auth.Authentication
+import io.ktor.auth.OAuthServerSettings
+import io.ktor.auth.jwt.JWTPrincipal
+import io.ktor.auth.jwt.jwt
+import io.ktor.auth.oauth
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.apache.Apache
+import io.ktor.locations.locations
+import io.ktor.locations.url
+import io.ktor.routing.Routing
 import org.panda_lang.hub.auth.jwt.DefaultExpirationDateProvider
 import org.panda_lang.hub.auth.jwt.JwtConfiguration
 import org.panda_lang.hub.auth.jwt.JwtProvider
@@ -22,12 +28,12 @@ fun Application.authModule(userFacade: UserFacade): AuthFacade {
 }
 
 fun Application.authModuleWithDeps(
-        userFacade: UserFacade,
-        oauthClient: HttpClient = HttpClient(Apache).apply {
-            environment.monitor.subscribe(ApplicationStopping) {
-                close()
-            }
-        },
+    userFacade: UserFacade,
+    oauthClient: HttpClient = HttpClient(Apache).apply {
+        environment.monitor.subscribe(ApplicationStopping) {
+            close()
+        }
+    },
 ): AuthFacade {
     val config = environment.config
 

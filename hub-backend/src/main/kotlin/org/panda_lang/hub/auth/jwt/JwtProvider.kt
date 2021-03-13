@@ -17,7 +17,8 @@
 package org.panda_lang.hub.auth.jwt
 
 import com.auth0.jwt.JWT
-import io.ktor.auth.jwt.*
+import io.ktor.auth.jwt.JWTCredential
+import io.ktor.auth.jwt.JWTPrincipal
 
 const val JWT_SUBJECT = "Authentication"
 
@@ -28,19 +29,19 @@ class JwtProvider(private val configuration: JwtConfiguration, private val expir
 
     fun generateToken(secret: String, userId: Long): String {
         return JWT.create()
-                .withIssuer(configuration.issuer)
-                .withAudience(configuration.audience)
-                .withSubject(JWT_SUBJECT)
-                .withClaim(ID_CLAIM, userId)
-                .withClaim(TOKEN_CLAIM, secret)
-                .withExpiresAt(expirationDateProvider.getValidityDate())
-                .sign(configuration.algorithm)
+            .withIssuer(configuration.issuer)
+            .withAudience(configuration.audience)
+            .withSubject(JWT_SUBJECT)
+            .withClaim(ID_CLAIM, userId)
+            .withClaim(TOKEN_CLAIM, secret)
+            .withExpiresAt(expirationDateProvider.getValidityDate())
+            .sign(configuration.algorithm)
     }
 
 }
 
 fun JWTPrincipal.getIdClaim(): Long =
-        payload.getClaim(ID_CLAIM).asLong()
+    payload.getClaim(ID_CLAIM).asLong()
 
 fun JWTCredential.getTokenClaim(): String =
-        payload.getClaim(TOKEN_CLAIM).asString()
+    payload.getClaim(TOKEN_CLAIM).asString()

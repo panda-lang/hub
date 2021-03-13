@@ -16,9 +16,9 @@
 
 package org.panda_lang.hub.failure
 
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.features.*
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngineConfig
+import io.ktor.client.features.HttpCallValidator
 
 fun <T : HttpClientEngineConfig> HttpClientConfig<T>.failureValidator() {
     install(HttpCallValidator) {

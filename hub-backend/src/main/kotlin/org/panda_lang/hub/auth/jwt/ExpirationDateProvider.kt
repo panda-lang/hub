@@ -16,7 +16,7 @@
 
 package org.panda_lang.hub.auth.jwt
 
-import java.util.*
+import java.util.Date
 
 interface ExpirationDateProvider {
 

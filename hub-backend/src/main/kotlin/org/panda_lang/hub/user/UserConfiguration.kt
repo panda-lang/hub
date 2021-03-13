@@ -1,8 +1,8 @@
 package org.panda_lang.hub.user
 
-import io.ktor.application.*
-import io.ktor.client.*
-import io.ktor.routing.*
+import io.ktor.application.Application
+import io.ktor.client.HttpClient
+import io.ktor.routing.Routing
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.RemoteGitHubClient

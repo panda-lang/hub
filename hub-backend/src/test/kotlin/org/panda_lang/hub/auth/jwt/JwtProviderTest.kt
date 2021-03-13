@@ -35,7 +35,7 @@ internal class JwtProviderTest {
     private val provider = JwtProvider(configuration, DefaultExpirationDateProvider(configuration.ttl))
 
     @Test
-    fun `should generate valid jwt token` () {
+    fun `should generate valid jwt token`() {
         // given: a secret and id
         val secret = "oauth token"
         val userId = 7L
@@ -43,7 +43,7 @@ internal class JwtProviderTest {
         // when: provider receives request
         val token = provider.generateToken(secret, userId)
         // then: jwt token is created
-        assertTrue { token.length > token.length }
+        assertTrue { token.length > secret.length }
 
         // when: jwt is decoded
         val jwt = JWT.decode(token)

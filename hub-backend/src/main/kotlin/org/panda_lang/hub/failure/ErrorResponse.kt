@@ -16,7 +16,7 @@
 
 package org.panda_lang.hub.failure
 
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 

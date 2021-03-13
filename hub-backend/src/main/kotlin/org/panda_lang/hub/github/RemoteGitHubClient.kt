@@ -19,8 +19,10 @@ package org.panda_lang.hub.github
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import io.ktor.client.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.request.headers
 import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.failure.ErrorResponseException
 
@@ -32,12 +34,14 @@ class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
 
     private suspend inline fun <reified T> request(request: String, token: String): Result<T, ErrorResponse> {
         return try {
-            Ok(this.httpClient.get("https://api.github.com$request") {
-                headers {
-                    header("Authorization", "token $token")
-                    header("Accept",  "application/vnd.github.v3+json")
+            Ok(
+                this.httpClient.get("https://api.github.com$request") {
+                    headers {
+                        header("Authorization", "token $token")
+                        header("Accept", "application/vnd.github.v3+json")
+                    }
                 }
-            })
+            )
         } catch (errorResponseException: ErrorResponseException) {
             Err(errorResponseException.toResponse())
         }

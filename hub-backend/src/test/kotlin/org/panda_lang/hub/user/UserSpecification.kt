@@ -24,16 +24,19 @@ internal open class UserSpecification {
     internal val client = LocalGitHubClient()
 
     init {
-        client.registerProfile("localToken", GitHubProfile(
-            id = 7,
-            login = "localLogin",
-            avatarUrl = "localAvatarUrl",
-            type = "localType",
-            name = "localName",
-            location = "localLocation",
-            email = "localEmail",
-            bio = "localBio"
-        ))
+        client.registerProfile(
+            "localToken",
+            GitHubProfile(
+                id = 7,
+                login = "localLogin",
+                avatarUrl = "localAvatarUrl",
+                type = "localType",
+                name = "localName",
+                location = "localLocation",
+                email = "localEmail",
+                bio = "localBio"
+            )
+        )
     }
 
 }

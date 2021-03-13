@@ -16,7 +16,8 @@
 
 package org.panda_lang.hub.failure
 
-import io.ktor.client.statement.*
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.readText
 
 class ErrorResponseException(private val response: HttpResponse) : IllegalStateException() {
 

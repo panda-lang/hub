@@ -28,7 +28,7 @@ internal class UserFacadeTest : UserSpecification() {
     private var userFacade = UserFacade(super.client, InMemoryUserRepository())
 
     @Test
-    fun `should fetch profile by valid token ` () = runBlocking {
+    fun `should fetch profile by valid token `() = runBlocking {
         // given: a valid token
         val token = "localToken"
         // when: you request user associated with the given token
@@ -39,7 +39,7 @@ internal class UserFacadeTest : UserSpecification() {
     }
 
     @Test
-    fun `should fail for unknown token` () = runBlocking {
+    fun `should fail for unknown token`() = runBlocking {
         // given: an unknown token
         val invalidToken = "unknownToken"
         // when: you try to fetch associated user
@@ -50,7 +50,7 @@ internal class UserFacadeTest : UserSpecification() {
     }
 
     @Test
-    fun `should fail for unknown id` () = runBlocking {
+    fun `should fail for unknown id`() = runBlocking {
         // given: unknown id
         val unknownId = -1L
         // when: you try to get user
@@ -60,7 +60,7 @@ internal class UserFacadeTest : UserSpecification() {
     }
 
     @Test
-    fun `should find by login` () = runBlocking {
+    fun `should find by login`() = runBlocking {
         // given: token and login
         val token = "localToken"
         val login = "localLogin"
@@ -72,7 +72,7 @@ internal class UserFacadeTest : UserSpecification() {
     }
 
     @Test
-    fun `should fail for unknown login` () = runBlocking {
+    fun `should fail for unknown login`() = runBlocking {
         // given: unknown login
         val invalidLogin = "unknownLogin"
         // when: user is requested
