@@ -51,10 +51,10 @@ dependencies {
     implementation("org.tinylog:slf4j-tinylog:$tinylog")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit")
-    testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junit")
+    testImplementation(kotlin("test-junit5"))
 
     testImplementation("org.testcontainers:testcontainers:$testcontainers")
     testImplementation("org.testcontainers:junit-jupiter:$testcontainers")

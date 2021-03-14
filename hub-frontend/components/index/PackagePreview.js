@@ -30,6 +30,7 @@ const PackagePreview = (props) => {
       bg={bgColor}
       shadow="sm"
       wrap="wrap"
+      borderRadius="7px"
     >
       <Flex flexDirection="column" w="full">
         <Flex

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-
+import Link from 'next/link'
 import {
   Flex,
   Box,
   Heading,
-  Link,
+  Link as ChakraLink,
   Button,
   Img,
   Text,
@@ -49,11 +49,11 @@ const Header = (props) => {
           width={{ sm: '100px', base: 'auto' }}
           paddingY={{ sm: '0px', base: '7px' }}
         >
-          <Link href="/" _focus={{ outline: 0 }}>
+          <ChakraLink href="/" _focus={{ outline: 0 }}>
             <Heading fontSize="1.5rem" paddingRight="0px">
               Hub
             </Heading>
-          </Link>
+          </ChakraLink>
         </Box>
         <Navigation paddingY={{ sm: '0px', base: '7px' }} />
         <Profile paddingY={{ sm: '0px', base: '7px' }} />
@@ -75,7 +75,7 @@ const Navigation = (props) => {
 
 const NavigationItem = (props) => {
   return (
-    <Link
+    <ChakraLink
       href={props.href}
       fontWeight="bold"
       paddingX="13px"
@@ -83,7 +83,7 @@ const NavigationItem = (props) => {
       {...props}
     >
       {props.label}
-    </Link>
+    </ChakraLink>
   )
 }
 
@@ -99,14 +99,14 @@ const Profile = (props) => {
 
 const Login = (props) => {
   return (
-    <Link href={getEndpoint('/authorize/github')} {...props}>
+    <ChakraLink href={getEndpoint('/authorize/github')} {...props}>
       <Flex width="100px">
         <Text>Sign In</Text>
         <Text marginTop="4px" marginLeft="7px">
           <FaGithub fontSize="1.15rem" />
         </Text>
       </Flex>
-    </Link>
+    </ChakraLink>
   )
 }
 
@@ -137,20 +137,20 @@ const ProfileMenu = (props) => {
             <Box marginLeft="10px">{profile.login}</Box>
           </Flex>
         </MenuButton>
-        <MenuList>
+        <MenuList border="0">
+          <MenuGroup>
+            <Link href={"/profile/" + profile.login}>
+              <MenuItem as={ChakraLink}>My profile</MenuItem>
+            </Link>
+            <MenuItem>Settings </MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </MenuGroup>
           <MenuDivider />
           <Box paddingX="12px">
             Dark mode
             <ThemeSwitch marginX="7px" />
           </Box>
           <MenuDivider />
-          <MenuGroup>
-            <MenuItem>
-              <Link href={"/profile/" + profile.login}>My profile</Link>
-            </MenuItem>
-            <MenuItem>Settings </MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </MenuGroup>
         </MenuList>
       </Menu>
     </Flex>

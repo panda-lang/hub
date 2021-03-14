@@ -76,20 +76,22 @@ const Description = (props) => {
   return (
     <Flex
       flexDirection="column"
-      width="1280px"
+      maxWidth="1280px"
+      width="100%"
+      paddingX="17px"
       {...props}
     >
       <Head>
         <title>Hub - {profile.login}'s profile</title>
       </Head>
-      <Flex bg={bgColor} padding="17px" shadow="sm">
-        <Img src={profile.avatar_url} boxSize="128px" border="2px solid black" />
+      <Flex bg={bgColor} padding="17px" shadow="sm" borderRadius="7px">
+        <Img src={profile.avatar_url} boxSize="128px" border={`2px solid #1d1d1d`} borderRadius="21px" />
         <Flex flexDirection="column" paddingX="27px">
           <Flex height="52px">
             <Text fontSize="3xl" fontWeight="bold">{profile.name}</Text>
             <Text fontSize="2xl" fontStyle="italic" paddingX="21px" paddingTop="5px">{profile.login}</Text>
           </Flex>
-          <Text whiteSpace="pre-line" bg={bioBgColor} padding="12px">{profile.bio}</Text>
+          <Text whiteSpace="pre-line" bg={bioBgColor} padding="12px" borderRadius="7px">{profile.bio}</Text>
         </Flex>
       </Flex>
     </Flex>
