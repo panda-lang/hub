@@ -16,31 +16,29 @@
 
 package org.panda_lang.hub.packages
 
-import com.github.michaelbull.result.mapBoth
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
 import org.panda_lang.hub.failure.ErrorResponse
+import org.panda_lang.hub.utils.respond
+import org.panda_lang.hub.utils.respondOr
 
-class PackageEndpoint(
+internal class PackageEndpoint(
     private val packageFacade: PackageFacade
 ) {
 
     suspend fun `package`(ctx: ApplicationCall, owner: String, name: String) {
-        packageFacade.getPackage(owner, name)
-            ?.let { ctx.respond(it) }
-            ?: ctx.respond(ErrorResponse(HttpStatusCode.NotFound, "Not found"))
+        packageFacade.getPackage(owner, name).respondOr(ctx) {
+            ErrorResponse(HttpStatusCode.NotFound, "Not found")
+        }
     }
 
     suspend fun packages(ctx: ApplicationCall, owner: String) {
-        packageFacade.getP
+        ctx.respond(packageFacade.getPackages(owner))
     }
 
     suspend fun repositories(ctx: ApplicationCall, owner: String) {
-        packageFacade.getRepositories(owner).mapBoth(
-            { response -> ctx.respond(response) },
-            { error -> ctx.respond(error) }
-        )
+        packageFacade.getRepositories(owner).respond(ctx)
     }
 
 }

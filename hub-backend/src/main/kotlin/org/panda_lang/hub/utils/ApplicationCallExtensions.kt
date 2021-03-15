@@ -16,24 +16,14 @@
 
 package org.panda_lang.hub.utils
 
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.mapBoth
 import io.ktor.application.ApplicationCall
 import io.ktor.response.respond
+import org.panda_lang.hub.failure.ErrorResponse
 
-fun <T> T.asOk(): Ok<T> {
-    return Ok(this)
+suspend fun Any?.respondOr(ctx: ApplicationCall, errorProducer: () -> ErrorResponse) {
+    this?.let { ctx.respond(it) } ?: ctx.respondError(errorProducer.invoke())
 }
 
-fun <T> T.asErr(): Err<T> {
-    return Err(this)
-}
-
-suspend inline fun <reified V : Any, reified E : Any> Result<V, E>.respond(ctx: ApplicationCall) {
-    this.mapBoth(
-        { response -> ctx.respond(response) },
-        { error -> ctx.respond(error) }
-    )
+suspend fun ApplicationCall.respondError(errorResponse: ErrorResponse) {
+    this.respond(errorResponse.status, errorResponse)
 }

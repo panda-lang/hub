@@ -20,10 +20,10 @@ import com.github.michaelbull.result.mapBoth
 import io.ktor.application.ApplicationCall
 import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
 import io.ktor.response.respondRedirect
 import org.panda_lang.hub.FrontendConfiguration
 import org.panda_lang.hub.failure.ErrorResponse
+import org.panda_lang.hub.utils.respondError
 
 internal class AuthEndpoint(
     private val frontendConfiguration: FrontendConfiguration,
@@ -35,11 +35,11 @@ internal class AuthEndpoint(
             is OAuthAccessTokenResponse.OAuth2 -> {
                 authFacade.authenticate(oauthResponse.accessToken).mapBoth(
                     { response -> ctx.respondRedirect("${frontendConfiguration.authUrl}/?token=${response.jwt}") },
-                    { error -> ctx.respond(error.status, error) }
+                    { error -> ctx.respondError(error) }
                 )
             }
             is OAuthAccessTokenResponse.OAuth1a ->
-                ctx.respond(HttpStatusCode.Unauthorized, ErrorResponse(HttpStatusCode.Unauthorized, "OAuth1 is not supported"))
+                ctx.respondError(ErrorResponse(HttpStatusCode.Unauthorized, "OAuth1 is not supported"))
         }
     }
 

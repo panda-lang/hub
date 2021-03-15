@@ -18,7 +18,7 @@ package org.panda_lang.hub.packages
 
 import java.util.concurrent.ConcurrentHashMap
 
-class InMemoryPackageRepository : PackageRepository {
+internal class InMemoryPackageRepository : PackageRepository {
 
     private val packages = ConcurrentHashMap<String, Package>()
 
