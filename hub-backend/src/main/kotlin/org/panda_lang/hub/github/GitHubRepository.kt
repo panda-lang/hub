@@ -16,13 +16,7 @@
 
 package org.panda_lang.hub.github
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
-
-interface GitHubClient {
-
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
-
-    // suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse>
-
-}
+data class GitHubRepository(
+    val name: String,
+    val owner: GitHubProfile
+)

@@ -14,15 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.github
+package org.panda_lang.hub.project
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
-
-interface GitHubClient {
-
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
-
-    // suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse>
-
+class PackageFacade {
 }

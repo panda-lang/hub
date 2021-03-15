@@ -16,13 +16,12 @@
 
 package org.panda_lang.hub.github
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
+import kotlinx.serialization.SerialName
 
-interface GitHubClient {
-
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
-
-    // suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse>
-
-}
+data class GitHubUser(
+    val id: Long,
+    val login: String,
+    @SerialName("avatar_url")
+    val avatarUrl: String,
+    val type: GitHubUserType,
+)

@@ -16,13 +16,9 @@
 
 package org.panda_lang.hub.github
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
+enum class GitHubUserType {
 
-interface GitHubClient {
-
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
-
-    // suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse>
+    USER,
+    ORGANIZATION
 
 }

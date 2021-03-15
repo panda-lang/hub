@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.github
+package org.panda_lang.hub.project
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
+import io.ktor.application.ApplicationCall
 
-interface GitHubClient {
+class PackageEndpoint(
+    private val packageFacade: PackageFacade
+) {
 
-    suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
+    suspend fun pkg(ctx: ApplicationCall) {
 
-    // suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse>
+    }
 
 }

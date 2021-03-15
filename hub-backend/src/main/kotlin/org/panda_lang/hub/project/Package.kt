@@ -4,5 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Package(
-    val name: String
+    val name: String,
+    val owner: String,
+    val registered: Boolean
 )

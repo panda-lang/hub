@@ -17,6 +17,7 @@
 package org.panda_lang.hub.user
 
 import org.panda_lang.hub.github.GitHubProfile
+import org.panda_lang.hub.github.GitHubUserType
 import org.panda_lang.hub.github.LocalGitHubClient
 
 internal open class UserSpecification {
@@ -30,7 +31,7 @@ internal open class UserSpecification {
                 id = 7,
                 login = "localLogin",
                 avatarUrl = "localAvatarUrl",
-                type = "localType",
+                type = GitHubUserType.USER,
                 name = "localName",
                 location = "localLocation",
                 email = "localEmail",

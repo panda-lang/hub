@@ -9,7 +9,7 @@ data class GitHubProfile(
     val login: String,
     @SerialName("avatar_url")
     val avatarUrl: String,
-    val type: String,
+    val type: GitHubUserType,
     val name: String,
     val location: String,
     val email: String,

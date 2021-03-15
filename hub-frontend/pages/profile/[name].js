@@ -26,6 +26,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useClient } from '../../lib/useClient'
 import { useUser } from '../../lib/useUser'
+import PackageModal from '../../components/package/PackageModal'
 
 const Profile = () => {
   const router = useRouter()
@@ -77,15 +78,15 @@ const Description = (props) => {
     <Flex
       flexDirection="column"
       maxWidth="1280px"
-      width="100%"
-      paddingX="17px"
+      width="90%"
+      paddingX="27px"
       {...props}
     >
       <Head>
         <title>Hub - {profile.login}'s profile</title>
       </Head>
       <Flex bg={bgColor} padding="17px" shadow="sm" borderRadius="7px">
-        <Img src={profile.avatar_url} boxSize="128px" border={`2px solid #1d1d1d`} borderRadius="21px" />
+        <Img src={profile.avatar_url} boxSize="128px" border={`2px solid #1d1d1d`} borderRadius="17px" />
         <Flex flexDirection="column" paddingX="27px">
           <Flex height="52px">
             <Text fontSize="3xl" fontWeight="bold">{profile.name}</Text>
@@ -94,6 +95,7 @@ const Description = (props) => {
           <Text whiteSpace="pre-line" bg={bioBgColor} padding="12px" borderRadius="7px">{profile.bio}</Text>
         </Flex>
       </Flex>
+      <PackageModal login={profile.login}/>
     </Flex>
   )
 }

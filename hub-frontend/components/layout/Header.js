@@ -24,7 +24,7 @@ import ThemeSwitch from './ThemeSwitch'
 
 import { useAuth } from '../AuthProvider'
 import { useUser } from '../../lib/useUser'
-import { useClient, getEndpoint } from '../../lib/useClient'
+import { getEndpoint } from '../../lib/useClient'
 
 const Header = (props) => {
   const bgColor = useColorModeValue('gray.50', 'gray.900')
