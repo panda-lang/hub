@@ -114,14 +114,14 @@ const ProfileMenu = (props) => {
   const { handleLogout } = useAuth()
   const toast = useToast()
 
-  const { user } = useUser({redirectTo: '/'}, (user) => {
+  const { user } = useUser({ redirectTo: '/' }, (user) => {
     if (!user.authorized) {
       handleLogout()
       toast({
         title: 'Invalid session',
         status: 'error',
         duration: 6000,
-        position: 'top'
+        position: 'top',
       })
     }
   })
@@ -139,7 +139,7 @@ const ProfileMenu = (props) => {
         </MenuButton>
         <MenuList border="0">
           <MenuGroup>
-            <Link href={"/profile/" + profile.login}>
+            <Link href={'/profile/' + profile.login}>
               <MenuItem as={ChakraLink}>My profile</MenuItem>
             </Link>
             <MenuItem>Settings </MenuItem>

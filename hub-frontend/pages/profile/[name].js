@@ -15,7 +15,15 @@
  */
 
 import Head from 'next/head'
-import { Spinner, Box, Text, Flex, useColorModeValue, Img, Divider } from '@chakra-ui/react'
+import {
+  Spinner,
+  Box,
+  Text,
+  Flex,
+  useColorModeValue,
+  Img,
+  Divider,
+} from '@chakra-ui/react'
 
 import Page from '../../components/layout/Page'
 import Header from '../../components/layout/Header'
@@ -38,10 +46,7 @@ const Profile = () => {
         <title>Hub - Profile</title>
       </Head>
       <Header />
-      <Main content={
-        <Description name={name} />
-      }>
-      </Main>
+      <Main content={<Description name={name} />}></Main>
       <Footer />
     </Page>
   )
@@ -56,14 +61,18 @@ const Description = (props) => {
 
   if (name && !profile) {
     useClient(`/profile/${name}`)
-      .then((response) => setProfile({
-        found: true,
-        ...response.profile
-      }))
-      .catch((error) => setProfile({
-        found: false,
-        error: error.message
-      }))
+      .then((response) =>
+        setProfile({
+          found: true,
+          ...response.profile,
+        })
+      )
+      .catch((error) =>
+        setProfile({
+          found: false,
+          error: error.message,
+        })
+      )
   }
 
   if (!profile) {
@@ -86,16 +95,37 @@ const Description = (props) => {
         <title>Hub - {profile.login}'s profile</title>
       </Head>
       <Flex bg={bgColor} padding="17px" shadow="sm" borderRadius="7px">
-        <Img src={profile.avatar_url} boxSize="128px" border={`2px solid #1d1d1d`} borderRadius="17px" />
+        <Img
+          src={profile.avatar_url}
+          boxSize="128px"
+          border={`2px solid #1d1d1d`}
+          borderRadius="17px"
+        />
         <Flex flexDirection="column" paddingX="27px">
           <Flex height="52px">
-            <Text fontSize="3xl" fontWeight="bold">{profile.name}</Text>
-            <Text fontSize="2xl" fontStyle="italic" paddingX="21px" paddingTop="5px">{profile.login}</Text>
+            <Text fontSize="3xl" fontWeight="bold">
+              {profile.name}
+            </Text>
+            <Text
+              fontSize="2xl"
+              fontStyle="italic"
+              paddingX="21px"
+              paddingTop="5px"
+            >
+              {profile.login}
+            </Text>
           </Flex>
-          <Text whiteSpace="pre-line" bg={bioBgColor} padding="12px" borderRadius="7px">{profile.bio}</Text>
+          <Text
+            whiteSpace="pre-line"
+            bg={bioBgColor}
+            padding="12px"
+            borderRadius="7px"
+          >
+            {profile.bio}
+          </Text>
         </Flex>
       </Flex>
-      <PackageModal login={profile.login}/>
+      <PackageModal login={profile.login} />
     </Flex>
   )
 }

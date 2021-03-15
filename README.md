@@ -9,8 +9,14 @@ Panda Hub is the module manager registry for amazing Panda (+JVM) based projects
 
 
 #### 🧬 Stack
-- Hub Backend: Kotlin + Ktor *(Netty)* + OAuth2 + MongoDB + JUnit
-- Hub Frontend: React + Next.js + Chakra UI
+2.x:
+  - Hub Backend: Kotlin + Ktor *(Netty)* + OAuth2 + MongoDB + JUnit
+  - Hub Frontend: React + Next.js + Chakra UI
+
+1.x:
+  - Hub Backend: Java + Spring Boot + MongoDB + JUnit
+  - Hub Frontend: Vue.js + Buefy
+
 
 #### 📋 Installation
 Requirements:
