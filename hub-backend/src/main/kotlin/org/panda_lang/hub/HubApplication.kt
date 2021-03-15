@@ -39,6 +39,7 @@ import io.ktor.server.netty.EngineMain
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.litote.kmongo.coroutine.coroutine
+import org.litote.kmongo.id.serialization.IdKotlinXSerializationModule
 import org.litote.kmongo.reactivestreams.KMongo
 import org.panda_lang.hub.auth.authModule
 import org.panda_lang.hub.auth.installAuthRouting
@@ -59,23 +60,24 @@ fun main(args: Array<String>) {
 
 @Suppress("unused") // linked in application.conf
 fun Application.mainModule() {
+    val json = Json {
+        ignoreUnknownKeys = true
+        prettyPrint = true
+        serializersModule = IdKotlinXSerializationModule
+    }
+
     val httpClient = HttpClient(Apache) {
         install(JsonFeature) {
-            serializer = KotlinxSerializer(
-                Json {
-                    ignoreUnknownKeys = true
-                }
-            )
-
+            serializer = KotlinxSerializer(json)
             accept(ContentType.Application.Json)
         }
         failureValidator()
     }
 
-    mainModuleWithDeps(httpClient)
+    mainModuleWithDeps(json, httpClient)
 }
 
-fun Application.mainModuleWithDeps(httpClient: HttpClient) {
+fun Application.mainModuleWithDeps(json: Json, httpClient: HttpClient) {
     environment.monitor.subscribe(ApplicationStopping) {
         httpClient.close()
     }
@@ -83,14 +85,8 @@ fun Application.mainModuleWithDeps(httpClient: HttpClient) {
     install(DefaultHeaders)
     install(CallLogging)
     install(Locations)
-    // install(HttpsRedirect)
-    // install(XForwardedHeaderSupport)
     install(ContentNegotiation) {
-        json(
-            Json {
-                prettyPrint = true
-            }
-        )
+        json(json)
     }
     install(CORS) {
         method(HttpMethod.Options)
@@ -110,7 +106,7 @@ fun Application.mainModuleWithDeps(httpClient: HttpClient) {
     runBlocking { database.drop() }
 
     val userFacade = usersModule(httpClient, database)
-    val packageFacade = packagesModule(httpClient, database)
+    val packageFacade = packagesModule(httpClient, userFacade, database)
     val authFacade = authModule(userFacade)
 
     install(Routing) {

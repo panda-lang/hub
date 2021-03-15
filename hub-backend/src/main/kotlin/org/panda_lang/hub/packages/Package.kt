@@ -16,12 +16,17 @@
 
 package org.panda_lang.hub.packages
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import org.panda_lang.hub.user.User
 
 @Serializable
 data class Package(
-    val id: Long,
+    @Contextual
+    val _id: String,
     val name: String,
-    val owner: String,
+    val fullName: String,
+    @Contextual
+    val owner: User,
     val registered: Boolean
 )

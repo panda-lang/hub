@@ -17,11 +17,28 @@
 package org.panda_lang.hub.github
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import org.panda_lang.hub.user.Profile
+import org.panda_lang.hub.user.UserInfo
 
-data class GitHubUser(
-    val id: Long,
-    val login: String,
+@Serializable
+data class GitHubUserInfo(
+    override val id: Long,
+    override val login: String,
     @SerialName("avatar_url")
-    val avatarUrl: String,
-    val type: GitHubUserType,
-)
+    override val avatarUrl: String,
+    override val type: String,
+) : UserInfo
+
+@Serializable
+data class GitHubProfile(
+    override val id: Long,
+    override val login: String,
+    @SerialName("avatar_url")
+    override val avatarUrl: String,
+    override val type: String,
+    override val name: String,
+    override val location: String,
+    override val email: String,
+    override val bio: String
+) : Profile

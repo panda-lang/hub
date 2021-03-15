@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.github
+package org.panda_lang.hub.utils
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
 
-@Serializable
-data class GitHubProfile(
-    val id: Long,
-    val login: String,
-    @SerialName("avatar_url")
-    val avatarUrl: String,
-    val type: GitHubUserType,
-    val name: String,
-    val location: String,
-    val email: String,
-    val bio: String
-)
+fun <T> T.asOk(): Ok<T> {
+    return Ok(this)
+}
+
+fun <T> T.asErr(): Err<T> {
+    return Err(this)
+}

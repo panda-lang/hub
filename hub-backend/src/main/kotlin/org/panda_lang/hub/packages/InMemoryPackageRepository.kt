@@ -20,23 +20,23 @@ import java.util.concurrent.ConcurrentHashMap
 
 class InMemoryPackageRepository : PackageRepository {
 
-    private val packages = ConcurrentHashMap<Long, Package>()
+    private val packages = ConcurrentHashMap<String, Package>()
 
     override suspend fun savePackage(pkg: Package): Package {
-        packages[pkg.id] = pkg
+        packages[pkg._id] = pkg
         return pkg
     }
 
-    override suspend fun findPackageById(id: Long): Package? {
+    override suspend fun findPackageById(id: String): Package? {
         return packages[id]
     }
 
-    override suspend fun findPackageByName(name: String): Package? {
-        return packages.values.firstOrNull { it.name == name }
+    override suspend fun findPackageByFullName(fullName: String): Package? {
+        return packages.values.firstOrNull { it.fullName == fullName }
     }
 
     override suspend fun findPackagesByUser(login: String): Collection<Package> {
-        return packages.values.filter { it.owner == login }
+        return packages.values.filter { it.owner.profile.login == login }
     }
 
 }

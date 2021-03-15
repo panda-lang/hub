@@ -26,11 +26,11 @@ internal class UserEndpoint(
 ) {
 
     suspend fun user(ctx: ApplicationCall, principal: JWTPrincipal) {
-        userFacade.getUser(principal.getIdClaim())?.let { ctx.respond(it) }
+        userFacade.getUserByLogin(principal.getIdClaim())?.let { ctx.respond(it) }
     }
 
     suspend fun user(ctx: ApplicationCall, login: String) {
-        userFacade.getUser(login)?.let { ctx.respond(it) }
+        userFacade.getUserByLogin(login)?.let { ctx.respond(it) }
     }
 
 }

@@ -23,6 +23,6 @@ interface GitHubClient {
 
     suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse>
 
-    suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse>
+    suspend fun getRepositories(login: String): Result<Array<GitHubRepository>, ErrorResponse>
 
 }

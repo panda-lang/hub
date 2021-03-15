@@ -22,17 +22,22 @@ import io.ktor.routing.Routing
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.RemoteGitHubClient
+import org.panda_lang.hub.user.UserFacade
 
-fun Application.packagesModule(httpClient: HttpClient, database: CoroutineDatabase): PackageFacade {
+fun Application.packagesModule(httpClient: HttpClient, userFacade: UserFacade, database: CoroutineDatabase): PackageFacade {
     val gitHubClient = RemoteGitHubClient(httpClient)
     val collection = database.getCollection<Package>()
     val repository = MongoPackageRepository(collection)
 
-    return packagesModuleWithDeps(gitHubClient, repository)
+    return packagesModuleWithDeps(gitHubClient, userFacade, repository)
 }
 
-internal fun Application.packagesModuleWithDeps(gitHubClient: GitHubClient, repository: PackageRepository): PackageFacade {
-    return PackageFacade(gitHubClient, repository)
+internal fun Application.packagesModuleWithDeps(
+    gitHubClient: GitHubClient,
+    userFacade: UserFacade,
+    repository: PackageRepository
+): PackageFacade {
+    return PackageFacade(gitHubClient, userFacade, repository)
 }
 
 fun installPackageRouting(routing: Routing, packageFacade: PackageFacade) {

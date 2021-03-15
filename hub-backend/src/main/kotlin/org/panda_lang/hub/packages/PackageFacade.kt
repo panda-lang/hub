@@ -16,29 +16,46 @@
 
 package org.panda_lang.hub.packages
 
+import com.github.michaelbull.result.Result
+import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.GitHubRepository
+import org.panda_lang.hub.user.UserFacade
 
 class PackageFacade internal constructor(
     private val gitHubClient: GitHubClient,
+    private val userFacade: UserFacade,
     private val packageRepository: PackageRepository
 ) {
 
     suspend fun fetchPackage(repository: GitHubRepository): Package {
-        return packageRepository.findPackageById(repository.id) ?: run {
+        return packageRepository.findPackageById(repository.id.toString()) ?: run {
             return@run packageRepository.savePackage(
                 Package(
-                    id = repository.id,
+                    _id = repository.id.toString(),
                     name = repository.name,
-                    owner = repository.owner.login,
+                    fullName = repository.fullName,
+                    owner = userFacade.getUser(repository.owner.id.toString())!!,
                     registered = true
                 )
             )
         }
     }
 
-    suspend fun getPackage(name: String): Package? {
-        return packageRepository.findPackageByName(name)
+    suspend fun getRepositories(login: String): Result<Array<GitHubRepository>, ErrorResponse> {
+        return gitHubClient.getRepositories(login)
+    }
+
+    suspend fun getPackages(owner: String): Collection<Package> {
+        return packageRepository.findPackagesByUser(owner)
+    }
+
+    suspend fun getPackage(owner: String, name: String): Package? {
+        return packageRepository.findPackageByFullName(getFullName(owner, name))
+    }
+
+    fun getFullName(owner: String, name: String): String {
+        return "$owner/$name"
     }
 
 }

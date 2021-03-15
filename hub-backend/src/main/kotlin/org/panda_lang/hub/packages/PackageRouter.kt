@@ -18,13 +18,35 @@ package org.panda_lang.hub.packages
 
 import io.ktor.locations.Location
 import io.ktor.locations.get
+import io.ktor.locations.post
 import io.ktor.routing.Routing
 
-@Location("/package/{name}")
-internal class PackageLocation(val name: String)
+@Location("/repositories/{owner}")
+internal class RepositoriesLocation(val owner: String)
+
+@Location("/packages/{owner}")
+internal class PackagesLocation(val owner: String)
+
+@Location("/package/{owner}/{name}")
+internal class PackageLocation(val owner: String, val name: String)
+
+@Location("/package/{owner}/{name}/versions")
+internal class VersionsLocation(val owner: String, val name: String)
+
+@Location("/package/{owner}/{name}/latest")
+internal class LatestLocation(val owner: String, val name: String)
 
 internal fun Routing.routes(packageEndpoint: PackageEndpoint) {
+    get <RepositoriesLocation> { repositoriesLocation ->
+        packageEndpoint.repositories(this.context, repositoriesLocation.owner)
+    }
+    get <PackagesLocation> { packagesLocation ->
+        packageEndpoint.packages(this.context, packagesLocation.owner)
+    }
     get <PackageLocation> { packageLocation ->
-        packageEndpoint.pkg(this.context, packageLocation.name)
+        packageEndpoint.`package`(this.context, packageLocation.owner, packageLocation.name)
+    }
+    post <PackageLocation> { packageEndpoint ->
+
     }
 }

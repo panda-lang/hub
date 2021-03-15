@@ -22,7 +22,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.panda_lang.hub.github.GitHubProfile
-import org.panda_lang.hub.github.GitHubUserType
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
@@ -34,7 +33,7 @@ internal class UserFacadeTest : UserSpecification() {
             id = 7,
             login = "localLogin",
             avatarUrl = "localAvatarUrl",
-            type = GitHubUserType.USER,
+            type = "User",
             name = "localName",
             location = "localLocation",
             email = "localEmail",
@@ -51,7 +50,7 @@ internal class UserFacadeTest : UserSpecification() {
         // when: you request user associated with the given token
         val user = userFacade.fetchUser(token).get()!!
         // then: it should return valid user
-        assertEquals(7, user.id)
+        assertEquals(7, user._id)
         assertEquals("localLogin", user.profile.login)
     }
 
@@ -81,9 +80,9 @@ internal class UserFacadeTest : UserSpecification() {
         // given: token and login
         val login = "localLogin"
         // when: you try to get the given user
-        val user = userFacade.getUser(login)
+        val user = userFacade.getUserByLogin(login)
         // then: result should contain requested user
-        assertEquals(7, user!!.id)
+        assertEquals(7, user!!._id)
     }
 
     @Test
@@ -91,7 +90,7 @@ internal class UserFacadeTest : UserSpecification() {
         // given: unknown login
         val invalidLogin = "unknownLogin"
         // when: user is requested
-        val user = userFacade.getUser(invalidLogin)
+        val user = userFacade.getUserByLogin(invalidLogin)
         // then: result should not contain user
         assertNull(user)
     }

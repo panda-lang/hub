@@ -39,9 +39,10 @@ class LocalGitHubClient : GitHubClient {
         repositories[repository.fullName] = repository
     }
 
-    override suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse> {
+    override suspend fun getRepositories(login: String): Result<Array<GitHubRepository>, ErrorResponse> {
         return repositories.values
             .filter { it.owner.login == login }
+            .toTypedArray()
             .toResultOr { ErrorResponse(HttpStatusCode.BadRequest, "Not found") }
     }
 

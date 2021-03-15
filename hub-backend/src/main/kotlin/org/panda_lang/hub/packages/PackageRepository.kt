@@ -20,9 +20,9 @@ internal interface PackageRepository {
 
     suspend fun savePackage(pkg: Package): Package
 
-    suspend fun findPackageById(id: Long): Package?
+    suspend fun findPackageById(id: String): Package?
 
-    suspend fun findPackageByName(name: String): Package?
+    suspend fun findPackageByFullName(fullName: String): Package?
 
     suspend fun findPackagesByUser(login: String): Collection<Package>
 

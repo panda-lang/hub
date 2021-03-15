@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.4.31"
     kotlin("plugin.serialization") version "1.4.31"
+    id("org.jetbrains.kotlin.kapt") version "1.4.31"
     id("org.jmailen.kotlinter") version "3.3.0"
     application
 }
@@ -27,8 +28,8 @@ group = "org.panda_lang"
 version = "2.0.0"
 
 repositories {
-    jcenter()
     mavenCentral()
+    jcenter()
     maven { url = uri("https://dl.bintray.com/kotlin/kotlinx") }
     maven { url = uri("https://dl.bintray.com/kotlin/ktor") }
 }
@@ -48,6 +49,9 @@ dependencies {
     implementation("org.litote.kmongo:kmongo-coroutine:$kmongo")
     implementation("org.litote.kmongo:kmongo-async:$kmongo")
     implementation("org.litote.kmongo:kmongo-reactor:$kmongo")
+    implementation("org.litote.kmongo:kmongo-id:$kmongo")
+    implementation("org.litote.kmongo:kmongo-id-serialization:$kmongo")
+    kapt("org.litote.kmongo:kmongo-annotation-processor:$kmongo")
 
     implementation("io.ktor:ktor-auth-jwt:$ktor")
     implementation("io.ktor:ktor-auth:$ktor")

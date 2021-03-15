@@ -19,7 +19,6 @@ package org.panda_lang.hub.user
 import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
-import org.panda_lang.hub.github.GitHubProfile
 
 internal class MongoUserRepository(private val collection: CoroutineCollection<User>) : UserRepository {
 
@@ -28,12 +27,12 @@ internal class MongoUserRepository(private val collection: CoroutineCollection<U
         return user
     }
 
-    override suspend fun findUserById(id: Long): User? {
-        return collection.findOne(User::id eq id)
+    override suspend fun findUserById(id: String): User? {
+        return collection.findOne(User::_id eq id)
     }
 
     override suspend fun findUserByLogin(login: String): User? {
-        return collection.findOne(User::profile / GitHubProfile::login eq login)
+        return collection.findOne(User::profile / Profile::login eq login)
     }
 
 }

@@ -20,7 +20,7 @@ import kotlinx.coroutines.runBlocking
 import org.panda_lang.hub.github.GitHubProfile
 import org.panda_lang.hub.github.LocalGitHubClient
 
-internal open class UserSpecification {
+open class UserSpecification {
 
     private val client = LocalGitHubClient()
     internal var userFacade = UserFacade(client, InMemoryUserRepository())

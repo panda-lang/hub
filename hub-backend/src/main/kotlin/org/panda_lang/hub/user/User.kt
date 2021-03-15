@@ -16,11 +16,26 @@
 
 package org.panda_lang.hub.user
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import org.panda_lang.hub.github.GitHubProfile
 
 @Serializable
 data class User(
-    val id: Long,
-    val profile: GitHubProfile
+    @Contextual
+    val _id: String,
+    val profile: Profile
 )
+
+interface UserInfo {
+    val id: Long
+    val login: String
+    val avatarUrl: String
+    val type: String
+}
+
+interface Profile : UserInfo {
+    val name: String
+    val location: String
+    val email: String
+    val bio: String
+}

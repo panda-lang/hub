@@ -16,7 +16,6 @@
 
 package org.panda_lang.hub.github
 
-import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import io.ktor.client.HttpClient
@@ -25,6 +24,7 @@ import io.ktor.client.request.header
 import io.ktor.client.request.headers
 import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.failure.ErrorResponseException
+import org.panda_lang.hub.utils.asErr
 
 class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
 
@@ -32,8 +32,12 @@ class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
         return request("/user", token)
     }
 
-    override suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse> {
-        return request("/users/$login/repos", "")
+    override suspend fun getRepositories(login: String): Result<Array<GitHubRepository>, ErrorResponse> {
+        return request("/users/$login/repos")
+    }
+
+    private suspend inline fun <reified T> request(request: String): Result<T, ErrorResponse> {
+        return request(request, "")
     }
 
     private suspend inline fun <reified T> request(request: String, token: String): Result<T, ErrorResponse> {
@@ -41,13 +45,16 @@ class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
             Ok(
                 this.httpClient.get("https://api.github.com$request") {
                     headers {
-                        header("Authorization", "token $token")
                         header("Accept", "application/vnd.github.v3+json")
+
+                        if (token.isNotEmpty()) {
+                            header("Authorization", "token $token")
+                        }
                     }
                 }
             )
         } catch (errorResponseException: ErrorResponseException) {
-            Err(errorResponseException.toResponse())
+            errorResponseException.toResponse().asErr()
         }
     }
 
