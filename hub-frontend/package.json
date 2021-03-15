@@ -25,7 +25,7 @@
     "react-cookie": "^4.0.3",
     "react-dom": "17.0.1",
     "react-icons": "^4.2.0",
-    "swr": "^0.5.2",
+    "swr": "^0.5.3",
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
