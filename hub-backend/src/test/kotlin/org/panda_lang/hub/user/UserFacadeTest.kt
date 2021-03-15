@@ -19,13 +19,30 @@ package org.panda_lang.hub.user
 import com.github.michaelbull.result.get
 import com.github.michaelbull.result.getError
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.panda_lang.hub.github.GitHubProfile
+import org.panda_lang.hub.github.GitHubUserType
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 internal class UserFacadeTest : UserSpecification() {
 
-    private var userFacade = UserFacade(super.client, InMemoryUserRepository())
+    @BeforeEach
+    fun prepareProfile() {
+        val profile = GitHubProfile(
+            id = 7,
+            login = "localLogin",
+            avatarUrl = "localAvatarUrl",
+            type = GitHubUserType.USER,
+            name = "localName",
+            location = "localLocation",
+            email = "localEmail",
+            bio = "localBio"
+        )
+
+        createFetchedGitHubProfile("localToken", profile)
+    }
 
     @Test
     fun `should fetch profile by valid token `() = runBlocking {
@@ -62,9 +79,7 @@ internal class UserFacadeTest : UserSpecification() {
     @Test
     fun `should find by login`() = runBlocking {
         // given: token and login
-        val token = "localToken"
         val login = "localLogin"
-        userFacade.fetchUser(token)
         // when: you try to get the given user
         val user = userFacade.getUser(login)
         // then: result should contain requested user

@@ -17,11 +17,33 @@
 package org.panda_lang.hub.packages
 
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.panda_lang.hub.github.GitHubRepository
+import org.panda_lang.hub.github.GitHubUser
+import org.panda_lang.hub.github.GitHubUserType
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 internal class PackageFacadeTest : PackageSpecification() {
+
+    @BeforeEach
+    fun preparePackage() {
+        val repository = GitHubRepository(
+            id = 8,
+            name = "localName",
+            fullName = "localFullName",
+            owner = GitHubUser(
+                id = 7,
+                login = "localLogin",
+                avatarUrl = "localAvatar",
+                type = GitHubUserType.USER
+            )
+        )
+
+        createFetchedGitHubRepository(repository)
+    }
 
     @Test
     fun `should find package by name`() = runBlocking {
@@ -32,6 +54,37 @@ internal class PackageFacadeTest : PackageSpecification() {
         // then: it returns a valid package
         assertNotNull(pkg)
         assertEquals(name, pkg.name)
+    }
+
+    @Test
+    fun `should fail for unknown name`() = runBlocking {
+        // given: an unknown package name
+        val name = "unknownName"
+        // when: you try to find the given package
+        val pkg = packageFacade.getPackage(name)
+        // then: result should be null
+        assertNull(pkg)
+    }
+
+    @Test
+    fun `should fetch package`() = runBlocking {
+        // given: a valid package name
+        val repository = GitHubRepository(
+            id = 1,
+            name = "testName",
+            fullName = "testFullName",
+            owner = GitHubUser(
+                id = 1,
+                login = "testLogin",
+                avatarUrl = "testAvatar",
+                type = GitHubUserType.USER
+            )
+        )
+        // when: you try to fetch the given package
+        val pkg = packageFacade.fetchPackage(repository)
+        // then: valid package is created
+        assertEquals(repository.id, pkg.id)
+        assertEquals(repository.owner.login, pkg.owner)
     }
 
 }

@@ -16,27 +16,22 @@
 
 package org.panda_lang.hub.user
 
+import kotlinx.coroutines.runBlocking
 import org.panda_lang.hub.github.GitHubProfile
-import org.panda_lang.hub.github.GitHubUserType
 import org.panda_lang.hub.github.LocalGitHubClient
 
 internal open class UserSpecification {
 
-    internal val client = LocalGitHubClient()
+    private val client = LocalGitHubClient()
+    internal var userFacade = UserFacade(client, InMemoryUserRepository())
 
-    init {
-        val profile = GitHubProfile(
-            id = 7,
-            login = "localLogin",
-            avatarUrl = "localAvatarUrl",
-            type = GitHubUserType.USER,
-            name = "localName",
-            location = "localLocation",
-            email = "localEmail",
-            bio = "localBio"
-        )
-
+    fun createGitHubProfile(token: String, profile: GitHubProfile) {
         client.registerProfile("localToken", profile)
+    }
+
+    fun createFetchedGitHubProfile(token: String, profile: GitHubProfile) = runBlocking {
+        createGitHubProfile(token, profile)
+        userFacade.fetchUser(token)
     }
 
 }

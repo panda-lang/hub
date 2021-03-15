@@ -18,8 +18,6 @@ package org.panda_lang.hub.packages
 
 import kotlinx.coroutines.runBlocking
 import org.panda_lang.hub.github.GitHubRepository
-import org.panda_lang.hub.github.GitHubUser
-import org.panda_lang.hub.github.GitHubUserType
 import org.panda_lang.hub.github.LocalGitHubClient
 
 internal open class PackageSpecification {
@@ -27,24 +25,13 @@ internal open class PackageSpecification {
     private val client = LocalGitHubClient()
     internal val packageFacade = PackageFacade(client, InMemoryPackageRepository())
 
-    init {
-        val repository = GitHubRepository(
-            id = 8,
-            name = "localName",
-            fullName = "localFullName",
-            owner = GitHubUser(
-                id = 7,
-                login = "localLogin",
-                avatarUrl = "localAvatar",
-                type = GitHubUserType.USER
-            )
-        )
-
+    fun createGitHubRepository(repository: GitHubRepository) {
         client.registerRepository(repository)
+    }
 
-        runBlocking {
-            packageFacade.fetchPackage(repository)
-        }
+    fun createFetchedGitHubRepository(repository: GitHubRepository) = runBlocking {
+        createGitHubRepository(repository)
+        packageFacade.fetchPackage(repository)
     }
 
 }
