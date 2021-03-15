@@ -14,7 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.project
+package org.panda_lang.hub.packages
 
-class PackageFacade {
+import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+
+internal class PackageFacadeTest : PackageSpecification() {
+
+    @Test
+    fun `should find package by name`() = runBlocking {
+        // given: a valid package name
+        val name = "localName"
+        // when: you try to find the given package
+        val pkg = packageFacade.getPackage(name)
+        // then: it returns a valid package
+        assertNotNull(pkg)
+        assertEquals(name, pkg.name)
+    }
+
 }

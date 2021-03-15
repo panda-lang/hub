@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.project
+package org.panda_lang.hub.packages
 
 internal interface PackageRepository {
 
-    suspend fun savePackage(pkg: Package)
+    suspend fun savePackage(pkg: Package): Package
+
+    suspend fun findPackageById(id: Long): Package?
 
     suspend fun findPackageByName(name: String): Package?
 

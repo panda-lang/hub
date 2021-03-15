@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap
 class LocalGitHubClient : GitHubClient {
 
     private val profiles = ConcurrentHashMap<String, GitHubProfile>()
+    private val repositories = ConcurrentHashMap<String, GitHubRepository>()
 
     fun registerProfile(token: String, profile: GitHubProfile) {
         profiles[token] = profile
@@ -32,6 +33,16 @@ class LocalGitHubClient : GitHubClient {
 
     override suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse> {
         return profiles[token].toResultOr { ErrorResponse(HttpStatusCode.NotFound, "Not found") }
+    }
+
+    fun registerRepository(repository: GitHubRepository) {
+        repositories[repository.fullName] = repository
+    }
+
+    override suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse> {
+        return repositories.values
+            .filter { it.owner.login == login }
+            .toResultOr { ErrorResponse(HttpStatusCode.BadRequest, "Not found") }
     }
 
 }

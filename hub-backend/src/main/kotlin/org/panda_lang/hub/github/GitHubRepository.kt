@@ -16,7 +16,12 @@
 
 package org.panda_lang.hub.github
 
+import kotlinx.serialization.SerialName
+
 data class GitHubRepository(
+    val id: Long,
     val name: String,
-    val owner: GitHubProfile
+    @SerialName("full_name")
+    val fullName: String,
+    val owner: GitHubUser
 )

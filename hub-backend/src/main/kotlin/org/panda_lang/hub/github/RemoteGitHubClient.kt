@@ -32,6 +32,10 @@ class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
         return request("/user", token)
     }
 
+    override suspend fun getRepositories(login: String): Result<Collection<GitHubRepository>, ErrorResponse> {
+        return request("/users/$login/repos", "")
+    }
+
     private suspend inline fun <reified T> request(request: String, token: String): Result<T, ErrorResponse> {
         return try {
             Ok(

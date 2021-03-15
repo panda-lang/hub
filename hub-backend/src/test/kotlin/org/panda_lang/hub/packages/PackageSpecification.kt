@@ -14,29 +14,37 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.user
+package org.panda_lang.hub.packages
 
-import org.panda_lang.hub.github.GitHubProfile
+import kotlinx.coroutines.runBlocking
+import org.panda_lang.hub.github.GitHubRepository
+import org.panda_lang.hub.github.GitHubUser
 import org.panda_lang.hub.github.GitHubUserType
 import org.panda_lang.hub.github.LocalGitHubClient
 
-internal open class UserSpecification {
+internal open class PackageSpecification {
 
-    internal val client = LocalGitHubClient()
+    private val client = LocalGitHubClient()
+    internal val packageFacade = PackageFacade(client, InMemoryPackageRepository())
 
     init {
-        val profile = GitHubProfile(
-            id = 7,
-            login = "localLogin",
-            avatarUrl = "localAvatarUrl",
-            type = GitHubUserType.USER,
+        val repository = GitHubRepository(
+            id = 8,
             name = "localName",
-            location = "localLocation",
-            email = "localEmail",
-            bio = "localBio"
+            fullName = "localFullName",
+            owner = GitHubUser(
+                id = 7,
+                login = "localLogin",
+                avatarUrl = "localAvatar",
+                type = GitHubUserType.USER
+            )
         )
 
-        client.registerProfile("localToken", profile)
+        client.registerRepository(repository)
+
+        runBlocking {
+            packageFacade.fetchPackage(repository)
+        }
     }
 
 }

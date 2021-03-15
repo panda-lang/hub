@@ -14,5 +14,4 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.project
-
+package org.panda_lang.hub.packages

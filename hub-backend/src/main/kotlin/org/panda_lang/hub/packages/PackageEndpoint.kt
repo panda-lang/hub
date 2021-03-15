@@ -14,5 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.project
+package org.panda_lang.hub.packages
 
+import io.ktor.application.ApplicationCall
+
+class PackageEndpoint(
+    private val packageFacade: PackageFacade
+) {
+
+    suspend fun pkg(ctx: ApplicationCall) {
+
+    }
+
+}
