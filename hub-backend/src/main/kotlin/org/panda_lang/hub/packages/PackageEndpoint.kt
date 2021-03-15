@@ -17,13 +17,14 @@
 package org.panda_lang.hub.packages
 
 import io.ktor.application.ApplicationCall
+import io.ktor.response.respond
 
 class PackageEndpoint(
     private val packageFacade: PackageFacade
 ) {
 
-    suspend fun pkg(ctx: ApplicationCall) {
-
+    suspend fun pkg(ctx: ApplicationCall, name: String) {
+        packageFacade.getPackage(name)?.let { ctx.respond(it) }
     }
 
 }

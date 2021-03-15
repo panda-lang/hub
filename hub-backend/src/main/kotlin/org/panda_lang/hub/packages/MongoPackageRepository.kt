@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.user
+package org.panda_lang.hub.packages
 
 import org.litote.kmongo.coroutine.CoroutineCollection
-import org.litote.kmongo.div
 import org.litote.kmongo.eq
-import org.panda_lang.hub.github.GitHubProfile
 
-internal class MongoUserRepository(private val collection: CoroutineCollection<User>) : UserRepository {
+internal class MongoPackageRepository(private val collection: CoroutineCollection<Package>) : PackageRepository {
 
-    override suspend fun saveUser(user: User): User {
-        collection.insertOne(user)
-        return user
+    override suspend fun savePackage(pkg: Package): Package {
+        collection.insertOne(pkg)
+        return pkg
     }
 
-    override suspend fun findUserById(id: Long): User? {
-        return collection.findOne(User::id eq id)
+    override suspend fun findPackageById(id: Long): Package? {
+        return collection.findOne(Package::id eq id)
     }
 
-    override suspend fun findUserByLogin(login: String): User? {
-        return collection.findOne(User::profile / GitHubProfile::login eq login)
+    override suspend fun findPackageByName(name: String): Package? {
+        return collection.findOne(Package::name eq name)
+    }
+
+    override suspend fun findPackagesByUser(login: String): Collection<Package> {
+        return collection.find(Package::owner eq login).toList()
     }
 
 }

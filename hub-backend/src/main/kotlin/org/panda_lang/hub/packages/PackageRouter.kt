@@ -15,3 +15,16 @@
  */
 
 package org.panda_lang.hub.packages
+
+import io.ktor.locations.Location
+import io.ktor.locations.get
+import io.ktor.routing.Routing
+
+@Location("/package/{name}")
+internal class PackageLocation(val name: String)
+
+internal fun Routing.routes(packageEndpoint: PackageEndpoint) {
+    get <PackageLocation> { packageLocation ->
+        packageEndpoint.pkg(this.context, packageLocation.name)
+    }
+}

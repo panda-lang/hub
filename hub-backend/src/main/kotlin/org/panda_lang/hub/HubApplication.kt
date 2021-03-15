@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2021 Hub Team of panda-lang organization
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.panda_lang.hub
 
 import io.ktor.application.Application
@@ -27,6 +43,8 @@ import org.litote.kmongo.reactivestreams.KMongo
 import org.panda_lang.hub.auth.authModule
 import org.panda_lang.hub.auth.installAuthRouting
 import org.panda_lang.hub.failure.failureValidator
+import org.panda_lang.hub.packages.installPackageRouting
+import org.panda_lang.hub.packages.packagesModule
 import org.panda_lang.hub.user.installUserRouting
 import org.panda_lang.hub.user.usersModule
 import java.security.Security
@@ -92,10 +110,12 @@ fun Application.mainModuleWithDeps(httpClient: HttpClient) {
     runBlocking { database.drop() }
 
     val userFacade = usersModule(httpClient, database)
+    val packageFacade = packagesModule(httpClient, database)
     val authFacade = authModule(userFacade)
 
     install(Routing) {
-        installUserRouting(this@mainModuleWithDeps, this, userFacade)
+        installUserRouting(this, userFacade)
+        installPackageRouting(this, packageFacade)
         installAuthRouting(this@mainModuleWithDeps, this, authFacade)
     }
 }
