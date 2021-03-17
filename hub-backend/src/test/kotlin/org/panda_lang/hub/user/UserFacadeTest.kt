@@ -16,11 +16,12 @@
 
 package org.panda_lang.hub.user
 
-import com.github.michaelbull.result.get
-import com.github.michaelbull.result.getError
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.panda_lang.hub.failure.ErrorResponseException
 import org.panda_lang.hub.github.GitHubProfile
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -48,9 +49,9 @@ internal class UserFacadeTest : UserSpecification() {
         // given: a valid token
         val token = "localToken"
         // when: you request user associated with the given token
-        val user = userFacade.fetchUser(token).get()!!
+        val user = userFacade.fetchAuthenticatedUser(token)
         // then: it should return valid user
-        assertEquals(7, user._id)
+        assertEquals("7", user._id)
         assertEquals("localLogin", user.profile.login)
     }
 
@@ -59,16 +60,15 @@ internal class UserFacadeTest : UserSpecification() {
         // given: an unknown token
         val invalidToken = "unknownToken"
         // when: you try to fetch associated user
-        val fetchResult = userFacade.fetchUser(invalidToken)
+        val exception = assertThrows<ErrorResponseException> { userFacade.fetchAuthenticatedUser(invalidToken) }
         // then: it should return error (404) response
-        val error = fetchResult.getError()!!
-        assertEquals(404, error.status.value)
+        assertEquals(HttpStatusCode.NotFound, exception.response.status)
     }
 
     @Test
     fun `should fail for unknown id`() = runBlocking {
         // given: unknown id
-        val unknownId = -1L
+        val unknownId = "unknownId"
         // when: you try to get user
         val user = userFacade.getUser(unknownId)
         // then: result should not contain user
@@ -82,7 +82,7 @@ internal class UserFacadeTest : UserSpecification() {
         // when: you try to get the given user
         val user = userFacade.getUserByLogin(login)
         // then: result should contain requested user
-        assertEquals(7, user!!._id)
+        assertEquals("7", user!!._id)
     }
 
     @Test

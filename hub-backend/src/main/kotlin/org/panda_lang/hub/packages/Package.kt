@@ -28,5 +28,5 @@ data class Package(
     val fullName: String,
     @Contextual
     val owner: User,
-    val registered: Boolean
+    var registered: Boolean
 )

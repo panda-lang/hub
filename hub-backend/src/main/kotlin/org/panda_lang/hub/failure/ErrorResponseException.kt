@@ -16,11 +16,10 @@
 
 package org.panda_lang.hub.failure
 
-import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.readText
+import io.ktor.http.HttpStatusCode
 
-class ErrorResponseException(private val response: HttpResponse) : IllegalStateException() {
+class ErrorResponseException(status: HttpStatusCode, content: String) : IllegalStateException() {
 
-    suspend fun toResponse(): ErrorResponse = ErrorResponse(response.status, response.readText())
+    val response: ErrorResponse = ErrorResponse(status, content)
 
 }

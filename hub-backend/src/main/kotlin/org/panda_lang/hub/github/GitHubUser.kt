@@ -41,4 +41,10 @@ data class GitHubProfile(
     override val location: String,
     override val email: String,
     override val bio: String
-) : Profile
+) : Profile {
+
+    fun toGitHubUserInfo(): GitHubUserInfo {
+        return GitHubUserInfo(id, login, avatarUrl, type)
+    }
+
+}

@@ -16,45 +16,38 @@
 
 package org.panda_lang.hub.github
 
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
-import org.panda_lang.hub.failure.ErrorResponse
-import org.panda_lang.hub.failure.ErrorResponseException
-import org.panda_lang.hub.utils.asErr
 
 class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
 
-    override suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse> {
+    override suspend fun getUser(login: String): GitHubProfile {
+        return request("/users/$login")
+    }
+
+    override suspend fun getAuthenticatedUser(token: String): GitHubProfile {
         return request("/user", token)
     }
 
-    override suspend fun getRepositories(login: String): Result<Array<GitHubRepository>, ErrorResponse> {
+    override suspend fun getRepositories(login: String): Array<GitHubRepository> {
         return request("/users/$login/repos")
     }
 
-    private suspend inline fun <reified T> request(request: String): Result<T, ErrorResponse> {
+    private suspend inline fun <reified T> request(request: String): T {
         return request(request, "")
     }
 
-    private suspend inline fun <reified T> request(request: String, token: String): Result<T, ErrorResponse> {
-        return try {
-            Ok(
-                this.httpClient.get("https://api.github.com$request") {
-                    headers {
-                        header("Accept", "application/vnd.github.v3+json")
+    private suspend inline fun <reified T> request(request: String, token: String): T {
+        return this.httpClient.get("https://api.github.com$request") {
+            headers {
+                header("Accept", "application/vnd.github.v3+json")
 
-                        if (token.isNotEmpty()) {
-                            header("Authorization", "token $token")
-                        }
-                    }
+                if (token.isNotEmpty()) {
+                    header("Authorization", "token $token")
                 }
-            )
-        } catch (errorResponseException: ErrorResponseException) {
-            errorResponseException.toResponse().asErr()
+            }
         }
     }
 

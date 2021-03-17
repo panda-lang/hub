@@ -23,6 +23,7 @@ import kotlinx.serialization.Serializable
 data class User(
     @Contextual
     val _id: String,
+    var registered: Boolean,
     val profile: Profile
 )
 

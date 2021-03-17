@@ -19,8 +19,8 @@ package org.panda_lang.hub.packages
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.panda_lang.hub.github.GitHubProfile
 import org.panda_lang.hub.github.GitHubRepository
-import org.panda_lang.hub.github.GitHubUserInfo
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -29,18 +29,25 @@ internal class PackageFacadeTest : PackageSpecification() {
 
     @BeforeEach
     fun preparePackage() {
+        val user = GitHubProfile(
+            id = 7,
+            login = "localLogin",
+            avatarUrl = "localAvatar",
+            type = "User",
+            name = "localName",
+            location = "localLocation",
+            email = "localEmail",
+            bio = "localBio"
+        )
+
         val repository = GitHubRepository(
             id = 8,
             name = "localName",
-            fullName = "localLogin/localName",
-            owner = GitHubUserInfo(
-                id = 7,
-                login = "localLogin",
-                avatarUrl = "localAvatar",
-                type = "User"
-            )
+            fullName = "${user.login}/localName",
+            owner = user.toGitHubUserInfo()
         )
 
+        createFetchedGitHubProfile("localToken", user)
         createFetchedGitHubRepository(repository)
     }
 
@@ -63,30 +70,9 @@ internal class PackageFacadeTest : PackageSpecification() {
         val owner = "unknownOwner"
         val name = "unknownName"
         // when: you try to find the given package
-        val pkg = packageFacade.getPackage(owner, name)
+        val result = packageFacade.getPackage(owner, name)
         // then: result should be null
-        assertNull(pkg)
-    }
-
-    @Test
-    fun `should fetch package`() = runBlocking {
-        // given: a valid package name
-        val repository = GitHubRepository(
-            id = 1,
-            name = "testName",
-            fullName = "testFullName",
-            owner = GitHubUserInfo(
-                id = 1,
-                login = "testLogin",
-                avatarUrl = "testAvatar",
-                type = "User"
-            )
-        )
-        // when: you try to fetch the given package
-        val pkg = packageFacade.fetchPackage(repository)
-        // then: valid package is created
-        assertEquals(repository.id, pkg._id)
-        assertEquals(repository.owner.login, pkg.owner.profile.login)
+        assertNull(result)
     }
 
 }

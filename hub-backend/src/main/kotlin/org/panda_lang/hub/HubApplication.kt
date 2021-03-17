@@ -18,6 +18,7 @@ package org.panda_lang.hub
 
 import io.ktor.application.Application
 import io.ktor.application.ApplicationStopping
+import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
@@ -28,10 +29,12 @@ import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
+import io.ktor.features.StatusPages
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.locations.Locations
+import io.ktor.response.respond
 import io.ktor.routing.Routing
 import io.ktor.serialization.json
 import io.ktor.server.engine.EngineAPI
@@ -43,6 +46,7 @@ import org.litote.kmongo.id.serialization.IdKotlinXSerializationModule
 import org.litote.kmongo.reactivestreams.KMongo
 import org.panda_lang.hub.auth.authModule
 import org.panda_lang.hub.auth.installAuthRouting
+import org.panda_lang.hub.failure.ErrorResponseException
 import org.panda_lang.hub.failure.failureValidator
 import org.panda_lang.hub.packages.installPackageRouting
 import org.panda_lang.hub.packages.packagesModule
@@ -97,6 +101,11 @@ fun Application.mainModuleWithDeps(json: Json, httpClient: HttpClient) {
         allowCredentials = true
         allowNonSimpleContentTypes = true
         anyHost()
+    }
+    install(StatusPages) {
+        exception<ErrorResponseException> { cause ->
+            call.respond(cause.response.status, cause.response)
+        }
     }
 
     val config = environment.config

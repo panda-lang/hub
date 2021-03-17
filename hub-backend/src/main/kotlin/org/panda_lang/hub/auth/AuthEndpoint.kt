@@ -16,7 +16,6 @@
 
 package org.panda_lang.hub.auth
 
-import com.github.michaelbull.result.mapBoth
 import io.ktor.application.ApplicationCall
 import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.http.HttpStatusCode
@@ -33,10 +32,8 @@ internal class AuthEndpoint(
     suspend fun authorize(ctx: ApplicationCall, oauthResponse: OAuthAccessTokenResponse) {
         when (oauthResponse) {
             is OAuthAccessTokenResponse.OAuth2 -> {
-                authFacade.authenticate(oauthResponse.accessToken).mapBoth(
-                    { response -> ctx.respondRedirect("${frontendConfiguration.authUrl}/?token=${response.jwt}") },
-                    { error -> ctx.respondError(error) }
-                )
+                val authResponse = authFacade.authenticate(oauthResponse.accessToken)
+                ctx.respondRedirect("${frontendConfiguration.authUrl}/?token=${authResponse.jwt}")
             }
             is OAuthAccessTokenResponse.OAuth1a ->
                 ctx.respondError(ErrorResponse(HttpStatusCode.Unauthorized, "OAuth1 is not supported"))

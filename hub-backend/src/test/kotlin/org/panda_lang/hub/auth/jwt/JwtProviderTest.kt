@@ -38,7 +38,7 @@ internal class JwtProviderTest {
     fun `should generate valid jwt token`() {
         // given: a secret and id
         val secret = "oauth token"
-        val userId = 7L
+        val userId = "7"
 
         // when: provider receives request
         val token = provider.generateToken(secret, userId)

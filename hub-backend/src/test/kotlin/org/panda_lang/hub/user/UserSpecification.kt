@@ -31,7 +31,7 @@ open class UserSpecification {
 
     fun createFetchedGitHubProfile(token: String, profile: GitHubProfile) = runBlocking {
         createGitHubProfile(token, profile)
-        userFacade.fetchUser(token)
+        userFacade.fetchAuthenticatedUser(token)
     }
 
 }

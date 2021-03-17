@@ -20,7 +20,6 @@ import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
 import org.panda_lang.hub.failure.ErrorResponse
-import org.panda_lang.hub.utils.respond
 import org.panda_lang.hub.utils.respondOr
 
 internal class PackageEndpoint(
@@ -38,7 +37,7 @@ internal class PackageEndpoint(
     }
 
     suspend fun repositories(ctx: ApplicationCall, owner: String) {
-        packageFacade.getRepositories(owner).respond(ctx)
+        ctx.respond(packageFacade.getRepositories(owner))
     }
 
 }

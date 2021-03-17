@@ -16,12 +16,9 @@
 
 package org.panda_lang.hub.auth
 
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
 import io.ktor.auth.jwt.JWTCredential
 import org.panda_lang.hub.auth.jwt.JwtProvider
 import org.panda_lang.hub.auth.jwt.getTokenClaim
-import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.user.UserFacade
 import java.util.concurrent.ConcurrentHashMap
 
@@ -32,14 +29,14 @@ class AuthFacade internal constructor(
 
     private val authenticated = ConcurrentHashMap.newKeySet<String>()
 
-    internal suspend fun authenticate(oauthToken: String): Result<AuthResponse, ErrorResponse> {
-        return userFacade.fetchUser(oauthToken).map {
-            val token = provider.generateToken(oauthToken, it._id.toString())
+    internal suspend fun authenticate(oauthToken: String): AuthResponse {
+        return userFacade.fetchAuthenticatedUser(oauthToken).let {
+            val token = provider.generateToken(oauthToken, it._id)
 
             authenticated.add(oauthToken)
             println(token)
 
-            return@map AuthResponse(token, it)
+            AuthResponse(token, it)
         }
     }
 

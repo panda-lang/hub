@@ -16,8 +16,6 @@
 
 package org.panda_lang.hub.packages
 
-import com.github.michaelbull.result.Result
-import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.GitHubRepository
 import org.panda_lang.hub.user.UserFacade
@@ -29,20 +27,30 @@ class PackageFacade internal constructor(
 ) {
 
     suspend fun fetchPackage(repository: GitHubRepository): Package {
-        return packageRepository.findPackageById(repository.id.toString()) ?: run {
-            return@run packageRepository.savePackage(
-                Package(
-                    _id = repository.id.toString(),
-                    name = repository.name,
-                    fullName = repository.fullName,
-                    owner = userFacade.getUser(repository.owner.id.toString())!!,
-                    registered = true
-                )
-            )
+        val pkg = fetchAnyPackage(repository)
+
+        if (!pkg.registered) {
+            pkg.registered = true
+            packageRepository.savePackage(pkg)
         }
+
+        return pkg
     }
 
-    suspend fun getRepositories(login: String): Result<Array<GitHubRepository>, ErrorResponse> {
+    suspend fun fetchAnyPackage(repository: GitHubRepository): Package {
+        return packageRepository.findPackageById(repository.id.toString()) ?: createUnregisteredPackage(repository)
+    }
+
+    internal suspend fun createUnregisteredPackage(repository: GitHubRepository): Package {
+        return Package(
+            _id = repository.id.toString(),
+            name = repository.name,
+            fullName = repository.fullName,
+            owner = userFacade.getRemoteUser(repository.owner.login),
+            registered = false
+        )
+    }
+    suspend fun getRepositories(login: String): Array<GitHubRepository> {
         return gitHubClient.getRepositories(login)
     }
 
@@ -51,10 +59,10 @@ class PackageFacade internal constructor(
     }
 
     suspend fun getPackage(owner: String, name: String): Package? {
-        return packageRepository.findPackageByFullName(getFullName(owner, name))
+        return packageRepository.findPackageByFullName(createFullName(owner, name))
     }
 
-    fun getFullName(owner: String, name: String): String {
+    private fun createFullName(owner: String, name: String): String {
         return "$owner/$name"
     }
 

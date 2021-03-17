@@ -16,9 +16,6 @@
 
 package org.panda_lang.hub.user
 
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.map
-import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.GitHubProfile
 
@@ -27,15 +24,29 @@ class UserFacade internal constructor(
     private val userRepository: UserRepository
 ) {
 
-    suspend fun fetchUser(token: String): Result<User, ErrorResponse> {
-        return gitHubClient.getProfile(token).map { fetchUser(it) }
+    private val userFactory = UserFactory()
+
+    suspend fun fetchAuthenticatedUser(token: String): User {
+        return fetchUser(gitHubClient.getAuthenticatedUser(token))
     }
 
     private suspend fun fetchUser(profile: GitHubProfile): User {
-        return userRepository.findUserById(profile.id.toString()) ?: run {
-            val user = User(profile.id.toString(), profile)
-            return@run userRepository.saveUser(user)
+        val user = toUser(profile)
+
+        if (!user.registered) {
+            user.registered = true
+            userRepository.saveUser(user)
         }
+
+        return user
+    }
+
+    suspend fun getRemoteUser(login: String): User {
+        return gitHubClient.getUser(login).let { userFactory.createUser(it) }
+    }
+
+    private suspend fun toUser(profile: GitHubProfile): User {
+        return userRepository.findUserById(profile.id.toString()) ?: userFactory.createUser(profile)
     }
 
     suspend fun getUserByLogin(login: String): User? {

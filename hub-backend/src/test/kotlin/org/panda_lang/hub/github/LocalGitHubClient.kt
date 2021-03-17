@@ -16,10 +16,8 @@
 
 package org.panda_lang.hub.github
 
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.toResultOr
 import io.ktor.http.HttpStatusCode
-import org.panda_lang.hub.failure.ErrorResponse
+import org.panda_lang.hub.failure.ErrorResponseException
 import java.util.concurrent.ConcurrentHashMap
 
 class LocalGitHubClient : GitHubClient {
@@ -31,19 +29,22 @@ class LocalGitHubClient : GitHubClient {
         profiles[token] = profile
     }
 
-    override suspend fun getProfile(token: String): Result<GitHubProfile, ErrorResponse> {
-        return profiles[token].toResultOr { ErrorResponse(HttpStatusCode.NotFound, "Not found") }
+    override suspend fun getUser(login: String): GitHubProfile {
+        return profiles.values.firstOrNull { it.login == login } ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Profile not found")
+    }
+
+    override suspend fun getAuthenticatedUser(token: String): GitHubProfile {
+        return profiles[token] ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Authenticated profile not found")
     }
 
     fun registerRepository(repository: GitHubRepository) {
         repositories[repository.fullName] = repository
     }
 
-    override suspend fun getRepositories(login: String): Result<Array<GitHubRepository>, ErrorResponse> {
+    override suspend fun getRepositories(login: String): Array<GitHubRepository> {
         return repositories.values
             .filter { it.owner.login == login }
             .toTypedArray()
-            .toResultOr { ErrorResponse(HttpStatusCode.BadRequest, "Not found") }
     }
 
 }

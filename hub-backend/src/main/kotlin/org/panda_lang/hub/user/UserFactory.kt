@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.failure
+package org.panda_lang.hub.user
 
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.HttpClientEngineConfig
-import io.ktor.client.features.HttpCallValidator
-import io.ktor.client.statement.readText
+internal class UserFactory {
 
-fun <T : HttpClientEngineConfig> HttpClientConfig<T>.failureValidator() {
-    install(HttpCallValidator) {
-        validateResponse { response ->
-            when (response.status.value) {
-                in 300..Int.MAX_VALUE -> throw ErrorResponseException(response.status, response.readText())
-            }
-        }
+    fun createUser(profile: Profile): User {
+        return User(
+            _id = profile.id.toString(),
+            registered = false,
+            profile = profile
+        )
     }
+
 }
