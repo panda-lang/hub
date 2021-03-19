@@ -20,7 +20,7 @@ import io.ktor.application.ApplicationCall
 import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.http.HttpStatusCode
 import org.panda_lang.hub.auth.jwt.getIdClaim
-import org.panda_lang.hub.failure.ErrorResponse
+import org.panda_lang.hub.failure.ErrorResponseException
 import org.panda_lang.hub.utils.respondOr
 
 internal class UserEndpoint(
@@ -29,12 +29,12 @@ internal class UserEndpoint(
 
     suspend fun user(ctx: ApplicationCall, principal: JWTPrincipal) =
         userFacade.getUser(principal.getIdClaim()).respondOr(ctx) {
-            ErrorResponse(HttpStatusCode.NotFound, "User not found")
+            throw ErrorResponseException(HttpStatusCode.NotFound, "User not found")
         }
 
     suspend fun user(ctx: ApplicationCall, login: String) =
         userFacade.getUserByLogin(login).respondOr(ctx) {
-            ErrorResponse(HttpStatusCode.NotFound, "User not found")
+            throw ErrorResponseException(HttpStatusCode.NotFound, "User not found")
         }
 
 }

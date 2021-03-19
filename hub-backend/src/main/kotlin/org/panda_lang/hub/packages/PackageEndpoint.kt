@@ -19,7 +19,7 @@ package org.panda_lang.hub.packages
 import io.ktor.application.ApplicationCall
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
-import org.panda_lang.hub.failure.ErrorResponse
+import org.panda_lang.hub.failure.ErrorResponseException
 import org.panda_lang.hub.utils.respondOr
 
 internal class PackageEndpoint(private val packageFacade: PackageFacade) {
@@ -29,11 +29,11 @@ internal class PackageEndpoint(private val packageFacade: PackageFacade) {
 
     suspend fun `package`(ctx: ApplicationCall, login: String, name: String) =
         packageFacade.getPackage(login, name).respondOr(ctx) {
-            ErrorResponse(HttpStatusCode.NotFound, "Not found")
+            throw ErrorResponseException(HttpStatusCode.NotFound, "Not found")
         }
 
     suspend fun fetchPackage(ctx: ApplicationCall, login: String, name: String) =
-        ctx.respond(packageFacade.fetchPackage(login, name))
+        ctx.respond(packageFacade.getOrFetchPackage(login, name))
 
     suspend fun repositories(ctx: ApplicationCall, login: String) =
         ctx.respond(packageFacade.getAllPackages(login))

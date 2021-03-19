@@ -20,20 +20,32 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.headers
+import java.util.concurrent.ConcurrentHashMap
 
 class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
 
-    override suspend fun getUser(login: String): GitHubProfile =
-        request("/users/$login")
+    // TODO: Time based cache
+    private val usersCache = ConcurrentHashMap<String, GitHubProfile>()
+    private val usersRepositoriesCache = ConcurrentHashMap<String, Array<GitHubRepositoryInfo>>()
+    private val repositoriesCache = ConcurrentHashMap<RepositoryId, GitHubRepositoryInfo>()
 
     override suspend fun getAuthenticatedUser(token: String): GitHubProfile =
         request("/user", token)
 
+    override suspend fun getUser(login: String): GitHubProfile =
+        usersCache[login] ?: request<GitHubProfile>("/users/$login").also {
+            usersCache[login] = it
+        }
+
     override suspend fun getRepositories(login: String): Array<GitHubRepositoryInfo> =
-        request("/users/$login/repos")
+        usersRepositoriesCache[login] ?: request<Array<GitHubRepositoryInfo>> ("/users/$login/repos").also {
+            usersRepositoriesCache[login] = it
+        }
 
     override suspend fun getRepository(id: RepositoryId): GitHubRepositoryInfo =
-        request("/repos/${id.login}/${id.name}")
+        repositoriesCache[id] ?: request<GitHubRepositoryInfo>("/repos/${id.login}/${id.name}").also {
+            repositoriesCache[id] = it
+        }
 
     private suspend inline fun <reified T> request(request: String): T =
         request(request, "")

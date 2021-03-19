@@ -19,8 +19,8 @@ package org.panda_lang.hub.packages
 import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
+import org.panda_lang.hub.github.GitHubProfile
 import org.panda_lang.hub.github.RepositoryId
-import org.panda_lang.hub.user.Profile
 import org.panda_lang.hub.user.User
 
 internal class MongoPackageRepository(private val collection: CoroutineCollection<Package>) : PackageRepository {
@@ -35,6 +35,6 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
         collection.findOne(Package::fullName eq id.fullName())
 
     override suspend fun findPackagesByUser(login: String): Collection<Package> =
-        collection.find(Package::owner / User::profile / Profile::login eq login).toList()
+        collection.find(Package::owner / User::profile / GitHubProfile::login eq login).toList()
 
 }

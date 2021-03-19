@@ -42,8 +42,9 @@ import {
 } from '@chakra-ui/react'
 import { useGitHub } from '../../lib/useGitHub'
 import Link from 'next/link'
-import { AddIcon } from '@chakra-ui/icons'
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { FaTruckMonster } from 'react-icons/fa'
+import { useClient } from '../../lib/useClient'
 
 const PackageModal = (props) => {
   const color = useColorModeValue('black', 'white')
@@ -56,7 +57,7 @@ const PackageModal = (props) => {
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: FaTruckMonster })
 
   if (!repositories) {
-    useGitHub(`/users/${login}/repos`)
+    useClient(`/repositories/${login}`)
       .then((response) => {
         console.log(response)
         setRepositories(response)
@@ -89,22 +90,7 @@ const PackageModal = (props) => {
             <Tbody>
               {(repositories || []).map((repository) => {
                 return (
-                  <Tr key={repository.id}>
-                    <Td>{repository.name}</Td>
-                    <Td>
-                      <Link href={repository.html_url}>
-                        {`github.com/${repository.full_name}`}
-                      </Link>
-                    </Td>
-                    <Td>
-                      <ButtonGroup size="sm" isAttached variant="outline">
-                        <IconButton
-                          aria-label="Add to friends"
-                          icon={<AddIcon />}
-                        />
-                      </ButtonGroup>
-                    </Td>
-                  </Tr>
+                  <PackageEntry key={repository._id} repository={repository} />
                 )
               })}
             </Tbody>
@@ -117,6 +103,38 @@ const PackageModal = (props) => {
         </ModalFooter>
       </ModalContent>
     </Modal>
+  )
+}
+
+const PackageEntry = (props) => {
+  const repository = props.repository
+  const [registered, setRegistered] = useState(repository.registered)
+  console.log(repository)
+
+  const registerPackage = () => {
+    repository.registered = !repository.registered
+    setRegistered(repository.registered)
+  }
+
+  return (
+    <Tr>
+      <Td>{repository.name}</Td>
+      <Td>
+        <Link href={`https://github.com/${repository.fullName}`}>
+          {`github.com/${repository.fullName}`}
+        </Link>
+      </Td>
+      <Td>
+        <ButtonGroup size="sm" isAttached variant="outline">
+          <IconButton
+            repository={repository}
+            aria-label="Add to friends"
+            icon={registered ? <DeleteIcon /> : <AddIcon />}
+            onClick={registerPackage}
+          />
+        </ButtonGroup>
+      </Td>
+    </Tr>
   )
 }
 

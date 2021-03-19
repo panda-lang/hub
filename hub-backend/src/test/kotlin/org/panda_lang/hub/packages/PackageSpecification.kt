@@ -33,7 +33,7 @@ open class PackageSpecification : UserSpecification() {
 
     fun createFetchedGitHubRepository(repository: GitHubRepositoryInfo) = runBlocking {
         createGitHubRepository(repository)
-        packageFacade.fetchPackage(repository.owner.login, repository.name)
+        packageFacade.getOrFetchPackage(repository.owner.login, repository.name)
     }
 
 }

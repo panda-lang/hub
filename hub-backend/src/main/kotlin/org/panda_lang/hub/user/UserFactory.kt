@@ -16,9 +16,11 @@
 
 package org.panda_lang.hub.user
 
+import org.panda_lang.hub.github.GitHubProfile
+
 internal class UserFactory {
 
-    fun createUser(profile: Profile): User =
+    fun createUser(profile: GitHubProfile): User =
         User(
             _id = profile.id.toString(),
             registered = false,

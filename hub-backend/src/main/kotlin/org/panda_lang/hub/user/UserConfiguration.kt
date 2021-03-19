@@ -32,7 +32,8 @@ fun Application.usersModule(httpClient: HttpClient, database: CoroutineDatabase)
 }
 
 internal fun Application.usersModuleWithDeps(gitHubClient: GitHubClient, repository: UserRepository): UserFacade {
-    return UserFacade(gitHubClient, repository)
+    val userService = UserService(gitHubClient, repository)
+    return UserFacade(userService)
 }
 
 fun installUserRouting(routing: Routing, userFacade: UserFacade) {

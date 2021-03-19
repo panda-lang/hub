@@ -26,15 +26,18 @@ internal class PackageService(
     private val packageRepository: PackageRepository
 ) {
 
-    suspend fun fetchPackage(id: RepositoryId): Package =
-        findAnyPackage(id).let {
+    suspend fun getOrFetchPackage(id: RepositoryId): Package =
+        getAnyPackage(id).let {
             if (it.registered) it else packageRepository.savePackage(it.toRegistered())
         }
 
-    private suspend fun findAnyPackage(id: RepositoryId): Package =
-        packageRepository.findPackageByRepositoryId(id) ?: createUnregisteredPackage(id)
+    suspend fun getAllPackages(login: String): List<Package> =
+        gitHubClient.getRepositories(login).map { repositoryInfo -> getAnyPackage(repositoryInfo.toId()) }
 
-    private suspend fun createUnregisteredPackage(id: RepositoryId): Package =
+    private suspend fun getAnyPackage(id: RepositoryId): Package =
+        packageRepository.findPackageByRepositoryId(id) ?: getRemotePackage(id)
+
+    private suspend fun getRemotePackage(id: RepositoryId): Package =
         gitHubClient.getRepository(id).let {
             Package(
                 _id = it.id.toString(),
@@ -43,9 +46,6 @@ internal class PackageService(
                 owner = userFacade.getRemoteUser(it.owner.login),
             )
         }
-
-    suspend fun getAllPackages(login: String): List<Package> =
-        gitHubClient.getRepositories(login).map { repositoryInfo -> findAnyPackage(repositoryInfo.toId()) }
 
     suspend fun getPackages(login: String): Collection<Package> =
         packageRepository.findPackagesByUser(login)

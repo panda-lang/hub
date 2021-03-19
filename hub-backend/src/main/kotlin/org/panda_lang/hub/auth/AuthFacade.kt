@@ -30,7 +30,7 @@ class AuthFacade internal constructor(
     private val authenticated = ConcurrentHashMap.newKeySet<String>()
 
     internal suspend fun authenticate(oauthToken: String): AuthResponse =
-        userFacade.fetchAuthenticatedUser(oauthToken).let {
+        userFacade.requestAuthenticatedUser(oauthToken).let {
             val token = provider.generateToken(oauthToken, it._id)
 
             authenticated.add(oauthToken)

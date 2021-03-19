@@ -18,30 +18,28 @@ package org.panda_lang.hub.github
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.panda_lang.hub.user.Profile
-import org.panda_lang.hub.user.UserInfo
 
 @Serializable
 data class GitHubUserInfo(
-    override val id: Long,
-    override val login: String,
+    val id: Long,
+    val login: String,
     @SerialName("avatar_url")
-    override val avatarUrl: String,
-    override val type: String,
-) : UserInfo
+    val avatarUrl: String,
+    val type: String,
+)
 
 @Serializable
 data class GitHubProfile(
-    override val id: Long,
-    override val login: String,
+    val id: Long,
+    val login: String,
     @SerialName("avatar_url")
-    override val avatarUrl: String,
-    override val type: String,
-    override val name: String,
-    override val location: String,
-    override val email: String,
-    override val bio: String
-) : Profile {
+    val avatarUrl: String,
+    val type: String,
+    val name: String?,
+    val location: String?,
+    val email: String?,
+    val bio: String?
+) {
 
     fun toGitHubUserInfo(): GitHubUserInfo = GitHubUserInfo(id, login, avatarUrl, type)
 

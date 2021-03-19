@@ -21,8 +21,7 @@ import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respondRedirect
 import org.panda_lang.hub.FrontendConfiguration
-import org.panda_lang.hub.failure.ErrorResponse
-import org.panda_lang.hub.utils.respondError
+import org.panda_lang.hub.failure.ErrorResponseException
 
 internal class AuthEndpoint(
     private val frontendConfiguration: FrontendConfiguration,
@@ -36,7 +35,7 @@ internal class AuthEndpoint(
             }
         }
         is OAuthAccessTokenResponse.OAuth1a ->
-            ctx.respondError(ErrorResponse(HttpStatusCode.Unauthorized, "OAuth1 is not supported"))
+            throw ErrorResponseException(HttpStatusCode.Unauthorized, "OAuth1 is not supported")
     }
 
 }

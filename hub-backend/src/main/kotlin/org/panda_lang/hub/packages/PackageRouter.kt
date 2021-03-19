@@ -28,7 +28,7 @@ internal class RepositoriesLocation(val login: String)
 internal class PackagesLocation(val login: String)
 
 @Location("/package/{login}/{name}")
-internal class PackageLocation(val owner: String, val name: String)
+internal class PackageLocation(val login: String, val name: String)
 
 @Location("/package/{login}/{name}/versions")
 internal class VersionsLocation(val login: String, val name: String)
@@ -44,9 +44,9 @@ internal fun Routing.routes(packageEndpoint: PackageEndpoint) {
         packageEndpoint.packages(this.context, packagesLocation.login)
     }
     get <PackageLocation> { packageLocation ->
-        packageEndpoint.`package`(this.context, packageLocation.owner, packageLocation.name)
+        packageEndpoint.`package`(this.context, packageLocation.login, packageLocation.name)
     }
     post <PackageLocation> { packageLocation ->
-        packageEndpoint.fetchPackage(this.context, packageLocation.owner, packageLocation.name)
+        packageEndpoint.fetchPackage(this.context, packageLocation.login, packageLocation.name)
     }
 }

@@ -33,6 +33,7 @@ import io.ktor.features.StatusPages
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.locations.Locations
 import io.ktor.response.respond
 import io.ktor.routing.Routing
@@ -104,7 +105,7 @@ fun Application.mainModuleWithDeps(json: Json, httpClient: HttpClient) {
     }
     install(StatusPages) {
         exception<ErrorResponseException> { cause ->
-            call.respond(cause.response.status, cause.response)
+            call.respond(HttpStatusCode(cause.response.status, cause.response.message), cause.response)
         }
     }
 

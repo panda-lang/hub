@@ -49,7 +49,7 @@ internal class UserFacadeTest : UserSpecification() {
         // given: a valid token
         val token = "localToken"
         // when: you request user associated with the given token
-        val user = userFacade.fetchAuthenticatedUser(token)
+        val user = userFacade.requestAuthenticatedUser(token)
         // then: it should return valid user
         assertEquals("7", user._id)
         assertEquals("localLogin", user.profile.login)
@@ -60,9 +60,9 @@ internal class UserFacadeTest : UserSpecification() {
         // given: an unknown token
         val invalidToken = "unknownToken"
         // when: you try to fetch associated user
-        val exception = assertThrows<ErrorResponseException> { userFacade.fetchAuthenticatedUser(invalidToken) }
+        val exception = assertThrows<ErrorResponseException> { userFacade.requestAuthenticatedUser(invalidToken) }
         // then: it should return error (404) response
-        assertEquals(HttpStatusCode.NotFound, exception.response.status)
+        assertEquals(HttpStatusCode.NotFound.value, exception.response.status)
     }
 
     @Test

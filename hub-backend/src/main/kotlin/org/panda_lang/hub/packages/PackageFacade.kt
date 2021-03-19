@@ -20,7 +20,7 @@ import org.panda_lang.hub.github.RepositoryId
 
 class PackageFacade internal constructor(private val packageService: PackageService) {
 
-    suspend fun fetchPackage(login: String, name: String): Package = packageService.fetchPackage(RepositoryId(login, name))
+    suspend fun getOrFetchPackage(login: String, name: String): Package = packageService.getOrFetchPackage(RepositoryId(login, name))
 
     suspend fun getPackage(login: String, name: String): Package? = packageService.getPackage(RepositoryId(login, name))
 

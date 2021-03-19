@@ -16,37 +16,14 @@
 
 package org.panda_lang.hub.user
 
-import org.panda_lang.hub.github.GitHubClient
-import org.panda_lang.hub.github.GitHubProfile
+class UserFacade internal constructor(private val userService: UserService) {
 
-class UserFacade internal constructor(
-    private val gitHubClient: GitHubClient,
-    private val userRepository: UserRepository
-) {
+    suspend fun requestAuthenticatedUser(token: String): User = userService.requestAuthenticatedUser(token)
 
-    private val userFactory = UserFactory()
+    suspend fun getRemoteUser(login: String): User = userService.getRemoteUser(login)
 
-    suspend fun fetchAuthenticatedUser(token: String): User =
-        fetchUser(gitHubClient.getAuthenticatedUser(token))
+    suspend fun getUserByLogin(login: String): User? = userService.getUserByLogin(login)
 
-    private suspend fun fetchUser(profile: GitHubProfile): User =
-        toUser(profile).also {
-            if (!it.registered) {
-                it.registered = true
-                userRepository.saveUser(it)
-            }
-        }
-
-    suspend fun getRemoteUser(login: String): User =
-        gitHubClient.getUser(login).let { userFactory.createUser(it) }
-
-    private suspend fun toUser(profile: GitHubProfile): User =
-        userRepository.findUserById(profile.id.toString()) ?: userFactory.createUser(profile)
-
-    suspend fun getUserByLogin(login: String): User? =
-        userRepository.findUserByLogin(login)
-
-    suspend fun getUser(id: String): User? =
-        userRepository.findUserById(id)
+    suspend fun getUser(id: String): User? = userService.getUser(id)
 
 }
