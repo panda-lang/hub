@@ -28,5 +28,17 @@ data class Package(
     val fullName: String,
     @Contextual
     val owner: User,
-    var registered: Boolean
-)
+    var registered: Boolean = false
+) {
+
+    fun toRegistered(): Package {
+        return Package(
+            _id = _id,
+            name = name,
+            fullName = fullName,
+            owner = owner,
+            registered = true
+        )
+    }
+
+}

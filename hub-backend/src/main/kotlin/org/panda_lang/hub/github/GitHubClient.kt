@@ -22,6 +22,8 @@ interface GitHubClient {
 
     suspend fun getAuthenticatedUser(token: String): GitHubProfile
 
-    suspend fun getRepositories(login: String): Array<GitHubRepository>
+    suspend fun getRepositories(login: String): Array<GitHubRepositoryInfo>
+
+    suspend fun getRepository(id: RepositoryId): GitHubRepositoryInfo
 
 }

@@ -29,8 +29,11 @@ class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
     override suspend fun getAuthenticatedUser(token: String): GitHubProfile =
         request("/user", token)
 
-    override suspend fun getRepositories(login: String): Array<GitHubRepository> =
+    override suspend fun getRepositories(login: String): Array<GitHubRepositoryInfo> =
         request("/users/$login/repos")
+
+    override suspend fun getRepository(id: RepositoryId): GitHubRepositoryInfo =
+        request("/repos/${id.login}/${id.name}")
 
     private suspend inline fun <reified T> request(request: String): T =
         request(request, "")

@@ -21,32 +21,32 @@ import io.ktor.locations.get
 import io.ktor.locations.post
 import io.ktor.routing.Routing
 
-@Location("/repositories/{owner}")
-internal class RepositoriesLocation(val owner: String)
+@Location("/repositories/{login}")
+internal class RepositoriesLocation(val login: String)
 
-@Location("/packages/{owner}")
-internal class PackagesLocation(val owner: String)
+@Location("/packages/{login}")
+internal class PackagesLocation(val login: String)
 
-@Location("/package/{owner}/{name}")
+@Location("/package/{login}/{name}")
 internal class PackageLocation(val owner: String, val name: String)
 
-@Location("/package/{owner}/{name}/versions")
-internal class VersionsLocation(val owner: String, val name: String)
+@Location("/package/{login}/{name}/versions")
+internal class VersionsLocation(val login: String, val name: String)
 
-@Location("/package/{owner}/{name}/latest")
-internal class LatestLocation(val owner: String, val name: String)
+@Location("/package/{login}/{name}/latest")
+internal class LatestLocation(val login: String, val name: String)
 
 internal fun Routing.routes(packageEndpoint: PackageEndpoint) {
     get <RepositoriesLocation> { repositoriesLocation ->
-        packageEndpoint.repositories(this.context, repositoriesLocation.owner)
+        packageEndpoint.repositories(this.context, repositoriesLocation.login)
     }
     get <PackagesLocation> { packagesLocation ->
-        packageEndpoint.packages(this.context, packagesLocation.owner)
+        packageEndpoint.packages(this.context, packagesLocation.login)
     }
     get <PackageLocation> { packageLocation ->
         packageEndpoint.`package`(this.context, packageLocation.owner, packageLocation.name)
     }
-    post <PackageLocation> { packageEndpoint ->
-
+    post <PackageLocation> { packageLocation ->
+        packageEndpoint.fetchPackage(this.context, packageLocation.owner, packageLocation.name)
     }
 }

@@ -20,10 +20,23 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GitHubRepository(
+data class GitHubRepositoryInfo(
     val id: Long,
     val name: String,
     @SerialName("full_name")
     val fullName: String,
     val owner: GitHubUserInfo
-)
+) {
+
+    fun toId(): RepositoryId = RepositoryId(owner.login, name)
+
+}
+
+data class RepositoryId(
+    val login: String,
+    val name: String
+) {
+
+    fun fullName(): String = "$login/$name"
+
+}

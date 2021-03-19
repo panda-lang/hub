@@ -23,23 +23,26 @@ import java.util.concurrent.ConcurrentHashMap
 class LocalGitHubClient : GitHubClient {
 
     private val profiles = ConcurrentHashMap<String, GitHubProfile>()
-    private val repositories = ConcurrentHashMap<String, GitHubRepository>()
+    private val repositories = ConcurrentHashMap<String, GitHubRepositoryInfo>()
 
     fun registerProfile(token: String, profile: GitHubProfile) =
         profile.also { profiles[token] = it }
 
     override suspend fun getUser(login: String): GitHubProfile =
-         profiles.values.firstOrNull { it.login == login } ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Profile not found")
+        profiles.values.firstOrNull { it.login == login } ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Profile not found")
 
     override suspend fun getAuthenticatedUser(token: String): GitHubProfile =
         profiles[token] ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Authenticated profile not found")
 
-    fun registerRepository(repository: GitHubRepository) =
+    fun registerRepository(repository: GitHubRepositoryInfo) =
         repository.also { repositories[it.fullName] = it }
 
-    override suspend fun getRepositories(login: String): Array<GitHubRepository> =
+    override suspend fun getRepositories(login: String): Array<GitHubRepositoryInfo> =
         repositories.values
             .filter { it.owner.login == login }
             .toTypedArray()
+
+    override suspend fun getRepository(id: RepositoryId): GitHubRepositoryInfo =
+        repositories.values.firstOrNull { it.fullName == id.fullName() }!!
 
 }

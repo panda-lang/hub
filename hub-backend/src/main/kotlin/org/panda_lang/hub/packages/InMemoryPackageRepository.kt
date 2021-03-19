@@ -16,6 +16,7 @@
 
 package org.panda_lang.hub.packages
 
+import org.panda_lang.hub.github.RepositoryId
 import java.util.concurrent.ConcurrentHashMap
 
 internal class InMemoryPackageRepository : PackageRepository {
@@ -28,8 +29,8 @@ internal class InMemoryPackageRepository : PackageRepository {
     override suspend fun findPackageById(id: String): Package? =
         packages[id]
 
-    override suspend fun findPackageByFullName(fullName: String): Package? =
-        packages.values.firstOrNull { it.fullName == fullName }
+    override suspend fun findPackageByRepositoryId(id: RepositoryId): Package? =
+        packages.values.firstOrNull { it.fullName == id.fullName() }
 
     override suspend fun findPackagesByUser(login: String): Collection<Package> =
         packages.values.filter { it.owner.profile.login == login }

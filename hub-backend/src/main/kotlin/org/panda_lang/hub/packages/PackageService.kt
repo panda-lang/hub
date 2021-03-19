@@ -1,0 +1,56 @@
+/*
+ * Copyright (c) 2021 Hub Team of panda-lang organization
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.panda_lang.hub.packages
+
+import org.panda_lang.hub.github.GitHubClient
+import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.user.UserFacade
+
+internal class PackageService(
+    private val gitHubClient: GitHubClient,
+    private val userFacade: UserFacade,
+    private val packageRepository: PackageRepository
+) {
+
+    suspend fun fetchPackage(id: RepositoryId): Package =
+        findAnyPackage(id).let {
+            if (it.registered) it else packageRepository.savePackage(it.toRegistered())
+        }
+
+    private suspend fun findAnyPackage(id: RepositoryId): Package =
+        packageRepository.findPackageByRepositoryId(id) ?: createUnregisteredPackage(id)
+
+    private suspend fun createUnregisteredPackage(id: RepositoryId): Package =
+        gitHubClient.getRepository(id).let {
+            Package(
+                _id = it.id.toString(),
+                name = it.name,
+                fullName = it.fullName,
+                owner = userFacade.getRemoteUser(it.owner.login),
+            )
+        }
+
+    suspend fun getAllPackages(login: String): List<Package> =
+        gitHubClient.getRepositories(login).map { repositoryInfo -> findAnyPackage(repositoryInfo.toId()) }
+
+    suspend fun getPackages(login: String): Collection<Package> =
+        packageRepository.findPackagesByUser(login)
+
+    suspend fun getPackage(id: RepositoryId): Package? =
+        packageRepository.findPackageByRepositoryId(id)
+
+}

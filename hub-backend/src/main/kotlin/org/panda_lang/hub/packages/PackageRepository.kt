@@ -16,13 +16,15 @@
 
 package org.panda_lang.hub.packages
 
+import org.panda_lang.hub.github.RepositoryId
+
 internal interface PackageRepository {
 
     suspend fun savePackage(pkg: Package): Package
 
     suspend fun findPackageById(id: String): Package?
 
-    suspend fun findPackageByFullName(fullName: String): Package?
+    suspend fun findPackageByRepositoryId(id: RepositoryId): Package?
 
     suspend fun findPackagesByUser(login: String): Collection<Package>
 

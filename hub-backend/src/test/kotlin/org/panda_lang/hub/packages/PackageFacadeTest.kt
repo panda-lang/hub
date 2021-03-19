@@ -20,7 +20,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.panda_lang.hub.github.GitHubProfile
-import org.panda_lang.hub.github.GitHubRepository
+import org.panda_lang.hub.github.GitHubRepositoryInfo
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -40,7 +40,7 @@ internal class PackageFacadeTest : PackageSpecification() {
             bio = "localBio"
         )
 
-        val repository = GitHubRepository(
+        val repository = GitHubRepositoryInfo(
             id = 8,
             name = "localName",
             fullName = "${user.login}/localName",

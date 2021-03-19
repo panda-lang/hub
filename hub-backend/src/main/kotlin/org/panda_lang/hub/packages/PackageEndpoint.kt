@@ -24,15 +24,18 @@ import org.panda_lang.hub.utils.respondOr
 
 internal class PackageEndpoint(private val packageFacade: PackageFacade) {
 
-    suspend fun `package`(ctx: ApplicationCall, owner: String, name: String) =
-        packageFacade.getPackage(owner, name).respondOr(ctx) {
+    suspend fun packages(ctx: ApplicationCall, login: String) =
+        ctx.respond(packageFacade.getPackages(login))
+
+    suspend fun `package`(ctx: ApplicationCall, login: String, name: String) =
+        packageFacade.getPackage(login, name).respondOr(ctx) {
             ErrorResponse(HttpStatusCode.NotFound, "Not found")
         }
 
-    suspend fun packages(ctx: ApplicationCall, owner: String) =
-        ctx.respond(packageFacade.getPackages(owner))
+    suspend fun fetchPackage(ctx: ApplicationCall, login: String, name: String) =
+        ctx.respond(packageFacade.fetchPackage(login, name))
 
-    suspend fun repositories(ctx: ApplicationCall, owner: String) =
-        ctx.respond(packageFacade.getRepositories(owner))
+    suspend fun repositories(ctx: ApplicationCall, login: String) =
+        ctx.respond(packageFacade.getAllPackages(login))
 
 }

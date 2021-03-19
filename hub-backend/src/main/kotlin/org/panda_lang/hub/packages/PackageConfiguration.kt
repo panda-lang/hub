@@ -37,7 +37,8 @@ internal fun Application.packagesModuleWithDeps(
     userFacade: UserFacade,
     repository: PackageRepository
 ): PackageFacade {
-    return PackageFacade(gitHubClient, userFacade, repository)
+    val packageService = PackageService(gitHubClient, userFacade, repository)
+    return PackageFacade(packageService)
 }
 
 fun installPackageRouting(routing: Routing, packageFacade: PackageFacade) {
