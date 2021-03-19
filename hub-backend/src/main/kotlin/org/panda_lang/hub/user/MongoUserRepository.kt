@@ -22,17 +22,13 @@ import org.litote.kmongo.eq
 
 internal class MongoUserRepository(private val collection: CoroutineCollection<User>) : UserRepository {
 
-    override suspend fun saveUser(user: User): User {
-        collection.insertOne(user)
-        return user
-    }
+    override suspend fun saveUser(user: User): User =
+        user.also { collection.insertOne(it) }
 
-    override suspend fun findUserById(id: String): User? {
-        return collection.findOne(User::_id eq id)
-    }
+    override suspend fun findUserById(id: String): User? =
+        collection.findOne(User::_id eq id)
 
-    override suspend fun findUserByLogin(login: String): User? {
-        return collection.findOne(User::profile / Profile::login eq login)
-    }
+    override suspend fun findUserByLogin(login: String): User? =
+        collection.findOne(User::profile / Profile::login eq login)
 
 }

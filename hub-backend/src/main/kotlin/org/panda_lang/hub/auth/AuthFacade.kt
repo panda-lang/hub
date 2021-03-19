@@ -29,8 +29,8 @@ class AuthFacade internal constructor(
 
     private val authenticated = ConcurrentHashMap.newKeySet<String>()
 
-    internal suspend fun authenticate(oauthToken: String): AuthResponse {
-        return userFacade.fetchAuthenticatedUser(oauthToken).let {
+    internal suspend fun authenticate(oauthToken: String): AuthResponse =
+        userFacade.fetchAuthenticatedUser(oauthToken).let {
             val token = provider.generateToken(oauthToken, it._id)
 
             authenticated.add(oauthToken)
@@ -38,7 +38,6 @@ class AuthFacade internal constructor(
 
             AuthResponse(token, it)
         }
-    }
 
     fun invalidateToken(credential: JWTCredential) =
         authenticated.remove(credential.getTokenClaim())

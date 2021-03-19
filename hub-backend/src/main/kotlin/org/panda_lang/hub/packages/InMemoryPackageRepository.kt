@@ -22,21 +22,16 @@ internal class InMemoryPackageRepository : PackageRepository {
 
     private val packages = ConcurrentHashMap<String, Package>()
 
-    override suspend fun savePackage(pkg: Package): Package {
-        packages[pkg._id] = pkg
-        return pkg
-    }
+    override suspend fun savePackage(pkg: Package): Package =
+        pkg.also { packages[it._id] = it }
 
-    override suspend fun findPackageById(id: String): Package? {
-        return packages[id]
-    }
+    override suspend fun findPackageById(id: String): Package? =
+        packages[id]
 
-    override suspend fun findPackageByFullName(fullName: String): Package? {
-        return packages.values.firstOrNull { it.fullName == fullName }
-    }
+    override suspend fun findPackageByFullName(fullName: String): Package? =
+        packages.values.firstOrNull { it.fullName == fullName }
 
-    override suspend fun findPackagesByUser(login: String): Collection<Package> {
-        return packages.values.filter { it.owner.profile.login == login }
-    }
+    override suspend fun findPackagesByUser(login: String): Collection<Package> =
+        packages.values.filter { it.owner.profile.login == login }
 
 }

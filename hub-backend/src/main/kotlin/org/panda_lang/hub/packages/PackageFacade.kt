@@ -26,44 +26,35 @@ class PackageFacade internal constructor(
     private val packageRepository: PackageRepository
 ) {
 
-    suspend fun fetchPackage(repository: GitHubRepository): Package {
-        val pkg = fetchAnyPackage(repository)
-
-        if (!pkg.registered) {
-            pkg.registered = true
-            packageRepository.savePackage(pkg)
+    suspend fun fetchPackage(repository: GitHubRepository): Package =
+        fetchAnyPackage(repository).also {
+            if (!it.registered) {
+                it.registered = true
+                packageRepository.savePackage(it)
+            }
         }
 
-        return pkg
-    }
+    suspend fun fetchAnyPackage(repository: GitHubRepository): Package =
+        packageRepository.findPackageById(repository.id.toString()) ?: createUnregisteredPackage(repository)
 
-    suspend fun fetchAnyPackage(repository: GitHubRepository): Package {
-        return packageRepository.findPackageById(repository.id.toString()) ?: createUnregisteredPackage(repository)
-    }
-
-    internal suspend fun createUnregisteredPackage(repository: GitHubRepository): Package {
-        return Package(
+    internal suspend fun createUnregisteredPackage(repository: GitHubRepository): Package =
+        Package(
             _id = repository.id.toString(),
             name = repository.name,
             fullName = repository.fullName,
             owner = userFacade.getRemoteUser(repository.owner.login),
             registered = false
         )
-    }
-    suspend fun getRepositories(login: String): Array<GitHubRepository> {
-        return gitHubClient.getRepositories(login)
-    }
 
-    suspend fun getPackages(owner: String): Collection<Package> {
-        return packageRepository.findPackagesByUser(owner)
-    }
+    suspend fun getRepositories(login: String): Array<GitHubRepository> =
+        gitHubClient.getRepositories(login)
 
-    suspend fun getPackage(owner: String, name: String): Package? {
-        return packageRepository.findPackageByFullName(createFullName(owner, name))
-    }
+    suspend fun getPackages(owner: String): Collection<Package> =
+        packageRepository.findPackagesByUser(owner)
 
-    private fun createFullName(owner: String, name: String): String {
-        return "$owner/$name"
-    }
+    suspend fun getPackage(owner: String, name: String): Package? =
+        packageRepository.findPackageByFullName(createFullName(owner, name))
+
+    private fun createFullName(owner: String, name: String): String = "$owner/$name"
 
 }

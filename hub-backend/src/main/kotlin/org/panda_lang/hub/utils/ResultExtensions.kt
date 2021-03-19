@@ -23,17 +23,12 @@ import com.github.michaelbull.result.mapBoth
 import io.ktor.application.ApplicationCall
 import io.ktor.response.respond
 
-fun <T> T.asOk(): Ok<T> {
-    return Ok(this)
-}
+fun <T> T.asOk(): Ok<T> = Ok(this)
 
-fun <T> T.asErr(): Err<T> {
-    return Err(this)
-}
+fun <T> T.asErr(): Err<T> = Err(this)
 
-suspend inline fun <reified V : Any, reified E : Any> Result<V, E>.respond(ctx: ApplicationCall) {
+suspend inline fun <reified V : Any, reified E : Any> Result<V, E>.respond(ctx: ApplicationCall) =
     this.mapBoth(
         { response -> ctx.respond(response) },
         { error -> ctx.respond(error) }
     )
-}

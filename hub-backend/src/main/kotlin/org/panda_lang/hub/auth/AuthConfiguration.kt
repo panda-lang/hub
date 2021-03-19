@@ -106,7 +106,5 @@ fun Application.authModuleWithDeps(
     return authService
 }
 
-fun installAuthRouting(app: Application, routing: Routing, authFacade: AuthFacade) {
-    val authEndpoint = AuthEndpoint(app.environment.config.toFrontendConfiguration(), authFacade)
-    routing.routes(authEndpoint)
-}
+fun installAuthRouting(app: Application, routing: Routing, authFacade: AuthFacade) =
+    routing.routes(AuthEndpoint(app.environment.config.toFrontendConfiguration(), authFacade))

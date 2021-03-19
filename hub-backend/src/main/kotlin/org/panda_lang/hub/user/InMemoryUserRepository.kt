@@ -22,19 +22,13 @@ internal class InMemoryUserRepository : UserRepository {
 
     private val users = ConcurrentHashMap<String, User>()
 
-    override suspend fun findUserById(id: String): User? {
-        return users[id]
-    }
+    override suspend fun findUserById(id: String): User? =
+        users[id]
 
-    override suspend fun findUserByLogin(login: String): User? {
-        return users.entries
-            .firstOrNull { it.value.profile.login == login }
-            ?.value
-    }
+    override suspend fun findUserByLogin(login: String): User? =
+        users.entries.firstOrNull { it.value.profile.login == login }?.value
 
-    override suspend fun saveUser(user: User): User {
-        users[user._id] = user
-        return user
-    }
+    override suspend fun saveUser(user: User): User =
+        user.also { users[it._id] = it }
 
 }

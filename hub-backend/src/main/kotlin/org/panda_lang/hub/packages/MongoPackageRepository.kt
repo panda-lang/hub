@@ -24,21 +24,16 @@ import org.panda_lang.hub.user.User
 
 internal class MongoPackageRepository(private val collection: CoroutineCollection<Package>) : PackageRepository {
 
-    override suspend fun savePackage(pkg: Package): Package {
-        collection.insertOne(pkg)
-        return pkg
-    }
+    override suspend fun savePackage(pkg: Package): Package =
+        pkg.also { collection.insertOne(it) }
 
-    override suspend fun findPackageById(id: String): Package? {
-        return collection.findOne(Package::_id eq id)
-    }
+    override suspend fun findPackageById(id: String): Package? =
+        collection.findOne(Package::_id eq id)
 
-    override suspend fun findPackageByFullName(fullName: String): Package? {
-        return collection.findOne(Package::fullName eq fullName)
-    }
+    override suspend fun findPackageByFullName(fullName: String): Package? =
+        collection.findOne(Package::fullName eq fullName)
 
-    override suspend fun findPackagesByUser(login: String): Collection<Package> {
-        return collection.find(Package::owner / User::profile / Profile::login eq login).toList()
-    }
+    override suspend fun findPackagesByUser(login: String): Collection<Package> =
+        collection.find(Package::owner / User::profile / Profile::login eq login).toList()
 
 }

@@ -125,9 +125,8 @@ fun Application.mainModuleWithDeps(json: Json, httpClient: HttpClient) {
     }
 }
 
-fun ApplicationConfig.toFrontendConfiguration(): FrontendConfiguration {
-    return FrontendConfiguration(
+fun ApplicationConfig.toFrontendConfiguration(): FrontendConfiguration =
+    FrontendConfiguration(
         property("frontend.url").getString(),
         property("frontend.authUrl").getString(),
     )
-}

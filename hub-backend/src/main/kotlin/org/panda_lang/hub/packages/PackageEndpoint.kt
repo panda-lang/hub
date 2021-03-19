@@ -22,22 +22,17 @@ import io.ktor.response.respond
 import org.panda_lang.hub.failure.ErrorResponse
 import org.panda_lang.hub.utils.respondOr
 
-internal class PackageEndpoint(
-    private val packageFacade: PackageFacade
-) {
+internal class PackageEndpoint(private val packageFacade: PackageFacade) {
 
-    suspend fun `package`(ctx: ApplicationCall, owner: String, name: String) {
+    suspend fun `package`(ctx: ApplicationCall, owner: String, name: String) =
         packageFacade.getPackage(owner, name).respondOr(ctx) {
             ErrorResponse(HttpStatusCode.NotFound, "Not found")
         }
-    }
 
-    suspend fun packages(ctx: ApplicationCall, owner: String) {
+    suspend fun packages(ctx: ApplicationCall, owner: String) =
         ctx.respond(packageFacade.getPackages(owner))
-    }
 
-    suspend fun repositories(ctx: ApplicationCall, owner: String) {
+    suspend fun repositories(ctx: ApplicationCall, owner: String) =
         ctx.respond(packageFacade.getRepositories(owner))
-    }
 
 }

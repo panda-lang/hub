@@ -27,16 +27,14 @@ internal class UserEndpoint(
     private val userFacade: UserFacade
 ) {
 
-    suspend fun user(ctx: ApplicationCall, principal: JWTPrincipal) {
+    suspend fun user(ctx: ApplicationCall, principal: JWTPrincipal) =
         userFacade.getUser(principal.getIdClaim()).respondOr(ctx) {
             ErrorResponse(HttpStatusCode.NotFound, "User not found")
         }
-    }
 
-    suspend fun user(ctx: ApplicationCall, login: String) {
+    suspend fun user(ctx: ApplicationCall, login: String) =
         userFacade.getUserByLogin(login).respondOr(ctx) {
             ErrorResponse(HttpStatusCode.NotFound, "User not found")
         }
-    }
 
 }

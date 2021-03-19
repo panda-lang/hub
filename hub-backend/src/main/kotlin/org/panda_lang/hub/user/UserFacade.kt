@@ -26,35 +26,27 @@ class UserFacade internal constructor(
 
     private val userFactory = UserFactory()
 
-    suspend fun fetchAuthenticatedUser(token: String): User {
-        return fetchUser(gitHubClient.getAuthenticatedUser(token))
-    }
+    suspend fun fetchAuthenticatedUser(token: String): User =
+        fetchUser(gitHubClient.getAuthenticatedUser(token))
 
-    private suspend fun fetchUser(profile: GitHubProfile): User {
-        val user = toUser(profile)
-
-        if (!user.registered) {
-            user.registered = true
-            userRepository.saveUser(user)
+    private suspend fun fetchUser(profile: GitHubProfile): User =
+        toUser(profile).also {
+            if (!it.registered) {
+                it.registered = true
+                userRepository.saveUser(it)
+            }
         }
 
-        return user
-    }
+    suspend fun getRemoteUser(login: String): User =
+        gitHubClient.getUser(login).let { userFactory.createUser(it) }
 
-    suspend fun getRemoteUser(login: String): User {
-        return gitHubClient.getUser(login).let { userFactory.createUser(it) }
-    }
+    private suspend fun toUser(profile: GitHubProfile): User =
+        userRepository.findUserById(profile.id.toString()) ?: userFactory.createUser(profile)
 
-    private suspend fun toUser(profile: GitHubProfile): User {
-        return userRepository.findUserById(profile.id.toString()) ?: userFactory.createUser(profile)
-    }
+    suspend fun getUserByLogin(login: String): User? =
+        userRepository.findUserByLogin(login)
 
-    suspend fun getUserByLogin(login: String): User? {
-        return userRepository.findUserByLogin(login)
-    }
-
-    suspend fun getUser(id: String): User? {
-        return userRepository.findUserById(id)
-    }
+    suspend fun getUser(id: String): User? =
+        userRepository.findUserById(id)
 
 }

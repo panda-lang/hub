@@ -26,9 +26,8 @@ open class PackageSpecification : UserSpecification() {
     private val client = LocalGitHubClient()
     internal val packageFacade = PackageFacade(client, userFacade, InMemoryPackageRepository())
 
-    fun createGitHubRepository(repository: GitHubRepository) {
+    fun createGitHubRepository(repository: GitHubRepository) =
         client.registerRepository(repository)
-    }
 
     fun createFetchedGitHubRepository(repository: GitHubRepository) = runBlocking {
         createGitHubRepository(repository)

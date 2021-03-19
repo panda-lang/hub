@@ -23,24 +23,20 @@ import io.ktor.client.request.headers
 
 class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
 
-    override suspend fun getUser(login: String): GitHubProfile {
-        return request("/users/$login")
-    }
+    override suspend fun getUser(login: String): GitHubProfile =
+        request("/users/$login")
 
-    override suspend fun getAuthenticatedUser(token: String): GitHubProfile {
-        return request("/user", token)
-    }
+    override suspend fun getAuthenticatedUser(token: String): GitHubProfile =
+        request("/user", token)
 
-    override suspend fun getRepositories(login: String): Array<GitHubRepository> {
-        return request("/users/$login/repos")
-    }
+    override suspend fun getRepositories(login: String): Array<GitHubRepository> =
+        request("/users/$login/repos")
 
-    private suspend inline fun <reified T> request(request: String): T {
-        return request(request, "")
-    }
+    private suspend inline fun <reified T> request(request: String): T =
+        request(request, "")
 
-    private suspend inline fun <reified T> request(request: String, token: String): T {
-        return this.httpClient.get("https://api.github.com$request") {
+    private suspend inline fun <reified T> request(request: String, token: String): T =
+        httpClient.get("https://api.github.com$request") {
             headers {
                 header("Accept", "application/vnd.github.v3+json")
 
@@ -49,6 +45,5 @@ class RemoteGitHubClient(private val httpClient: HttpClient) : GitHubClient {
                 }
             }
         }
-    }
 
 }

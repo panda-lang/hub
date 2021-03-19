@@ -20,10 +20,8 @@ import io.ktor.application.ApplicationCall
 import io.ktor.response.respond
 import org.panda_lang.hub.failure.ErrorResponse
 
-suspend fun Any?.respondOr(ctx: ApplicationCall, errorProducer: () -> ErrorResponse) {
+suspend fun Any?.respondOr(ctx: ApplicationCall, errorProducer: () -> ErrorResponse) =
     this?.let { ctx.respond(it) } ?: ctx.respondError(errorProducer.invoke())
-}
 
-suspend fun ApplicationCall.respondError(errorResponse: ErrorResponse) {
+suspend fun ApplicationCall.respondError(errorResponse: ErrorResponse) =
     this.respond(errorResponse.status, errorResponse)
-}

@@ -29,15 +29,14 @@ internal class AuthEndpoint(
     private val authFacade: AuthFacade
 ) {
 
-    suspend fun authorize(ctx: ApplicationCall, oauthResponse: OAuthAccessTokenResponse) {
-        when (oauthResponse) {
-            is OAuthAccessTokenResponse.OAuth2 -> {
-                val authResponse = authFacade.authenticate(oauthResponse.accessToken)
-                ctx.respondRedirect("${frontendConfiguration.authUrl}/?token=${authResponse.jwt}")
+    suspend fun authorize(ctx: ApplicationCall, oauthResponse: OAuthAccessTokenResponse) = when (oauthResponse) {
+        is OAuthAccessTokenResponse.OAuth2 -> {
+            authFacade.authenticate(oauthResponse.accessToken).let {
+                ctx.respondRedirect("${frontendConfiguration.authUrl}/?token=${it.jwt}")
             }
-            is OAuthAccessTokenResponse.OAuth1a ->
-                ctx.respondError(ErrorResponse(HttpStatusCode.Unauthorized, "OAuth1 is not supported"))
         }
+        is OAuthAccessTokenResponse.OAuth1a ->
+            ctx.respondError(ErrorResponse(HttpStatusCode.Unauthorized, "OAuth1 is not supported"))
     }
 
 }

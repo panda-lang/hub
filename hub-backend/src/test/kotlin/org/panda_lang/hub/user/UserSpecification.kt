@@ -25,9 +25,8 @@ open class UserSpecification {
     private val client = LocalGitHubClient()
     internal var userFacade = UserFacade(client, InMemoryUserRepository())
 
-    fun createGitHubProfile(token: String, profile: GitHubProfile) {
-        client.registerProfile("localToken", profile)
-    }
+    fun createGitHubProfile(token: String, profile: GitHubProfile) =
+        client.registerProfile(token, profile)
 
     fun createFetchedGitHubProfile(token: String, profile: GitHubProfile) = runBlocking {
         createGitHubProfile(token, profile)

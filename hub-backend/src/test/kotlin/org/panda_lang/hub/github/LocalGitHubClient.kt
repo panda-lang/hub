@@ -25,26 +25,21 @@ class LocalGitHubClient : GitHubClient {
     private val profiles = ConcurrentHashMap<String, GitHubProfile>()
     private val repositories = ConcurrentHashMap<String, GitHubRepository>()
 
-    fun registerProfile(token: String, profile: GitHubProfile) {
-        profiles[token] = profile
-    }
+    fun registerProfile(token: String, profile: GitHubProfile) =
+        profile.also { profiles[token] = it }
 
-    override suspend fun getUser(login: String): GitHubProfile {
-        return profiles.values.firstOrNull { it.login == login } ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Profile not found")
-    }
+    override suspend fun getUser(login: String): GitHubProfile =
+         profiles.values.firstOrNull { it.login == login } ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Profile not found")
 
-    override suspend fun getAuthenticatedUser(token: String): GitHubProfile {
-        return profiles[token] ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Authenticated profile not found")
-    }
+    override suspend fun getAuthenticatedUser(token: String): GitHubProfile =
+        profiles[token] ?: throw ErrorResponseException(HttpStatusCode.NotFound, "Authenticated profile not found")
 
-    fun registerRepository(repository: GitHubRepository) {
-        repositories[repository.fullName] = repository
-    }
+    fun registerRepository(repository: GitHubRepository) =
+        repository.also { repositories[it.fullName] = it }
 
-    override suspend fun getRepositories(login: String): Array<GitHubRepository> {
-        return repositories.values
+    override suspend fun getRepositories(login: String): Array<GitHubRepository> =
+        repositories.values
             .filter { it.owner.login == login }
             .toTypedArray()
-    }
 
 }

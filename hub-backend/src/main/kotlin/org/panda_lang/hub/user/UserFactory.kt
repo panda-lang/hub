@@ -18,12 +18,11 @@ package org.panda_lang.hub.user
 
 internal class UserFactory {
 
-    fun createUser(profile: Profile): User {
-        return User(
+    fun createUser(profile: Profile): User =
+        User(
             _id = profile.id.toString(),
             registered = false,
             profile = profile
         )
-    }
 
 }
