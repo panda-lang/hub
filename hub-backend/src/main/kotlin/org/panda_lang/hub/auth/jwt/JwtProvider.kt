@@ -23,25 +23,30 @@ import io.ktor.auth.jwt.JWTPrincipal
 const val JWT_SUBJECT = "Authentication"
 
 const val ID_CLAIM = "id"
+const val LOGIN_CLAIM = "login"
 const val TOKEN_CLAIM = "oauth2"
 
 class JwtProvider(private val configuration: JwtConfiguration, private val expirationDateProvider: ExpirationDateProvider) {
 
-    fun generateToken(secret: String, userId: String): String {
+    fun generateToken(secret: String, userId: String, login: String): String {
         return JWT.create()
             .withIssuer(configuration.issuer)
             .withAudience(configuration.audience)
             .withSubject(JWT_SUBJECT)
-            .withClaim(ID_CLAIM, userId)
             .withClaim(TOKEN_CLAIM, secret)
+            .withClaim(ID_CLAIM, userId)
+            .withClaim(LOGIN_CLAIM, login)
             .withExpiresAt(expirationDateProvider.getValidityDate())
             .sign(configuration.algorithm)
     }
 
 }
 
+fun JWTCredential.getTokenClaim(): String =
+    payload.getClaim(TOKEN_CLAIM).asString()
+
 fun JWTPrincipal.getIdClaim(): String =
     payload.getClaim(ID_CLAIM).asString()
 
-fun JWTCredential.getTokenClaim(): String =
-    payload.getClaim(TOKEN_CLAIM).asString()
+fun JWTPrincipal.getLoginClaim(): String =
+    payload.getClaim(LOGIN_CLAIM).asString()

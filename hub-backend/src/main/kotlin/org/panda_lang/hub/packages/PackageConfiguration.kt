@@ -42,6 +42,5 @@ internal fun Application.packagesModuleWithDeps(
 }
 
 fun installPackageRouting(routing: Routing, packageFacade: PackageFacade) {
-    val packageEndpoint = PackageEndpoint(packageFacade)
-    routing.routes(packageEndpoint)
+    routing.routes(packageFacade)
 }

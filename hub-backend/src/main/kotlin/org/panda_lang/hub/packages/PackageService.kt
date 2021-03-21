@@ -26,6 +26,9 @@ internal class PackageService(
     private val packageRepository: PackageRepository
 ) {
 
+    suspend fun delete(repositoryId: RepositoryId): Boolean =
+        getPackage(repositoryId)?.let { packageRepository.deletePackage(it) } ?: false
+
     suspend fun getOrFetchPackage(id: RepositoryId): Package =
         getAnyPackage(id).let {
             if (it.registered) it else packageRepository.savePackage(it.toRegistered())

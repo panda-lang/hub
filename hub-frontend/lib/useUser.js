@@ -27,7 +27,7 @@ const useUser = function (
   const [user, setUser] = useState()
 
   useEffect(() => {
-    useClient('/user', token)
+    useClient('GET /user', token)
       .then((response) =>
         setUser({
           authorized: true,

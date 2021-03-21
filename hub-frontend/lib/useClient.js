@@ -21,10 +21,12 @@ const getEndpoint = function (path) {
   return hubConfiguration.api + path
 }
 
-const useClient = async function (path, token, options) {
+const useClient = async function (request, token, options) {
+  const [method, path] = request.split(' ')
+
   const response = await axios({
     url: getEndpoint(path),
-    method: 'get',
+    method: method.toLowerCase(),
     headers: {
       Authorization: `Bearer ${token}`,
     },

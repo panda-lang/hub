@@ -22,6 +22,8 @@ internal interface PackageRepository {
 
     suspend fun savePackage(pkg: Package): Package
 
+    suspend fun deletePackage(pkg: Package): Boolean
+
     suspend fun findPackageById(id: String): Package?
 
     suspend fun findPackageByRepositoryId(id: RepositoryId): Package?

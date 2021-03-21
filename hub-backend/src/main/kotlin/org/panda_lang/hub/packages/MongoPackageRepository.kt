@@ -28,6 +28,9 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
     override suspend fun savePackage(pkg: Package): Package =
         pkg.also { collection.insertOne(it) }
 
+    override suspend fun deletePackage(pkg: Package): Boolean =
+        collection.deleteOneById(pkg._id).wasAcknowledged()
+
     override suspend fun findPackageById(id: String): Package? =
         collection.findOne(Package::_id eq id)
 

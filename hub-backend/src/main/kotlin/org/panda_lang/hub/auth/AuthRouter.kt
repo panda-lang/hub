@@ -19,11 +19,11 @@ package org.panda_lang.hub.auth
 import io.ktor.application.call
 import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.authenticate
-import io.ktor.auth.authentication
 import io.ktor.locations.Location
 import io.ktor.locations.location
 import io.ktor.routing.Routing
 import io.ktor.routing.param
+import org.panda_lang.hub.utils.principal
 
 internal const val ERROR_PARAMETER = "error"
 
@@ -39,7 +39,7 @@ internal fun Routing.routes(authEndpoint: AuthEndpoint) {
                 }
             }
             handle {
-                call.authentication.principal<OAuthAccessTokenResponse>()?.let {
+                principal <OAuthAccessTokenResponse> {
                     authEndpoint.authorize(this.context, it)
                 }
             }

@@ -37,6 +37,5 @@ internal fun Application.usersModuleWithDeps(gitHubClient: GitHubClient, reposit
 }
 
 fun installUserRouting(routing: Routing, userFacade: UserFacade) {
-    val userEndpoint = UserEndpoint(userFacade)
-    routing.routes(userEndpoint)
+    routing.routes(userFacade)
 }

@@ -20,6 +20,8 @@ import io.ktor.http.HttpStatusCode
 
 class ErrorResponseException(status: HttpStatusCode, content: String) : IllegalStateException() {
 
+    constructor(status: HttpStatusCode) : this(status, status.description)
+
     val response: ErrorResponse = ErrorResponse(status.value, content)
 
 }

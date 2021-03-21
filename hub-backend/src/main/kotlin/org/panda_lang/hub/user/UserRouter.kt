@@ -16,13 +16,17 @@
 
 package org.panda_lang.hub.user
 
-import io.ktor.application.call
 import io.ktor.auth.authenticate
-import io.ktor.auth.authentication
 import io.ktor.auth.jwt.JWTPrincipal
+import io.ktor.http.HttpStatusCode
 import io.ktor.locations.Location
 import io.ktor.locations.get
 import io.ktor.routing.Routing
+import org.panda_lang.hub.auth.jwt.getIdClaim
+import org.panda_lang.hub.failure.ErrorResponseException
+import org.panda_lang.hub.utils.orThrow
+import org.panda_lang.hub.utils.principal
+import org.panda_lang.hub.utils.respond
 
 @Location("/user")
 internal class UserLocation
@@ -30,15 +34,24 @@ internal class UserLocation
 @Location("/profile/{name}")
 internal class ProfileLocation(val name: String)
 
-internal fun Routing.routes(userEndpoint: UserEndpoint) {
-    authenticate("jwt") {
-        get <UserLocation> {
-            call.authentication.principal<JWTPrincipal>()?.let {
-                userEndpoint.user(this.context, it)
-            }
+internal fun Routing.routes(userFacade: UserFacade) {
+    get <ProfileLocation> { profile ->
+        respond {
+            userFacade.getUserByLogin(profile.name)
+        }.orThrow {
+            ErrorResponseException(HttpStatusCode.NotFound, "User not found")
         }
     }
-    get <ProfileLocation> { profile ->
-        userEndpoint.user(this.context, profile.name)
+
+    authenticate("jwt") {
+        get <UserLocation> {
+            principal <JWTPrincipal> {
+                respond {
+                    userFacade.getUser(it.getIdClaim())
+                }.orThrow {
+                    ErrorResponseException(HttpStatusCode.NotFound, "User not found")
+                }
+            }
+        }
     }
 }

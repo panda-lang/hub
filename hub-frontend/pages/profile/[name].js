@@ -60,7 +60,7 @@ const Description = (props) => {
   const name = props.name
 
   if (name && !profile) {
-    useClient(`/profile/${name}`)
+    useClient(`GET /profile/${name}`)
       .then((response) =>
         setProfile({
           found: true,

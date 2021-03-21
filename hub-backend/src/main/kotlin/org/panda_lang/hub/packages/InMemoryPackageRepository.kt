@@ -26,6 +26,9 @@ internal class InMemoryPackageRepository : PackageRepository {
     override suspend fun savePackage(pkg: Package): Package =
         pkg.also { packages[it._id] = it }
 
+    override suspend fun deletePackage(pkg: Package): Boolean =
+        packages.remove(pkg._id).let { true }
+
     override suspend fun findPackageById(id: String): Package? =
         packages[id]
 

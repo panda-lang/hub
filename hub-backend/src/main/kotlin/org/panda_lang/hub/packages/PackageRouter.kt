@@ -16,10 +16,20 @@
 
 package org.panda_lang.hub.packages
 
+import io.ktor.auth.authenticate
+import io.ktor.auth.jwt.JWTPrincipal
+import io.ktor.http.HttpStatusCode
 import io.ktor.locations.Location
+import io.ktor.locations.delete
 import io.ktor.locations.get
 import io.ktor.locations.post
 import io.ktor.routing.Routing
+import org.panda_lang.hub.auth.jwt.getLoginClaim
+import org.panda_lang.hub.failure.ErrorResponseException
+import org.panda_lang.hub.utils.orThrow
+import org.panda_lang.hub.utils.principal
+import org.panda_lang.hub.utils.respond
+import org.panda_lang.hub.utils.respondIf
 
 @Location("/repositories/{login}")
 internal class RepositoriesLocation(val login: String)
@@ -36,17 +46,41 @@ internal class VersionsLocation(val login: String, val name: String)
 @Location("/package/{login}/{name}/latest")
 internal class LatestLocation(val login: String, val name: String)
 
-internal fun Routing.routes(packageEndpoint: PackageEndpoint) {
+internal fun Routing.routes(packageFacade: PackageFacade) {
     get <RepositoriesLocation> { repositoriesLocation ->
-        packageEndpoint.repositories(this.context, repositoriesLocation.login)
+        respond {
+            packageFacade.getAllPackages(repositoriesLocation.login)
+        }
     }
     get <PackagesLocation> { packagesLocation ->
-        packageEndpoint.packages(this.context, packagesLocation.login)
+        respond {
+            packageFacade.getPackages(packagesLocation.login)
+        }
     }
     get <PackageLocation> { packageLocation ->
-        packageEndpoint.`package`(this.context, packageLocation.login, packageLocation.name)
+        respond {
+            packageFacade.getPackage(packageLocation.login, packageLocation.name)
+        }.orThrow {
+            ErrorResponseException(HttpStatusCode.NotFound)
+        }
     }
-    post <PackageLocation> { packageLocation ->
-        packageEndpoint.fetchPackage(this.context, packageLocation.login, packageLocation.name)
+
+    authenticate("jwt") {
+        post<PackageLocation> { packageLocation ->
+            principal <JWTPrincipal> {
+                respondIf(packageLocation.login == it.getLoginClaim()) {
+                    packageFacade.getOrFetchPackage(packageLocation.login, packageLocation.name)
+                }.orThrow {
+                    ErrorResponseException(HttpStatusCode.Unauthorized)
+                }
+            }
+        }
+        delete<PackageLocation> { packageLocation ->
+            respond {
+                packageFacade.deletePackage(packageLocation.login, packageLocation.name).let {
+                    if (it) HttpStatusCode.OK else HttpStatusCode.BadRequest
+                }
+            }
+        }
     }
 }

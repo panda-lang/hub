@@ -23,7 +23,9 @@ import org.panda_lang.hub.github.LocalGitHubClient
 open class UserSpecification {
 
     private val client = LocalGitHubClient()
-    internal var userFacade = UserFacade(client, InMemoryUserRepository())
+    private val userService = UserService(client, InMemoryUserRepository())
+
+    internal var userFacade = UserFacade(userService)
 
     fun createGitHubProfile(token: String, profile: GitHubProfile) =
         client.registerProfile(token, profile)
