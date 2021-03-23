@@ -25,7 +25,7 @@ import io.ktor.response.respond
 import io.ktor.util.pipeline.PipelineContext
 import org.panda_lang.hub.failure.ErrorResponseException
 
- inline fun <reified P : Principal> PipelineContext<Unit, ApplicationCall>.principal(consumer: (principal: P) -> Unit) =
+inline fun <reified P : Principal> PipelineContext<Unit, ApplicationCall>.principal(consumer: (principal: P) -> Unit) =
     call.authentication.principal<P>()?.let {
         consumer.invoke(it)
     }.orThrow {

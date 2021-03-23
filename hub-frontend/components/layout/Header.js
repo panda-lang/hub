@@ -32,6 +32,8 @@ import {
   MenuDivider,
   useColorModeValue,
   useToast,
+  Spinner,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { Container, Content } from './Container'
 import { FaGithub } from 'react-icons/fa'
@@ -41,6 +43,7 @@ import ThemeSwitch from './ThemeSwitch'
 import { useAuth } from '../AuthProvider'
 import { useUser } from '../../lib/useUser'
 import { getEndpoint } from '../../lib/useClient'
+import PackageModal from '../package/PackageModal'
 
 const Header = (props) => {
   const bgColor = useColorModeValue('gray.50', 'gray.900')
@@ -127,6 +130,7 @@ const Login = (props) => {
 }
 
 const ProfileMenu = (props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleLogout } = useAuth()
   const toast = useToast()
 
@@ -142,7 +146,15 @@ const ProfileMenu = (props) => {
     }
   })
 
-  const profile = user?.profile || {}
+  const openPackageModal = () => {
+    setPackageModal(!packageModal)
+  }
+
+  if (!user?.authorized) {
+    return <Spinner />
+  }
+
+  const profile = user.profile
 
   return (
     <Flex>
@@ -158,6 +170,7 @@ const ProfileMenu = (props) => {
             <Link href={'/profile/' + profile.login}>
               <MenuItem as={ChakraLink}>My profile</MenuItem>
             </Link>
+            <MenuItem onClick={onOpen}>Add package</MenuItem>
             <MenuItem>Settings </MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </MenuGroup>
@@ -169,6 +182,7 @@ const ProfileMenu = (props) => {
           <MenuDivider />
         </MenuList>
       </Menu>
+      <PackageModal isOpen={isOpen} onClose={onClose} login={profile.login} />
     </Flex>
   )
 }

@@ -25,6 +25,7 @@ data class User(
     @Contextual
     val _id: String,
     val registered: Boolean = false,
+    @Contextual
     val profile: GitHubProfile
 ) {
 

@@ -18,7 +18,6 @@ package org.panda_lang.hub.packages
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import org.panda_lang.hub.user.User
 
 @Serializable
 data class Package(
@@ -26,8 +25,7 @@ data class Package(
     val _id: String,
     val name: String,
     val fullName: String,
-    @Contextual
-    val owner: User,
+    val ownerId: String,
     var registered: Boolean = false
 ) {
 
@@ -36,7 +34,7 @@ data class Package(
             _id = _id,
             name = name,
             fullName = fullName,
-            owner = owner,
+            ownerId = ownerId,
             registered = true
         )
     }

@@ -35,7 +35,7 @@ internal class InMemoryPackageRepository : PackageRepository {
     override suspend fun findPackageByRepositoryId(id: RepositoryId): Package? =
         packages.values.firstOrNull { it.fullName == id.fullName() }
 
-    override suspend fun findPackagesByUser(login: String): Collection<Package> =
-        packages.values.filter { it.owner.profile.login == login }
+    override suspend fun findPackagesByUserId(id: String): Collection<Package> =
+        packages.values.filter { it.ownerId == id }
 
 }

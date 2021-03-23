@@ -31,7 +31,7 @@ class AuthFacade internal constructor(
 
     internal suspend fun authenticate(oauthToken: String): AuthResponse =
         userFacade.requestAuthenticatedUser(oauthToken).let {
-            val token = provider.generateToken(oauthToken, it._id)
+            val token = provider.generateToken(oauthToken, it._id, it.profile.login)
 
             authenticated.add(oauthToken)
             println(token)

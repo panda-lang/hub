@@ -46,12 +46,14 @@ internal class PackageService(
                 _id = it.id.toString(),
                 name = it.name,
                 fullName = it.fullName,
-                owner = userFacade.getRemoteUser(it.owner.login),
+                ownerId = it.owner.id.toString(),
             )
         }
 
     suspend fun getPackages(login: String): Collection<Package> =
-        packageRepository.findPackagesByUser(login)
+        userFacade.getUserByLogin(login)?.let {
+            packageRepository.findPackagesByUserId(it._id)
+        } ?: emptyList()
 
     suspend fun getPackage(id: RepositoryId): Package? =
         packageRepository.findPackageByRepositoryId(id)

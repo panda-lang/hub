@@ -28,6 +28,6 @@ internal interface PackageRepository {
 
     suspend fun findPackageByRepositoryId(id: RepositoryId): Package?
 
-    suspend fun findPackagesByUser(login: String): Collection<Package>
+    suspend fun findPackagesByUserId(id: String): Collection<Package>
 
 }

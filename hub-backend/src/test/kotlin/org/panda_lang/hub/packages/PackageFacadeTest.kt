@@ -60,7 +60,7 @@ internal class PackageFacadeTest : PackageSpecification() {
         val pkg = packageFacade.getPackage(owner, name)
         // then: it returns a valid package
         assertNotNull(pkg)
-        assertEquals(owner, pkg.owner.profile.login)
+        assertEquals(7, pkg.ownerId)
         assertEquals(name, pkg.name)
     }
 

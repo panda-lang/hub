@@ -33,8 +33,6 @@ import Footer from '../../components/layout/Footer'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useClient } from '../../lib/useClient'
-import { useUser } from '../../lib/useUser'
-import PackageModal from '../../components/package/PackageModal'
 
 const Profile = () => {
   const router = useRouter()
@@ -125,7 +123,6 @@ const Description = (props) => {
           </Text>
         </Flex>
       </Flex>
-      <PackageModal login={profile.login} />
     </Flex>
   )
 }

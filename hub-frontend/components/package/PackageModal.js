@@ -39,22 +39,19 @@ import {
   IconButton,
   ModalBody,
   ModalCloseButton,
+  Link,
 } from '@chakra-ui/react'
-import { useGitHub } from '../../lib/useGitHub'
-import Link from 'next/link'
 import { AddIcon, DeleteIcon, SpinnerIcon } from '@chakra-ui/icons'
-import { FaTruckMonster } from 'react-icons/fa'
 import { useClient } from '../../lib/useClient'
+import { useAuth } from '../AuthProvider'
 
 const PackageModal = (props) => {
   const color = useColorModeValue('black', 'white')
+  const tableScheme = useColorModeValue('blackAlpha', 'whiteAlpha')
 
   const [repositories, setRepositories] = useState()
   const toast = useToast()
   const login = props.login
-
-  const tableScheme = useColorModeValue('blackAlpha', 'whiteAlpha')
-  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: FaTruckMonster })
 
   if (!repositories) {
     useClient(`GET /repositories/${login}`)
@@ -68,33 +65,42 @@ const PackageModal = (props) => {
       )
   }
 
+  let table = (
+    <Flex justifyContent="center">
+      <Spinner color={color} />
+    </Flex>
+  )
+
+  if (repositories) {
+    table = (
+      <Table variant="simple" color={color} colorScheme={tableScheme}>
+        <Thead>
+          <Tr>
+            <Th>Name</Th>
+            <Th>Link</Th>
+            <Th>Action</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {repositories.map((repository) => {
+            return <PackageEntry key={repository._id} repository={repository} />
+          })}
+        </Tbody>
+        <TableCaption>Available public repositories</TableCaption>
+      </Table>
+    )
+  }
+
   return (
-    <Modal isOpen="true" isOpen={isOpen} onClose={onClose} size="2xl">
+    <Modal isOpen={props.isOpen} onClose={props.onClose} size="2xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader color={color}>Register package</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Table variant="simple" color={color} colorScheme={tableScheme}>
-            <TableCaption>Available public repositories</TableCaption>
-            <Thead>
-              <Tr>
-                <Th>Name</Th>
-                <Th>Link</Th>
-                <Th>Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {(repositories || []).map((repository) => {
-                return (
-                  <PackageEntry key={repository._id} repository={repository} />
-                )
-              })}
-            </Tbody>
-          </Table>
-        </ModalBody>
+        <ModalHeader color={color} textAlign="center">
+          Register package
+        </ModalHeader>
+        <ModalBody>{table}</ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button colorScheme="blue" mr={3} onClick={props.onClose}>
             Close
           </Button>
         </ModalFooter>
@@ -106,21 +112,26 @@ const PackageModal = (props) => {
 const PackageEntry = (props) => {
   const repository = props.repository
   const [registered, setRegistered] = useState(repository.registered)
-  console.log(repository)
+  const [icon, setIcon] = useState(registered ? <DeleteIcon /> : <AddIcon />)
+  const { token } = useAuth()
 
   const registerPackage = () => {
-    useUs(`POST /package/${login}`)
-      .then((response) => setRepositories(response))
+    setIcon(<SpinnerIcon />)
+    const method = repository.registered ? 'DELETE' : 'POST'
+
+    useClient(`${method} /package/${repository.fullName}`, token)
+      .then((response) => {
+        repository.registered = !repository.registered
+        setRegistered(repository.registered)
+        setIcon(repository.registered ? <DeleteIcon /> : <AddIcon />)
+      })
       .catch((error) =>
         toast({
           title: 'Cannot fetch your repositories',
           description: error.message,
           status: 'error',
         })
-    )
-    
-    repository.registered = !repository.registered
-    setRegistered(repository.registered)
+      )
   }
 
   return (
@@ -136,7 +147,7 @@ const PackageEntry = (props) => {
           <IconButton
             repository={repository}
             aria-label="Add to friends"
-            icon={registered ? <DeleteIcon /> : <AddIcon />}
+            icon={icon}
             onClick={registerPackage}
           />
         </ButtonGroup>
