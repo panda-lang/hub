@@ -39,9 +39,10 @@ internal class JwtProviderTest {
         // given: a secret and id
         val secret = "oauth token"
         val userId = "7"
+        val userLogin = "login"
 
         // when: provider receives request
-        val token = provider.generateToken(secret, userId)
+        val token = provider.generateToken(secret, userId, userLogin)
         // then: jwt token is created
         assertTrue { token.length > secret.length }
 
