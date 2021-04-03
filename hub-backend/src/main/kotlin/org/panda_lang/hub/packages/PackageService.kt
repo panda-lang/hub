@@ -44,9 +44,7 @@ internal class PackageService(
         gitHubClient.getRepository(id).let {
             Package(
                 _id = it.id.toString(),
-                name = it.name,
-                fullName = it.fullName,
-                ownerId = it.owner.id.toString(),
+                repository = it
             )
         }
 

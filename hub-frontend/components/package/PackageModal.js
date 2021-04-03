@@ -62,32 +62,12 @@ const PackageModal = (props) => {
           description: error.message,
           status: 'error',
         })
-      )
-  }
-
-  let table = (
-    <Flex justifyContent="center">
-      <Spinner color={color} />
-    </Flex>
-  )
-
-  if (repositories) {
-    table = (
-      <Table variant="simple" color={color} colorScheme={tableScheme}>
-        <Thead>
-          <Tr>
-            <Th>Name</Th>
-            <Th>Link</Th>
-            <Th>Action</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {repositories.map((repository) => {
-            return <PackageEntry key={repository._id} repository={repository} />
-          })}
-        </Tbody>
-        <TableCaption>Available public repositories</TableCaption>
-      </Table>
+    )
+    
+    return (
+      <Flex justifyContent="center">
+        <Spinner color={color} />
+      </Flex>
     )
   }
 
@@ -98,7 +78,23 @@ const PackageModal = (props) => {
         <ModalHeader color={color} textAlign="center">
           Register package
         </ModalHeader>
-        <ModalBody>{table}</ModalBody>
+        <ModalBody>
+          <Table variant="simple" color={color} colorScheme={tableScheme}>
+            <Thead>
+              <Tr>
+                <Th>Name</Th>
+                <Th>Link</Th>
+                <Th>Action</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {repositories.map((repository) => {
+                return <PackageEntry key={repository._id} repository={repository} />
+              })}
+            </Tbody>
+            <TableCaption>Available public repositories</TableCaption>
+          </Table>
+        </ModalBody>
         <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={props.onClose}>
             Close
@@ -117,13 +113,12 @@ const PackageEntry = (props) => {
 
   const registerPackage = () => {
     setIcon(<SpinnerIcon />)
-    const method = repository.registered ? 'DELETE' : 'POST'
 
-    useClient(`${method} /package/${repository.fullName}`, token)
+    useClient(`${registered ? 'DELETE' : 'POST'} /package/${repository.fullName}`, token)
       .then((response) => {
-        repository.registered = !repository.registered
-        setRegistered(repository.registered)
-        setIcon(repository.registered ? <DeleteIcon /> : <AddIcon />)
+        repository.registered = !registered
+        setIcon(!registered ? <DeleteIcon /> : <AddIcon />)
+        setRegistered(!registered)
       })
       .catch((error) =>
         toast({

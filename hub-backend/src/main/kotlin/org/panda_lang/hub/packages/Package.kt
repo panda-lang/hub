@@ -18,24 +18,22 @@ package org.panda_lang.hub.packages
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import org.panda_lang.hub.github.GitHubRepositoryInfo
 
 @Serializable
 data class Package(
     @Contextual
     val _id: String,
-    val name: String,
-    val fullName: String,
-    val ownerId: String,
-    var registered: Boolean = false
+    val registered: Boolean = false,
+    @Contextual
+    val repository: GitHubRepositoryInfo
 ) {
 
     fun toRegistered(): Package {
         return Package(
             _id = _id,
-            name = name,
-            fullName = fullName,
-            ownerId = ownerId,
-            registered = true
+            registered = true,
+            repository = repository
         )
     }
 

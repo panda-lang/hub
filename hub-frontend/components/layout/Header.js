@@ -146,10 +146,6 @@ const ProfileMenu = (props) => {
     }
   })
 
-  const openPackageModal = () => {
-    setPackageModal(!packageModal)
-  }
-
   if (!user?.authorized) {
     return <Spinner />
   }
