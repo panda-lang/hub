@@ -18,16 +18,27 @@ package org.panda_lang.hub.packages
 
 import org.panda_lang.hub.github.RepositoryId
 
-class PackageFacade internal constructor(private val packageService: PackageService) {
+class PackageFacade internal constructor(
+    private val packageService: PackageService,
+    private val statsService: StatsService
+) {
 
-    suspend fun deletePackage(login: String, name: String): Boolean = packageService.delete(RepositoryId(login, name))
+    suspend fun incrementRequestsCount(packageId: String, country: Country) =
+        statsService.incrementRequestsCount(packageId, country)
 
-    suspend fun getOrFetchPackage(login: String, name: String): Package = packageService.getOrFetchPackage(RepositoryId(login, name))
+    suspend fun deletePackage(login: String, name: String): Boolean =
+        packageService.delete(RepositoryId(login, name))
 
-    suspend fun getPackage(login: String, name: String): Package? = packageService.getPackage(RepositoryId(login, name))
+    suspend fun getOrFetchPackage(login: String, name: String): Package =
+        packageService.getOrFetchPackage(RepositoryId(login, name))
 
-    suspend fun getAllPackages(login: String): List<Package> = packageService.getAllPackages(login)
+    suspend fun getPackage(login: String, name: String): Package? =
+        packageService.getPackage(RepositoryId(login, name))
 
-    suspend fun getPackages(login: String): Collection<Package> = packageService.getPackages(login)
+    suspend fun getAllPackages(login: String): List<Package> =
+        packageService.getAllPackages(login)
+
+    suspend fun getPackages(login: String): Collection<Package> =
+        packageService.getPackages(login)
 
 }

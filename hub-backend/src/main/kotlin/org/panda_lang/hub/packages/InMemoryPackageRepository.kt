@@ -23,6 +23,10 @@ internal class InMemoryPackageRepository : PackageRepository {
 
     private val packages = ConcurrentHashMap<String, Package>()
 
+    override suspend fun updateDailyStats(packageId: String, date: Date, dailyBulk: Map<Country, Int>) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun savePackage(pkg: Package): Package =
         pkg.also { packages[it._id] = it }
 

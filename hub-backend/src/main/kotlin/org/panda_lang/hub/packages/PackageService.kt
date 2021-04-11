@@ -26,6 +26,9 @@ internal class PackageService(
     private val packageRepository: PackageRepository
 ) {
 
+    internal suspend fun updateDailyStats(packageId: String, date: Date, dailyBulk: Map<Country, Int>) =
+        packageRepository.updateDailyStats(packageId, date, dailyBulk)
+
     suspend fun delete(repositoryId: RepositoryId): Boolean =
         getPackage(repositoryId)?.let { packageRepository.deletePackage(it) } ?: false
 

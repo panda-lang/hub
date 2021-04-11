@@ -20,6 +20,8 @@ import org.panda_lang.hub.github.RepositoryId
 
 internal interface PackageRepository {
 
+    suspend fun updateDailyStats(packageId: String, date: Date, dailyBulk: Map<Country, Int>)
+
     suspend fun savePackage(pkg: Package): Package
 
     suspend fun deletePackage(pkg: Package): Boolean

@@ -28,7 +28,7 @@ data class GitHubRepositoryInfo(
     val owner: GitHubUserInfo
 ) {
 
-    fun toId(): RepositoryId = RepositoryId(owner.login, name)
+    fun toId() = RepositoryId(owner.login, name)
 
 }
 
@@ -37,6 +37,6 @@ data class RepositoryId(
     val name: String
 ) {
 
-    fun fullName(): String = "$login/$name"
+    fun fullName() = "$login/$name"
 
 }

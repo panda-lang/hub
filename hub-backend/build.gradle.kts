@@ -35,14 +35,13 @@ repositories {
 }
 
 val kmongo = "4.2.5"
-val ktor = "1.5.2"
+val ktor = "1.5.3"
 val tinylog = "2.2.1"
 val junit = "5.7.1"
 val testcontainers = "1.15.2"
 
 dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.11")
 
     implementation("org.litote.kmongo:kmongo:$kmongo")
@@ -58,7 +57,6 @@ dependencies {
     implementation("io.ktor:ktor-locations:$ktor")
     implementation("io.ktor:ktor-client-apache:$ktor")
     implementation("io.ktor:ktor-server-netty:$ktor")
-    implementation("io.ktor:ktor-html-builder:$ktor")
     implementation("io.ktor:ktor-client-gson:$ktor")
     implementation("io.ktor:ktor-gson:$ktor")
     implementation("io.ktor:ktor-serialization:$ktor")

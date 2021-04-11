@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.user
+package org.panda_lang.hub.utils
 
-import org.panda_lang.hub.github.GitHubProfile
+import java.util.Queue
 
-internal class UserFactory {
+fun <K, V> MutableMap<K, V>.updateValue(key: K, defaultValue: () -> V, modifier: (V) -> V) {
+    this[key] = modifier.invoke(getOrDefault(key, defaultValue.invoke()))
+}
 
-    fun createUser(profile: GitHubProfile) = User(
-        _id = profile.id.toString(),
-        registered = false,
-        profile = profile
-    )
+fun <T> Queue<T>.pollWhile(predicate: (Queue<T>) -> Boolean): List<T> {
+    val result = ArrayList<T>(this.size)
 
+    while (predicate.invoke(this)) {
+        result.add(this.poll())
+    }
+
+    return result
 }

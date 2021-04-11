@@ -16,20 +16,17 @@
 
 package org.panda_lang.hub.user
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import org.panda_lang.hub.github.GitHubProfile
 
 @Serializable
 data class User(
-    @Contextual
     val _id: String,
     val registered: Boolean = false,
-    @Contextual
     val profile: GitHubProfile
 ) {
 
-    fun toRegistered(): User = User(
+    fun toRegistered() = User(
         _id = _id,
         registered = true,
         profile = profile

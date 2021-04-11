@@ -49,13 +49,13 @@ const PackageModal = (props) => {
   const color = useColorModeValue('black', 'white')
   const tableScheme = useColorModeValue('blackAlpha', 'whiteAlpha')
 
-  const [repositories, setRepositories] = useState()
+  const [packages, setPackages] = useState()
   const toast = useToast()
   const login = props.login
 
-  if (!repositories) {
+  if (!packages) {
     useClient(`GET /repositories/${login}`)
-      .then((response) => setRepositories(response))
+      .then((response) => setPackages(response))
       .catch((error) =>
         toast({
           title: 'Cannot fetch your repositories',
@@ -63,12 +63,8 @@ const PackageModal = (props) => {
           status: 'error',
         })
     )
-    
-    return (
-      <Flex justifyContent="center">
-        <Spinner color={color} />
-      </Flex>
-    )
+
+    return <div/>
   }
 
   return (
@@ -88,8 +84,8 @@ const PackageModal = (props) => {
               </Tr>
             </Thead>
             <Tbody>
-              {repositories.map((repository) => {
-                return <PackageEntry key={repository._id} repository={repository} />
+              {packages.map((pkg) => {
+                return <PackageEntry key={pkg._id} pkg={pkg} />
               })}
             </Tbody>
             <TableCaption>Available public repositories</TableCaption>
@@ -105,18 +101,19 @@ const PackageModal = (props) => {
   )
 }
 
-const PackageEntry = (props) => {
-  const repository = props.repository
-  const [registered, setRegistered] = useState(repository.registered)
+const PackageEntry = ({ pkg }) => {
+  const repository = pkg.repository
+  const [registered, setRegistered] = useState(pkg.registered)
   const [icon, setIcon] = useState(registered ? <DeleteIcon /> : <AddIcon />)
   const { token } = useAuth()
+  const toast = useToast()
 
   const registerPackage = () => {
     setIcon(<SpinnerIcon />)
 
-    useClient(`${registered ? 'DELETE' : 'POST'} /package/${repository.fullName}`, token)
+    useClient(`${registered ? 'DELETE' : 'POST'} /package/${repository.full_name}`, token)
       .then((response) => {
-        repository.registered = !registered
+        pkg.registered = !registered
         setIcon(!registered ? <DeleteIcon /> : <AddIcon />)
         setRegistered(!registered)
       })
@@ -133,8 +130,8 @@ const PackageEntry = (props) => {
     <Tr>
       <Td>{repository.name}</Td>
       <Td>
-        <Link href={`https://github.com/${repository.fullName}`}>
-          {`github.com/${repository.fullName}`}
+        <Link href={`https://github.com/${repository.full_name}`}>
+          {`github.com/${repository.full_name}`}
         </Link>
       </Td>
       <Td>

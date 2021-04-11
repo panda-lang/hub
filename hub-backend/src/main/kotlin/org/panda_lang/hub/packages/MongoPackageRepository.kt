@@ -19,11 +19,23 @@ package org.panda_lang.hub.packages
 import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
+import org.litote.kmongo.upsert
 import org.panda_lang.hub.github.GitHubRepositoryInfo
 import org.panda_lang.hub.github.GitHubUserInfo
 import org.panda_lang.hub.github.RepositoryId
 
 internal class MongoPackageRepository(private val collection: CoroutineCollection<Package>) : PackageRepository {
+
+    override suspend fun updateDailyStats(packageId: String, date: Date, dailyBulk: Map<Country, Int>) =
+        dailyBulk.forEach {
+            collection.updateOneById(
+                packageId,
+                // Missing support for key projection in KMongo
+                // ~ https://github.com/Litote/kmongo/issues/273
+                "{ \$inc: { 'dailyStats.$date.countries.${it.key}.requests': ${it.value} } }",
+                upsert()
+            )
+        }
 
     override suspend fun savePackage(pkg: Package): Package =
         pkg.also { collection.insertOne(it) }

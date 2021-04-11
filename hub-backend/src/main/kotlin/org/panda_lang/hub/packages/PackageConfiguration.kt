@@ -19,26 +19,45 @@ package org.panda_lang.hub.packages
 import io.ktor.application.Application
 import io.ktor.client.HttpClient
 import io.ktor.routing.Routing
+import kotlinx.coroutines.runBlocking
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.RemoteGitHubClient
 import org.panda_lang.hub.user.UserFacade
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+
+const val EMIT_STATS_DELAY = 1L
+
+private val SCHEDULER = Executors.newSingleThreadScheduledExecutor()
 
 fun Application.packagesModule(httpClient: HttpClient, userFacade: UserFacade, database: CoroutineDatabase): PackageFacade {
     val gitHubClient = RemoteGitHubClient(httpClient)
-    val collection = database.getCollection<Package>()
-    val repository = MongoPackageRepository(collection)
 
-    return packagesModuleWithDeps(gitHubClient, userFacade, repository)
+    val packageCollection = database.getCollection<Package>()
+    val packageRepository = MongoPackageRepository(packageCollection)
+
+    return packagesModuleWithDeps(gitHubClient, userFacade, packageRepository)
 }
 
 internal fun Application.packagesModuleWithDeps(
     gitHubClient: GitHubClient,
     userFacade: UserFacade,
-    repository: PackageRepository
+    packageRepository: PackageRepository,
 ): PackageFacade {
-    val packageService = PackageService(gitHubClient, userFacade, repository)
-    return PackageFacade(packageService)
+    val packageService = PackageService(gitHubClient, userFacade, packageRepository)
+    val statsService = StatsService(packageService)
+
+    SCHEDULER.scheduleWithFixedDelay(
+        {
+            runBlocking {
+                statsService.emitCachedRequests()
+            } 
+        },
+        EMIT_STATS_DELAY, EMIT_STATS_DELAY, TimeUnit.MINUTES
+    )
+
+    return PackageFacade(packageService, statsService)
 }
 
 fun installPackageRouting(routing: Routing, packageFacade: PackageFacade) {

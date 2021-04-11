@@ -40,7 +40,6 @@ import io.ktor.routing.Routing
 import io.ktor.serialization.json
 import io.ktor.server.engine.EngineAPI
 import io.ktor.server.netty.EngineMain
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.id.serialization.IdKotlinXSerializationModule
@@ -113,7 +112,7 @@ fun Application.mainModuleWithDeps(json: Json, httpClient: HttpClient) {
 
     val mongoClient = KMongo.createClient(config.property("mongo.url").getString()).coroutine
     val database = mongoClient.getDatabase("hub")
-    runBlocking { database.drop() }
+    // runBlocking { database.drop() }
 
     val userFacade = usersModule(httpClient, database)
     val packageFacade = packagesModule(httpClient, userFacade, database)
@@ -126,8 +125,7 @@ fun Application.mainModuleWithDeps(json: Json, httpClient: HttpClient) {
     }
 }
 
-fun ApplicationConfig.toFrontendConfiguration(): FrontendConfiguration =
-    FrontendConfiguration(
-        property("frontend.url").getString(),
-        property("frontend.authUrl").getString(),
-    )
+fun ApplicationConfig.toFrontendConfiguration() = FrontendConfiguration(
+    property("frontend.url").getString(),
+    property("frontend.authUrl").getString(),
+)

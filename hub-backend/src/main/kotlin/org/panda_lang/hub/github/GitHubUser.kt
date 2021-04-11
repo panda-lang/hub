@@ -23,24 +23,24 @@ import kotlinx.serialization.Serializable
 data class GitHubUserInfo(
     val id: Long,
     val login: String,
+    val type: String,
     @SerialName("avatar_url")
     val avatarUrl: String,
-    val type: String,
 )
 
 @Serializable
 data class GitHubProfile(
     val id: Long,
     val login: String,
+    val type: String,
     @SerialName("avatar_url")
     val avatarUrl: String,
-    val type: String,
     val name: String?,
     val location: String?,
     val email: String?,
     val bio: String?
 ) {
 
-    fun toGitHubUserInfo(): GitHubUserInfo = GitHubUserInfo(id, login, avatarUrl, type)
+    fun toGitHubUserInfo() = GitHubUserInfo(id, login, avatarUrl, type)
 
 }

@@ -14,16 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.user
+package org.panda_lang.hub.utils
 
-import org.panda_lang.hub.github.GitHubProfile
+fun String.encodeMongo(): String = replace("\\", "\\\\").replace("\$", "\\u0024").replace(".", "\\u002e")
 
-internal class UserFactory {
-
-    fun createUser(profile: GitHubProfile) = User(
-        _id = profile.id.toString(),
-        registered = false,
-        profile = profile
-    )
-
-}
+fun String.decodeMongo(): String = replace("\\u002e", ".").replace("\\u0024", "\$").replace("\\\\", "\\")
