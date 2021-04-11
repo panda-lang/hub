@@ -19,6 +19,8 @@ package org.panda_lang.hub.packages
 import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
+import org.litote.kmongo.inc
+import org.litote.kmongo.keyProjection
 import org.litote.kmongo.upsert
 import org.panda_lang.hub.github.GitHubRepositoryInfo
 import org.panda_lang.hub.github.GitHubUserInfo
@@ -30,10 +32,7 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
         dailyBulk.forEach {
             collection.updateOneById(
                 packageId,
-                // Missing support for key projection in KMongo
-                // ~ https://github.com/Litote/kmongo/issues/273
-                //inc(Package::dailyStats.keyProjection(date.toString()) / DailyStats::countries.keyProjection(it.key), 1),
-                 "{ \$inc: { 'dailyStats.$date.countries.${it.key}': ${it.value} } }",
+                inc(Package::dailyStats.keyProjection(date.toString()) / DailyStats::countries.keyProjection(it.key), it.value),
                 upsert()
             )
         }
