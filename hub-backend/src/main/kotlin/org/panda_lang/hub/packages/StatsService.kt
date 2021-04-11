@@ -16,19 +16,30 @@
 
 package org.panda_lang.hub.packages
 
+import com.maxmind.geoip2.DatabaseReader
+import com.maxmind.geoip2.exception.AddressNotFoundException
 import org.panda_lang.hub.utils.pollWhile
+import java.net.InetAddress
 import java.util.concurrent.ConcurrentLinkedQueue
 
 class StatsService internal constructor(private val packageService: PackageService) {
 
     private val cached = ConcurrentLinkedQueue<Pair<PackageId, Country>>()
+    private val geoipRepository = DatabaseReader.Builder(javaClass.getResourceAsStream("/geolite2-country/geolite2-country.mmdb")).build()
 
-    fun incrementRequestsCount(packageId: PackageId, country: Country) =
-        cached.add(Pair(packageId, country))
+    fun incrementRequestsCount(packageId: PackageId, ip: String) =
+        cached.add(Pair(packageId, findCountry(ip)))
+
+    private fun findCountry(ip: String): Country =
+        try {
+            geoipRepository.country(InetAddress.getByName(ip)).country.name
+        } catch (exceptio: AddressNotFoundException) {
+            "<UNKNOWN>"
+        }
 
     internal suspend fun emitCachedRequests() =
         pollRequests().forEach {
-            packageService.updateDailyStats(it.key, now(), it.value)
+            packageService.updateDailyStats(it.key, Date.now(), it.value)
         }
 
     private fun pollRequests(): Map<PackageId, Map<Country, Int>> =

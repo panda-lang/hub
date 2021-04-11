@@ -32,7 +32,8 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
                 packageId,
                 // Missing support for key projection in KMongo
                 // ~ https://github.com/Litote/kmongo/issues/273
-                "{ \$inc: { 'dailyStats.$date.countries.${it.key}.requests': ${it.value} } }",
+                //inc(Package::dailyStats.keyProjection(date.toString()) / DailyStats::countries.keyProjection(it.key), 1),
+                 "{ \$inc: { 'dailyStats.$date.countries.${it.key}': ${it.value} } }",
                 upsert()
             )
         }

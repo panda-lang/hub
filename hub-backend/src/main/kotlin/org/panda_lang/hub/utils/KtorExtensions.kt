@@ -16,14 +16,7 @@
 
 package org.panda_lang.hub.utils
 
-import org.litote.kmongo.mapProperty
-import org.litote.kmongo.property.KPropertyPath
-import kotlin.reflect.KProperty1
+import io.ktor.application.ApplicationCall
+import io.ktor.features.origin
 
-fun String.encodeMongo(): String = replace("\\", "\\\\").replace("\$", "\\u0024").replace(".", "\\u002e")
-
-fun String.decodeMongo(): String = replace("\\u002e", ".").replace("\\u0024", "\$").replace("\\\\", "\\")
-
-@Suppress("UNCHECKED_CAST")
-fun <K, T> KProperty1<out Any?, Map<out K, T>?>.keyProjection(key: K): KPropertyPath<Any?, T?> =
-    mapProperty.keyProjection(key) as KPropertyPath<Any?, T?>
+fun ApplicationCall.ip() = this.request.origin.remoteHost

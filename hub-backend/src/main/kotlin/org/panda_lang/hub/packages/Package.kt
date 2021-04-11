@@ -21,15 +21,16 @@ import org.panda_lang.hub.github.GitHubRepositoryInfo
 import java.util.Calendar
 
 typealias PackageId = String
-typealias DateString = String
+typealias DateId = String
 typealias Country = String
+typealias RequestsCount = Int
 
 @Serializable
 data class Package(
     val _id: PackageId,
     val registered: Boolean = false,
     val repository: GitHubRepositoryInfo,
-    val dailyStats: Map<DateString, DailyStats> = HashMap()
+    val dailyStats: Map<DateId, DailyStats> = emptyMap()
 ) {
 
     fun toRegistered() = Package(
@@ -47,21 +48,19 @@ data class Date(
     val day: Int
 ) {
 
-    override fun toString(): DateString = "$year-$month-$day"
+    companion object {
 
-}
+        fun now() = Calendar.getInstance().let {
+            Date(it.get(Calendar.YEAR), it.get(Calendar.MONTH), it.get(Calendar.DAY_OF_MONTH))
+        }
 
-fun now(): Date {
-    val calendar = Calendar.getInstance()
-    return Date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+    }
+
+    override fun toString(): DateId = "$year-$month-$day"
+
 }
 
 @Serializable
 data class DailyStats(
-    val countries: Map<Country, CountryRecord> = emptyMap()
-)
-
-@Serializable
-data class CountryRecord(
-    val requests: Int = 0
+    val countries: Map<Country, RequestsCount> = emptyMap()
 )

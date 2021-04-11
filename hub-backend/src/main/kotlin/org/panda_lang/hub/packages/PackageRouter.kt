@@ -26,6 +26,7 @@ import io.ktor.locations.post
 import io.ktor.routing.Routing
 import org.panda_lang.hub.auth.jwt.getLoginClaim
 import org.panda_lang.hub.failure.ErrorResponseException
+import org.panda_lang.hub.utils.ip
 import org.panda_lang.hub.utils.orThrow
 import org.panda_lang.hub.utils.principal
 import org.panda_lang.hub.utils.respond
@@ -59,7 +60,9 @@ internal fun Routing.routes(packageFacade: PackageFacade) {
     }
     get <PackageLocation> { packageLocation ->
         respond {
-            packageFacade.getPackage(packageLocation.login, packageLocation.name)
+            packageFacade.getPackage(packageLocation.login, packageLocation.name)?.also {
+                packageFacade.incrementRequestsCount(it._id, context.ip())
+            }
         }.orThrow {
             ErrorResponseException(HttpStatusCode.NotFound)
         }

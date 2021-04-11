@@ -27,7 +27,7 @@ import org.panda_lang.hub.user.UserFacade
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-const val EMIT_STATS_DELAY = 1L
+const val EMIT_STATS_DELAY_IN_SECONDS = 10L
 
 private val SCHEDULER = Executors.newSingleThreadScheduledExecutor()
 
@@ -52,9 +52,9 @@ internal fun Application.packagesModuleWithDeps(
         {
             runBlocking {
                 statsService.emitCachedRequests()
-            } 
+            }
         },
-        EMIT_STATS_DELAY, EMIT_STATS_DELAY, TimeUnit.MINUTES
+        EMIT_STATS_DELAY_IN_SECONDS, EMIT_STATS_DELAY_IN_SECONDS, TimeUnit.SECONDS
     )
 
     return PackageFacade(packageService, statsService)

@@ -25,8 +25,9 @@ open class PackageSpecification : UserSpecification() {
 
     private val client = LocalGitHubClient()
     private val packageService = PackageService(client, userFacade, InMemoryPackageRepository())
+    private val statsService = StatsService(packageService)
 
-    internal val packageFacade = PackageFacade(packageService)
+    internal val packageFacade = PackageFacade(packageService, statsService)
 
     fun createGitHubRepository(repository: GitHubRepositoryInfo) =
         client.registerRepository(repository)
