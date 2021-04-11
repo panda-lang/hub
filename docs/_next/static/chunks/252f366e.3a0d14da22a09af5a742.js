@@ -1,1 +1,0 @@
-(window.webpackJsonp_N_E=window.webpackJsonp_N_E||[]).push([[6],{NIcq:function(t,n,a){"use strict";a.d(n,"a",(function(){return i}));var c=a("Lnxd");function i(t){return Object(c.a)({tag:"svg",attr:{viewBox:"0 0 24 24"},child:[{tag:"path",attr:{d:"M7 10l5 5 5-5z"}}]})(t)}}}]);
