@@ -21,9 +21,9 @@ import kotlinx.serialization.Serializable
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.div
 import org.litote.kmongo.inc
+import org.litote.kmongo.keyProjection
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.upsert
-import org.panda_lang.hub.utils.keyProjection
 
 @Suppress("UNCHECKED_CAST")
 fun main(): Unit = runBlocking {

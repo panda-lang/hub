@@ -21,9 +21,9 @@ import kotlinx.serialization.Serializable
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.div
 import org.litote.kmongo.inc
+import org.litote.kmongo.keyProjection
 import org.litote.kmongo.reactivestreams.KMongo
 import org.litote.kmongo.upsert
-import org.panda_lang.hub.utils.keyProjection
 
 fun main(): Unit = runBlocking {
     val mongoClient = KMongo.createClient("mongodb://localhost:27017").coroutine
@@ -32,7 +32,6 @@ fun main(): Unit = runBlocking {
 
     entities.updateOneById(
         "1",
-        // Bug: ~ https://github.com/Litote/kmongo/issues/273
         inc(IncEntity::map1.keyProjection("key1") / Map1::intMap.keyProjection("key2"), 1),
         upsert()
     )
