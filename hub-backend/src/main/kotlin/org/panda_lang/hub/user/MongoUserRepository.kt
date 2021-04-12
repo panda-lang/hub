@@ -26,7 +26,7 @@ internal class MongoUserRepository(private val collection: CoroutineCollection<U
     override suspend fun saveUser(user: User): User =
         user.also { collection.insertOne(it) }
 
-    override suspend fun findUserById(id: String): User? =
+    override suspend fun findUserById(id: UserId): User? =
         collection.findOne(User::_id eq id)
 
     override suspend fun findUserByLogin(login: String): User? =

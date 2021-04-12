@@ -24,6 +24,6 @@ class UserFacade internal constructor(private val userService: UserService) {
 
     suspend fun getUserByLogin(login: String): User? = userService.getUserByLogin(login)
 
-    suspend fun getUser(id: String): User? = userService.getUser(id)
+    suspend fun getUser(id: UserId): User? = userService.getUser(id)
 
 }

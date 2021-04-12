@@ -116,7 +116,7 @@ fun Application.mainModuleWithDeps(json: Json, httpClient: HttpClient) {
 
     val userFacade = usersModule(httpClient, database)
     val packageFacade = packagesModule(httpClient, userFacade, database)
-    val authFacade = authModule(userFacade)
+    val authFacade = authModule(httpClient, userFacade)
 
     install(Routing) {
         installUserRouting(this, userFacade)

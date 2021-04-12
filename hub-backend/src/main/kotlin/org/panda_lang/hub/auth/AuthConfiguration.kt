@@ -19,7 +19,6 @@ package org.panda_lang.hub.auth
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.application.Application
-import io.ktor.application.ApplicationStopping
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.OAuthServerSettings
@@ -27,7 +26,6 @@ import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.auth.jwt.jwt
 import io.ktor.auth.oauth
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
 import io.ktor.locations.locations
 import io.ktor.locations.url
 import io.ktor.routing.Routing
@@ -39,18 +37,7 @@ import org.panda_lang.hub.user.UserFacade
 import java.security.SecureRandom
 import java.util.concurrent.TimeUnit
 
-fun Application.authModule(userFacade: UserFacade): AuthFacade {
-    return authModuleWithDeps(userFacade)
-}
-
-fun Application.authModuleWithDeps(
-    userFacade: UserFacade,
-    oauthClient: HttpClient = HttpClient(Apache).apply {
-        environment.monitor.subscribe(ApplicationStopping) {
-            close()
-        }
-    },
-): AuthFacade {
+fun Application.authModule(httpClient: HttpClient, userFacade: UserFacade): AuthFacade {
     val config = environment.config
 
     val secureRandom = SecureRandom()
@@ -81,7 +68,7 @@ fun Application.authModuleWithDeps(
 
     install(Authentication) {
         oauth("oauth") {
-            client = oauthClient
+            client = httpClient
             providerLookup = {
                 loginProviders[application.locations.resolve<AuthorizeLocation>(AuthorizeLocation::class, this).type]
             }

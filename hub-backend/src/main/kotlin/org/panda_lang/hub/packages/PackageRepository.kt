@@ -17,19 +17,20 @@
 package org.panda_lang.hub.packages
 
 import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.user.UserId
 
 internal interface PackageRepository {
 
-    suspend fun updateDailyStats(packageId: String, date: Date, dailyBulk: Map<Country, Int>)
+    suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>)
 
     suspend fun savePackage(pkg: Package): Package
 
     suspend fun deletePackage(pkg: Package): Boolean
 
-    suspend fun findPackageById(id: String): Package?
+    suspend fun findPackageById(id: PackageId): Package?
 
     suspend fun findPackageByRepositoryId(id: RepositoryId): Package?
 
-    suspend fun findPackagesByUserId(id: String): Collection<Package>
+    suspend fun findPackagesByUserId(id: UserId): Collection<Package>
 
 }

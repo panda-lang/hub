@@ -23,7 +23,7 @@ class PackageFacade internal constructor(
     private val statsService: StatsService
 ) {
 
-    fun incrementRequestsCount(packageId: String, ip: String) =
+    fun incrementRequestsCount(packageId: PackageId, ip: String) =
         statsService.incrementRequestsCount(packageId, ip)
 
     suspend fun deletePackage(login: String, name: String): Boolean =

@@ -25,10 +25,11 @@ import org.litote.kmongo.upsert
 import org.panda_lang.hub.github.GitHubRepositoryInfo
 import org.panda_lang.hub.github.GitHubUserInfo
 import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.user.UserId
 
 internal class MongoPackageRepository(private val collection: CoroutineCollection<Package>) : PackageRepository {
 
-    override suspend fun updateDailyStats(packageId: String, date: Date, dailyBulk: Map<Country, Int>) =
+    override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
         dailyBulk.forEach {
             collection.updateOneById(
                 packageId,
@@ -43,13 +44,13 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
     override suspend fun deletePackage(pkg: Package): Boolean =
         collection.deleteOneById(pkg._id).wasAcknowledged()
 
-    override suspend fun findPackageById(id: String): Package? =
+    override suspend fun findPackageById(id: PackageId): Package? =
         collection.findOne(Package::_id eq id)
 
     override suspend fun findPackageByRepositoryId(id: RepositoryId): Package? =
         collection.findOne(Package::repository / GitHubRepositoryInfo::fullName eq id.fullName())
 
-    override suspend fun findPackagesByUserId(id: String): Collection<Package> =
+    override suspend fun findPackagesByUserId(id: UserId): Collection<Package> =
         collection.find(Package::repository / GitHubRepositoryInfo::owner / GitHubUserInfo::id eq id.toLong()).toList()
 
 }

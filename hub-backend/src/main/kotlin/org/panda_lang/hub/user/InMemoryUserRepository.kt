@@ -20,9 +20,9 @@ import java.util.concurrent.ConcurrentHashMap
 
 internal class InMemoryUserRepository : UserRepository {
 
-    private val users = ConcurrentHashMap<String, User>()
+    private val users = ConcurrentHashMap<UserId, User>()
 
-    override suspend fun findUserById(id: String): User? =
+    override suspend fun findUserById(id: UserId): User? =
         users[id]
 
     override suspend fun findUserByLogin(login: String): User? =

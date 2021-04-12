@@ -20,19 +20,15 @@ import io.ktor.application.Application
 import io.ktor.client.HttpClient
 import io.ktor.routing.Routing
 import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.RemoteGitHubClient
 
 fun Application.usersModule(httpClient: HttpClient, database: CoroutineDatabase): UserFacade {
     val gitHubClient = RemoteGitHubClient(httpClient)
-    val collection = database.getCollection<User>()
-    val repository = MongoUserRepository(collection)
 
-    return usersModuleWithDeps(gitHubClient, repository)
-}
+    val userCollection = database.getCollection<User>()
+    val userRepository = MongoUserRepository(userCollection)
+    val userService = UserService(gitHubClient, userRepository)
 
-internal fun Application.usersModuleWithDeps(gitHubClient: GitHubClient, repository: UserRepository): UserFacade {
-    val userService = UserService(gitHubClient, repository)
     return UserFacade(userService)
 }
 

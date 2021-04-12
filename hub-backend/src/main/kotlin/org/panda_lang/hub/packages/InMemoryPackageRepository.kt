@@ -17,15 +17,27 @@
 package org.panda_lang.hub.packages
 
 import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.user.UserId
 import java.util.concurrent.ConcurrentHashMap
 
 internal class InMemoryPackageRepository : PackageRepository {
 
-    private val packages = ConcurrentHashMap<String, Package>()
+    private val packages = ConcurrentHashMap<PackageId, Package>()
 
-    override suspend fun updateDailyStats(packageId: String, date: Date, dailyBulk: Map<Country, Int>) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
+        packages[packageId]!!.let {
+            packages[packageId] = Package(
+                _id = it._id,
+                registered = it.registered,
+                repository = it.repository,
+                dailyStats = HashMap(it.dailyStats).also { updatedStats ->
+                    updatedStats[date.toString()] = ((updatedStats[date.toString()] ?: DailyStats()).countries.asSequence() + dailyBulk.asSequence())
+                        .groupBy({ entry -> entry.key }, { entry -> entry.value })
+                        .mapValues { entry -> entry.value.sum() }
+                        .let { map -> DailyStats(map) }
+                }
+            )
+        }
 
     override suspend fun savePackage(pkg: Package): Package =
         pkg.also { packages[it._id] = it }
@@ -33,13 +45,13 @@ internal class InMemoryPackageRepository : PackageRepository {
     override suspend fun deletePackage(pkg: Package): Boolean =
         packages.remove(pkg._id).let { true }
 
-    override suspend fun findPackageById(id: String): Package? =
+    override suspend fun findPackageById(id: PackageId): Package? =
         packages[id]
 
     override suspend fun findPackageByRepositoryId(id: RepositoryId): Package? =
         packages.values.firstOrNull { it.repository.fullName == id.fullName() }
 
-    override suspend fun findPackagesByUserId(id: String): Collection<Package> =
+    override suspend fun findPackagesByUserId(id: UserId): Collection<Package> =
         packages.values.filter { it.repository.owner.id == id.toLong() }
 
 }

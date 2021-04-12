@@ -40,7 +40,7 @@ internal class UserService(
     suspend fun getUserByLogin(login: String): User? =
         userRepository.findUserByLogin(login)
 
-    suspend fun getUser(id: String): User? =
+    suspend fun getUser(id: UserId): User? =
         userRepository.findUserById(id)
 
 }

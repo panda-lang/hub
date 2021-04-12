@@ -19,9 +19,11 @@ package org.panda_lang.hub.user
 import kotlinx.serialization.Serializable
 import org.panda_lang.hub.github.GitHubProfile
 
+typealias UserId = String
+
 @Serializable
 data class User(
-    val _id: String,
+    val _id: UserId,
     val registered: Boolean = false,
     val profile: GitHubProfile
 ) {
