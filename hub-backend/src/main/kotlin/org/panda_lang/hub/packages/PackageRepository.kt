@@ -17,9 +17,17 @@
 package org.panda_lang.hub.packages
 
 import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.shared.Date
+import org.panda_lang.hub.shared.paging.Page
 import org.panda_lang.hub.user.UserId
 
 internal interface PackageRepository {
+
+    suspend fun findPopular(page: Int, pageSize: Int): Page<Package>
+
+    // suspend fun findTrending(page: Int, pageSize: Int): Page<Package>
+
+    suspend fun findLatest(page: Int, pageSize: Int): Page<Package>
 
     suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>)
 

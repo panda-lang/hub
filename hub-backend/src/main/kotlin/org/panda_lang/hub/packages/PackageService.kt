@@ -18,6 +18,7 @@ package org.panda_lang.hub.packages
 
 import org.panda_lang.hub.github.GitHubClient
 import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.shared.Date
 import org.panda_lang.hub.user.UserFacade
 
 internal class PackageService(
@@ -34,7 +35,11 @@ internal class PackageService(
 
     suspend fun getOrFetchPackage(id: RepositoryId): Package =
         getAnyPackage(id).let {
-            if (it.registered) it else packageRepository.savePackage(it.toRegistered())
+            if (it.registeredAt != null) it else packageRepository.savePackage(
+                it.update(
+                    registeredAt = Date.now()
+                )
+            )
         }
 
     suspend fun getAllPackages(login: String): List<Package> =

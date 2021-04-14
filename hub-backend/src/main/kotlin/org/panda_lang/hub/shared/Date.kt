@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.utils
+package org.panda_lang.hub.shared
 
-import java.util.Queue
+import kotlinx.serialization.Serializable
+import java.util.Calendar
 
-fun <K, V> MutableMap<K, V>.updateValue(key: K, defaultValue: () -> V, modifier: (V) -> V) {
-    this[key] = modifier.invoke(getOrDefault(key, defaultValue.invoke()))
-}
+typealias DateId = String
 
-fun <T> Queue<T>.pollWhile(predicate: (Queue<T>) -> Boolean): List<T> {
-    val result = ArrayList<T>(this.size)
+@Serializable
+data class Date(
+    val year: Int,
+    val month: Int,
+    val day: Int
+) {
 
-    while (predicate.invoke(this)) {
-        result.add(this.poll())
+    companion object {
+
+        fun now() = Calendar.getInstance().let {
+            Date(it.get(Calendar.YEAR), it.get(Calendar.MONTH), it.get(Calendar.DAY_OF_MONTH))
+        }
+
     }
 
-    return result
+    override fun toString(): DateId = "$year-${month.asDateUnit()}-${day.asDateUnit()}"
+
 }
 
-fun <T> Iterable<T>.mapOnly(predicate: (T) -> Boolean, function: (T) -> T): List<T> = map {
-    if (predicate.invoke(it)) function.invoke(it) else it
-}.toList()
+private fun Int.asDateUnit() = this.toString().padStart(2, '0')

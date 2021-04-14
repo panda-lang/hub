@@ -17,25 +17,31 @@
 package org.panda_lang.hub.packages
 
 import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.shared.Date
+import org.panda_lang.hub.shared.paging.Page
 import org.panda_lang.hub.user.UserId
+import org.panda_lang.hub.utils.mapOnly
 import java.util.concurrent.ConcurrentHashMap
 
 internal class InMemoryPackageRepository : PackageRepository {
 
     private val packages = ConcurrentHashMap<PackageId, Package>()
 
+    override suspend fun findLatest(page: Int, pageSize: Int): Page<Package> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun findPopular(page: Int, pageSize: Int): Page<Package> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
-        packages[packageId]!!.let {
-            packages[packageId] = Package(
-                _id = it._id,
-                registered = it.registered,
-                repository = it.repository,
-                dailyStats = HashMap(it.dailyStats).also { updatedStats ->
-                    updatedStats[date.toString()] = ((updatedStats[date.toString()] ?: DailyStats()).countries.asSequence() + dailyBulk.asSequence())
-                        .groupBy({ entry -> entry.key }, { entry -> entry.value })
-                        .mapValues { entry -> entry.value.sum() }
-                        .let { map -> DailyStats(map) }
-                }
+        packages[packageId]!!.let { pkg ->
+            packages[packageId] = pkg.update(
+                dailyStats = pkg.dailyStats.mapOnly(
+                    { it.date == date },
+                    { daily -> DailyStats(date, daily.country, daily.requests + (dailyBulk[daily.country] ?: 0)) }
+                )
             )
         }
 

@@ -32,10 +32,19 @@ import org.panda_lang.hub.utils.principal
 import org.panda_lang.hub.utils.respond
 import org.panda_lang.hub.utils.respondIf
 
-@Location("/repositories/{login}")
+@Location("/packages/trending/{page}")
+internal data class TrendingLocation(val page: Int)
+
+@Location("/packages/popular/{page}")
+internal data class PopularLocation(val page: Int)
+
+@Location("/packages/latest/{page}")
+internal data class LatestLocation(val page: Int)
+
+@Location("/packages/repositories/{login}")
 internal class RepositoriesLocation(val login: String)
 
-@Location("/packages/{login}")
+@Location("/packages/repositories/{login}")
 internal class PackagesLocation(val login: String)
 
 @Location("/package/{login}/{name}")
@@ -45,7 +54,7 @@ internal class PackageLocation(val login: String, val name: String)
 internal class VersionsLocation(val login: String, val name: String)
 
 @Location("/package/{login}/{name}/latest")
-internal class LatestLocation(val login: String, val name: String)
+internal class LatestLVersionocation(val login: String, val name: String)
 
 internal fun Routing.routes(packageFacade: PackageFacade) {
     get <RepositoriesLocation> { repositoriesLocation ->
@@ -67,7 +76,6 @@ internal fun Routing.routes(packageFacade: PackageFacade) {
             ErrorResponseException(HttpStatusCode.NotFound)
         }
     }
-
     authenticate("jwt") {
         post<PackageLocation> { packageLocation ->
             principal <JWTPrincipal> {

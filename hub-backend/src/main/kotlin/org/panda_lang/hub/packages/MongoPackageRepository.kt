@@ -16,24 +16,39 @@
 
 package org.panda_lang.hub.packages
 
+import org.litote.kmongo.and
+import org.litote.kmongo.bson
 import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
 import org.litote.kmongo.inc
-import org.litote.kmongo.keyProjection
 import org.litote.kmongo.upsert
 import org.panda_lang.hub.github.GitHubRepositoryInfo
 import org.panda_lang.hub.github.GitHubUserInfo
 import org.panda_lang.hub.github.RepositoryId
+import org.panda_lang.hub.shared.Date
+import org.panda_lang.hub.shared.paging.Page
 import org.panda_lang.hub.user.UserId
+import org.panda_lang.hub.utils.page
+import org.panda_lang.hub.utils.posOp
 
 internal class MongoPackageRepository(private val collection: CoroutineCollection<Package>) : PackageRepository {
+
+    override suspend fun findLatest(page: Int, pageSize: Int): Page<Package> =
+        collection.find()
+            .ascendingSort(Package::registeredAt)
+            .page(collection, page, pageSize)
+
+    override suspend fun findPopular(page: Int, pageSize: Int): Page<Package> =
+        collection.find()
+            .sort("{ \$sum: 'dailyStats.\$.countries.\$' }".bson)
+            .page(collection, page, pageSize)
 
     override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
         dailyBulk.forEach {
             collection.updateOneById(
-                packageId,
-                inc(Package::dailyStats.keyProjection(date.toString()) / DailyStats::countries.keyProjection(it.key), it.value),
+                and(Package::_id eq packageId, Package::dailyStats / DailyStats::date eq date, Package::dailyStats / DailyStats::country eq it.key),
+                inc(Package::dailyStats.posOp / DailyStats::requests, it.value),
                 upsert()
             )
         }

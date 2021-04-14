@@ -32,18 +32,18 @@ fun main(): Unit = runBlocking {
 
     entities.updateOneById(
         "1",
-        inc(IncEntity::map1.keyProjection("key1") / Map1::intMap.keyProjection("key2"), 1),
+        inc(IncEntity::values.keyProjection("key1") / Values::map.keyProjection("key2"), 1),
         upsert()
     )
 }
 
 @Serializable
-data class IncEntity(
+private data class IncEntity(
     val _id: String,
-    val map1: Map<String, Map1> = emptyMap()
+    val values: Map<String, Values> = emptyMap()
 )
 
 @Serializable
-data class Map1(
-    val intMap: Map<String, Int> = emptyMap()
+private data class Values(
+    val map: Map<String, Int> = emptyMap()
 )

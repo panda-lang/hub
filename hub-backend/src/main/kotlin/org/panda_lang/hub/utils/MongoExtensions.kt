@@ -16,6 +16,34 @@
 
 package org.panda_lang.hub.utils
 
-fun String.encodeMongo(): String = replace("\\", "\\\\").replace("\$", "\\u0024").replace(".", "\\u002e")
+import org.litote.kmongo.colProperty
+import org.litote.kmongo.coroutine.CoroutineCollection
+import org.litote.kmongo.coroutine.CoroutineFindPublisher
+import org.litote.kmongo.property.KPropertyPath
+import org.panda_lang.hub.shared.paging.Page
+import kotlin.math.ceil
+import kotlin.reflect.KProperty1
 
-fun String.decodeMongo(): String = replace("\\u002e", ".").replace("\\u0024", "\$").replace("\\\\", "\\")
+fun String.encodeMongo() = replace("\\", "\\\\")
+    .replace("\$", "\\u0024")
+    .replace(".", "\\u002e")
+
+fun String.decodeMongo() = replace("\\u002e", ".")
+    .replace("\\u0024", "\$")
+    .replace("\\\\", "\\")
+
+@Suppress("UNCHECKED_CAST")
+val <T> KProperty1<out Any?, Iterable<T>?>.posOp: KPropertyPath<Any?, T?>
+    get() = colProperty.posOp as KPropertyPath<Any?, T?>
+
+@Suppress("UNCHECKED_CAST")
+fun <T> KProperty1<out Any?, Iterable<T>?>.filteredPosOp(identifier: String): KPropertyPath<Any?, T?> =
+    colProperty.filteredPosOp(identifier) as KPropertyPath<Any?, T?>
+
+suspend fun <T : Any> CoroutineFindPublisher<T>.page(collection: CoroutineCollection<T>, page: Int, pageSize: Int): Page<T> = this
+    .skip(page * pageSize)
+    .limit(pageSize)
+    .toList()
+    .let {
+        Page(it, pageSize, page, ceil(collection.countDocuments() / (pageSize.toDouble())).toInt())
+    }
