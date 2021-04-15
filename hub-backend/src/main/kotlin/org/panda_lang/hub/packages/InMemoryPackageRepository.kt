@@ -19,6 +19,7 @@ package org.panda_lang.hub.packages
 import org.panda_lang.hub.github.RepositoryId
 import org.panda_lang.hub.shared.Date
 import org.panda_lang.hub.shared.paging.Page
+import org.panda_lang.hub.shared.paging.page
 import org.panda_lang.hub.user.UserId
 import org.panda_lang.hub.utils.mapOnly
 import java.util.concurrent.ConcurrentHashMap
@@ -27,13 +28,22 @@ internal class InMemoryPackageRepository : PackageRepository {
 
     private val packages = ConcurrentHashMap<PackageId, Package>()
 
-    override suspend fun findLatest(page: Int, pageSize: Int): Page<Package> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun findLatest(page: Int, pageSize: Int): Page<Package> = packages.values
+        .sortedBy { it.registeredAt.toString() }
+        .page(page, pageSize, packages.size)
 
-    override suspend fun findPopular(page: Int, pageSize: Int): Page<Package> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun findPopular(page: Int, pageSize: Int): Page<Package> = packages.values
+        .sortedBy { it.dailyStats.sumBy { daily -> daily.requests } }
+        .page(page, pageSize, packages.size)
+
+    override suspend fun findTrending(page: Int, pageSize: Int): Page<Package> = packages.values
+        .sortedBy { pkg ->
+            val byDates = pkg.dailyStats.groupBy { dailyStats -> dailyStats.date }
+            val todayCount = byDates[Date.now()]?.sumBy { it.requests } ?: 0
+            val yesterdayCount = byDates[Date.yesterday()]?.sumBy { it.requests } ?: 0
+            todayCount - yesterdayCount
+        }
+        .page(page, pageSize, packages.size)
 
     override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
         packages[packageId]!!.let { pkg ->

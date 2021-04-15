@@ -17,7 +17,6 @@
 package org.panda_lang.hub.packages
 
 import org.litote.kmongo.and
-import org.litote.kmongo.bson
 import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
@@ -28,6 +27,7 @@ import org.panda_lang.hub.github.GitHubUserInfo
 import org.panda_lang.hub.github.RepositoryId
 import org.panda_lang.hub.shared.Date
 import org.panda_lang.hub.shared.paging.Page
+import org.panda_lang.hub.shared.paging.page
 import org.panda_lang.hub.user.UserId
 import org.panda_lang.hub.utils.page
 import org.panda_lang.hub.utils.posOp
@@ -41,8 +41,23 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
 
     override suspend fun findPopular(page: Int, pageSize: Int): Page<Package> =
         collection.find()
-            .sort("{ \$sum: 'dailyStats.\$.countries.\$' }".bson)
-            .page(collection, page, pageSize)
+            // TODO: Some kind of aggregation query XD
+            .toList()
+            .sortedBy { pkg -> pkg.dailyStats.sumBy { it.requests } }
+            .page(page, pageSize, collection.countDocuments())
+
+    @Suppress("DuplicatedCode") // from in memory impl
+    override suspend fun findTrending(page: Int, pageSize: Int): Page<Package> =
+        // TODO: Some kind of aggregation query XD
+        collection.find()
+            .toList()
+            .sortedBy { pkg ->
+                val byDates = pkg.dailyStats.groupBy { dailyStats -> dailyStats.date }
+                val todayCount = byDates[Date.now()]?.sumBy { it.requests } ?: 0
+                val yesterdayCount = byDates[Date.yesterday()]?.sumBy { it.requests } ?: 0
+                todayCount - yesterdayCount
+            }
+            .page(page, pageSize, collection.countDocuments())
 
     override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
         dailyBulk.forEach {

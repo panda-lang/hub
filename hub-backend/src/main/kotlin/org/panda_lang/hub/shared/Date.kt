@@ -17,7 +17,7 @@
 package org.panda_lang.hub.shared
 
 import kotlinx.serialization.Serializable
-import java.util.Calendar
+import java.time.LocalDate
 
 typealias DateId = String
 
@@ -30,14 +30,16 @@ data class Date(
 
     companion object {
 
-        fun now() = Calendar.getInstance().let {
-            Date(it.get(Calendar.YEAR), it.get(Calendar.MONTH), it.get(Calendar.DAY_OF_MONTH))
-        }
+        fun now() = LocalDate.now().toDate()
+
+        fun yesterday() = LocalDate.now().minusDays(1).toDate()
 
     }
 
     override fun toString(): DateId = "$year-${month.asDateUnit()}-${day.asDateUnit()}"
 
 }
+
+fun LocalDate.toDate() = Date(year, monthValue, dayOfMonth)
 
 private fun Int.asDateUnit() = this.toString().padStart(2, '0')

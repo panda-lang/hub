@@ -21,16 +21,8 @@ import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.coroutine.CoroutineFindPublisher
 import org.litote.kmongo.property.KPropertyPath
 import org.panda_lang.hub.shared.paging.Page
-import kotlin.math.ceil
+import org.panda_lang.hub.shared.paging.toPages
 import kotlin.reflect.KProperty1
-
-fun String.encodeMongo() = replace("\\", "\\\\")
-    .replace("\$", "\\u0024")
-    .replace(".", "\\u002e")
-
-fun String.decodeMongo() = replace("\\u002e", ".")
-    .replace("\\u0024", "\$")
-    .replace("\\\\", "\\")
 
 @Suppress("UNCHECKED_CAST")
 val <T> KProperty1<out Any?, Iterable<T>?>.posOp: KPropertyPath<Any?, T?>
@@ -45,5 +37,5 @@ suspend fun <T : Any> CoroutineFindPublisher<T>.page(collection: CoroutineCollec
     .limit(pageSize)
     .toList()
     .let {
-        Page(it, pageSize, page, ceil(collection.countDocuments() / (pageSize.toDouble())).toInt())
+        Page(it, pageSize, page, collection.countDocuments().toPages(pageSize))
     }

@@ -25,7 +25,7 @@ internal interface PackageRepository {
 
     suspend fun findPopular(page: Int, pageSize: Int): Page<Package>
 
-    // suspend fun findTrending(page: Int, pageSize: Int): Page<Package>
+    suspend fun findTrending(page: Int, pageSize: Int): Page<Package>
 
     suspend fun findLatest(page: Int, pageSize: Int): Page<Package>
 

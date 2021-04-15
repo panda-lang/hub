@@ -16,9 +16,19 @@
 
 package org.panda_lang.hub.shared.paging
 
+import kotlin.math.ceil
+
 class Page<T>(
     val content: List<T>,
     val pageSize: Int,
     val pageNumber: Int,
     val pagesCount: Int
 )
+
+fun Number.toPages(pageSize: Int) =
+    ceil(this.toDouble() / pageSize.toDouble()).toInt()
+
+fun <T> List<T>.page(page: Int, pageSize: Int, total: Number): Page<T> = this
+    .drop(page * pageSize)
+    .take(pageSize)
+    .let { Page(it, pageSize, page, total.toLong().toPages(pageSize)) }
