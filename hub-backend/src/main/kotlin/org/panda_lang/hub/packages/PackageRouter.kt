@@ -24,7 +24,7 @@ import io.ktor.locations.delete
 import io.ktor.locations.get
 import io.ktor.locations.post
 import io.ktor.routing.Routing
-import org.panda_lang.hub.auth.jwt.getLoginClaim
+import org.panda_lang.hub.auth.getLoginClaim
 import org.panda_lang.hub.failure.ErrorResponseException
 import org.panda_lang.hub.utils.ip
 import org.panda_lang.hub.utils.orThrow

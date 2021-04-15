@@ -22,7 +22,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.locations.Location
 import io.ktor.locations.get
 import io.ktor.routing.Routing
-import org.panda_lang.hub.auth.jwt.getIdClaim
+import org.panda_lang.hub.auth.getIdClaim
 import org.panda_lang.hub.failure.ErrorResponseException
 import org.panda_lang.hub.utils.orThrow
 import org.panda_lang.hub.utils.principal

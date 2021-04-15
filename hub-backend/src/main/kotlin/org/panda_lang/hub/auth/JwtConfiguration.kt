@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.auth.jwt
+package org.panda_lang.hub.auth
 
 import com.auth0.jwt.algorithms.Algorithm
 
-data class JwtConfiguration(
+internal data class JwtConfiguration(
     val issuer: String,
     val audience: String,
     val realm: String,

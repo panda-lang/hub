@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.auth.jwt
+package org.panda_lang.hub.auth
 
 import java.util.Date
 
-interface ExpirationDateProvider {
+internal interface ExpirationDateProvider {
 
     fun getValidityDate(): Date
 
 }
 
-class DefaultExpirationDateProvider(private val ttl: Long) : ExpirationDateProvider {
+internal class DefaultExpirationDateProvider(private val ttl: Long) : ExpirationDateProvider {
 
     override fun getValidityDate(): Date = Date(System.currentTimeMillis() + ttl)
 

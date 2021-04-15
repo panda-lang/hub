@@ -20,7 +20,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GitHubRepositoryInfo(
+class GitHubRepositoryInfo(
     val id: Long,
     val name: String,
     @SerialName("full_name")

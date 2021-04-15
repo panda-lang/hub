@@ -45,12 +45,12 @@ internal class InMemoryPackageRepository : PackageRepository {
         }
         .page(page, pageSize, packages.size)
 
-    override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
+    override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Version, Int>) =
         packages[packageId]!!.let { pkg ->
-            packages[packageId] = pkg.update(
-                dailyStats = pkg.dailyStats.mapOnly(
+            packages[packageId] = pkg.withUpdatedDailyStats(
+                pkg.dailyStats.mapOnly(
                     { it.date == date },
-                    { daily -> DailyStats(date, daily.country, daily.requests + (dailyBulk[daily.country] ?: 0)) }
+                    { daily -> DailyStats(date, daily.version, daily.requests + (dailyBulk[daily.version] ?: 0)) }
                 )
             )
         }

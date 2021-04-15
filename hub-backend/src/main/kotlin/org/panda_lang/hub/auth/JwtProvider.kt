@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.hub.auth.jwt
+package org.panda_lang.hub.auth
 
 import com.auth0.jwt.JWT
 import io.ktor.auth.jwt.JWTCredential
@@ -27,10 +27,10 @@ const val ID_CLAIM = "id"
 const val LOGIN_CLAIM = "login"
 const val TOKEN_CLAIM = "oauth2"
 
-class JwtProvider(private val configuration: JwtConfiguration, private val expirationDateProvider: ExpirationDateProvider) {
+internal class JwtProvider(private val configuration: JwtConfiguration, private val expirationDateProvider: ExpirationDateProvider) {
 
-    fun generateToken(secret: String, userId: UserId, login: String): String {
-        return JWT.create()
+    fun generateToken(secret: String, userId: UserId, login: String): String =
+        JWT.create()
             .withIssuer(configuration.issuer)
             .withAudience(configuration.audience)
             .withSubject(JWT_SUBJECT)
@@ -39,15 +39,14 @@ class JwtProvider(private val configuration: JwtConfiguration, private val expir
             .withClaim(LOGIN_CLAIM, login)
             .withExpiresAt(expirationDateProvider.getValidityDate())
             .sign(configuration.algorithm)
-    }
 
 }
 
-fun JWTCredential.getTokenClaim(): String =
+internal fun JWTCredential.getTokenClaim(): String =
     payload.getClaim(TOKEN_CLAIM).asString()
 
-fun JWTPrincipal.getIdClaim(): String =
+internal fun JWTPrincipal.getIdClaim(): String =
     payload.getClaim(ID_CLAIM).asString()
 
-fun JWTPrincipal.getLoginClaim(): String =
+internal fun JWTPrincipal.getLoginClaim(): String =
     payload.getClaim(LOGIN_CLAIM).asString()

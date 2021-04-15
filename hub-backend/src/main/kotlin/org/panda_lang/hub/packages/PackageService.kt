@@ -35,11 +35,7 @@ internal class PackageService(
 
     suspend fun getOrFetchPackage(id: RepositoryId): Package =
         getAnyPackage(id).let {
-            if (it.registeredAt != null) it else packageRepository.savePackage(
-                it.update(
-                    registeredAt = Date.now()
-                )
-            )
+            if (it.registeredAt == null) packageRepository.savePackage(it.registered()) else it
         }
 
     suspend fun getAllPackages(login: String): List<Package> =

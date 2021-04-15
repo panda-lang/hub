@@ -23,32 +23,39 @@ import org.panda_lang.hub.shared.Date
 typealias PackageId = String
 typealias Country = String
 typealias RequestsCount = Int
+typealias Version = String
 
 @Serializable
-data class Package(
+class Package internal constructor(
     val _id: PackageId,
     val repository: GitHubRepositoryInfo,
     val registeredAt: Date? = null,
-    val dailyStats: List<DailyStats> = emptyList()
+    val dailyStats: List<DailyStats> = emptyList(),
+    val totalRequests: Long = 0L
 ) {
 
-    fun update(
-        id: PackageId = this._id,
+    private fun copy(
         repository: GitHubRepositoryInfo = this.repository,
         registeredAt: Date? = this.registeredAt,
-        dailyStats: List<DailyStats> = this.dailyStats
+        dailyStats: List<DailyStats> = this.dailyStats,
+        totalRequests: Long = this.totalRequests
     ) = Package(
-        _id = id,
+        _id = _id,
         repository = repository,
         registeredAt = registeredAt,
-        dailyStats = dailyStats
+        dailyStats = dailyStats,
+        totalRequests = totalRequests
     )
+
+    fun registered(date: Date = Date.now()) = copy(registeredAt = date)
+
+    fun withUpdatedDailyStats(stats: List<DailyStats>) = copy(dailyStats = stats)
 
 }
 
 @Serializable
-data class DailyStats(
+class DailyStats internal constructor(
     val date: Date = Date.now(),
-    val country: Country,
+    val version: Version,
     val requests: RequestsCount = 0
 )

@@ -18,20 +18,15 @@ package org.panda_lang.hub.utils
 
 import java.util.Queue
 
-fun <K, V> MutableMap<K, V>.updateValue(key: K, defaultValue: () -> V, modifier: (V) -> V) {
-    this[key] = modifier.invoke(getOrDefault(key, defaultValue.invoke()))
-}
-
-fun <T> Queue<T>.pollWhile(predicate: (Queue<T>) -> Boolean): List<T> {
-    val result = ArrayList<T>(this.size)
-
-    while (predicate.invoke(this)) {
-        result.add(this.poll())
+fun <T> Queue<T>.pollWhile(predicate: (Queue<T>) -> Boolean): List<T> =
+    ArrayList<T>(this.size).also {
+        while (predicate.invoke(this)) {
+            it.add(this.poll())
+        }
     }
 
-    return result
-}
-
-fun <T> Iterable<T>.mapOnly(predicate: (T) -> Boolean, function: (T) -> T): List<T> = map {
-    if (predicate.invoke(it)) function.invoke(it) else it
-}.toList()
+fun <T> Iterable<T>.mapOnly(predicate: (T) -> Boolean, function: (T) -> T) = this
+    .map {
+        if (predicate.invoke(it)) function.invoke(it) else it
+    }
+    .toList()

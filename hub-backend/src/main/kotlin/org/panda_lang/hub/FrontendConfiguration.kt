@@ -16,7 +16,7 @@
 
 package org.panda_lang.hub
 
-data class FrontendConfiguration(
+class FrontendConfiguration internal constructor(
     val url: String,
     val authUrl: String
 )

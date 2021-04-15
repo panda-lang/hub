@@ -29,9 +29,6 @@ import io.ktor.client.HttpClient
 import io.ktor.locations.locations
 import io.ktor.locations.url
 import io.ktor.routing.Routing
-import org.panda_lang.hub.auth.jwt.DefaultExpirationDateProvider
-import org.panda_lang.hub.auth.jwt.JwtConfiguration
-import org.panda_lang.hub.auth.jwt.JwtProvider
 import org.panda_lang.hub.toFrontendConfiguration
 import org.panda_lang.hub.user.UserFacade
 import java.security.SecureRandom

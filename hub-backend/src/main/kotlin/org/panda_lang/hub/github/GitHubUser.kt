@@ -20,7 +20,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GitHubUserInfo(
+class GitHubUserInfo(
     val id: Long,
     val login: String,
     val type: String,
@@ -29,7 +29,7 @@ data class GitHubUserInfo(
 )
 
 @Serializable
-data class GitHubProfile(
+class GitHubProfile(
     val id: Long,
     val login: String,
     val type: String,

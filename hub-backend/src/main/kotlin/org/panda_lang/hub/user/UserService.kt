@@ -30,9 +30,8 @@ internal class UserService(
         getOrFetchUser(gitHubClient.getAuthenticatedUser(token))
 
     private suspend fun getOrFetchUser(profile: GitHubProfile): User =
-        userRepository.findUserById(profile.id.toString()) ?: userFactory.createUser(profile).let {
-            userRepository.saveUser(it.toRegistered())
-        }
+        userRepository.findUserById(profile.id.toString())
+            ?: userFactory.createUser(profile).let { userRepository.saveUser(it.registered()) }
 
     suspend fun getRemoteUser(login: String): User =
         gitHubClient.getUser(login).let { userFactory.createUser(it) }

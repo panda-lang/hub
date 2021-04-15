@@ -22,7 +22,6 @@ internal class UserFactory {
 
     fun createUser(profile: GitHubProfile) = User(
         _id = profile.id.toString(),
-        registered = false,
         profile = profile
     )
 

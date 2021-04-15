@@ -17,6 +17,7 @@
 package org.panda_lang.hub.packages
 
 import org.litote.kmongo.and
+import org.litote.kmongo.combine
 import org.litote.kmongo.coroutine.CoroutineCollection
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
@@ -46,7 +47,7 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
             .sortedBy { pkg -> pkg.dailyStats.sumBy { it.requests } }
             .page(page, pageSize, collection.countDocuments())
 
-    @Suppress("DuplicatedCode") // from in memory impl
+    @Suppress("DuplicatedCode") // from InMemory impl
     override suspend fun findTrending(page: Int, pageSize: Int): Page<Package> =
         // TODO: Some kind of aggregation query XD
         collection.find()
@@ -62,8 +63,11 @@ internal class MongoPackageRepository(private val collection: CoroutineCollectio
     override suspend fun updateDailyStats(packageId: PackageId, date: Date, dailyBulk: Map<Country, Int>) =
         dailyBulk.forEach {
             collection.updateOneById(
-                and(Package::_id eq packageId, Package::dailyStats / DailyStats::date eq date, Package::dailyStats / DailyStats::country eq it.key),
-                inc(Package::dailyStats.posOp / DailyStats::requests, it.value),
+                and(Package::_id eq packageId, Package::dailyStats / DailyStats::date eq date, Package::dailyStats / DailyStats::version eq it.key),
+                combine(
+                    inc(Package::totalRequests, it.value),
+                    inc(Package::dailyStats.posOp / DailyStats::requests, it.value)
+                ),
                 upsert()
             )
         }

@@ -18,20 +18,26 @@ package org.panda_lang.hub.user
 
 import kotlinx.serialization.Serializable
 import org.panda_lang.hub.github.GitHubProfile
+import org.panda_lang.hub.shared.Date
 
 typealias UserId = String
 
 @Serializable
-data class User(
+class User(
     val _id: UserId,
-    val registered: Boolean = false,
+    val registered: Date? = null,
     val profile: GitHubProfile
 ) {
 
-    fun toRegistered() = User(
+    private fun copy(
+        registered: Date? = this.registered,
+        profile: GitHubProfile = this.profile
+    ) = User(
         _id = _id,
-        registered = true,
+        registered = registered,
         profile = profile
     )
+
+    fun registered(date: Date = Date.now()) = copy(registered = date)
 
 }

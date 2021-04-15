@@ -29,11 +29,8 @@ data class Date(
 ) {
 
     companion object {
-
         fun now() = LocalDate.now().toDate()
-
         fun yesterday() = LocalDate.now().minusDays(1).toDate()
-
     }
 
     override fun toString(): DateId = "$year-${month.asDateUnit()}-${day.asDateUnit()}"
