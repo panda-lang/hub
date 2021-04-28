@@ -20,7 +20,7 @@ plugins {
     kotlin("jvm") version "1.4.32"
     kotlin("plugin.serialization") version "1.4.32"
     id("org.jetbrains.kotlin.kapt") version "1.4.32"
-    id("org.jmailen.kotlinter") version "3.4.0"
+    id("org.jmailen.kotlinter") version "3.4.1"
     application
 }
 
