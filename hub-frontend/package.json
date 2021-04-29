@@ -18,7 +18,7 @@
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
     "focus-visible": "^5.2.0",
-    "framer-motion": "^4.1.10",
+    "framer-motion": "^4.1.11",
     "next": "^10.2.0",
     "query-string": "^7.0.0",
     "react": "17.0.2",
