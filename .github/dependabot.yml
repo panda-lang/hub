@@ -1,0 +1,70 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/hub-backend"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.jmailen.kotlinter
+    versions:
+    - 3.4.1
+  - dependency-name: org.jetbrains.kotlin.kapt
+    versions:
+    - 1.5.0
+  - dependency-name: io.ktor:ktor-client-mock
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-server-test-host
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-client-serialization
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-serialization
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-gson
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-client-gson
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-html-builder
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-server-netty
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-client-apache
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-locations
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-auth
+    versions:
+    - 1.5.3
+  - dependency-name: io.ktor:ktor-auth-jwt
+    versions:
+    - 1.5.3
+- package-ecosystem: npm
+  directory: "/hub-frontend"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: framer-motion
+    versions:
+    - 3.10.3
+    - 3.10.5
+    - 3.6.3
+    - 4.1.5
+  - dependency-name: eslint-config-prettier
+    versions:
+    - 8.2.0
+  - dependency-name: react-dom
+    versions:
+    - 17.0.2
