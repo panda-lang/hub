@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/hub-backend"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: npm
+  directory: "/hub-frontend"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+
