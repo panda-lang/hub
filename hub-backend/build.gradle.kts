@@ -34,7 +34,7 @@ repositories {
     maven { url = uri("https://dl.bintray.com/kotlin/ktor") }
 }
 
-val kmongo = "4.2.6"
+val kmongo = "4.2.7"
 val ktor = "1.5.4"
 val tinylog = "2.3.1"
 val junit = "5.7.1"
