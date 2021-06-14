@@ -43,7 +43,7 @@ val testcontainers = "1.15.3"
 dependencies {
     implementation("com.maxmind.geoip2:geoip2:2.15.0")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
-    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.11")
+    implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.12")
 
     implementation("org.litote.kmongo:kmongo:$kmongo")
     implementation("org.litote.kmongo:kmongo-coroutine:$kmongo")
