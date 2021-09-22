@@ -22,7 +22,7 @@
     "next": "^10.2.0",
     "query-string": "^7.0.1",
     "react": "17.0.2",
-    "react-cookie": "^4.0.3",
+    "react-cookie": "^4.1.1",
     "react-dom": "17.0.2",
     "react-icons": "^4.2.0",
     "swr": "^1.0.1",
