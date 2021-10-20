@@ -38,7 +38,7 @@ val kmongo = "4.3.0"
 val ktor = "1.6.3"
 val tinylog = "2.3.2"
 val junit = "5.8.1"
-val testcontainers = "1.16.0"
+val testcontainers = "1.16.1"
 
 dependencies {
     implementation("com.maxmind.geoip2:geoip2:2.15.0")
