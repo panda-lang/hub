@@ -41,7 +41,7 @@ val junit = "5.8.1"
 val testcontainers = "1.16.0"
 
 dependencies {
-    implementation("com.maxmind.geoip2:geoip2:2.15.0")
+    implementation("com.maxmind.geoip2:geoip2:2.16.1")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.12")
 
