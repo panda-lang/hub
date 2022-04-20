@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.5.31"
-    kotlin("plugin.serialization") version "1.5.31"
+    kotlin("plugin.serialization") version "1.6.21"
     id("org.jetbrains.kotlin.kapt") version "1.5.31"
     id("org.jmailen.kotlinter") version "3.4.0"
     application
