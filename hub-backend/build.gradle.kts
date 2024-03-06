@@ -35,7 +35,7 @@ repositories {
 }
 
 val kmongo = "4.3.0"
-val ktor = "1.6.3"
+val ktor = "1.6.8"
 val tinylog = "2.3.2"
 val junit = "5.8.1"
 val testcontainers = "1.16.0"
